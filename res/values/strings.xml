@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">XMPP</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="login">Login</string>
+    <string name="SignUp">Sign up</string>
+    <string name="swipeToLearnMore">swipe to learn more ></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget">Forget your passwrod?</string>
+    <string name="appTitle">XMPP</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_firends_list">FirendsListActivity</string>
+
+</resources>

@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainViewActivity" >
+
+    <!-- header -->
+
+    <LinearLayout
+        android:id="@+id/MainviewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_mainview_header"
+        android:background="#777777"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+    <!-- content -->
+
+    <FrameLayout
+        android:id="@+id/MainviewContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/pocket_blue" >
+    </FrameLayout>
+
+    <!-- footer -->
+
+    <LinearLayout
+        android:id="@+id/MainviewFooter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_mainview_footer"
+        android:background="#777777"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/Footer_chatting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/Footer_chattingIcon"
+                android:layout_width="@dimen/activity_mainview_footer_iconWidth"
+                android:layout_height="@dimen/activity_mainview_footer_iconHeight"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/Footer_chatting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/Footer_contactsIcon"
+                android:layout_width="@dimen/activity_mainview_footer_iconWidth"
+                android:layout_height="@dimen/activity_mainview_footer_iconHeight"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/Footer_chatting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/Footer_settingIcon"
+                android:layout_width="@dimen/activity_mainview_footer_iconWidth"
+                android:layout_height="@dimen/activity_mainview_footer_iconHeight"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="commom_gray">#eeeeef</color>
+    <color name="commom_light_gray">#eeeee1</color>
+    <color name="common_red">#ffee4256</color>
+    <color name="common_gold">#fed700</color>
+    <color name="dot_big_black">#000000</color>
+    <color name="dot_small_balck">#aaaaaa</color>
+
+
+
+    <color name="pocket_green">#ff83edb8</color>
+    <color name="pocket_blue">#ff32bcb6</color>
+    <color name="pocket_red">#ffee4256</color>
+    <color name="pocket_gold">#fed700</color>
+    <color name="pocket_teal_press">#a132bcb6</color>
+    <color name="pocket_teal_press_opaque">#ff77ceca</color>
+    <color name="white">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="bg_primary_light">#ffffffff</color>
+    <color name="bg_primary_dark">#ff252525</color>
+    <color name="bg_primary_black">#ff000000</color>
+    <color name="bg_primary_sepia">#fffbf0d9</color>
+    <color name="bg_secondary_light">#ffe4e4e4</color>
+    <color name="bg_secondary_dark">#ff000000</color>
+    <color name="bg_secondary_black">#ff252525</color>
+    <color name="bg_secondary_sepia">#ffdcccac</color>
+    <color name="bg_settings_light">#fff2f2f2</color>
+    <color name="bg_settings_dark">#ff252525</color>
+    <color name="bg_pressed_dark">@color/pocket_teal_press</color>
+    <color name="bg_pressed_light">@color/pocket_teal_press</color>
+    <color name="bg_notification_bar_light">#ff92eec5</color>
+    <color name="bg_notification_bar_pressed_light">#ff7fddb0</color>
+    <color name="bg_notification_bar_dark">#ff7bc8a5</color>
+    <color name="bg_notification_bar_pressed_dark">#ff6bb994</color>
+    <color name="image_placeholder_light">#ffdddddd</color>
+    <color name="image_placeholder_dark">#ffd8d8d8</color>
+    <color name="drawer_background_light">#ffffffff</color>
+    <color name="drawer_background_dark">#ff292827</color>
+    <color name="drawer_background_pressed_light">#ffd6eceb</color>
+    <color name="drawer_background_pressed_dark">#ff304241</color>
+    <color name="drawer_background_checked_light">#ff50bcb6</color>
+    <color name="drawer_background_checked_dark">#ff4aaba7</color>
+    <color name="bg_tab">#33a7a7a7</color>
+    <color name="bg_tab_dark">#784b4b4b</color>
+    <color name="bg_error_crouton">#e5d7394d</color>
+    <color name="text_light">#ff000000</color>
+    <color name="text_hint_light">#ff787878</color>
+    <color name="text_disabled_light">#ffaeaeae</color>
+    <color name="text_dark">#ffbbbbbb</color>
+    <color name="text_hint_dark">#ff888888</color>
+    <color name="text_disabled_dark">#aabbbbbb</color>
+    <color name="search_text">#ff2e2e2e</color>
+    <color name="search_text_hint">#ffa9a9a9</color>
+    <color name="search_view_backround">#fff8f8f8</color>
+    <color name="search_view_divider_line">#ffc9c9c9</color>
+    <color name="search_text_dark">#ffeaeaea</color>
+    <color name="search_text_hint_dark">#ff888888</color>
+    <color name="search_view_backround_dark">#ff292827</color>
+    <color name="search_view_divider_line_dark">#ff777777</color>
+    <color name="tabbar_view_text">#ff555555</color>
+    <color name="tabbar_view_text_disable">#ffbbbbbb</color>
+    <color name="tabbar_view_tab_bg">#fff8f8f8</color>
+    <color name="tabbar_view_divider">@color/divider_light</color>
+    <color name="tabbar_view_horiz_line">@color/divider_light</color>
+    <color name="tabbar_view_text_dark">#ffbbbbbb</color>
+    <color name="tabbar_view_text_dark_disable">#ff666666</color>
+    <color name="tabbar_view_divider_dark">#ff4b4b4b</color>
+    <color name="tabbar_view_horiz_line_dark">#ff4b4b4b</color>
+    <color name="green_bar_text">#ff000000</color>
+    <color name="drawer_text_light">#ff666666</color>
+    <color name="drawer_text_dark">#ffaaaaaa</color>
+    <color name="drawer_text_pressed">#ffffffff</color>
+    <color name="drawer_bubble_light">#ffed4255</color>
+    <color name="drawer_bubble_dark">#ffd9394b</color>
+    <color name="divider_light">#ffc3c3c3</color>
+    <color name="divider_dark">#ff000000</color>
+    <color name="fading_edge_list_light">#ffcccccc</color>
+    <color name="fading_edge_list_dark">#ff000000</color>
+    <color name="green_bar_bg">#f36ece9e</color>
+    <color name="pocket_divider_icon_light">#ffa5a5a5</color>
+    <color name="pocket_divider_icon_dark">#ff777777</color>
+    <color name="pocket_divider_line_light">#ffdddddd</color>
+
+</resources>
