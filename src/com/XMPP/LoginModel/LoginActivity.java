@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.XMPP.R;
-import com.XMPP.friendList.MainviewActivity;
+import com.XMPP.mainview.MainviewActivity;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 

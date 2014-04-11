@@ -5,15 +5,7 @@
     android:orientation="vertical"
     tools:context=".MainViewActivity" >
 
-    <!-- header -->
 
-    <LinearLayout
-        android:id="@+id/MainviewHeader"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_mainview_header"
-        android:background="#777777"
-        android:orientation="horizontal" >
-    </LinearLayout>
 
     <!-- content -->
 
@@ -22,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/pocket_blue" >
+        android:background="@color/white" >
     </FrameLayout>
 
     <!-- footer -->
@@ -31,7 +23,7 @@
         android:id="@+id/MainviewFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_mainview_footer"
-        android:background="#777777"
+        android:background="@color/pocket_blue"
         android:orientation="horizontal" >
 
         <FrameLayout
@@ -48,7 +40,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/Footer_chatting"
+            android:id="@+id/Footer_contacts"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" >
@@ -61,7 +53,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/Footer_chatting"
+            android:id="@+id/Footer_setting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" >

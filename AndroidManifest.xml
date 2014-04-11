@@ -32,7 +32,7 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.XMPP.friendList.MainviewActivity"
+            android:name="com.XMPP.mainview.MainviewActivity"
             android:label="@string/title_activity_firends_list" >
         </activity>
     </application>
