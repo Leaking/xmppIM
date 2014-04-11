@@ -1,15 +1,15 @@
 package com.XMPP.LoginModel;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 
 public class LoginListener implements OnClickListener {
-	FragmentActivity rootView;
+	Activity rootView;
 	
-	public LoginListener(FragmentActivity rootView){
+	public LoginListener(Activity rootView){
 		this.rootView = rootView;
 	}
 	public void add(View view){

@@ -1,10 +1,14 @@
 package com.XMPP.mainview;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +21,7 @@ import com.XMPP.smack.Smack;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class MainviewActivity extends Activity implements OnClickListener {
+public class MainviewActivity extends FragmentActivity implements OnClickListener {
 	private String username;
 	private Smack smack;
 	// three kind of the fragment to fill the content part
@@ -38,6 +42,11 @@ public class MainviewActivity extends Activity implements OnClickListener {
 	private IconicFontDrawable footerChatDrawable;
 	private IconicFontDrawable footerContactsDrawable;
 	private IconicFontDrawable footerSettingsDrawable;
+	
+	//
+	private final static int NUM_PAGES = 3;
+	//
+	private ViewPager vPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,12 @@ public class MainviewActivity extends Activity implements OnClickListener {
 		initFooter();
 		registIconListerner();
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
-
+		vPager = (ViewPager)findViewById(R.id.mainview_pager);
+		vPager.setOffscreenPageLimit(3);
+		vPager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager()));
+		
+		
+		
 		// smack = new SmackImpl();
 		// smack.refreshConnection();
 		// username = smack.getConnection().getUser();
@@ -70,6 +84,34 @@ public class MainviewActivity extends Activity implements OnClickListener {
 		footer_setting_icon.setOnClickListener(this);
 	}
 
+	/**
+	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects,
+	 * in sequence.
+	 */
+	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+		public ScreenSlidePagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			if (position == 0) {
+				return new ChattingFragment();
+			} else if (position == 1) {
+				return new ContactsFragment();
+			} else 
+				return new SettingFragment();
+			
+		}
+
+		@Override
+		public int getCount() {
+			return NUM_PAGES;
+		}
+	}
+	
+	
+	
 	public void updatefooterIcon(int index, int upOrDown) {
 		switch (index) {
 		case TYPE_CHATTING_FRAGMENT: {
@@ -100,15 +142,13 @@ public class MainviewActivity extends Activity implements OnClickListener {
 	}
 
 	public void updateContentFragment(int fragmentType) {
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		switch (fragmentType) {
 		case TYPE_CHATTING_FRAGMENT:
 			last_fragment = current_fragment;
 			current_fragment = TYPE_CHATTING_FRAGMENT;
-			ChattingFragment chattingFragment = new ChattingFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, chattingFragment);
 			if (current_fragment != last_fragment) {
 				updatefooterIcon(last_fragment, LIGHT_DOWN);
 				updatefooterIcon(TYPE_CHATTING_FRAGMENT, LIGHT_UP);
@@ -117,8 +157,6 @@ public class MainviewActivity extends Activity implements OnClickListener {
 		case TYPE_CONTACTS_FRAGMENT:
 			last_fragment = current_fragment;
 			current_fragment = TYPE_CONTACTS_FRAGMENT;
-			ContactsFragment contactsFragment = new ContactsFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, contactsFragment);
 			if(current_fragment != last_fragment){
 				updatefooterIcon(last_fragment, LIGHT_DOWN);
 				updatefooterIcon(TYPE_CONTACTS_FRAGMENT, LIGHT_UP);	
@@ -127,15 +165,12 @@ public class MainviewActivity extends Activity implements OnClickListener {
 		case TYPE_SETTING_FRAGMENT:
 			last_fragment = current_fragment;
 			current_fragment = TYPE_SETTING_FRAGMENT;
-			SettingFragment settingFragment = new SettingFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, settingFragment);
 			if(current_fragment != last_fragment){
 				updatefooterIcon(last_fragment, LIGHT_DOWN);
 				updatefooterIcon(TYPE_SETTING_FRAGMENT, LIGHT_UP);	
 			}
 			break;
 		}
-		fragmentTransaction.commit();
 
 	}
 

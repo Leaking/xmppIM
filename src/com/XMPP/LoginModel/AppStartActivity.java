@@ -94,6 +94,7 @@ public class AppStartActivity extends FragmentActivity implements
 
 		// 初始化viewAdatper和viewPager
 		mPager = (ViewPager) findViewById(R.id.pager);
+		mPager.setOffscreenPageLimit(5);
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);
 		// 添加监听
