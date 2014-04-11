@@ -12,21 +12,33 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
+import com.XMPP.R.color;
 import com.XMPP.smack.Smack;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class MainviewActivity extends Activity implements OnClickListener{
+public class MainviewActivity extends Activity implements OnClickListener {
 	private String username;
 	private Smack smack;
-	//three kind of the fragment to fill the content part
+	// three kind of the fragment to fill the content part
 	private final static int TYPE_CHATTING_FRAGMENT = 1;
 	private final static int TYPE_CONTACTS_FRAGMENT = 2;
 	private final static int TYPE_SETTING_FRAGMENT = 3;
-	//three icon in the footer part
+	// three icon in the footer part
 	private ImageView footer_chatting_icon;
 	private ImageView footer_contacts_icon;
 	private ImageView footer_setting_icon;
+	// last_fragment reference to the last choosen fragment
+	// current_fragment reference to the current choosen fragment
+	private int last_fragment = 1;
+	private int current_fragment = 2;
+	private final static int LIGHT_UP = 1;
+	private final static int LIGHT_DOWN = 0;
+	// footer icon
+	private IconicFontDrawable footerChatDrawable;
+	private IconicFontDrawable footerContactsDrawable;
+	private IconicFontDrawable footerSettingsDrawable;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,72 +47,121 @@ public class MainviewActivity extends Activity implements OnClickListener{
 		initFooter();
 		registIconListerner();
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
-		
-		
-		
-//		smack = new SmackImpl();
-//		smack.refreshConnection();
-//		username = smack.getConnection().getUser();		
-//		Collection<RosterEntry> rosters = smack.getConnection().getRoster().getEntries();  
-//		System.out.println("我的好友列表�?=======================");  
-//		for(RosterEntry rosterEntry : rosters){  
-//		    System.out.print("name: "+rosterEntry.getName()+",jid: "+rosterEntry.getUser());  
-//		    System.out.println("");  
-//		}  
-		
+
+		// smack = new SmackImpl();
+		// smack.refreshConnection();
+		// username = smack.getConnection().getUser();
+		// Collection<RosterEntry> rosters =
+		// smack.getConnection().getRoster().getEntries();
+		// System.out.println("我的好友列表�?=======================");
+		// for(RosterEntry rosterEntry : rosters){
+		// System.out.print("name: "+rosterEntry.getName()+",jid: "+rosterEntry.getUser());
+		// System.out.println("");
+		// }
+
 	}
+
 	/**
 	 * three icon regist onclicklistern on this activity
 	 */
-	public void registIconListerner(){
+	public void registIconListerner() {
 		footer_chatting_icon.setOnClickListener(this);
 		footer_contacts_icon.setOnClickListener(this);
 		footer_setting_icon.setOnClickListener(this);
 	}
-	public void updateContentFragment(int fragmentType){
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		switch(fragmentType){
-		case TYPE_CHATTING_FRAGMENT:
-			ChattingFragment chattingFragment = new ChattingFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, chattingFragment);			
-			break;
-		case TYPE_CONTACTS_FRAGMENT:
-			ContactsFragment contactsFragment = new ContactsFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, contactsFragment);			
-			break;
-		case TYPE_SETTING_FRAGMENT:
-			SettingFragment settingFragment = new SettingFragment();
-			fragmentTransaction.replace(R.id.MainviewContent, settingFragment);			
+
+	public void updatefooterIcon(int index, int upOrDown) {
+		switch (index) {
+		case TYPE_CHATTING_FRAGMENT: {
+			if (upOrDown == LIGHT_UP) {
+				footerChatDrawable.setIconColor(color.pocket_gold);
+			} else if (upOrDown == LIGHT_DOWN) {
+				footerChatDrawable.setIconColor(Color.WHITE);
+			}
 			break;
 		}
-		fragmentTransaction.commit();	
+		case TYPE_CONTACTS_FRAGMENT: {
+			if (upOrDown == LIGHT_UP) {
+				footerContactsDrawable.setIconColor(color.pocket_gold);
+			} else if (upOrDown == LIGHT_DOWN) {
+				footerContactsDrawable.setIconColor(Color.WHITE);
+			}
+			break;
+		}
+		case TYPE_SETTING_FRAGMENT: {
+			if (upOrDown == LIGHT_UP) {
+				footerSettingsDrawable.setIconColor(color.pocket_gold);
+			} else if (upOrDown == LIGHT_DOWN) {
+				footerSettingsDrawable.setIconColor(Color.WHITE);
+			}
+			break;
+		}
+		}
+	}
+
+	public void updateContentFragment(int fragmentType) {
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		switch (fragmentType) {
+		case TYPE_CHATTING_FRAGMENT:
+			last_fragment = current_fragment;
+			current_fragment = TYPE_CHATTING_FRAGMENT;
+			ChattingFragment chattingFragment = new ChattingFragment();
+			fragmentTransaction.replace(R.id.MainviewContent, chattingFragment);
+			if (current_fragment != last_fragment) {
+				updatefooterIcon(last_fragment, LIGHT_DOWN);
+				updatefooterIcon(TYPE_CHATTING_FRAGMENT, LIGHT_UP);
+			}
+			break;
+		case TYPE_CONTACTS_FRAGMENT:
+			last_fragment = current_fragment;
+			current_fragment = TYPE_CONTACTS_FRAGMENT;
+			ContactsFragment contactsFragment = new ContactsFragment();
+			fragmentTransaction.replace(R.id.MainviewContent, contactsFragment);
+			if(current_fragment != last_fragment){
+				updatefooterIcon(last_fragment, LIGHT_DOWN);
+				updatefooterIcon(TYPE_CONTACTS_FRAGMENT, LIGHT_UP);	
+			}
+			break;
+		case TYPE_SETTING_FRAGMENT:
+			last_fragment = current_fragment;
+			current_fragment = TYPE_SETTING_FRAGMENT;
+			SettingFragment settingFragment = new SettingFragment();
+			fragmentTransaction.replace(R.id.MainviewContent, settingFragment);
+			if(current_fragment != last_fragment){
+				updatefooterIcon(last_fragment, LIGHT_DOWN);
+				updatefooterIcon(TYPE_SETTING_FRAGMENT, LIGHT_UP);	
+			}
+			break;
+		}
+		fragmentTransaction.commit();
 
 	}
+
 	/**
 	 * initial the footer view UI
 	 */
-	public void initFooter(){
-		IconicFontDrawable footerChatDrawable = new IconicFontDrawable(getBaseContext());
+	public void initFooter() {
+		footerChatDrawable = new IconicFontDrawable(getBaseContext());
 		footerChatDrawable.setIcon(IconicIcon.CHAT_INV);
 		footerChatDrawable.setIconColor(Color.WHITE);
-		footer_chatting_icon = (ImageView)findViewById(R.id.Footer_chattingIcon);
+		footer_chatting_icon = (ImageView) findViewById(R.id.Footer_chattingIcon);
 		footer_chatting_icon.setBackground(footerChatDrawable);
-	
-		IconicFontDrawable footerContactsDrawable = new IconicFontDrawable(getBaseContext());
+
+		footerContactsDrawable = new IconicFontDrawable(getBaseContext());
 		footerContactsDrawable.setIcon(IconicIcon.USER);
 		footerContactsDrawable.setIconColor(Color.WHITE);
-		footer_contacts_icon = (ImageView)findViewById(R.id.Footer_contactsIcon);
+		footer_contacts_icon = (ImageView) findViewById(R.id.Footer_contactsIcon);
 		footer_contacts_icon.setBackground(footerContactsDrawable);
-	
-		IconicFontDrawable footerSettingsDrawable = new IconicFontDrawable(getBaseContext());
+
+		footerSettingsDrawable = new IconicFontDrawable(getBaseContext());
 		footerSettingsDrawable.setIcon(IconicIcon.COG);
 		footerSettingsDrawable.setIconColor(Color.WHITE);
-		footer_setting_icon = (ImageView)findViewById(R.id.Footer_settingIcon);
-		footer_setting_icon.setBackground(footerSettingsDrawable);	
+		footer_setting_icon = (ImageView) findViewById(R.id.Footer_settingIcon);
+		footer_setting_icon.setBackground(footerSettingsDrawable);
 	}
-	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -111,7 +172,7 @@ public class MainviewActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.Footer_chattingIcon:
 			updateContentFragment(TYPE_CHATTING_FRAGMENT);
 			System.out.println("fffff111111111111111111");
