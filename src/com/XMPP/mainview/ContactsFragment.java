@@ -1,7 +1,8 @@
 package com.XMPP.mainview;
 
 
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.XMPP.R;
-import com.XMPP.R.color;
-
+import com.XMPP.util.CircleImage;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
@@ -36,16 +36,16 @@ public class ContactsFragment extends Fragment {
 	
 	ExpandableListAdapter expandAdapter = new BaseExpandableListAdapter(){
     	//names of the groups
-        private String[] groups = new String[] { "ÎÒµÄºÃÓÑ", "Ä°ÉúÈË", "ÅÚÓÑ","ºÚÃûµ¥" };  
-		//names of the items
-        private String[][] items = new String[][]
-		{
-			{ "Ã«Ò¯Ò¯", "µËÒ¯Ò¯", "µÂÂêÎ÷ÑÇ", "º®±ùÉäÊÖ" },
-			{ "Ã·Î÷", "ÂŞÄÉ¶û¶à", "¿¨¿¨", "°Â°ÍÂí" },
-			{ "²ÔÀÏÊ¦", "Ğ¡ÔóÂêÀûÑÇ" , "À²À²À²" },
-			{ "±¡ÎõÀ´","ÖÜÓÀ¿µ"}
-		};
-      //×Ô¼º¶¨ÒåÒ»¸ö»ñµÃÎÄ×ÖĞÅÏ¢µÄ·½·¨  
+		 private String[] groups = new String[] { "æˆ‘çš„å¥½å‹", "é™Œç”Ÿäºº", "ç‚®å‹","é»‘åå•" };  
+			//names of the items
+	        private String[][] items = new String[][]
+			{
+				{ "æ¯›çˆ·çˆ·", "é‚“çˆ·çˆ·", "å¾·ç›è¥¿äºš", "å¯’å†°å°„æ‰‹" },
+				{ "æ¢…è¥¿", "ç½—çº³å°”å¤š", "å¡å¡", "å¥¥å·´é©¬" },
+				{ "è‹è€å¸ˆ", "å°æ³½ç›åˆ©äºš" , "å•¦å•¦å•¦" },
+				{ "è–„ç†™æ¥","å‘¨æ°¸åº·"}
+			};
+ 
 //        TextView getTextView() {  
 //            AbsListView.LayoutParams lp = new AbsListView.LayoutParams(  
 //                    ViewGroup.LayoutParams.MATCH_PARENT, 10);  
@@ -59,7 +59,7 @@ public class ContactsFragment extends Fragment {
 //        }  
 
           
-        //ÖØĞ´ExpandableListAdapterÖĞµÄ¸÷¸ö·½·¨  
+        //ï¿½ï¿½Ğ´ExpandableListAdapterï¿½ĞµÄ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         @Override  
         public int getGroupCount() {  
             return groups.length;  
@@ -119,7 +119,10 @@ public class ContactsFragment extends Fragment {
                 boolean isLastChild, View convertView, ViewGroup parent) {  
             LinearLayout ll = (LinearLayout)View.inflate(ContactsFragment.this.getActivity(),R.layout.expand_list_item,null);           
             TextView itemName = (TextView)ll.findViewById(R.id.itemName);
-            itemName.setText("µÂÂêÎ÷ÑÇ");
+            itemName.setText("å¾·ç›è¥¿äºš");
+            ImageView itemImage = (ImageView)ll.findViewById(R.id.groupItemPhoto);
+    		Bitmap circleBitmap = CircleImage.toRoundBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.channel_qq));
+    		itemImage.setImageBitmap(circleBitmap);
             
             
             return ll;  
