@@ -7,18 +7,20 @@
     <color name="common_gold">#fed700</color>
     <color name="dot_big_black">#000000</color>
     <color name="dot_small_balck">#aaaaaa</color>
+	
 
-
+    
 
     <color name="pocket_green">#ff83edb8</color>
     <color name="pocket_blue">#ff32bcb6</color>
     <color name="pocket_red">#ffee4256</color>
-    <color name="pocket_gold">#fed700</color>
+    <color name="pocket_gold">#ffee4256</color>
    
+    
     
     <color name="pocket_teal_press">#a132bcb6</color>
     <color name="pocket_teal_press_opaque">#ff77ceca</color>
-    <color name="white">#ffffffff</color>
+    <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
     <color name="bg_primary_light">#ffffffff</color>
     <color name="bg_primary_dark">#ff252525</color>

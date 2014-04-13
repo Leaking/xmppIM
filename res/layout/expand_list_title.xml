@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/groupTitleHeight"
+    android:background="@color/white"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="@dimen/groupTitleLeftFrameWidth"
+        android:layout_height="@dimen/groupTitleHeight" >
+
+        <ImageView
+            android:id="@+id/listTitle_arrow"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/groupTitleRightPadding" >
+
+        <TextView
+            android:id="@+id/listTitle_groupname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/listTitle_groupMenberOnlinePercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="5/12"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

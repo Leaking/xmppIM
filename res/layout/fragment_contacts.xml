@@ -2,15 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
-
-    <LinearLayout
+	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_mainview_header"
         android:background="@color/pocket_blue"
-        android:gravity="center"
-         >
-
+        android:gravity="center">
         <TextView
             android:id="@+id/header_contacts_text"
             android:layout_width="wrap_content"
@@ -19,14 +17,11 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
-
-    <EditText
-                    android:id="@+id/usssername"
-                    android:layout_width="250dip"
-                    android:layout_height="50dip"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="14.0dip"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress" />
+    <ExpandableListView
+        android:id="@+id/contactExpandableList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:childIndicator="@null"
+        android:groupIndicator="@null" />
 
 </LinearLayout>

@@ -1,14 +1,18 @@
 package com.XMPP.mainview;
 
 
+import java.util.Random;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,45 +25,49 @@ import com.XMPP.smack.Smack;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class MainviewActivity extends FragmentActivity implements OnClickListener {
+public class MainviewActivity extends FragmentActivity implements OnPageChangeListener,OnClickListener {
 	private String username;
 	private Smack smack;
 	// three kind of the fragment to fill the content part
-	private final static int TYPE_CHATTING_FRAGMENT = 1;
-	private final static int TYPE_CONTACTS_FRAGMENT = 2;
-	private final static int TYPE_SETTING_FRAGMENT = 3;
+	private final static int TYPE_CHATTING_FRAGMENT = 0;
+	private final static int TYPE_CONTACTS_FRAGMENT = 1;
+	private final static int TYPE_SETTING_FRAGMENT = 2;
 	// three icon in the footer part
 	private ImageView footer_chatting_icon;
 	private ImageView footer_contacts_icon;
 	private ImageView footer_setting_icon;
 	// last_fragment reference to the last choosen fragment
 	// current_fragment reference to the current choosen fragment
-	private int last_fragment = 1;
-	private int current_fragment = 2;
+	private int last_fragment = 0;
+	private int current_fragment = 1;
 	private final static int LIGHT_UP = 1;
 	private final static int LIGHT_DOWN = 0;
 	// footer icon
 	private IconicFontDrawable footerChatDrawable;
 	private IconicFontDrawable footerContactsDrawable;
 	private IconicFontDrawable footerSettingsDrawable;
-	
-	//
+	//color of the three icon in the footer view32bcb6
+	private final static int LIGHT_UP_COLOR = 	Color.rgb(0xff, 0xff, 0xff);
+	private final static int LIGHT_DOWN_COLOR = Color.rgb(0x32, 0xBC, 0xcc);
+	//sum of the fragments in the viewpager
 	private final static int NUM_PAGES = 3;
-	//
+	//viewpager
 	private ViewPager vPager;
+	//
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
-		initFooter();
-		registIconListerner();
-		updateContentFragment(TYPE_CHATTING_FRAGMENT);
+
 		vPager = (ViewPager)findViewById(R.id.mainview_pager);
 		vPager.setOffscreenPageLimit(3);
 		vPager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager()));
-		
+		vPager.setOnPageChangeListener(this);
+		initFooter();
+		registIconListerner();
+		updateContentFragment(TYPE_CHATTING_FRAGMENT);
 		
 		
 		// smack = new SmackImpl();
@@ -116,25 +124,27 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 		switch (index) {
 		case TYPE_CHATTING_FRAGMENT: {
 			if (upOrDown == LIGHT_UP) {
-				footerChatDrawable.setIconColor(color.pocket_gold);
+				footerChatDrawable.setIconColor(LIGHT_UP_COLOR);
+
 			} else if (upOrDown == LIGHT_DOWN) {
-				footerChatDrawable.setIconColor(Color.WHITE);
+				footerChatDrawable.setIconColor(LIGHT_DOWN_COLOR);
+
 			}
 			break;
 		}
 		case TYPE_CONTACTS_FRAGMENT: {
 			if (upOrDown == LIGHT_UP) {
-				footerContactsDrawable.setIconColor(color.pocket_gold);
+				footerContactsDrawable.setIconColor(LIGHT_UP_COLOR);
 			} else if (upOrDown == LIGHT_DOWN) {
-				footerContactsDrawable.setIconColor(Color.WHITE);
+				footerContactsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 			}
 			break;
 		}
 		case TYPE_SETTING_FRAGMENT: {
 			if (upOrDown == LIGHT_UP) {
-				footerSettingsDrawable.setIconColor(color.pocket_gold);
+				footerSettingsDrawable.setIconColor(LIGHT_UP_COLOR);
 			} else if (upOrDown == LIGHT_DOWN) {
-				footerSettingsDrawable.setIconColor(Color.WHITE);
+				footerSettingsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 			}
 			break;
 		}
@@ -142,11 +152,9 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 	}
 
 	public void updateContentFragment(int fragmentType) {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
 		switch (fragmentType) {
 		case TYPE_CHATTING_FRAGMENT:
+			vPager.setCurrentItem(TYPE_CHATTING_FRAGMENT);
 			last_fragment = current_fragment;
 			current_fragment = TYPE_CHATTING_FRAGMENT;
 			if (current_fragment != last_fragment) {
@@ -155,6 +163,7 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 			}
 			break;
 		case TYPE_CONTACTS_FRAGMENT:
+			vPager.setCurrentItem(TYPE_CONTACTS_FRAGMENT);
 			last_fragment = current_fragment;
 			current_fragment = TYPE_CONTACTS_FRAGMENT;
 			if(current_fragment != last_fragment){
@@ -163,6 +172,7 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 			}
 			break;
 		case TYPE_SETTING_FRAGMENT:
+			vPager.setCurrentItem(TYPE_SETTING_FRAGMENT);
 			last_fragment = current_fragment;
 			current_fragment = TYPE_SETTING_FRAGMENT;
 			if(current_fragment != last_fragment){
@@ -180,19 +190,20 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 	public void initFooter() {
 		footerChatDrawable = new IconicFontDrawable(getBaseContext());
 		footerChatDrawable.setIcon(IconicIcon.CHAT_INV);
-		footerChatDrawable.setIconColor(Color.WHITE);
+		footerChatDrawable.setIconColor(LIGHT_UP_COLOR);
 		footer_chatting_icon = (ImageView) findViewById(R.id.Footer_chattingIcon);
 		footer_chatting_icon.setBackground(footerChatDrawable);
 
+		
 		footerContactsDrawable = new IconicFontDrawable(getBaseContext());
 		footerContactsDrawable.setIcon(IconicIcon.USER);
-		footerContactsDrawable.setIconColor(Color.WHITE);
+		footerContactsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 		footer_contacts_icon = (ImageView) findViewById(R.id.Footer_contactsIcon);
 		footer_contacts_icon.setBackground(footerContactsDrawable);
 
 		footerSettingsDrawable = new IconicFontDrawable(getBaseContext());
 		footerSettingsDrawable.setIcon(IconicIcon.COG);
-		footerSettingsDrawable.setIconColor(Color.WHITE);
+		footerSettingsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 		footer_setting_icon = (ImageView) findViewById(R.id.Footer_settingIcon);
 		footer_setting_icon.setBackground(footerSettingsDrawable);
 	}
@@ -210,17 +221,39 @@ public class MainviewActivity extends FragmentActivity implements OnClickListene
 		switch (v.getId()) {
 		case R.id.Footer_chattingIcon:
 			updateContentFragment(TYPE_CHATTING_FRAGMENT);
-			System.out.println("fffff111111111111111111");
 			break;
 		case R.id.Footer_contactsIcon:
 			updateContentFragment(TYPE_CONTACTS_FRAGMENT);
-			System.out.println("fffff22222222222222");
 			break;
 		case R.id.Footer_settingIcon:
 			updateContentFragment(TYPE_SETTING_FRAGMENT);
-			System.out.println("fffff133333333333333");
 			break;
 		}
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("choosen   " + arg0);
+		last_fragment = current_fragment;
+		current_fragment = arg0;
+		if(current_fragment != last_fragment){
+			updatefooterIcon(last_fragment, LIGHT_DOWN);
+			updatefooterIcon(arg0,LIGHT_UP);
+		}
+			
 	}
 
 }
