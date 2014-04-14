@@ -37,7 +37,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		smack = new SmackImpl();
 		submitLogin = (TextView) findViewById(R.id.submitLogin);
 		forget = (TextView) findViewById(R.id.forget);
-
 		submitLogin.setOnClickListener(this);
 
 	}

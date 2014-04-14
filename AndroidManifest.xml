@@ -35,6 +35,9 @@
             android:name="com.XMPP.mainview.MainviewActivity"
             android:label="@string/title_activity_firends_list" >
         </activity>
+
+        <service android:name="com.XMPP.service.ConnectionService" >
+        </service>
     </application>
 
 </manifest>
