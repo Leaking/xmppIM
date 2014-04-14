@@ -9,9 +9,9 @@ public class ConnectionHandler {
 	private static XMPPConnection conn = null;
 
 	
-	private static void openConnection() {
+	private static void openConnection(String ip,int port) {
 		try {
-			ConnectionConfiguration connConfig = new ConnectionConfiguration("192.168.1.102", 5222);			
+			ConnectionConfiguration connConfig = new ConnectionConfiguration(ip, port);			
 			connConfig.setReconnectionAllowed(true);
             connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
             connConfig.setSASLAuthenticationEnabled(false); // true/false
@@ -25,9 +25,9 @@ public class ConnectionHandler {
 	}
 
 	
-	public static XMPPConnection connect(){
+	public static XMPPConnection connect(String ip,int port){
 		if(conn == null){
-			openConnection();
+			openConnection(ip,port);
 		}
 		return conn;
 	}

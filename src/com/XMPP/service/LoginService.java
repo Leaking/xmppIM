@@ -15,7 +15,6 @@ import android.os.IBinder;
 public class LoginService extends Service {
 
 	private Smack smack;
-	private XMPPConnection conn;
 	// Binder given to clients
 	private final IBinder mBinder = new LocalBinder();
 
@@ -43,7 +42,8 @@ public class LoginService extends Service {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				conn = ConnectionHandler.connect();
+
+				smack.connect("192.168.1.102", 5222);
 			}
 		}).start();
 	}
@@ -70,14 +70,10 @@ public class LoginService extends Service {
 	}
 
 	/** method for clients */
-	// retrun the connected connection
-	public XMPPConnection getConnection() {
-		return conn;
-	}
 
-	//
 	public int login(String username, String password) {
-		if (conn == null) {
+		if (smack.getConnection() == null) {
+			System.out.println("cnnn is nulll" );
 			return Constants.LOGIN_CONNECT_FAIL;
 		} else {
 			boolean success = smack.login(username, password);

@@ -24,12 +24,15 @@ public class SmackImpl implements Smack {
 	public XMPPConnection getConnection(){
 		return conn;
 	}
-	
-	public void refreshConnection(){
-		connect();
-	}
-	public void connect(){
-		conn = ConnectionHandler.connect();
+
+	public void connect(String server, int port){
+		conn = ConnectionHandler.connect(server,port);
+
+		if(this.getConnection() != null)
+			System.out.println("conn != null");
+		else{
+			System.out.println("conn ====== null");
+		}
 	}
 	/**
 	 * method of login
@@ -43,7 +46,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public boolean login(String username, String password) {
 		// TODO Auto-generated method stub
-		connect();
+
 		this.username = username;
 		this.password = password;
 		try {

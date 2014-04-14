@@ -75,7 +75,7 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 		// username = smack.getConnection().getUser();
 		// Collection<RosterEntry> rosters =
 		// smack.getConnection().getRoster().getEntries();
-		// System.out.println("我的好友列表�?=======================");
+		// System.out.println("我的好友列表�?=======================");
 		// for(RosterEntry rosterEntry : rosters){
 		// System.out.print("name: "+rosterEntry.getName()+",jid: "+rosterEntry.getUser());
 		// System.out.println("");

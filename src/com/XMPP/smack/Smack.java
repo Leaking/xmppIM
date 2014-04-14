@@ -14,14 +14,11 @@ public interface Smack extends Serializable {
 	 * return the current XMPPConnection
 	 */
 	public XMPPConnection getConnection();
-	/**
-	 * refresh the connection
-	 */
-	public void refreshConnection();
+
 	/**
 	 * connect to the server
 	 */
-	public void connect();
+	public void connect(String server, int port);
 	/**
 	 * login method
 	 * @param username:username of the user who try to login

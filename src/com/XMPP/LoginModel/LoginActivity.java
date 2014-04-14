@@ -42,8 +42,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		init();
         // Bind to LocalService
         Intent intent = new Intent(this, LoginService.class);
-        intent.putExtra("server", "192.168.1.102");
-        intent.putExtra("port", 5222);
+        intent.putExtra("server", Constants.SERVER_IP);
+        intent.putExtra("port", Constants.SERVER_PORT);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 	}
 
@@ -82,14 +82,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Toast.makeText(getApplicationContext(), "账号密码错误",
 						     Toast.LENGTH_SHORT).show();
 				}
-//				if (success) {
-//					Intent intent = new Intent(LoginActivity.this,
-//							MainviewActivity.class);
-//					LoginActivity.this.startActivity(intent);
-//				}else{
-//					Toast.makeText(getApplicationContext(), "登陆失败",
-//						     Toast.LENGTH_SHORT).show();
-//				}
+
 			}
 			
 			break;
