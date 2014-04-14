@@ -8,7 +8,9 @@ import org.jivesoftware.smack.XMPPException;
 public class ConnectionHandler {
 	private static XMPPConnection conn = null;
 
-	
+	public static XMPPConnection getConnection(){
+		return conn;
+	}
 	private static void openConnection(String ip,int port) {
 		try {
 			ConnectionConfiguration connConfig = new ConnectionConfiguration(ip, port);			

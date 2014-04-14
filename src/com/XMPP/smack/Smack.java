@@ -10,6 +10,7 @@ public interface Smack extends Serializable {
 	
 	public String getUsername();
 	
+	public void setConnection(XMPPConnection conn);
 	/**
 	 * return the current XMPPConnection
 	 */

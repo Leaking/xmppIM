@@ -21,10 +21,15 @@ public class SmackImpl implements Smack {
 	public SmackImpl(){
 		
 	}
+	public void setConnection(XMPPConnection conn){
+		this.conn = conn;
+	}
 	public XMPPConnection getConnection(){
 		return conn;
 	}
 
+	
+	
 	public void connect(String server, int port){
 		conn = ConnectionHandler.connect(server,port);
 

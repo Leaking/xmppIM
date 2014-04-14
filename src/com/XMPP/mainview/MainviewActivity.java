@@ -21,7 +21,9 @@ import android.widget.ImageView;
 
 import com.XMPP.R;
 import com.XMPP.R.color;
+import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
@@ -70,10 +72,10 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
 		
 		
-		// smack = new SmackImpl();
-		// smack.refreshConnection();
-		// username = smack.getConnection().getUser();
-		// Collection<RosterEntry> rosters =
+		smack = new SmackImpl();
+		smack.setConnection(ConnectionHandler.getConnection());
+		username = smack.getConnection().getUser();
+		//Collection<RosterEntry> rosters =
 		// smack.getConnection().getRoster().getEntries();
 		// System.out.println("我的好友列表�?=======================");
 		// for(RosterEntry rosterEntry : rosters){
