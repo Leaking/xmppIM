@@ -36,8 +36,11 @@
             android:label="@string/title_activity_firends_list" >
         </activity>
 
-        <service android:name="com.XMPP.service.ConnectionService" >
+        <service 
+            android:enabled="true" 
+            android:name="com.XMPP.service.LoginService" >
         </service>
+        
     </application>
 
 </manifest>

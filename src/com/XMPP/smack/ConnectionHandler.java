@@ -7,14 +7,11 @@ import org.jivesoftware.smack.XMPPException;
 
 public class ConnectionHandler {
 	private static XMPPConnection conn = null;
-	static{
-		openConnection();
-	}
+
 	
 	private static void openConnection() {
 		try {
-			ConnectionConfiguration connConfig = new ConnectionConfiguration("192.168.1.100", 5222);
-			
+			ConnectionConfiguration connConfig = new ConnectionConfiguration("192.168.1.102", 5222);			
 			connConfig.setReconnectionAllowed(true);
             connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
             connConfig.setSASLAuthenticationEnabled(false); // true/false
