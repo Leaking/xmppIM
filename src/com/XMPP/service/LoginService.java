@@ -56,6 +56,8 @@ public class LoginService extends Service {
 		// i can initial some data from the intent arg0, like server name,port
 		port = intent.getExtras().getInt("port");
 		server = intent.getExtras().getString("server");
+		L.i("loginservice receive port:" + port);
+		L.i("LoginService receive server" + server);
 		return mBinder;
 	}
 

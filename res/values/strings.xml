@@ -15,6 +15,10 @@
     <string name="title_activity_firends_list">FirendsListActivity</string>
 
     
+    <string name="connect_fail">connect fail</string>
+    <string name="name_psw_wrong">user or password is wrong</string>
+    
+    
     <string name="chatting">Message</string>
     <string name="contacts">Contacts</string>
     <string name="setting">Setting</string>

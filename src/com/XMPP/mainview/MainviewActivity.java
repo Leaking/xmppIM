@@ -1,15 +1,19 @@
 package com.XMPP.mainview;
 
-
-
+import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterGroup;
 
-import android.support.v4.app.FragmentManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -20,6 +24,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
+import com.XMPP.service.Group_FriendService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -27,7 +32,8 @@ import com.XMPP.util.L;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class MainviewActivity extends FragmentActivity implements OnPageChangeListener,OnClickListener {
+public class MainviewActivity extends FragmentActivity implements
+		OnPageChangeListener, OnClickListener,ContactsFragment.RosterGroupCallback{
 	private String username;
 	private Smack smack;
 	// three kind of the fragment to fill the content part
@@ -48,44 +54,43 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 	private IconicFontDrawable footerChatDrawable;
 	private IconicFontDrawable footerContactsDrawable;
 	private IconicFontDrawable footerSettingsDrawable;
-	//color of the three icon in the footer view32bcb6
-	private final static int LIGHT_UP_COLOR = 	Color.rgb(0xff, 0xff, 0xff);
+	// color of the three icon in the footer view32bcb6
+	private final static int LIGHT_UP_COLOR = Color.rgb(0xff, 0xff, 0xff);
 	private final static int LIGHT_DOWN_COLOR = Color.rgb(0x32, 0xBC, 0xcc);
-	//sum of the fragments in the viewpager
+	// sum of the fragments in the viewpager
 	private final static int NUM_PAGES = 3;
-	//viewpager
+	// viewpager
 	private ViewPager vPager;
+	//service
+	Group_FriendService mService;
+	boolean mBound = false;
 	//
-
+	ArrayList<RosterGroup> groupList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
+		// Bind to LocalService
+		Intent intent = new Intent(this, Group_FriendService.class);
+		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
-		vPager = (ViewPager)findViewById(R.id.mainview_pager);
+		vPager = (ViewPager) findViewById(R.id.mainview_pager);
 		vPager.setOffscreenPageLimit(3);
-		vPager.setAdapter(new ScreenSlidePagerAdapter(getSupportFragmentManager()));
+		vPager.setAdapter(new ScreenSlidePagerAdapter(
+				getSupportFragmentManager()));
 		vPager.setOnPageChangeListener(this);
 		initFooter();
 		registIconListerner();
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
-		
-		
+
 		smack = new SmackImpl();
 		smack.setConnection(ConnectionHandler.getConnection());
 		username = smack.getConnection().getUser();
-		for(RosterGroup group:smack.getConnection().getRoster().getGroups()){
+		for (RosterGroup group : smack.getConnection().getRoster().getGroups()) {
 			L.i("group name: " + group.getName());
 		}
-		
-		//Collection<RosterEntry> rosters =
-		//smack.getConnection().getRoster().getEntries();
-		// System.out.println("我的好友列表�?=======================");
-		// for(RosterEntry rosterEntry : rosters){
-		// System.out.print("name: "+rosterEntry.getName()+",jid: "+rosterEntry.getUser());
-		// System.out.println("");
-		// }
 
 	}
 
@@ -113,9 +118,9 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 				return new ChattingFragment();
 			} else if (position == 1) {
 				return new ContactsFragment();
-			} else 
+			} else
 				return new SettingFragment();
-			
+
 		}
 
 		@Override
@@ -123,9 +128,7 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 			return NUM_PAGES;
 		}
 	}
-	
-	
-	
+
 	public void updatefooterIcon(int index, int upOrDown) {
 		switch (index) {
 		case TYPE_CHATTING_FRAGMENT: {
@@ -172,18 +175,18 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 			vPager.setCurrentItem(TYPE_CONTACTS_FRAGMENT);
 			last_fragment = current_fragment;
 			current_fragment = TYPE_CONTACTS_FRAGMENT;
-			if(current_fragment != last_fragment){
+			if (current_fragment != last_fragment) {
 				updatefooterIcon(last_fragment, LIGHT_DOWN);
-				updatefooterIcon(TYPE_CONTACTS_FRAGMENT, LIGHT_UP);	
+				updatefooterIcon(TYPE_CONTACTS_FRAGMENT, LIGHT_UP);
 			}
 			break;
 		case TYPE_SETTING_FRAGMENT:
 			vPager.setCurrentItem(TYPE_SETTING_FRAGMENT);
 			last_fragment = current_fragment;
 			current_fragment = TYPE_SETTING_FRAGMENT;
-			if(current_fragment != last_fragment){
+			if (current_fragment != last_fragment) {
 				updatefooterIcon(last_fragment, LIGHT_DOWN);
-				updatefooterIcon(TYPE_SETTING_FRAGMENT, LIGHT_UP);	
+				updatefooterIcon(TYPE_SETTING_FRAGMENT, LIGHT_UP);
 			}
 			break;
 		}
@@ -200,7 +203,6 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 		footer_chatting_icon = (ImageView) findViewById(R.id.Footer_chattingIcon);
 		footer_chatting_icon.setBackground(footerChatDrawable);
 
-		
 		footerContactsDrawable = new IconicFontDrawable(getBaseContext());
 		footerContactsDrawable.setIcon(IconicIcon.USER);
 		footerContactsDrawable.setIconColor(LIGHT_DOWN_COLOR);
@@ -240,13 +242,13 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -255,11 +257,50 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 		System.out.println("choosen   " + arg0);
 		last_fragment = current_fragment;
 		current_fragment = arg0;
-		if(current_fragment != last_fragment){
+		if (current_fragment != last_fragment) {
 			updatefooterIcon(last_fragment, LIGHT_DOWN);
-			updatefooterIcon(arg0,LIGHT_UP);
+			updatefooterIcon(arg0, LIGHT_UP);
 		}
-			
+
 	}
 
+	/** Defines callbacks for service binding, passed to bindService() */
+	private ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			// We've bound to LoginService, cast the IBinder and get
+			// LoginService instance
+			Group_FriendService.LocalBinder binder = (Group_FriendService.LocalBinder) service;
+			mService = binder.getService();
+			mBound = true;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {
+			mBound = false;
+		}
+	};
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// Unbind from the service
+		if (mBound) {
+			unbindService(mConnection);
+			mBound = false;
+		}
+	}
+
+	@Override
+	public ArrayList<RosterGroup> getGroupList() {
+		// TODO Auto-generated method stub
+		
+		return this.groupList;
+	}
 }

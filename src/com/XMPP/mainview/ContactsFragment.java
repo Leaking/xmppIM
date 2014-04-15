@@ -1,6 +1,11 @@
 package com.XMPP.mainview;
 
 
+import java.util.ArrayList;
+
+import org.jivesoftware.smack.RosterGroup;
+
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -22,7 +27,14 @@ import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
 
 public class ContactsFragment extends Fragment {
-
+	RosterGroupCallback mCallback;
+	
+	
+	
+	 // Container Activity must implement this interface
+    public interface RosterGroupCallback {
+        public ArrayList<RosterGroup> getGroupList();
+    }
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
@@ -32,7 +44,15 @@ public class ContactsFragment extends Fragment {
         return view;
 	}
 	
-	
+	@Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+        	mCallback = (RosterGroupCallback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement RosterGroupCallback");
+        }
+    }
 	ExpandableListAdapter expandAdapter = new BaseExpandableListAdapter(){
     	//names of the groups
 		 private String[] groups = new String[] { "我的好友", "陌生人", "炮友","黑名单" };  

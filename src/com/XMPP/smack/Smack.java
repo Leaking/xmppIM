@@ -1,9 +1,13 @@
 package com.XMPP.smack;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
 public interface Smack extends Serializable {
@@ -46,6 +50,12 @@ public interface Smack extends Serializable {
 	 */
 	public void turnDownlineToSomeone(String username);
 	
+
+	public ArrayList<RosterGroup> getGroups();
+	/**
+	 * get all the friends
+	 * @return
+	 */
 	public Collection<RosterEntry> getAllFriend();
 
 }

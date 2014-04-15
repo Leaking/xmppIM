@@ -1,24 +1,28 @@
 package com.XMPP.service;
 
-import com.XMPP.service.LoginService.LocalBinder;
-import com.XMPP.smack.ConnectionHandler;
-import com.XMPP.smack.Smack;
-import com.XMPP.smack.SmackImpl;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jivesoftware.smack.RosterGroup;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.XMPP.smack.ConnectionHandler;
+import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
+
 public class Group_FriendService extends Service{
 
 	private Smack smack;
+	private ArrayList<RosterGroup> groupList;
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		smack = new SmackImpl();
-		smack.setConnection(ConnectionHandler.getConnection());
+
 	}
 
 	// Binder given to clients
@@ -26,7 +30,18 @@ public class Group_FriendService extends Service{
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
-		return null;
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				smack = new SmackImpl();
+				smack.setConnection(ConnectionHandler.getConnection());
+				groupList = smack.getGroups();
+			}
+		}).start();
+		
+		return mBinder;
 	}
 	
 	public class LocalBinder extends Binder {
@@ -35,6 +50,13 @@ public class Group_FriendService extends Service{
 			// methods
 			return Group_FriendService.this;
 		}
+	}
+	
+	/** method for clients */
+	
+	//return all the groups
+	public ArrayList<RosterGroup> getGroupList(){
+		return groupList;
 	}
 	
 }

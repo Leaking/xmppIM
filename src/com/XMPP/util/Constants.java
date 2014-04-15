@@ -10,7 +10,7 @@ public class Constants {
 	
 	
 	//server ip and ip
-	public final static String SERVER_IP = "192.168.1.100";
+	public final static String SERVER_IP = "192.168.1.8";
 	public final static int SERVER_PORT = 5222;
 
 
