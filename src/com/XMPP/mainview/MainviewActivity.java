@@ -24,11 +24,13 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
+import com.XMPP.service.GroupProfile;
 import com.XMPP.service.Group_FriendService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.L;
+import com.XMPP.util.Test;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
@@ -67,14 +69,13 @@ public class MainviewActivity extends FragmentActivity implements
 	//
 	ArrayList<RosterGroup> groupList;
 	
+	//
+	ArrayList<GroupProfile> gP_List;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
-		// Bind to LocalService
-		Intent intent = new Intent(this, Group_FriendService.class);
-		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
 		vPager = (ViewPager) findViewById(R.id.mainview_pager);
 		vPager.setOffscreenPageLimit(3);
@@ -84,16 +85,16 @@ public class MainviewActivity extends FragmentActivity implements
 		initFooter();
 		registIconListerner();
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
+		L.d("onCreate  line 87");
 
+		Intent intent = getIntent();
+		gP_List = (ArrayList<GroupProfile>) intent.getSerializableExtra("GroupList");
+		Test.outputGroupList(gP_List);
 		smack = new SmackImpl();
 		smack.setConnection(ConnectionHandler.getConnection());
-		username = smack.getConnection().getUser();
-		for (RosterGroup group : smack.getConnection().getRoster().getGroups()) {
-			L.i("group name: " + group.getName());
-		}
 
 	}
-
+	
 	/**
 	 * three icon regist onclicklistern on this activity
 	 */
@@ -272,6 +273,7 @@ public class MainviewActivity extends FragmentActivity implements
 			// We've bound to LoginService, cast the IBinder and get
 			// LoginService instance
 			Group_FriendService.LocalBinder binder = (Group_FriendService.LocalBinder) service;
+			L.d("onServiceConnected  line 276");
 			mService = binder.getService();
 			mBound = true;
 		}
@@ -298,9 +300,8 @@ public class MainviewActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public ArrayList<RosterGroup> getGroupList() {
+	public ArrayList<GroupProfile> getGroupList() {
 		// TODO Auto-generated method stub
-		
-		return this.groupList;
+		return gP_List;
 	}
 }

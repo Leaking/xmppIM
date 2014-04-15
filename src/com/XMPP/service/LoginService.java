@@ -1,17 +1,21 @@
 package com.XMPP.service;
 
-import org.jivesoftware.smack.XMPPConnection;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterGroup;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
-
-import android.app.Service;
-import android.content.Intent;
-import android.os.Binder;
-import android.os.IBinder;
 
 public class LoginService extends Service {
 
@@ -85,5 +89,51 @@ public class LoginService extends Service {
 			return success?Constants.LOGIN_SUCCESS:Constants.LOGIN_USERNAME_PSW_ERROR;
 		}
 	}
+	
+	public ArrayList<GroupProfile> getGroupList(){
+		smack.setConnection(ConnectionHandler.getConnection());
+		if(smack == null){
+			L.i("getGroupList() ----smack is null");
+		}
+		if(smack.getConnection() == null){
+			L.i("getGroupList() ----connection is null");
+		}
+		if(!smack.getConnection().isConnected()){
+			L.i("getGroupList() ----not connect");
+			return null;
+		}
+		if(!smack.getConnection().isAuthenticated()){
+			L.i("getGroupList() ----connect but not login");
+			return null;
+		}
+		
+		ArrayList<GroupProfile> groups = new ArrayList<GroupProfile>();
+		Roster roster = smack.getConnection().getRoster();
+		Iterator<RosterGroup> iter =roster.getGroups().iterator();
+		while(iter.hasNext()){
+			GroupProfile gP = new GroupProfile();
+			RosterGroup rG = iter.next();
+			gP.setGroupName(rG.getName());
+			L.i("iter.name = "  + rG.getName());
+			gP.initPersonList(rG.getEntries());
+			groups.add(gP);
+		}
+		//showGroupList(groups);
+		return groups;
+	}
+//	a method to test
+//	public void showGroupList(ArrayList<GroupProfile> list){
+//		L.i("group size = " + list.size());
+//		for(int i = 0; i < list.size(); i++){
+//			L.i("group name = " + list.get(i).getGroupName());
+//			for(int j = 0; j < list.get(i).getPersonList().size();j++){
+//				L.i("person name = " +  list.get(i).getPersonList().get(j).getName());
+//			}
+//		}
+//		
+//	}
+	
+	
+
 
 }

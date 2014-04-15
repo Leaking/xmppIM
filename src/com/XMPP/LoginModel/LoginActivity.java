@@ -1,5 +1,7 @@
 package com.XMPP.LoginModel;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,10 +19,10 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.mainview.MainviewActivity;
+import com.XMPP.service.GroupProfile;
 import com.XMPP.service.LoginService;
 import com.XMPP.service.LoginService.LocalBinder;
 import com.XMPP.smack.Smack;
-import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
 
 public class LoginActivity extends Activity implements OnClickListener {
@@ -69,23 +71,49 @@ public class LoginActivity extends Activity implements OnClickListener {
 						.toString();
 				password = ((EditText) findViewById(R.id.password)).getText()
 						.toString();
-				int LoginResult = mService.login(username, password);
-				switch (LoginResult) {
-				case Constants.LOGIN_SUCCESS:
-					Intent intent = new Intent(LoginActivity.this,
-							MainviewActivity.class);
-					LoginActivity.this.startActivity(intent);
-					break;
-				case Constants.LOGIN_CONNECT_FAIL:
-					Toast.makeText(getApplicationContext(),
-							getResources().getString(R.string.connect_fail),
-							Toast.LENGTH_SHORT).show();
-					break;
-				case Constants.LOGIN_USERNAME_PSW_ERROR:
-					Toast.makeText(getApplicationContext(),
-							getResources().getString(R.string.name_psw_wrong),
-							Toast.LENGTH_SHORT).show();
-				}
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						final int LoginResult = mService.login(username,
+								password);
+						final ArrayList<GroupProfile> groupList = mService
+									.getGroupList();
+						
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								switch (LoginResult) {
+								case Constants.LOGIN_SUCCESS:
+									Intent intent = new Intent(
+											LoginActivity.this,
+											MainviewActivity.class);
+									Bundle bundle = new Bundle();
+									bundle.putSerializable("GroupList", groupList);
+									intent.putExtras(bundle);
+									LoginActivity.this.startActivity(intent);
+									break;
+								case Constants.LOGIN_CONNECT_FAIL:
+									Toast.makeText(
+											getApplicationContext(),
+											getResources().getString(
+													R.string.connect_fail),
+											Toast.LENGTH_SHORT).show();
+									break;
+								case Constants.LOGIN_USERNAME_PSW_ERROR:
+									Toast.makeText(
+											getApplicationContext(),
+											getResources().getString(
+													R.string.name_psw_wrong),
+											Toast.LENGTH_SHORT).show();
+								}
+
+							}
+						});
+
+					}
+				}).start();
 
 			}
 

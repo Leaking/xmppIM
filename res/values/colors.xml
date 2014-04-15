@@ -16,8 +16,11 @@
     <color name="pocket_red">#ffee4256</color>
     <color name="pocket_gold">#ffee4256</color>
    
+    <color name="group_arrow_closed">#ff000000</color>
+    <color name="group_arrow_open">#ff000011</color>
     
     
+    <!-- not used still -->
     <color name="pocket_teal_press">#a132bcb6</color>
     <color name="pocket_teal_press_opaque">#ff77ceca</color>
     <color name="white">#ffffff</color>

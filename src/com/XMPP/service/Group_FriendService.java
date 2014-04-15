@@ -13,6 +13,7 @@ import android.os.IBinder;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
+import com.XMPP.util.L;
 
 public class Group_FriendService extends Service{
 
@@ -22,6 +23,7 @@ public class Group_FriendService extends Service{
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		L.d("service onCreate line 26");
 
 	}
 
@@ -30,6 +32,7 @@ public class Group_FriendService extends Service{
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
+		L.d("service onBind line 34");
 		new Thread(new Runnable() {
 			
 			@Override
