@@ -9,6 +9,8 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.pubsub.PresenceState;
 
+import com.XMPP.util.L;
+
 public class SmackImpl implements Smack {
 
 	//initial in the login(,,) method
@@ -32,11 +34,14 @@ public class SmackImpl implements Smack {
 	
 	public void connect(String server, int port){
 		conn = ConnectionHandler.connect(server,port);
-
-		if(this.getConnection() != null)
-			System.out.println("conn != null");
+		
+		if(this.getConnection() != null){
+			L.i("connect is built");
+			L.i("server:" + server);
+			L.i("port:" + port);
+		}
 		else{
-			System.out.println("conn ====== null");
+			L.i("connect fail");
 		}
 	}
 	/**
@@ -55,8 +60,7 @@ public class SmackImpl implements Smack {
 		this.username = username;
 		this.password = password;
 		try {
-			conn.login(username, password);
-			
+			conn.login(username, password);			
 			return true;
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block

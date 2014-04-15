@@ -1,11 +1,11 @@
 package com.XMPP.mainview;
 
 
-import java.util.Random;
+
+
+import org.jivesoftware.smack.RosterGroup;
 
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,10 +20,10 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
-import com.XMPP.R.color;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
+import com.XMPP.util.L;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
@@ -75,8 +75,12 @@ public class MainviewActivity extends FragmentActivity implements OnPageChangeLi
 		smack = new SmackImpl();
 		smack.setConnection(ConnectionHandler.getConnection());
 		username = smack.getConnection().getUser();
+		for(RosterGroup group:smack.getConnection().getRoster().getGroups()){
+			L.i("group name: " + group.getName());
+		}
+		
 		//Collection<RosterEntry> rosters =
-		// smack.getConnection().getRoster().getEntries();
+		//smack.getConnection().getRoster().getEntries();
 		// System.out.println("我的好友列表�?=======================");
 		// for(RosterEntry rosterEntry : rosters){
 		// System.out.print("name: "+rosterEntry.getName()+",jid: "+rosterEntry.getUser());

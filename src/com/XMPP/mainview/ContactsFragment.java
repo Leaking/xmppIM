@@ -33,7 +33,6 @@ public class ContactsFragment extends Fragment {
 	}
 	
 	
-	
 	ExpandableListAdapter expandAdapter = new BaseExpandableListAdapter(){
     	//names of the groups
 		 private String[] groups = new String[] { "我的好友", "陌生人", "炮友","黑名单" };  
