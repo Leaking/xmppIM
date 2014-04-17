@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel;
+package com.XMPP.Activity.Login;
 
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 

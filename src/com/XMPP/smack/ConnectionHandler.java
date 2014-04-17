@@ -18,7 +18,6 @@ public class ConnectionHandler {
             connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
             connConfig.setSASLAuthenticationEnabled(false); // true/false
             connConfig.setCompressionEnabled(false);
-			
 			conn = new XMPPConnection(connConfig);
 			conn.connect();
 		} catch (XMPPException xe) {

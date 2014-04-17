@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel.LearnMore;
+package com.XMPP.Activity.Login;
 
 
 

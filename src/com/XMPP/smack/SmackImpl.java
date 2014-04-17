@@ -124,8 +124,11 @@ public class SmackImpl implements Smack {
 		Roster roster = conn.getRoster();
 		ArrayList<RosterGroup> groupList = new ArrayList<RosterGroup>();
 		Collection<RosterGroup> groupCollect = roster.getGroups();
+		
+		
 		Iterator<RosterGroup> groupIter = groupCollect.iterator();
 		while(groupIter.hasNext()){
+			
 			groupList.add(groupIter.next());
 		}
 		return groupList;

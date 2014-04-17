@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel.LearnMore;
+package com.XMPP.Activity.Login;
 
 
 
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.XMPP.R;
 
-public class LearnMoreFragment_D extends Fragment {
+public class LearnMoreFragment_C extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

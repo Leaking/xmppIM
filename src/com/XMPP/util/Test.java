@@ -3,6 +3,8 @@ package com.XMPP.util;
 import java.util.ArrayList;
 
 import com.XMPP.service.GroupProfile;
+import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
 
 public class Test {
 	public static void output2levelString(String[][] _2levelString){
@@ -23,6 +25,13 @@ public class Test {
 		}
 	}
 	
+	public static void outputConnectedUser(Smack smack){
+		L.i("TEST : output current connection info");
+		L.i("connect ip " + smack.getConnection().getHost());
+		L.i("connect port " + smack.getConnection().getPort());
+		L.i("connect username " + smack.getConnection().getUser().toString());
+	}
+	
 	
 
 	public static void outputGroupList(ArrayList<GroupProfile> list){
@@ -40,6 +49,10 @@ public class Test {
 		
 	}
 	
+	public static void outputCertainString(String iofo,String content){
+		L.i("TEST : " + iofo);
+		L.i(" = " + content);
+	}
 	
 	
 }

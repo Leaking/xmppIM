@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel;
+package com.XMPP.Activity.Login;
 
 import android.app.Activity;
 import android.content.Intent;

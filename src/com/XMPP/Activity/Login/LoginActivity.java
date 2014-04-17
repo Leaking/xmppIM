@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel;
+package com.XMPP.Activity.Login;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.XMPP.R;
-import com.XMPP.mainview.MainviewActivity;
+import com.XMPP.Activity.mainview.MainviewActivity;
 import com.XMPP.service.GroupProfile;
 import com.XMPP.service.LoginService;
 import com.XMPP.service.LoginService.LocalBinder;

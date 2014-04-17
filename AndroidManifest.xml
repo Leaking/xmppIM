@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.XMPP.LoginModel.AppStartActivity"
+            android:name="com.XMPP.Activity.Login.AppStartActivity"
             android:label="@string/appTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,19 +28,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.XMPP.LoginModel.LoginActivity"
+            android:name="com.XMPP.Activity.Login.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.XMPP.mainview.MainviewActivity"
+            android:name="com.XMPP.Activity.mainview.MainviewActivity"
             android:label="@string/title_activity_firends_list" >
         </activity>
 
-        <service 
-            android:enabled="true" 
-            android:name="com.XMPP.service.LoginService" >
+        <service
+            android:name="com.XMPP.service.LoginService"
+            android:enabled="true" >
         </service>
-        
+
+        <activity
+            android:name="com.XMPP.Activity.Chatting.ChattingActivity"
+            android:label="@string/title_activity_chatting" >
+        </activity>
     </application>
 
 </manifest>

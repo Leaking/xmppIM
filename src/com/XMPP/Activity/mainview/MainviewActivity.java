@@ -1,7 +1,8 @@
-package com.XMPP.mainview;
+package com.XMPP.Activity.mainview;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterGroup;
 
 import android.content.ComponentName;
@@ -74,6 +75,7 @@ public class MainviewActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
 

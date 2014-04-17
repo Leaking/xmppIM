@@ -181,23 +181,25 @@ public final class R {
         public static final int username=0x7f0c0000;
     }
     public static final class layout {
-        public static final int activity_login=0x7f030000;
-        public static final int activity_mainview=0x7f030001;
-        public static final int app_start_activity=0x7f030002;
-        public static final int expand_list_item=0x7f030003;
-        public static final int expand_list_title=0x7f030004;
-        public static final int fragment_chatting=0x7f030005;
-        public static final int fragment_contacts=0x7f030006;
-        public static final int fragment_setting=0x7f030007;
-        public static final int learnmore_a_fragment=0x7f030008;
-        public static final int login_fragment=0x7f030009;
+        public static final int activity_chatting=0x7f030000;
+        public static final int activity_login=0x7f030001;
+        public static final int activity_mainview=0x7f030002;
+        public static final int app_start_activity=0x7f030003;
+        public static final int expand_list_item=0x7f030004;
+        public static final int expand_list_title=0x7f030005;
+        public static final int fragment_chatting=0x7f030006;
+        public static final int fragment_contacts=0x7f030007;
+        public static final int fragment_setting=0x7f030008;
+        public static final int learnmore_a_fragment=0x7f030009;
+        public static final int login_fragment=0x7f03000a;
     }
     public static final class menu {
-        public static final int firends_list=0x7f0b0000;
-        public static final int login=0x7f0b0001;
-        public static final int main=0x7f0b0002;
-        public static final int screen_slide_pager=0x7f0b0003;
-        public static final int slide_demo2=0x7f0b0004;
+        public static final int chatting=0x7f0b0000;
+        public static final int firends_list=0x7f0b0001;
+        public static final int login=0x7f0b0002;
+        public static final int main=0x7f0b0003;
+        public static final int screen_slide_pager=0x7f0b0004;
+        public static final int slide_demo2=0x7f0b0005;
     }
     public static final class raw {
         public static final int entypo=0x7f050000;
@@ -221,6 +223,7 @@ public final class R {
         public static final int password=0x7f090007;
         public static final int setting=0x7f090010;
         public static final int swipeToLearnMore=0x7f090005;
+        public static final int title_activity_chatting=0x7f090011;
         public static final int title_activity_firends_list=0x7f09000b;
         public static final int title_activity_login=0x7f09000a;
     }

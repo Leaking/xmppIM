@@ -13,7 +13,7 @@ public class Constants {
 	public final static String SERVER_IP = "192.168.1.8";
 	public final static int SERVER_PORT = 5222;
 
-
+	
 	
 	//three kinds of login request result
 	public final static int LOGIN_CONNECT_FAIL = 0;

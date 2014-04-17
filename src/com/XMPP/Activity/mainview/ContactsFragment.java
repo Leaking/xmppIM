@@ -1,7 +1,8 @@
-package com.XMPP.mainview;
+package com.XMPP.Activity.mainview;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 
 import android.app.Activity;
@@ -15,24 +16,29 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.XMPP.R;
 import com.XMPP.service.GroupProfile;
-import com.XMPP.service.PersonProfile;
+import com.XMPP.smack.ConnectionHandler;
+import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
+import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements OnChildClickListener {
 	RosterGroupCallback mCallback;
 	ArrayList<GroupProfile> groupList;
 	String[] groups_Name;
 	String[][] items_Name;
+	Smack smack;
 	// Container Activity must implement this interface
 	public interface RosterGroupCallback {
 		public ArrayList<GroupProfile> getGroupList();
@@ -45,13 +51,19 @@ public class ContactsFragment extends Fragment {
 				false);
 		ExpandableListView expandableListView = (ExpandableListView) view
 				.findViewById(R.id.contactExpandableList);
+		smack = new SmackImpl();
+		smack.setConnection(ConnectionHandler.getConnection());
+		
 		groupList = mCallback.getGroupList();
 		turnGroupList(groupList);		
 		Test.output1levelString(groups_Name);
-		Test.output2levelString(items_Name);		
+		Test.output2levelString(items_Name);	
+		Test.outputConnectedUser(smack);
+
 		ExpandableListAdapter expandAdapter = new mBaseExpandableListAdapter(groups_Name,items_Name);;		
 		//groups = getGroupsName(groupList);
 		expandableListView.setAdapter(expandAdapter);
+		expandableListView.setOnChildClickListener(this);
 		return view;
 	}
 	
@@ -122,8 +134,8 @@ public class ContactsFragment extends Fragment {
 		}
 
 		@Override
-		public Object getChild(int groupPosition, int childPosition) {
-			return items[groupPosition][childPosition];
+		public Object getChild(int groupPosition, int childPosition) {			
+			return ValueUtil.getItemName(items[groupPosition][childPosition]);
 		}
 
 		@Override
@@ -182,5 +194,18 @@ public class ContactsFragment extends Fragment {
 			return true;
 		}
 
+
+	}
+
+	@Override
+	public boolean onChildClick(ExpandableListView parent, View v,
+			int groupPosition, int childPosition, long id) {
+		// TODO Auto-generated method stub
+		RosterGroup group = smack.getConnection().getRoster().getGroup(groups_Name[groupPosition]);
+		Test.outputCertainString("click group name", group.getName());
+		RosterEntry rE = group.getEntry(items_Name[groupPosition][childPosition]);
+		Test.outputCertainString("click item name",rE.getUser());
+		
+		return false;
 	};
 }

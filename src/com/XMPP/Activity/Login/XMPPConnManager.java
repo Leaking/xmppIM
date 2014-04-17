@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel;
+package com.XMPP.Activity.Login;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;

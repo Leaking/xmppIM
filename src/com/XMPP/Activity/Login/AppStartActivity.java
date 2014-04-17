@@ -1,4 +1,4 @@
-package com.XMPP.LoginModel;
+package com.XMPP.Activity.Login;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,6 @@ import android.widget.RelativeLayout;
 
 import com.XMPP.R;
 import com.XMPP.R.color;
-import com.XMPP.LoginModel.LearnMore.LearnMoreFragment_A;
-import com.XMPP.LoginModel.LearnMore.LearnMoreFragment_B;
-import com.XMPP.LoginModel.LearnMore.LearnMoreFragment_C;
 import com.XMPP.util.StatusBarUtil;
 
 public class AppStartActivity extends FragmentActivity implements
