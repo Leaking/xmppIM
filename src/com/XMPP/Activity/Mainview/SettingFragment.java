@@ -1,4 +1,4 @@
-package com.XMPP.Activity.mainview;
+package com.XMPP.Activity.Mainview;
 
 
 import android.os.Bundle;

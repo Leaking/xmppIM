@@ -18,12 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.XMPP.R;
-import com.XMPP.Activity.mainview.MainviewActivity;
-import com.XMPP.service.GroupProfile;
-import com.XMPP.service.LoginService;
-import com.XMPP.service.LoginService.LocalBinder;
+import com.XMPP.Activity.Mainview.MainviewActivity;
+import com.XMPP.Service.GroupProfile;
+import com.XMPP.Service.LoginService;
+import com.XMPP.Service.LoginService.LocalBinder;
 import com.XMPP.smack.Smack;
 import com.XMPP.util.Constants;
+import com.XMPP.util.Test;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
@@ -139,6 +140,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			// We've bound to LoginService, cast the IBinder and get
 			// LoginService instance
+			Test.outputCertainString("to here ", "LoginActivity onServiceConnected");
 			LocalBinder binder = (LocalBinder) service;
 			mService = binder.getService();
 			mBound = true;

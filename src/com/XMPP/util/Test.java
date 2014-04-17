@@ -2,7 +2,7 @@ package com.XMPP.util;
 
 import java.util.ArrayList;
 
-import com.XMPP.service.GroupProfile;
+import com.XMPP.Service.GroupProfile;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 

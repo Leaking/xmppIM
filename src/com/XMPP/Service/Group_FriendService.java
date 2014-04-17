@@ -1,4 +1,4 @@
-package com.XMPP.service;
+package com.XMPP.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,11 @@ import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.L;
 
-public class Group_FriendService extends Service{
+public class Group_FriendService extends Service {
 
 	private Smack smack;
 	private ArrayList<RosterGroup> groupList;
+
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -29,12 +30,13 @@ public class Group_FriendService extends Service{
 
 	// Binder given to clients
 	private final IBinder mBinder = new LocalBinder();
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		L.d("service onBind line 34");
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -43,10 +45,10 @@ public class Group_FriendService extends Service{
 				groupList = smack.getGroups();
 			}
 		}).start();
-		
+
 		return mBinder;
 	}
-	
+
 	public class LocalBinder extends Binder {
 		public Group_FriendService getService() {
 			// Return this instance of LocalService so clients can call public
@@ -54,12 +56,12 @@ public class Group_FriendService extends Service{
 			return Group_FriendService.this;
 		}
 	}
-	
+
 	/** method for clients */
-	
-	//return all the groups
-	public ArrayList<RosterGroup> getGroupList(){
+
+	// return all the groups
+	public ArrayList<RosterGroup> getGroupList() {
 		return groupList;
 	}
-	
+
 }

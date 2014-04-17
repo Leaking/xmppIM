@@ -32,12 +32,20 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.XMPP.Activity.mainview.MainviewActivity"
+            android:name="com.XMPP.Activity.Mainview.MainviewActivity"
             android:label="@string/title_activity_firends_list" >
         </activity>
 
         <service
-            android:name="com.XMPP.service.LoginService"
+            android:name="com.XMPP.Service.LoginService"
+            android:enabled="true" >
+        </service>
+        <service
+            android:name="com.XMPP.Service.Group_FriendService"
+            android:enabled="true" >
+        </service>
+        <service
+            android:name="com.XMPP.Service.ChatroomService"
             android:enabled="true" >
         </service>
 

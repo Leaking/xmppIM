@@ -1,8 +1,8 @@
-package com.XMPP.service;
+package com.XMPP.Service;
 
 import java.io.Serializable;
 
-public class PersonProfile implements Serializable{
+public class PersonProfile implements Serializable {
 	private String name;
 
 	public String getName() {
@@ -12,6 +12,5 @@ public class PersonProfile implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }

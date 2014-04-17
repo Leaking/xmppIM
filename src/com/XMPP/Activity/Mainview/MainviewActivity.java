@@ -1,4 +1,4 @@
-package com.XMPP.Activity.mainview;
+package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,8 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
-import com.XMPP.service.GroupProfile;
-import com.XMPP.service.Group_FriendService;
+import com.XMPP.Service.GroupProfile;
+import com.XMPP.Service.Group_FriendService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
