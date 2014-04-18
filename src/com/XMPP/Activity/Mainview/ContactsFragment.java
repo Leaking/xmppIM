@@ -2,6 +2,7 @@ package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 
@@ -27,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Activity.Chatting.ChattingActivity;
 import com.XMPP.Service.ChatroomService;
 import com.XMPP.Service.GroupProfile;
 import com.XMPP.Service.Group_FriendService;
@@ -79,7 +81,7 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		expandableListView.setOnChildClickListener(this);
 		
 		Intent intent = new Intent(this.getActivity(), ChatroomService.class);
-		mServiceConnection mConnection = new mServiceConnection();
+		
 		this.getActivity().bindService(intent, mConnection,
 				Context.BIND_AUTO_CREATE);
 		return view;
@@ -92,7 +94,6 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		if (list == null) {
 			L.i("test result : GroupProfile is null");
 		}
-		L.i("group size = " + list.size());
 		groups_Name = new String[list.size()];
 		items_Name = new String[list.size()][];
 		for (int i = 0; i < list.size(); i++) {
@@ -224,39 +225,27 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		RosterGroup group = smack.getConnection().getRoster()
 				.getGroup(groups_Name[groupPosition]);
 		Test.outputCertainString("click group name", group.getName());
+
 		RosterEntry rE = group
 				.getEntry(items_Name[groupPosition][childPosition]);
 		Test.outputCertainString("click item name", rE.getUser());
-
-		if (mService == null)
-			L.i("ContentsFragment mService is null");
-		if (mService.getChat(rE.getUser()) == null)
-			L.i("ContentsFragment mService chat is null");
-		String participant = mService.getChat(rE.getUser()).getParticipant();
-		Test.outputCertainString("chatting with :", participant);
+		
+		Intent intent = new Intent(ContactsFragment.this.getActivity(),ChattingActivity.class);
+		Chat chat = mService.getChat(rE.getUser());
+//		Bundle bundle = new Bundle();
+//		bundle.putSerializable("Chat", chat);
+//		intent.putExtras(bundle);
 		return false;
 	};
 
 	/** Defines callbacks for service binding, passed to bindService() */
-
-	class mServiceConnection implements ServiceConnection {
-		public mServiceConnection(){
-			super();
-			Test.outputCertainString("to here ", "initial");
-		}
+	private ServiceConnection mConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			// We've bound to LoginService, cast the IBinder and get
 			// LoginService instance
-			Test.outputCertainString("to here", "ContactsFragments1");
-
 			ChatroomService.LocalBinder binder = (ChatroomService.LocalBinder) service;
-			Test.outputCertainString("to here", "ContactsFragments2");
 			mService = binder.getService();
-			if(mService == null){
-				L.i("mService is null");
-			}else
-				L.i("mService is not null");
 			mBound = true;
 		}
 
@@ -276,6 +265,10 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		if(mBound){
+			this.getActivity().unbindService(mConnection);
+			mBound = false;
+		}
 
 	}
 

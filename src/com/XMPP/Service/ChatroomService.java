@@ -1,6 +1,7 @@
 package com.XMPP.Service;
 
 import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
@@ -49,21 +50,39 @@ public class ChatroomService extends Service {
 		Test.outputCertainString("test the chatroom JID", jid);
 		smack = new SmackImpl();
 		smack.setConnection(ConnectionHandler.getConnection());
-		chat = smack.getConnection().getChatManager()
-				.createChat(jid, new MessageListener() {
-
-					public void processMessage(Chat chat, Message message) {
-						// Print out any messages we get back to
-						// standard out.
-						System.out.println("Received message: " + message);
-						try {
-							chat.sendMessage("Howdy!");
-						} catch (XMPPException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
+		smack.getConnection().getChatManager().addChatListener(new ChatManagerListener()
+		  {
+		    public void chatCreated(final Chat chat, final boolean createdLocally)
+		    {
+		      chat.addMessageListener(new MessageListener()
+		      {
+		        public void processMessage(Chat chat, Message message)
+		        {
+		        	Test.outputCertainString("from: ", message.getFrom());
+		        	Test.outputCertainString("content: ", message.getBody());
+		        }
+		      });
+		    }
+		  });
+		
+		
+//		chat = smack.getConnection().getChatManager()
+//				.createChat(jid, new MessageListener() {
+//
+//					public void processMessage(Chat chat, Message message) {
+//						// Print out any messages we get back to
+//						// standard out.
+//						System.out.println("from:" + message.getFrom());
+//						System.out.println("body: " + message.getBody());
+//
+//						try {
+//							chat.sendMessage("Howdy!");
+//						} catch (XMPPException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				});
 		return this.chat;
 	}
 

@@ -12,6 +12,8 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
+import com.XMPP.Service.GroupProfile;
+import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 
 public class SmackImpl implements Smack {
@@ -38,7 +40,6 @@ public class SmackImpl implements Smack {
 
 	public void connect(String server, int port) {
 		conn = ConnectionHandler.connect(server, port);
-
 		if (this.getConnection() != null) {
 			L.i("connect is built");
 			L.i("server:" + server);
@@ -58,18 +59,19 @@ public class SmackImpl implements Smack {
 	 * @return if login successfully
 	 */
 	@Override
-	public boolean login(String username, String password) {
+	public int login(String username, String password) {
 		// TODO Auto-generated method stub
-
+		if(conn == null || conn.isConnected() == false){
+			return Constants.LOGIN_CONNECT_FAIL;
+		}
 		this.username = username;
 		this.password = password;
 		try {
 			conn.login(username, password);
-			return true;
+			return Constants.LOGIN_SUCCESS;
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			return Constants.LOGIN_USERNAME_PSW_ERROR;
 		}
 
 	}
@@ -132,6 +134,24 @@ public class SmackImpl implements Smack {
 			groupList.add(groupIter.next());
 		}
 		return groupList;
+	}
+
+	@Override
+	public ArrayList<GroupProfile> getGroupList() {
+		// TODO Auto-generated method stub
+		ArrayList<GroupProfile> groups = new ArrayList<GroupProfile>();
+		Roster roster = conn.getRoster();
+		Iterator<RosterGroup> iter = roster.getGroups().iterator();
+		while (iter.hasNext()) {
+			GroupProfile gP = new GroupProfile();
+			RosterGroup rG = iter.next();
+			gP.setGroupName(rG.getName());
+			L.i("iter.name = " + rG.getName());
+			gP.initPersonList(rG.getEntries());
+			groups.add(gP);
+		}
+		// showGroupList(groups);
+		return groups;
 	}
 
 }

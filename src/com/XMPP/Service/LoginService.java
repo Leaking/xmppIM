@@ -85,11 +85,12 @@ public class LoginService extends Service {
 			return Constants.LOGIN_CONNECT_FAIL;
 		} else {
 			L.i("User request to login:" + username);
-			boolean success = smack.login(username, password);
-			smack.turnOnlineToAll();
-			return success ? Constants.LOGIN_SUCCESS
-					: Constants.LOGIN_USERNAME_PSW_ERROR;
+//			int success = smack.login(username, password);
+//			smack.turnOnlineToAll();
+//			return success ? Constants.LOGIN_SUCCESS
+//					: Constants.LOGIN_USERNAME_PSW_ERROR;
 		}
+		return 0;
 	}
 
 	public ArrayList<GroupProfile> getGroupList() {

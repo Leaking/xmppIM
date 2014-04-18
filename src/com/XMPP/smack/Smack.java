@@ -10,6 +10,8 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
+import com.XMPP.Service.GroupProfile;
+
 public interface Smack extends Serializable {
 	
 	public String getUsername();
@@ -30,7 +32,7 @@ public interface Smack extends Serializable {
 	 * @param password:password of the user who try to login
 	 * @return
 	 */
-	public boolean login(String username,String password);
+	public int login(String username,String password);
 	/**
 	 * set visible to all friends
 	 */
@@ -58,4 +60,12 @@ public interface Smack extends Serializable {
 	 */
 	public Collection<RosterEntry> getAllFriend();
 
+	
+	/**
+	 * get all the friends and groups name
+	 * @return
+	 */
+	public ArrayList<GroupProfile> getGroupList() ;
+	
+	
 }

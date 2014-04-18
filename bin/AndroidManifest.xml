@@ -37,7 +37,7 @@
         </activity>
 
         <service
-            android:name="com.XMPP.Service.LoginService"
+            android:name="com.XMPP.Service.FriendService"
             android:enabled="true" >
         </service>
         <service
