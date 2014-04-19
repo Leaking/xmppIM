@@ -2,19 +2,24 @@ package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
-import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.packet.VCard;
+import org.jivesoftware.smackx.provider.VCardProvider;
 
 import android.app.Activity;
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +33,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.XMPP.R;
-import com.XMPP.Activity.Chatting.ChattingActivity;
-import com.XMPP.Service.ChatroomService;
+import com.XMPP.Activity.Login.XMPPConnManager;
 import com.XMPP.Service.GroupProfile;
-import com.XMPP.Service.Group_FriendService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -48,9 +51,9 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 	String[] groups_Name;
 	String[][] items_Name;
 	Smack smack;
-
-	ChatroomService mService;
-	boolean mBound = false;
+	ExpandableListAdapter expandAdapter;
+	AdapterReceiver aReceiver;
+	public static final String UPDATE_LIST_ACTION = "com.XMPP.action.UPDATE_lIST";
 
 	// Container Activity must implement this interface
 	public interface RosterGroupCallback {
@@ -60,12 +63,17 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
+
 		View view = inflater.inflate(R.layout.fragment_contacts, container,
 				false);
 		ExpandableListView expandableListView = (ExpandableListView) view
 				.findViewById(R.id.contactExpandableList);
 		smack = new SmackImpl();
-		smack.setConnection(ConnectionHandler.getConnection());
+
+		aReceiver = new AdapterReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(UPDATE_LIST_ACTION);
+		getActivity().registerReceiver(aReceiver, filter);
 
 		groupList = mCallback.getGroupList();
 		turnGroupList(groupList);
@@ -73,36 +81,29 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		Test.output2levelString(items_Name);
 		Test.outputConnectedUser(smack);
 
-		ExpandableListAdapter expandAdapter = new mBaseExpandableListAdapter(
-				groups_Name, items_Name);
-		;
+		expandAdapter = new mBaseExpandableListAdapter(groups_Name, items_Name);
 		// groups = getGroupsName(groupList);
 		expandableListView.setAdapter(expandAdapter);
 		expandableListView.setOnChildClickListener(this);
-		
-		Intent intent = new Intent(this.getActivity(), ChatroomService.class);
-		
-		this.getActivity().bindService(intent, mConnection,
-				Context.BIND_AUTO_CREATE);
+
 		return view;
 	}
 
 	// create a String[][] of every friend and a String[] of every group from
 	// the groupList
 	public void turnGroupList(ArrayList<GroupProfile> list) {
-		L.i("test if the ContactsFragment receive GroupList from the intent");
 		if (list == null) {
 			L.i("test result : GroupProfile is null");
 		}
 		groups_Name = new String[list.size()];
 		items_Name = new String[list.size()][];
 		for (int i = 0; i < list.size(); i++) {
-			L.i("group name = " + list.get(i).getGroupName());
+			// L.i("group name = " + list.get(i).getGroupName());
 			groups_Name[i] = list.get(i).getGroupName();
 			items_Name[i] = new String[list.get(i).getPersonList().size()];
 			for (int j = 0; j < list.get(i).getPersonList().size(); j++) {
-				L.i("person name = "
-						+ list.get(i).getPersonList().get(j).getName());
+				// L.i("person name = "
+				// + list.get(i).getPersonList().get(j).getName());
 				items_Name[i][j] = list.get(i).getPersonList().get(j).getName();
 			}
 		}
@@ -118,6 +119,17 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 			throw new ClassCastException(activity.toString()
 					+ " must implement RosterGroupCallback");
 		}
+	}
+
+	class AdapterReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			L.i("accept broadcast receiver  ");
+			((BaseExpandableListAdapter) expandAdapter).notifyDataSetChanged();
+		}
+
 	}
 
 	// ExpandableListAdapter expandAdapter = new mBaseExpandableListAdapter();
@@ -155,7 +167,7 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 
 		@Override
 		public Object getChild(int groupPosition, int childPosition) {
-			return ValueUtil.getItemName(items[groupPosition][childPosition]);
+			return items[groupPosition][childPosition];
 		}
 
 		@Override
@@ -197,15 +209,37 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		@Override
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
+			smack.setConnection(ConnectionHandler.getConnection());
 			LinearLayout ll = (LinearLayout) View.inflate(
 					ContactsFragment.this.getActivity(),
 					R.layout.expand_list_item, null);
+			//
 			TextView itemName = (TextView) ll.findViewById(R.id.itemName);
-			itemName.setText(getChild(groupPosition, childPosition).toString());
+
+			String user = getChild(groupPosition, childPosition).toString();
+			boolean ifonline = online(user);
+
+			VCard vcard = new VCard();
+
+			try {
+
+				vcard.load(smack.getConnection(), user);
+			} catch (XMPPException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String nickname = vcard.getNickName();
+			// somebody have set a nickname,somebody have not
+			if (nickname == null) {
+				itemName.setText(ValueUtil.getItemName(user));
+			} else {
+				itemName.setText(vcard.getNickName());
+			}
 			ImageView itemImage = (ImageView) ll
 					.findViewById(R.id.groupItemPhoto);
 			Bitmap circleBitmap = CircleImage.toRoundBitmap(BitmapFactory
-					.decodeResource(getResources(), R.drawable.channel_qq));
+					.decodeResource(getResources(), R.drawable.channel_qq),
+					ifonline);
 			itemImage.setImageBitmap(circleBitmap);
 
 			return ll;
@@ -216,6 +250,19 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 			return true;
 		}
 
+	}
+
+	public boolean online(String user) {
+		boolean online = false;
+		Roster roster = smack.getConnection().getRoster();
+		Presence p6e = roster.getPresence(user);
+
+		if (p6e.getType().equals(Presence.Type.available))
+			online = true;
+		else
+			online = false;
+
+		return online;
 	}
 
 	@Override
@@ -229,47 +276,7 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		RosterEntry rE = group
 				.getEntry(items_Name[groupPosition][childPosition]);
 		Test.outputCertainString("click item name", rE.getUser());
-		
-		Intent intent = new Intent(ContactsFragment.this.getActivity(),ChattingActivity.class);
-		Chat chat = mService.getChat(rE.getUser());
-//		Bundle bundle = new Bundle();
-//		bundle.putSerializable("Chat", chat);
-//		intent.putExtras(bundle);
 		return false;
 	};
-
-	/** Defines callbacks for service binding, passed to bindService() */
-	private ServiceConnection mConnection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			// We've bound to LoginService, cast the IBinder and get
-			// LoginService instance
-			ChatroomService.LocalBinder binder = (ChatroomService.LocalBinder) service;
-			mService = binder.getService();
-			mBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			mBound = false;
-		}
-	};
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		if(mBound){
-			this.getActivity().unbindService(mConnection);
-			mBound = false;
-		}
-
-	}
 
 }

@@ -3,9 +3,8 @@ package com.XMPP.smack;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
@@ -16,6 +15,7 @@ public interface Smack extends Serializable {
 	
 	public String getUsername();
 	
+	public void refresh();
 	public void setConnection(XMPPConnection conn);
 	/**
 	 * return the current XMPPConnection
@@ -67,5 +67,14 @@ public interface Smack extends Serializable {
 	 */
 	public ArrayList<GroupProfile> getGroupList() ;
 	
+	/**
+	 * disconnect
+	 */
+	public void disconnect();
 	
+	
+	/**
+	 * 
+	 */
+	public void addConnectionListener(ConnectionListener cListener);
 }

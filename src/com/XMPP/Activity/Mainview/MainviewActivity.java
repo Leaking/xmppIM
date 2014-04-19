@@ -26,7 +26,6 @@ import android.widget.ImageView;
 
 import com.XMPP.R;
 import com.XMPP.Service.GroupProfile;
-import com.XMPP.Service.Group_FriendService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -64,9 +63,6 @@ public class MainviewActivity extends FragmentActivity implements
 	private final static int NUM_PAGES = 3;
 	// viewpager
 	private ViewPager vPager;
-	//service
-	Group_FriendService mService;
-	boolean mBound = false;
 	//
 	ArrayList<RosterGroup> groupList;
 	
@@ -267,24 +263,7 @@ public class MainviewActivity extends FragmentActivity implements
 
 	}
 
-	/** Defines callbacks for service binding, passed to bindService() */
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			// We've bound to LoginService, cast the IBinder and get
-			// LoginService instance
-			Group_FriendService.LocalBinder binder = (Group_FriendService.LocalBinder) service;
-			L.d("onServiceConnected  line 276");
-			mService = binder.getService();
-			mBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			mBound = false;
-		}
-	};
+	
 
 	@Override
 	protected void onStart() {
@@ -294,11 +273,7 @@ public class MainviewActivity extends FragmentActivity implements
 	@Override
 	protected void onStop() {
 		super.onStop();
-		// Unbind from the service
-		if (mBound) {
-			unbindService(mConnection);
-			mBound = false;
-		}
+
 	}
 
 	@Override

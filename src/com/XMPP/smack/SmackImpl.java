@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
@@ -34,17 +35,24 @@ public class SmackImpl implements Smack {
 		this.conn = conn;
 	}
 
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		setConnection(ConnectionHandler.getConnection());
+	}
+
 	public XMPPConnection getConnection() {
 		return conn;
 	}
 
 	public void connect(String server, int port) {
 		conn = ConnectionHandler.connect(server, port);
-		if (this.getConnection() != null) {
-			L.i("connect is built");
-			L.i("server:" + server);
-			L.i("port:" + port);
-		} else {
+		if(conn.isConnected()){
+			L.i("connect successfully");
+			L.i("server: " + server);
+			L.i("port:   " + port);
+			L.i("authen: " + conn.isAuthenticated());
+		}else{
 			L.i("connect fail");
 		}
 	}
@@ -61,13 +69,14 @@ public class SmackImpl implements Smack {
 	@Override
 	public int login(String username, String password) {
 		// TODO Auto-generated method stub
-		if(conn == null || conn.isConnected() == false){
+		if (conn == null || conn.isConnected() == false) {
 			return Constants.LOGIN_CONNECT_FAIL;
 		}
 		this.username = username;
 		this.password = password;
 		try {
 			conn.login(username, password);
+			L.i("after login: " + conn.isAuthenticated());
 			return Constants.LOGIN_SUCCESS;
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
@@ -126,11 +135,10 @@ public class SmackImpl implements Smack {
 		Roster roster = conn.getRoster();
 		ArrayList<RosterGroup> groupList = new ArrayList<RosterGroup>();
 		Collection<RosterGroup> groupCollect = roster.getGroups();
-		
-		
+
 		Iterator<RosterGroup> groupIter = groupCollect.iterator();
-		while(groupIter.hasNext()){
-			
+		while (groupIter.hasNext()) {
+
 			groupList.add(groupIter.next());
 		}
 		return groupList;
@@ -146,12 +154,25 @@ public class SmackImpl implements Smack {
 			GroupProfile gP = new GroupProfile();
 			RosterGroup rG = iter.next();
 			gP.setGroupName(rG.getName());
-			L.i("iter.name = " + rG.getName());
 			gP.initPersonList(rG.getEntries());
 			groups.add(gP);
 		}
 		// showGroupList(groups);
 		return groups;
+	}
+
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		if (conn != null) {
+			conn.disconnect();
+		}
+	}
+
+	@Override
+	public void addConnectionListener(ConnectionListener cListener) {
+		// TODO Auto-generated method stub
+		conn.addConnectionListener(cListener);
 	}
 
 }

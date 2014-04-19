@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.filter.PacketFilter;
@@ -15,13 +14,15 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.XMPP.Activity.Mainview.ContactsFragment;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.L;
 
-public class FriendService extends Service {
+public class ContactsService extends Service {
 
 	Smack smack;
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
@@ -60,14 +61,15 @@ public class FriendService extends Service {
 				if (paramPacket instanceof Presence) {
 					Presence presence = (Presence) paramPacket;
 					String email = presence.getFrom();
-					L.i("accept an packet from " +email);
-
-					System.out.println("presence: " + presence.getFrom()
-							+ "; type: " + presence.getType() + "; to: "
-							+ presence.getTo() + "; " + presence.toXML());
+					L.i("-------------accept an presence----------");
+					L.i("from: " + email);
+					L.i("type: " + presence.getType());
+					L.i("to: " + presence.getTo());
 					Roster roster = connection.getRoster();
 
+					// request to add friend
 					if (presence.getType().equals(Presence.Type.subscribe)) {
+						L.i("Presence.Type: subscribe");
 						Presence newp = new Presence(Presence.Type.subscribed);
 						newp.setMode(Presence.Mode.available);
 						newp.setPriority(24);
@@ -77,15 +79,23 @@ public class FriendService extends Service {
 								Presence.Type.subscribe);
 						subscription.setTo(presence.getFrom());
 						connection.sendPacket(subscription);
-
+						/**
+						 * send a broadcast to change the UI
+						 */
+						
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribe)) {
+						L.i("Presence.Type: unsubscribe");
 						Presence newp = new Presence(Presence.Type.unsubscribed);
 						newp.setMode(Presence.Mode.available);
 						newp.setPriority(24);
 						newp.setTo(presence.getFrom());
 						connection.sendPacket(newp);
+						/**
+						 * send a broadcast to change the UI
+						 */
 					}
+					L.i("----------------------");
 				}
 
 			}
@@ -109,13 +119,22 @@ public class FriendService extends Service {
 
 		connection.getRoster().addRosterListener(new RosterListener() {
 			public void presenceChanged(Presence presence) {
-				System.out.println(presence.getFrom() + "presenceChanged");
-
+				L.i("------------presenceChanged--------------");
+				L.i("from : " + presence.getFrom());
+				L.i("to : " + presence.getTo());
+				L.i("status : " + presence.getStatus());
+				L.i("mode : " + presence.getMode());
+				L.i("type : " + presence.getType());
+				L.i("-----------------------------------------");
+				/**
+				 * send a broadcast to change the ui
+				 */
+				Intent sendIntent = new Intent(ContactsFragment.UPDATE_LIST_ACTION);
+				sendBroadcast(sendIntent);
 			}
 
 			public void entriesUpdated(Collection<String> presence) {
 				System.out.println("entriesUpdated");
-
 			}
 
 			public void entriesDeleted(Collection<String> presence) {

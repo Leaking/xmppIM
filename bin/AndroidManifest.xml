@@ -37,11 +37,11 @@
         </activity>
 
         <service
-            android:name="com.XMPP.Service.FriendService"
+            android:name="com.XMPP.Service.ContactsService"
             android:enabled="true" >
         </service>
         <service
-            android:name="com.XMPP.Service.Group_FriendService"
+            android:name="com.XMPP.Service.ReconnectService"
             android:enabled="true" >
         </service>
         <service

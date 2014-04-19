@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.MainviewActivity;
-import com.XMPP.Service.FriendService;
+import com.XMPP.Service.ContactsService;
+import com.XMPP.Service.ReconnectService;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
+import com.XMPP.util.L;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
@@ -36,24 +38,18 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	public void init() {
 		smack = new SmackImpl();
-		new Thread(new Runnable(){
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
-			}
-			
-		}).start();
-		
 		submitLogin = (TextView) findViewById(R.id.submitLogin);
 		forget = (TextView) findViewById(R.id.forget);
 		submitLogin.setOnClickListener(this);
 	}
 
 	public void startAllServices() {
-		Intent firend_intent = new Intent(this,FriendService.class);
-		this.startService(firend_intent);
+		Intent contacts_intent = new Intent(this, ContactsService.class);
+		this.startService(contacts_intent);
+		Intent reconnect_intent = new Intent(this, ReconnectService.class);
+		this.startService(reconnect_intent);
+
 	}
 
 	@Override
@@ -61,6 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.submitLogin:
+
 			username = ((EditText) findViewById(R.id.username)).getText()
 					.toString();
 			password = ((EditText) findViewById(R.id.password)).getText()
@@ -69,8 +66,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					final int login_result = smack.login(username, password);
+					// this thread isn't suit to placed here ,it should be
+					// placed in the login onclick
 
+					smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
+
+					final int login_result = smack.login(username, password);
+					L.i("here-----------authenticated " + smack.getConnection().isAuthenticated());
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
