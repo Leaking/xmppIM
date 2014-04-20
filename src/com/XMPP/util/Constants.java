@@ -13,6 +13,9 @@ public class Constants {
 	public final static String SERVER_IP = "192.168.1.8";
 	public final static int SERVER_PORT = 5222;
 
+	//
+	public final static String ONLINE = "online";
+	public final static String OFF_LINE = "offline";
 	
 	
 	//three kinds of login request result

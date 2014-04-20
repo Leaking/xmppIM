@@ -33,7 +33,7 @@ public class ReconnectService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		smack = new SmackImpl();
+		smack = SmackImpl.getInstance();
 		smack.addConnectionListener(new mConnectionListern());
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -91,7 +91,7 @@ public class ReconnectService extends Service {
 			int port = Constants.SERVER_PORT;
 
 			// TODO Auto-generated method stub
-			smack = new SmackImpl();
+			smack = SmackImpl.getInstance();;
 			smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
 			L.i("here---re--connect------authenticated "
 					+ smack.getConnection().isAuthenticated());

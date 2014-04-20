@@ -2,16 +2,10 @@ package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
-import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterGroup;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,19 +19,13 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.XMPP.R;
-import com.XMPP.Service.GroupProfile;
-import com.XMPP.smack.ConnectionHandler;
-import com.XMPP.smack.Smack;
-import com.XMPP.smack.SmackImpl;
+import com.XMPP.Database.XMPPSQLiteOpenHelper;
 import com.XMPP.util.L;
-import com.XMPP.util.Test;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
 public class MainviewActivity extends FragmentActivity implements
-		OnPageChangeListener, OnClickListener,ContactsFragment.RosterGroupCallback{
-	private String username;
-	private Smack smack;
+		OnPageChangeListener, OnClickListener{
 	// three kind of the fragment to fill the content part
 	private final static int TYPE_CHATTING_FRAGMENT = 0;
 	private final static int TYPE_CONTACTS_FRAGMENT = 1;
@@ -65,16 +53,17 @@ public class MainviewActivity extends FragmentActivity implements
 	private ViewPager vPager;
 	//
 	ArrayList<RosterGroup> groupList;
-	
-	//
-	ArrayList<GroupProfile> gP_List;
+
+
+	//DATABASE
+	XMPPSQLiteOpenHelper DBHelper;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
 
+		XMPPSQLiteOpenHelper.getInstance(this);
 		vPager = (ViewPager) findViewById(R.id.mainview_pager);
 		vPager.setOffscreenPageLimit(3);
 		vPager.setAdapter(new ScreenSlidePagerAdapter(
@@ -85,11 +74,9 @@ public class MainviewActivity extends FragmentActivity implements
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
 		L.d("onCreate  line 87");
 
-		Intent intent = getIntent();
-		gP_List = (ArrayList<GroupProfile>) intent.getSerializableExtra("GroupList");
-		Test.outputGroupList(gP_List);
-		smack = new SmackImpl();
-		smack.setConnection(ConnectionHandler.getConnection());
+
+
+
 
 	}
 	
@@ -276,9 +263,5 @@ public class MainviewActivity extends FragmentActivity implements
 
 	}
 
-	@Override
-	public ArrayList<GroupProfile> getGroupList() {
-		// TODO Auto-generated method stub
-		return gP_List;
-	}
+
 }

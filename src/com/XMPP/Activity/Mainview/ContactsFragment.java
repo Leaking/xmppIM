@@ -1,16 +1,11 @@
 package com.XMPP.Activity.Mainview;
 
-import java.util.ArrayList;
-
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.packet.VCard;
-import org.jivesoftware.smackx.provider.VCardProvider;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -33,8 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.XMPP.R;
-import com.XMPP.Activity.Login.XMPPConnManager;
-import com.XMPP.Service.GroupProfile;
+import com.XMPP.Model.ViewRoster;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -46,8 +40,9 @@ import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
 public class ContactsFragment extends Fragment implements OnChildClickListener {
-	RosterGroupCallback mCallback;
-	ArrayList<GroupProfile> groupList;
+	
+	ViewRoster viewRoster;
+	
 	String[] groups_Name;
 	String[][] items_Name;
 	Smack smack;
@@ -56,9 +51,7 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 	public static final String UPDATE_LIST_ACTION = "com.XMPP.action.UPDATE_lIST";
 
 	// Container Activity must implement this interface
-	public interface RosterGroupCallback {
-		public ArrayList<GroupProfile> getGroupList();
-	}
+
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -68,15 +61,14 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 				false);
 		ExpandableListView expandableListView = (ExpandableListView) view
 				.findViewById(R.id.contactExpandableList);
-		smack = new SmackImpl();
-
+		smack = SmackImpl.getInstance();
+		
 		aReceiver = new AdapterReceiver();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(UPDATE_LIST_ACTION);
 		getActivity().registerReceiver(aReceiver, filter);
 
-		groupList = mCallback.getGroupList();
-		turnGroupList(groupList);
+
 		Test.output1levelString(groups_Name);
 		Test.output2levelString(items_Name);
 		Test.outputConnectedUser(smack);
@@ -89,36 +81,10 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		return view;
 	}
 
-	// create a String[][] of every friend and a String[] of every group from
-	// the groupList
-	public void turnGroupList(ArrayList<GroupProfile> list) {
-		if (list == null) {
-			L.i("test result : GroupProfile is null");
-		}
-		groups_Name = new String[list.size()];
-		items_Name = new String[list.size()][];
-		for (int i = 0; i < list.size(); i++) {
-			// L.i("group name = " + list.get(i).getGroupName());
-			groups_Name[i] = list.get(i).getGroupName();
-			items_Name[i] = new String[list.get(i).getPersonList().size()];
-			for (int j = 0; j < list.get(i).getPersonList().size(); j++) {
-				// L.i("person name = "
-				// + list.get(i).getPersonList().get(j).getName());
-				items_Name[i][j] = list.get(i).getPersonList().get(j).getName();
-			}
-		}
-
-	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		try {
-			mCallback = (RosterGroupCallback) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement RosterGroupCallback");
-		}
 	}
 
 	class AdapterReceiver extends BroadcastReceiver {
@@ -209,7 +175,6 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 		@Override
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
-			smack.setConnection(ConnectionHandler.getConnection());
 			LinearLayout ll = (LinearLayout) View.inflate(
 					ContactsFragment.this.getActivity(),
 					R.layout.expand_list_item, null);
@@ -223,7 +188,7 @@ public class ContactsFragment extends Fragment implements OnChildClickListener {
 
 			try {
 
-				vcard.load(smack.getConnection(), user);
+				vcard.load(ConnectionHandler.getConnection(), user);
 			} catch (XMPPException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

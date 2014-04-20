@@ -1,5 +1,7 @@
 package com.XMPP.Activity.Login;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +15,13 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.MainviewActivity;
+import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.ContactsTable;
+import com.XMPP.Database.XMPPSQLiteOpenHelper;
+import com.XMPP.Model.ViewRoster;
 import com.XMPP.Service.ContactsService;
 import com.XMPP.Service.ReconnectService;
+import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
@@ -27,7 +34,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private TextView submitLogin;
 	private TextView forget;
 	private Smack smack;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,8 +44,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	public void init() {
-		smack = new SmackImpl();
-
+		smack = SmackImpl.getInstance();
 		submitLogin = (TextView) findViewById(R.id.submitLogin);
 		forget = (TextView) findViewById(R.id.forget);
 		submitLogin.setOnClickListener(this);
@@ -57,7 +63,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.submitLogin:
-
 			username = ((EditText) findViewById(R.id.username)).getText()
 					.toString();
 			password = ((EditText) findViewById(R.id.password)).getText()
@@ -72,7 +77,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
 
 					final int login_result = smack.login(username, password);
-					L.i("here-----------authenticated " + smack.getConnection().isAuthenticated());
+					L.i("here-----------authenticated " + ConnectionHandler.getConnection().isAuthenticated());
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -82,10 +87,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 								Intent intent = new Intent(LoginActivity.this,
 										MainviewActivity.class);
 								Bundle bundle = new Bundle();
+								ContactsTable table = new ContactsTable(XMPPSQLiteOpenHelper.getInstance(LoginActivity.this));
+								ArrayList<ContactsRow> rows = smack.getContactsRows();
+								table.insertAll(rows);
+								new ViewRoster(rows);
+								
 								bundle.putSerializable("GroupList",
-										smack.getGroupList());
+										null);
 								intent.putExtras(bundle);
-								LoginActivity.this.startActivity(intent);
+								//LoginActivity.this.startActivity(intent);
 								break;
 							case Constants.LOGIN_CONNECT_FAIL:
 								Toast.makeText(

@@ -9,17 +9,12 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
-import com.XMPP.Service.GroupProfile;
+import com.XMPP.Database.ContactsRow;
 
 public interface Smack extends Serializable {
 	
 	public String getUsername();
 	
-	public void refresh();
-	public void setConnection(XMPPConnection conn);
-	/**
-	 * return the current XMPPConnection
-	 */
 	public XMPPConnection getConnection();
 
 	/**
@@ -60,12 +55,15 @@ public interface Smack extends Serializable {
 	 */
 	public Collection<RosterEntry> getAllFriend();
 
+	public String isOnline(String jid);
 	
+	
+	public String getNickname(String jid);
 	/**
-	 * get all the friends and groups name
+	 * get all the friends and group
 	 * @return
 	 */
-	public ArrayList<GroupProfile> getGroupList() ;
+	public ArrayList<ContactsRow> getContactsRows() ;
 	
 	/**
 	 * disconnect

@@ -26,7 +26,7 @@ public class ContactsService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		smack = new SmackImpl();
+		smack = SmackImpl.getInstance();
 		L.i("come into friend service onStartCommand");
 		new Thread(new Runnable() {
 			@Override

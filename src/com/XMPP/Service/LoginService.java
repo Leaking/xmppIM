@@ -41,7 +41,7 @@ public class LoginService extends Service {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		smack = new SmackImpl();
+		smack = SmackImpl.getInstance();
 		/**
 		 * i try many times,if the connect operation directly runs in the UI
 		 * thread , i always find bug
@@ -93,37 +93,7 @@ public class LoginService extends Service {
 		return 0;
 	}
 
-	public ArrayList<GroupProfile> getGroupList() {
-		smack.setConnection(ConnectionHandler.getConnection());
-		if (smack == null) {
-			L.i("getGroupList() ----smack is null");
-		}
-		if (smack.getConnection() == null) {
-			L.i("getGroupList() ----connection is null");
-		}
-		if (!smack.getConnection().isConnected()) {
-			L.i("getGroupList() ----not connect");
-			return null;
-		}
-		if (!smack.getConnection().isAuthenticated()) {
-			L.i("getGroupList() ----connect but not login");
-			return null;
-		}
-
-		ArrayList<GroupProfile> groups = new ArrayList<GroupProfile>();
-		Roster roster = smack.getConnection().getRoster();
-		Iterator<RosterGroup> iter = roster.getGroups().iterator();
-		while (iter.hasNext()) {
-			GroupProfile gP = new GroupProfile();
-			RosterGroup rG = iter.next();
-			gP.setGroupName(rG.getName());
-			L.i("iter.name = " + rG.getName());
-			gP.initPersonList(rG.getEntries());
-			groups.add(gP);
-		}
-		// showGroupList(groups);
-		return groups;
-	}
+	
 
 
 }

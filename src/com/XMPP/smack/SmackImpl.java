@@ -3,7 +3,6 @@ package com.XMPP.smack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.Roster;
@@ -13,46 +12,48 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
-import com.XMPP.Service.GroupProfile;
+import com.XMPP.Database.ContactsRow;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
+import com.XMPP.util.Test;
 
 public class SmackImpl implements Smack {
 
+	private static volatile SmackImpl INSTANCE = null;
 	// initial in the login(,,) method
-	private XMPPConnection conn;
 
 	private String username;
 	private String password;
 
-	public SmackImpl() {
-		if (conn == null) {
-			conn = ConnectionHandler.getConnection();
+	private SmackImpl() {
+
+	}
+
+	// thread safe and performance promote
+	public static SmackImpl getInstance() {
+		if (INSTANCE == null) {
+			synchronized (SmackImpl.class) {
+				// when more than two threads run into the first null check same
+				// time, to avoid instanced more than one time, it needs to be
+				// checked again.
+				if (INSTANCE == null) {
+					INSTANCE = new SmackImpl();
+				}
+			}
 		}
-	}
-
-	public void setConnection(XMPPConnection conn) {
-		this.conn = conn;
-	}
-
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		setConnection(ConnectionHandler.getConnection());
-	}
-
-	public XMPPConnection getConnection() {
-		return conn;
+		return INSTANCE;
 	}
 
 	public void connect(String server, int port) {
-		conn = ConnectionHandler.connect(server, port);
-		if(conn.isConnected()){
+
+		ConnectionHandler.connect(server, port);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		if (conn.isConnected()) {
 			L.i("connect successfully");
 			L.i("server: " + server);
 			L.i("port:   " + port);
 			L.i("authen: " + conn.isAuthenticated());
-		}else{
+		} else {
 			L.i("connect fail");
 		}
 	}
@@ -69,6 +70,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public int login(String username, String password) {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		if (conn == null || conn.isConnected() == false) {
 			return Constants.LOGIN_CONNECT_FAIL;
 		}
@@ -88,6 +90,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public void turnOnlineToAll() {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Presence presence = new Presence(Presence.Type.available);
 		conn.sendPacket(presence);
 	}
@@ -95,6 +98,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public void turnOnlineToSomeone(String username) {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Presence presence = new Presence(Presence.Type.available);
 		presence.setTo(username);
 		conn.sendPacket(presence);
@@ -103,6 +107,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public void turnDownlineToAll() {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Presence presence = new Presence(Presence.Type.unavailable);
 		conn.sendPacket(presence);
 	}
@@ -110,6 +115,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public void turnDownlineToSomeone(String username) {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Presence presence = new Presence(Presence.Type.unavailable);
 		presence.setTo(username);
 		conn.sendPacket(presence);
@@ -118,6 +124,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public Collection<RosterEntry> getAllFriend() {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Collection<RosterEntry> collection;
 		collection = conn.getRoster().getEntries();
 		return collection;
@@ -132,6 +139,7 @@ public class SmackImpl implements Smack {
 	@Override
 	public ArrayList<RosterGroup> getGroups() {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		Roster roster = conn.getRoster();
 		ArrayList<RosterGroup> groupList = new ArrayList<RosterGroup>();
 		Collection<RosterGroup> groupCollect = roster.getGroups();
@@ -145,25 +153,79 @@ public class SmackImpl implements Smack {
 	}
 
 	@Override
-	public ArrayList<GroupProfile> getGroupList() {
+	public String isOnline(String jid) {
+		boolean online = false;
+		Roster roster = ConnectionHandler.getConnection().getRoster();
+		Presence p6e = roster.getPresence(jid);
+
+		if (p6e.getType().equals(Presence.Type.available))
+			online = true;
+		else
+			online = false;
+
+		if (online == true)
+			return Constants.ONLINE;
+		else
+			return Constants.OFF_LINE;
+
+	}
+
+	@Override
+	public String getNickname(String jid) {
+		String nickname = null;
+
+		return nickname;
+	}
+
+	@Override
+	public ArrayList<ContactsRow> getContactsRows() {
 		// TODO Auto-generated method stub
-		ArrayList<GroupProfile> groups = new ArrayList<GroupProfile>();
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		String jid = conn.getUser();
+		L.i("jID:" + jid);
+		ArrayList<ContactsRow> rows = new ArrayList<ContactsRow>();
+		
 		Roster roster = conn.getRoster();
 		Iterator<RosterGroup> iter = roster.getGroups().iterator();
+		// go through each group
 		while (iter.hasNext()) {
-			GroupProfile gP = new GroupProfile();
 			RosterGroup rG = iter.next();
-			gP.setGroupName(rG.getName());
-			gP.initPersonList(rG.getEntries());
-			groups.add(gP);
+			String group = rG.getName();
+			String friend_jID = null;
+			String nickname = null;
+			String online = null;
+			String photo = null;
+			String signature = null;
+			Collection<RosterEntry> cE = rG.getEntries();
+			int groupSize = cE.size();
+			Iterator<RosterEntry> iR_iter = cE.iterator();
+			// go through each friend
+			while (iR_iter.hasNext()) {
+				RosterEntry rE = iR_iter.next();
+				friend_jID = rE.getUser();
+				nickname = getNickname(rE.getUser());
+				online = isOnline(rE.getUser());
+				//
+				photo = null;
+				signature = null;
+				L.i("row+++++" + jid + group + friend_jID +
+						nickname + online + photo + signature);
+				ContactsRow row = new ContactsRow(jid, group, friend_jID,
+						nickname, online, photo, signature);
+				rows.add(row);
+			}
+
 		}
-		// showGroupList(groups);
-		return groups;
+		// TEST
+		L.i("--------END GET ROWS--------");
+		Test.outputContactsRows(rows);
+		return rows;
 	}
 
 	@Override
 	public void disconnect() {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		if (conn != null) {
 			conn.disconnect();
 		}
@@ -172,7 +234,14 @@ public class SmackImpl implements Smack {
 	@Override
 	public void addConnectionListener(ConnectionListener cListener) {
 		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
 		conn.addConnectionListener(cListener);
+	}
+
+	@Override
+	public XMPPConnection getConnection() {
+		// TODO Auto-generated method stub
+		return ConnectionHandler.getConnection();
 	}
 
 }

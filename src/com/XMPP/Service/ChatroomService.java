@@ -48,8 +48,7 @@ public class ChatroomService extends Service {
 
 		// TODO Auto-generated method stub
 		Test.outputCertainString("test the chatroom JID", jid);
-		smack = new SmackImpl();
-		smack.setConnection(ConnectionHandler.getConnection());
+		smack = SmackImpl.getInstance();
 		smack.getConnection().getChatManager().addChatListener(new ChatManagerListener()
 		  {
 		    public void chatCreated(final Chat chat, final boolean createdLocally)
