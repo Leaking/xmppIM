@@ -108,13 +108,9 @@ public class ReconnectService extends Service {
 
 			}
 			int result = smack.login(username, password);
-			L.i("resule  " + result);
 			if (result == Constants.LOGIN_SUCCESS) {
-				L.i("here---re--login------authenticated "
-						+ smack.getConnection().isAuthenticated());
 				repeat = 0;
 				smack.turnOnlineToAll();
-
 				smack.addConnectionListener(new mConnectionListern());	
 				L.i("reconnect successfully");
 			} else {

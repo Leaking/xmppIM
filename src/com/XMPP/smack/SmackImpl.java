@@ -11,11 +11,13 @@ import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smackx.packet.VCard;
 
 import com.XMPP.Database.ContactsRow;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
+import com.XMPP.util.ValueUtil;
 
 public class SmackImpl implements Smack {
 
@@ -172,8 +174,20 @@ public class SmackImpl implements Smack {
 
 	@Override
 	public String getNickname(String jid) {
-		String nickname = null;
+		String nickname = jid;
+		VCard vcard = new VCard();
+		try {
 
+			vcard.load(ConnectionHandler.getConnection(), jid);
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		nickname = vcard.getNickName();
+		// somebody have set a nickname,somebody have not
+		if (nickname == null) {
+			nickname = ValueUtil.getItemName(jid);
+		}
 		return nickname;
 	}
 

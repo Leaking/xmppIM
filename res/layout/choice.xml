@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#ff32bcb6"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/ffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="accept ?"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/groupItemPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/channel_qq" />
+
+        <EditText
+            android:id="@+id/nickname"
+            android:layout_width="125dp"
+            android:layout_height="45dp"
+            android:text="jack" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#555555" >
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="choose a group" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#555555" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:divider="#000000"
+        android:dividerHeight="1dp" >
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="you can unfocus this dialog to reject"/>
+    </LinearLayout>
+
+</LinearLayout>

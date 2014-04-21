@@ -6,15 +6,18 @@ import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import com.XMPP.Activity.Mainview.ContactsFragment;
+import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.L;
@@ -52,7 +55,7 @@ public class ContactsService extends Service {
 	}
 
 	public void admitFriendsRequest() {
-		final XMPPConnection connection = smack.getConnection();
+		final XMPPConnection connection = ConnectionHandler.getConnection();
 		connection.getRoster().setSubscriptionMode(
 				Roster.SubscriptionMode.manual);
 		connection.addPacketListener(new PacketListener() {
@@ -66,22 +69,31 @@ public class ContactsService extends Service {
 					L.i("type: " + presence.getType());
 					L.i("to: " + presence.getTo());
 					Roster roster = connection.getRoster();
-
+					String jid = null;
 					// request to add friend
 					if (presence.getType().equals(Presence.Type.subscribe)) {
 						L.i("Presence.Type: subscribe");
-						Presence newp = new Presence(Presence.Type.subscribed);
-						newp.setMode(Presence.Mode.available);
-						newp.setPriority(24);
-						newp.setTo(presence.getFrom());
-						connection.sendPacket(newp);
-						Presence subscription = new Presence(
-								Presence.Type.subscribe);
-						subscription.setTo(presence.getFrom());
-						connection.sendPacket(subscription);
-						/**
-						 * send a broadcast to change the UI
-						 */
+//						Presence newp = new Presence(Presence.Type.subscribed);
+//						newp.setMode(Presence.Mode.available);
+//						newp.setPriority(24);
+						jid = presence.getFrom();
+
+//						String nickname = smack.getNickname(jid);
+//						newp.setTo(jid);
+//						connection.sendPacket(newp);
+//						try {
+//							connection.getRoster().createEntry(jid, nickname,  
+//							            new String[] { "relative" });
+//						} catch (XMPPException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}  
+//						
+//						
+//						Presence subscription = new Presence(
+//								Presence.Type.subscribe);
+//						subscription.setTo(presence.getFrom());
+//						connection.sendPacket(subscription);
 						
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribe)) {
@@ -91,11 +103,13 @@ public class ContactsService extends Service {
 						newp.setPriority(24);
 						newp.setTo(presence.getFrom());
 						connection.sendPacket(newp);
-						/**
-						 * send a broadcast to change the UI
-						 */
 					}
+					Intent intent = new Intent();
+					intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+					intent.putExtra("jid" , jid);
+					sendBroadcast(intent);
 					L.i("----------------------");
+
 				}
 
 			}

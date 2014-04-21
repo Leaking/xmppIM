@@ -3,16 +3,18 @@ package com.XMPP.Model;
 import java.util.ArrayList;
 
 import com.XMPP.Database.ContactsRow;
+import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
 
 public class ViewRoster {
 	private ArrayList<ViewGroup> groupList;
 
+
+	
 	public ViewRoster(ArrayList<ContactsRow> rows){
 		groupList = new ArrayList<ViewGroup>();
 		change(rows);
-		Test.outputViewRoster(groupList);
 	}
 	public void change(ArrayList<ContactsRow> rows){
 		int size = rows.size();
@@ -32,6 +34,9 @@ public class ViewRoster {
 				entry.setPhoto(rows.get(i).getPhoto());
 				entry.setSignature(rows.get(i).getSignature());
 				group.add(entry);
+				
+				if(rows.get(i).getOnline() == Constants.ONLINE)
+					group.setOnlineSum(group.getOnlineSum() + 1);
 				this.add(group);
 			}else{
 				ViewGroup group = getGroupByName(groupName);
@@ -41,12 +46,23 @@ public class ViewRoster {
 				entry.setOnline(rows.get(i).getOnline());
 				entry.setPhoto(rows.get(i).getPhoto());
 				entry.setSignature(rows.get(i).getSignature());
+				
+				if(rows.get(i).getOnline() == Constants.ONLINE)
+					group.setOnlineSum(group.getOnlineSum() + 1);
 				group.add(entry);
 			}
 		}
 	}
 	
-	
+	public ViewGroup getGroup(int index){
+		return groupList.get(index);
+	}
+	public ViewEntry getEntry(int i,int j){
+		return groupList.get(i).getEntry(j);
+	}
+	public int getGroupCount(){
+		return groupList.size();
+	}
 	public ViewGroup getGroupByName(String name){		
 		for(int i = 0; i < groupList.size(); i++){
 			if(groupList.get(i).getGroupName().equals(name)){

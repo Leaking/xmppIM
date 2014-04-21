@@ -8,11 +8,15 @@ public class ViewGroup {
 	private ArrayList<ViewEntry> entryList;
 	
 	
-	
+	public ViewEntry getEntry(int index){
+		return entryList.get(index);
+	}
 	public ViewGroup(){
 		this.entryList = new ArrayList<ViewEntry>();
 	}
-	
+	public int getChildrenCount(){
+		return entryList.size();
+	}
 	public void add(ViewEntry entry){
 		entryList.add(entry);
 	}

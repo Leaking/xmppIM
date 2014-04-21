@@ -48,8 +48,10 @@
                     android:layout_height="50dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="14.0dip"
+                    android:fontFamily="sans-serif"
                     android:hint="@string/email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="test2" />
 
                 <EditText
                     android:id="@+id/password"
@@ -57,8 +59,10 @@
                     android:layout_height="50dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="14.0dip"
+                    android:fontFamily="sans-serif"
                     android:hint="@string/password"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="123456" />
 
                 <TextView
                     android:id="@+id/submitLogin"
@@ -81,9 +85,6 @@
                     android:text="@string/forget"
                     android:textColor="@color/textview_color"
                     android:textSize="16.0dip" />
-
-
-
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

@@ -67,6 +67,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					.toString();
 			password = ((EditText) findViewById(R.id.password)).getText()
 					.toString();
+
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -86,16 +87,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 								startAllServices();
 								Intent intent = new Intent(LoginActivity.this,
 										MainviewActivity.class);
-								Bundle bundle = new Bundle();
-								ContactsTable table = new ContactsTable(XMPPSQLiteOpenHelper.getInstance(LoginActivity.this));
-								ArrayList<ContactsRow> rows = smack.getContactsRows();
-								table.insertAll(rows);
-								new ViewRoster(rows);
+		
+//								ContactsTable table = new ContactsTable(XMPPSQLiteOpenHelper.getInstance(LoginActivity.this));
+//								ArrayList<ContactsRow> rows = smack.getContactsRows();
+//								table.insertAll(rows);
+//								new ViewRoster(rows);
 								
-								bundle.putSerializable("GroupList",
-										null);
-								intent.putExtras(bundle);
-								//LoginActivity.this.startActivity(intent);
+							
+								LoginActivity.this.startActivity(intent);
 								break;
 							case Constants.LOGIN_CONNECT_FAIL:
 								Toast.makeText(
