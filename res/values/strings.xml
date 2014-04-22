@@ -19,5 +19,9 @@
     <string name="contacts">Contacts</string>
     <string name="setting">Setting</string>
     <string name="title_activity_chatting">ChattingActivity</string>
-
+	
+    <string name="ifAccept">Accept ?</string>
+    <string name="addFriend">Add A Friend</string>
+    <string name="accept">if accept, choose a group</string>
+    <string name="reject">create a group or reject</string>
 </resources>

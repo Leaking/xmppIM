@@ -214,7 +214,9 @@ public class SmackImpl implements Smack {
 			int groupSize = cE.size();
 			Iterator<RosterEntry> iR_iter = cE.iterator();
 			// go through each friend
+			int intoFlag = 0;
 			while (iR_iter.hasNext()) {
+				intoFlag = 1;
 				RosterEntry rE = iR_iter.next();
 				friend_jID = rE.getUser();
 				nickname = getNickname(rE.getUser());
@@ -222,10 +224,13 @@ public class SmackImpl implements Smack {
 				//
 				photo = null;
 				signature = null;
-				L.i("row+++++" + jid + group + friend_jID +
-						nickname + online + photo + signature);
 				ContactsRow row = new ContactsRow(jid, group, friend_jID,
 						nickname, online, photo, signature);
+				rows.add(row);
+			}
+			if(intoFlag == 0){
+				System.out.println("empty group " + group);
+				ContactsRow row = new ContactsRow(jid,group,null,null,null,null,null);
 				rows.add(row);
 			}
 
@@ -256,6 +261,34 @@ public class SmackImpl implements Smack {
 	public XMPPConnection getConnection() {
 		// TODO Auto-generated method stub
 		return ConnectionHandler.getConnection();
+	}
+
+	@Override
+	public void acceptFriend(String requestJID,String groupName) {
+		// TODO Auto-generated method stub
+		Presence newp = new Presence(Presence.Type.subscribed);
+		newp.setMode(Presence.Mode.available);
+		newp.setPriority(24);
+		String nickname = getNickname(requestJID);
+		newp.setTo(requestJID);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		try {
+			conn.getRoster().createEntry(requestJID, nickname,
+					new String[] { groupName });
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Presence subscription = new Presence(Presence.Type.subscribe);
+		subscription.setTo(requestJID);
+		conn.sendPacket(subscription);
+//		conn.getRoster().createGroup("relative");
+	}
+
+	@Override
+	public void requestFriend(String jid) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -75,4 +75,9 @@ public interface Smack extends Serializable {
 	 * 
 	 */
 	public void addConnectionListener(ConnectionListener cListener);
+	
+	
+	public void acceptFriend(String jid,String groupName);
+	
+	public void requestFriend(String jid);
 }

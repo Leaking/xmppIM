@@ -71,29 +71,16 @@ public class ContactsService extends Service {
 					Roster roster = connection.getRoster();
 					String jid = null;
 					// request to add friend
+
 					if (presence.getType().equals(Presence.Type.subscribe)) {
 						L.i("Presence.Type: subscribe");
-//						Presence newp = new Presence(Presence.Type.subscribed);
-//						newp.setMode(Presence.Mode.available);
-//						newp.setPriority(24);
+
 						jid = presence.getFrom();
 
-//						String nickname = smack.getNickname(jid);
-//						newp.setTo(jid);
-//						connection.sendPacket(newp);
-//						try {
-//							connection.getRoster().createEntry(jid, nickname,  
-//							            new String[] { "relative" });
-//						} catch (XMPPException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}  
-//						
-//						
-//						Presence subscription = new Presence(
-//								Presence.Type.subscribe);
-//						subscription.setTo(presence.getFrom());
-//						connection.sendPacket(subscription);
+					} else if (presence.getType().equals(
+							Presence.Type.subscribed)) {
+
+						
 						
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribe)) {
@@ -103,10 +90,15 @@ public class ContactsService extends Service {
 						newp.setPriority(24);
 						newp.setTo(presence.getFrom());
 						connection.sendPacket(newp);
+					} else if (presence.getType().equals(
+							Presence.Type.unsubscribed)) {
+
+						
+						
 					}
 					Intent intent = new Intent();
 					intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
-					intent.putExtra("jid" , jid);
+					intent.putExtra("jid", jid);
 					sendBroadcast(intent);
 					L.i("----------------------");
 
@@ -143,7 +135,8 @@ public class ContactsService extends Service {
 				/**
 				 * send a broadcast to change the ui
 				 */
-				Intent sendIntent = new Intent(ContactsFragment.UPDATE_LIST_ACTION);
+				Intent sendIntent = new Intent(
+						ContactsFragment.UPDATE_LIST_ACTION);
 				sendBroadcast(sendIntent);
 			}
 
