@@ -272,23 +272,68 @@ public class SmackImpl implements Smack {
 		String nickname = getNickname(requestJID);
 		newp.setTo(requestJID);
 		XMPPConnection conn = ConnectionHandler.getConnection();
+
+		Presence subscription = new Presence(Presence.Type.subscribe);
+		subscription.setTo(requestJID);
+		conn.sendPacket(subscription);		
+		addEntry(requestJID,groupName);
+		
+	}
+	@Override
+	public void addEntry(String jid, String groupname) {
+		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		String nickname = getNickname(jid);
 		try {
-			conn.getRoster().createEntry(requestJID, nickname,
-					new String[] { groupName });
+			conn.getRoster().createEntry(jid, nickname,
+					new String[] { groupname });
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Presence subscription = new Presence(Presence.Type.subscribe);
-		subscription.setTo(requestJID);
-		conn.sendPacket(subscription);
-//		conn.getRoster().createGroup("relative");
 	}
 
 	@Override
-	public void requestFriend(String jid) {
+	public void subscribed(String jid) {
+		// TODO Auto-generated method stub
+		Presence newp = new Presence(Presence.Type.subscribed);
+		newp.setMode(Presence.Mode.available);
+		newp.setPriority(24);
+		newp.setTo(jid);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		conn.sendPacket(newp);
+	}
+
+
+	@Override
+	public void subscribe(String jid) {
+		// TODO Auto-generated method stub
+		Presence newp = new Presence(Presence.Type.subscribe);
+		newp.setMode(Presence.Mode.available);
+		newp.setPriority(24);
+		newp.setTo(jid);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		conn.sendPacket(newp);
+		addEntry(jid,"friend");
+	}
+
+	@Override
+	public void unSubscribe(String jid) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void unSubscribed(String jid) {
+		// TODO Auto-generated method stub
+		Presence newp = new Presence(Presence.Type.unsubscribed);
+		newp.setMode(Presence.Mode.available);
+		newp.setPriority(24);
+		newp.setTo(jid);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		conn.sendPacket(newp);
+	}
+	
+	
 
 }

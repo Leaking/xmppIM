@@ -2,6 +2,9 @@ package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.XMPPConnection;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -35,17 +38,20 @@ import android.widget.Toast;
 import com.XMPP.R;
 import com.XMPP.Database.ContactsRow;
 import com.XMPP.Model.ViewRoster;
+import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.T;
+import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class ContactsFragment extends Fragment implements OnClickListener,OnChildClickListener {
+public class ContactsFragment extends Fragment implements OnClickListener,
+		OnChildClickListener {
 
 	private static final String TOAST_FRIEND_NAME = "please input a legal friend name";
 	private static final String TOAST_GROUP_NAME = "please input a legal group name";
@@ -54,7 +60,6 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 	// somebody request to add you ass friend
 	String requestJID;
 	// you request to add somebody to be you friend
-	String requestedJID;
 	ExpandableListView expandableListView;
 	ExpandableListAdapter expandAdapter;
 	AdapterReceiver aReceiver;
@@ -68,7 +73,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 
 		View view = inflater.inflate(R.layout.fragment_contacts, container,
 				false);
-		TextView add = (TextView)view.findViewById(R.id.addFriend);
+		TextView add = (TextView) view.findViewById(R.id.addFriend);
 		expandableListView = (ExpandableListView) view
 				.findViewById(R.id.contactExpandableList);
 		smack = SmackImpl.getInstance();
@@ -99,14 +104,39 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 			L.i("accept broadcast receiver  ");
 
 			requestJID = intent.getStringExtra("jid");
-			if (requestJID != null) {
-				L.i("commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-				SubscribedFragment f1 = new SubscribedFragment();
-				f1.show(ContactsFragment.this.getActivity()
-						.getSupportFragmentManager(), "tag");
-				f1.setCancelable(false);
+			L.i("recevie requestJID " + requestJID);
+			String presenceType = intent.getStringExtra("type");
+			L.i("recevie presenceType " + presenceType);
+			if(requestJID == null){
+				expandAdapter = new mBaseExpandableListAdapter();
+				expandableListView.setAdapter(expandAdapter);
+				return;
 			}
+			if (presenceType != null) {
+				if (presenceType.equals(Constants.PRESENCE_TYPE_SUBSCRIBE)) {
+					if (requestJID != null) {
+						XMPPConnection conn = ConnectionHandler.getConnection();
+						if (conn.getRoster().getEntry(requestJID) != null) {
+							smack.subscribed(requestJID);
+						} else {
+							SubscribedFragment f1 = new SubscribedFragment();
+							f1.show(ContactsFragment.this.getActivity()
+									.getSupportFragmentManager(), "tag");
+							f1.setCancelable(false);
+						}
+					}
+				} else if (presenceType
+						.equals(Constants.PRESENCE_TYPE_SUBSCRIBED)) {
 
+				} else if (presenceType
+						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBE)) {
+					smack.unSubscribed(requestJID);
+
+				} else if (presenceType
+						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBED)) {
+
+				}
+			}
 			expandAdapter = new mBaseExpandableListAdapter();
 			expandableListView.setAdapter(expandAdapter);
 		}
@@ -221,10 +251,6 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 					online);
 			itemImage.setImageBitmap(circleBitmap);
 
-
-
-			
-			
 			return ll;
 		}
 
@@ -236,10 +262,11 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 	}
 
 	class SubscribedFragment extends DialogFragment implements
-			OnItemClickListener,OnClickListener {
+			OnItemClickListener, OnClickListener {
 		ImageView addGroup;
 		ImageView reject;
 		EditText edittext;
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -251,25 +278,24 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 			// layout
 			View view = inflater.inflate(R.layout.subscribed, null);
 			builder.setView(view);
-			edittext = (EditText)view.findViewById(R.id.newGroupName);
-			addGroup = (ImageView)view.findViewById(R.id.addGroup);
-			reject = (ImageView)view.findViewById(R.id.reject);
-		
+			edittext = (EditText) view.findViewById(R.id.newGroupName);
+			addGroup = (ImageView) view.findViewById(R.id.addGroup);
+			reject = (ImageView) view.findViewById(R.id.reject);
+
 			IconicFontDrawable iconicFontDrawable = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable.setIcon(IconicIcon.PLUS);
 			iconicFontDrawable.setIconColor(getResources().getColor(
 					com.XMPP.R.color.pocket_blue));
 			addGroup.setBackground(iconicFontDrawable);
-			
+
 			IconicFontDrawable iconicFontDrawable_2 = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
 					com.XMPP.R.color.pocket_blue));
 			reject.setBackground(iconicFontDrawable_2);
-	
-			
+
 			ListView list = (ListView) view.findViewById(R.id.group);
 
 			BaseAdapter adapter = new BaseAdapter() {
@@ -315,39 +341,40 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 			return builder.create();
 		}
 
-		
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			if(v.getId() == R.id.addGroup){
+			if (v.getId() == R.id.addGroup) {
 				/**
 				 * 
 				 */
 				String newGroupName = edittext.getText().toString();
-				if(newGroupName == null || newGroupName.length() == 0){
-					Toast.makeText(
-							ContactsFragment.this.getActivity(),
+				if (newGroupName == null || newGroupName.length() == 0) {
+					Toast.makeText(ContactsFragment.this.getActivity(),
 							"pleace input a legal group name",
 							Toast.LENGTH_SHORT).show();
 					return;
-				}				
-				smack.acceptFriend(requestJID, newGroupName);
+				}
+				// smack.acceptFriend(requestJID, newGroupName);
+				smack.subscribed(requestJID);
+				smack.addEntry(requestJID, newGroupName);
+				smack.subscribe(requestJID);
+
 				expandAdapter = new mBaseExpandableListAdapter();
 				expandableListView.setAdapter(expandAdapter);
 				this.dismiss();
-				
-				
+
 			}
-			if(v.getId() == R.id.reject){
-				
+			if (v.getId() == R.id.reject) {
+
 				/**
 				 * send a reject message
 				 */
-				
+
 				this.dismiss();
 			}
 		}
-		
+
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
@@ -355,50 +382,52 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 			String groupName = viewRoster.getGroup(arg2).getGroupName();
 			L.i("you choose the group : "
 					+ viewRoster.getGroup(arg2).getGroupName());
-			smack.acceptFriend(requestJID, groupName);
-
+			// smack.acceptFriend(requestJID, groupName);
+			smack.subscribed(requestJID);
+			L.i("requestJID: 1" + requestJID);
+			smack.addEntry(requestJID, groupName);
+			smack.subscribe(requestJID);
 			expandAdapter = new mBaseExpandableListAdapter();
 			expandableListView.setAdapter(expandAdapter);
 			this.dismiss();
 		}
 
-
-
 	}
 
-	class SubscribeFragment extends DialogFragment implements OnItemClickListener, OnClickListener{
+	class SubscribeFragment extends DialogFragment implements
+			OnItemClickListener, OnClickListener {
 		ImageView addGroup;
 		ImageView reject;
 		EditText friendName;
 		EditText groupName;
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		    // Get the layout inflater
-		    LayoutInflater inflater = getActivity().getLayoutInflater();
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			// Get the layout inflater
+			LayoutInflater inflater = getActivity().getLayoutInflater();
 
-		    View view = (View)inflater.inflate(R.layout.subscribe, null);
-		    builder.setView(view);
-		    friendName = (EditText)view.findViewById(R.id.nickname);
-		    groupName = (EditText)view.findViewById(R.id.newGroupName);
-			addGroup = (ImageView)view.findViewById(R.id.addGroup);
-			reject = (ImageView)view.findViewById(R.id.cancel);
-		
+			View view = (View) inflater.inflate(R.layout.subscribe, null);
+			builder.setView(view);
+			friendName = (EditText) view.findViewById(R.id.nickname);
+			groupName = (EditText) view.findViewById(R.id.newGroupName);
+			addGroup = (ImageView) view.findViewById(R.id.addGroup);
+			reject = (ImageView) view.findViewById(R.id.cancel);
+
 			IconicFontDrawable iconicFontDrawable = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable.setIcon(IconicIcon.PLUS);
 			iconicFontDrawable.setIconColor(getResources().getColor(
 					com.XMPP.R.color.pocket_blue));
 			addGroup.setBackground(iconicFontDrawable);
-			
+
 			IconicFontDrawable iconicFontDrawable_2 = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
 					com.XMPP.R.color.pocket_blue));
 			reject.setBackground(iconicFontDrawable_2);
-	
-			
+
 			ListView list = (ListView) view.findViewById(R.id.group);
 
 			BaseAdapter adapter = new BaseAdapter() {
@@ -444,63 +473,66 @@ public class ContactsFragment extends Fragment implements OnClickListener,OnChil
 			return builder.create();
 
 		}
+
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
 			String name = friendName.getText().toString();
-			if(name == null || name.length() == 0){
+			if (name == null || name.length() == 0) {
 				String toast = "please input a legal name";
 				T.mToast(SubscribeFragment.this.getActivity(), toast);
-			}else{
-				//subscribe
+			} else {
+				// subscribe
+				String jid = ValueUtil.getID(name);
+				L.i("request to add jid  " + jid);
+				smack.subscribe(jid);
 			}
 		}
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			if(v.getId() == R.id.addGroup){
+			if (v.getId() == R.id.addGroup) {
 				String nickname = friendName.getText().toString();
 				String groupname = groupName.getText().toString();
 				String toast = new String();
-				if(nickname == null || nickname.length() == 0){
+				if (nickname == null || nickname.length() == 0) {
 					toast += TOAST_FRIEND_NAME;
 				}
-				if(groupname == null || groupname.length() == 0){
+				if (groupname == null || groupname.length() == 0) {
 					toast += TOAST_GROUP_NAME;
 				}
-				if(toast.length() > 0){
+				if (toast.length() > 0) {
 					T.mToast(SubscribeFragment.this.getActivity(), toast);
 					return;
 				}
-				
+
 				/**
 				 * send a subscribe
 				 */
-				
-				
-				
+
 			}
-			if(v.getId() == R.id.cancel){
-				
-				
+			if (v.getId() == R.id.cancel) {
+
 				this.dismiss();
 			}
 		}
 	}
+
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
-		
+
 		return false;
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.getId() == R.id.addFriend){
-					
+		if (v.getId() == R.id.addFriend) {
+
 			SubscribeFragment f1 = new SubscribeFragment();
 			f1.show(ContactsFragment.this.getActivity()
 					.getSupportFragmentManager(), "tag");

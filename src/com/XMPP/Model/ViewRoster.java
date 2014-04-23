@@ -93,4 +93,17 @@ public class ViewRoster {
 		this.groupList = groupList;
 	}
 
+	public boolean isExistFriend(String jid){
+		for(int i = 0; i < this.groupList.size(); i++){
+			ViewGroup group = groupList.get(i);
+			for(int j = 0; j < group.getEntryList().size(); j++){
+				ViewEntry entry = group.getEntry(j);
+				if(entry.getFriend_jID().equals(jid)){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 }

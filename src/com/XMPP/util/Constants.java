@@ -24,4 +24,12 @@ public class Constants {
 	public final static int LOGIN_SUCCESS = 2;
 	
 	
+	//
+	public final static String PRESENCE_TYPE_SUBSCRIBE = "subcribe";
+	public final static String PRESENCE_TYPE_SUBSCRIBED = "subcribed";
+	
+	public final static String PRESENCE_TYPE_UNSUBSCRIBE = "unsubcribe";
+	public final static String PRESENCE_TYPE_UNSUBSCRIBED = "unsubcribed";
+
+	
 }	

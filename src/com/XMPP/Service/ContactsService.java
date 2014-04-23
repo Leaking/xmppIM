@@ -20,6 +20,7 @@ import com.XMPP.Activity.Mainview.ContactsFragment;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
+import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 
 public class ContactsService extends Service {
@@ -73,34 +74,38 @@ public class ContactsService extends Service {
 					// request to add friend
 
 					if (presence.getType().equals(Presence.Type.subscribe)) {
-						L.i("Presence.Type: subscribe");
-
+						L.i("Presence.Type.subscribe");
 						jid = presence.getFrom();
+						XMPPConnection conn = ConnectionHandler.getConnection();
+						// this friend exists in roster
+
+						Intent intent = new Intent();
+						intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+						intent.putExtra("type",
+								Constants.PRESENCE_TYPE_SUBSCRIBE);
+						intent.putExtra("jid", jid);
+						sendBroadcast(intent);
 
 					} else if (presence.getType().equals(
 							Presence.Type.subscribed)) {
+						L.i("Presence.Type.subscribed");
 
-						
-						
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribe)) {
-						L.i("Presence.Type: unsubscribe");
-						Presence newp = new Presence(Presence.Type.unsubscribed);
-						newp.setMode(Presence.Mode.available);
-						newp.setPriority(24);
-						newp.setTo(presence.getFrom());
-						connection.sendPacket(newp);
+						L.i("Presence.Type.unsubscribe");
+						jid = presence.getFrom();
+						Intent intent = new Intent();
+						intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+						intent.putExtra("type",
+								Constants.PRESENCE_TYPE_UNSUBSCRIBE);
+						intent.putExtra("jid", jid);
+						sendBroadcast(intent);
+
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribed)) {
+						L.i("Presence.Type: unsubscribed");
 
-						
-						
 					}
-					Intent intent = new Intent();
-					intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
-					intent.putExtra("jid", jid);
-					sendBroadcast(intent);
-					L.i("----------------------");
 
 				}
 
