@@ -27,7 +27,6 @@ public class ViewRoster {
 				group.setGroupName(groupName);
 				// online,,,,,,,,,,,,,,,
 				if (rows.get(i).getFriend_jID() == null) {
-					System.out.println("empty group  2" + groupName);
 
 					group.setOnlineSum(0);
 					this.add(group);

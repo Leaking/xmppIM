@@ -308,13 +308,14 @@ public class SmackImpl implements Smack {
 	@Override
 	public void subscribe(String jid) {
 		// TODO Auto-generated method stub
+		L.i("into subscribeeeeeeeeeeeeeeeee");
 		Presence newp = new Presence(Presence.Type.subscribe);
 		newp.setMode(Presence.Mode.available);
 		newp.setPriority(24);
 		newp.setTo(jid);
 		XMPPConnection conn = ConnectionHandler.getConnection();
 		conn.sendPacket(newp);
-		addEntry(jid,"friend");
+//		addEntry(jid,"friend");
 	}
 
 	@Override

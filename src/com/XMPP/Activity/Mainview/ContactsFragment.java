@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,7 +52,7 @@ import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
 public class ContactsFragment extends Fragment implements OnClickListener,
-		OnChildClickListener {
+		OnChildClickListener, OnLongClickListener {
 
 	private static final String TOAST_FRIEND_NAME = "please input a legal friend name";
 	private static final String TOAST_GROUP_NAME = "please input a legal group name";
@@ -81,6 +82,9 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		// groups = getGroupsName(groupList);
 		expandableListView.setAdapter(expandAdapter);
 		expandableListView.setOnChildClickListener(this);
+//		expandableListView.setLongClickable(true);
+//		expandableListView.set
+//		expandableListView.setOnLongClickListener(this);
 		add.setOnClickListener(this);
 
 		aReceiver = new AdapterReceiver();
@@ -107,7 +111,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			L.i("recevie requestJID " + requestJID);
 			String presenceType = intent.getStringExtra("type");
 			L.i("recevie presenceType " + presenceType);
-			if(requestJID == null){
+			if (requestJID == null) {
 				expandAdapter = new mBaseExpandableListAdapter();
 				expandableListView.setAdapter(expandAdapter);
 				return;
@@ -130,7 +134,12 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 
 				} else if (presenceType
 						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBE)) {
+					XMPPConnection conn = ConnectionHandler.getConnection();
+					if (conn.getRoster().getEntry(requestJID) != null) {
+						L.i(" the request is rejected ");
+					}
 					smack.unSubscribed(requestJID);
+					smack.unSubscribe(requestJID);
 
 				} else if (presenceType
 						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBED)) {
@@ -370,7 +379,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 				/**
 				 * send a reject message
 				 */
-
+				smack.unSubscribe(requestJID);
 				this.dismiss();
 			}
 		}
@@ -386,7 +395,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			smack.subscribed(requestJID);
 			L.i("requestJID: 1" + requestJID);
 			smack.addEntry(requestJID, groupName);
-			smack.subscribe(requestJID);
+			// smack.subscribe(requestJID);
 			expandAdapter = new mBaseExpandableListAdapter();
 			expandableListView.setAdapter(expandAdapter);
 			this.dismiss();
@@ -479,14 +488,15 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 				long id) {
 			// TODO Auto-generated method stub
 			String name = friendName.getText().toString();
+			String groupName = viewRoster.getGroup(position).getGroupName();
 			if (name == null || name.length() == 0) {
 				String toast = "please input a legal name";
 				T.mToast(SubscribeFragment.this.getActivity(), toast);
 			} else {
 				// subscribe
 				String jid = ValueUtil.getID(name);
-				L.i("request to add jid  " + jid);
-				smack.subscribe(jid);
+				// smack.subscribe(jid);
+				smack.addEntry(jid, groupName);
 			}
 		}
 
@@ -538,6 +548,12 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					.getSupportFragmentManager(), "tag");
 			f1.setCancelable(false);
 		}
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		// TODO Auto-generated method stub
+		return false;
 	};
 
 }
