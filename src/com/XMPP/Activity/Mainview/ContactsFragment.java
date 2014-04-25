@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -24,12 +25,14 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -52,7 +55,7 @@ import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
 public class ContactsFragment extends Fragment implements OnClickListener,
-		OnChildClickListener, OnLongClickListener {
+		OnChildClickListener, OnGroupClickListener, OnItemLongClickListener {
 
 	private static final String TOAST_FRIEND_NAME = "please input a legal friend name";
 	private static final String TOAST_GROUP_NAME = "please input a legal group name";
@@ -82,9 +85,10 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		// groups = getGroupsName(groupList);
 		expandableListView.setAdapter(expandAdapter);
 		expandableListView.setOnChildClickListener(this);
-//		expandableListView.setLongClickable(true);
-//		expandableListView.set
-//		expandableListView.setOnLongClickListener(this);
+		expandableListView.setOnGroupClickListener(this);
+		
+		expandableListView.setLongClickable(true);
+		expandableListView.setOnItemLongClickListener(this);
 		add.setOnClickListener(this);
 
 		aReceiver = new AdapterReceiver();
@@ -140,7 +144,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					}
 					smack.unSubscribed(requestJID);
 					smack.unSubscribe(requestJID);
-
+					
 				} else if (presenceType
 						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBED)) {
 
@@ -231,6 +235,9 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 						com.XMPP.R.color.group_arrow_open));
 			}
 			arrowImage.setBackground(iconicFontDrawable);
+			
+			ll.setId(groupPosition);
+			ll.setTag("group");
 			return ll;
 		}
 
@@ -259,7 +266,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					.decodeResource(getResources(), R.drawable.channel_qq),
 					online);
 			itemImage.setImageBitmap(circleBitmap);
-
+			ll.setId(childPosition);
+			ll.setTag("child");
 			return ll;
 		}
 
@@ -349,7 +357,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			reject.setOnClickListener(this);
 			return builder.create();
 		}
-
+		
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
@@ -357,30 +365,39 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 				/**
 				 * 
 				 */
-				String newGroupName = edittext.getText().toString();
-				if (newGroupName == null || newGroupName.length() == 0) {
-					Toast.makeText(ContactsFragment.this.getActivity(),
-							"pleace input a legal group name",
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-				// smack.acceptFriend(requestJID, newGroupName);
-				smack.subscribed(requestJID);
-				smack.addEntry(requestJID, newGroupName);
-				smack.subscribe(requestJID);
-
-				expandAdapter = new mBaseExpandableListAdapter();
-				expandableListView.setAdapter(expandAdapter);
-				this.dismiss();
-
+				new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						String newGroupName = edittext.getText().toString();
+						if (newGroupName == null || newGroupName.length() == 0) {
+							Toast.makeText(ContactsFragment.this.getActivity(),
+									"pleace input a legal group name",
+									Toast.LENGTH_SHORT).show();
+							return;
+						}
+						// smack.acceptFriend(requestJID, newGroupName);						
+						smack.subscribed(requestJID);
+						smack.addEntry(requestJID, newGroupName);
+						smack.subscribe(requestJID);
+						expandAdapter = new mBaseExpandableListAdapter();
+						expandableListView.setAdapter(expandAdapter);
+						SubscribedFragment.this.dismiss();
+					}
+				}).start();
 			}
 			if (v.getId() == R.id.reject) {
-
 				/**
 				 * send a reject message
 				 */
-				smack.unSubscribe(requestJID);
-				this.dismiss();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						smack.unSubscribe(requestJID);
+						SubscribedFragment.this.dismiss();
+					}
+				}).start();
 			}
 		}
 
@@ -487,40 +504,60 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			String name = friendName.getText().toString();
-			String groupName = viewRoster.getGroup(position).getGroupName();
-			if (name == null || name.length() == 0) {
-				String toast = "please input a legal name";
-				T.mToast(SubscribeFragment.this.getActivity(), toast);
-			} else {
-				// subscribe
-				String jid = ValueUtil.getID(name);
-				// smack.subscribe(jid);
-				smack.addEntry(jid, groupName);
-			}
+			final int postion_2 = position;
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					String name = friendName.getText().toString();
+					String groupName = viewRoster.getGroup(postion_2).getGroupName();
+					if (name == null || name.length() == 0) {
+						String toast = "please input a legal name";
+						T.mToast(SubscribeFragment.this.getActivity(), toast);
+					} else {
+						// subscribe
+						String jid = ValueUtil.getID(name);
+						// smack.subscribe(jid);
+						smack.addEntry(jid, groupName);
+					}
+					SubscribeFragment.this.dismiss();
+				}
+			}).start();
+			
 		}
 
+		// react to the 2 button in the subscribe-fragment buttom
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if (v.getId() == R.id.addGroup) {
-				String nickname = friendName.getText().toString();
-				String groupname = groupName.getText().toString();
-				String toast = new String();
-				if (nickname == null || nickname.length() == 0) {
-					toast += TOAST_FRIEND_NAME;
-				}
-				if (groupname == null || groupname.length() == 0) {
-					toast += TOAST_GROUP_NAME;
-				}
-				if (toast.length() > 0) {
-					T.mToast(SubscribeFragment.this.getActivity(), toast);
-					return;
-				}
-
-				/**
-				 * send a subscribe
-				 */
+				new Thread(new Runnable(){
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						String nickname = friendName.getText().toString();
+						String groupname = groupName.getText().toString();
+						String toast = new String();
+						if (nickname == null || nickname.length() == 0) {
+							toast += TOAST_FRIEND_NAME;
+						}
+						if (groupname == null || groupname.length() == 0) {
+							toast += TOAST_GROUP_NAME;
+							
+						}
+						if (toast.length() > 0) {
+							T.mToast(SubscribeFragment.this.getActivity(), toast);
+							return;
+						}
+						String jid = ValueUtil.getID(nickname);
+						smack.addEntry(jid, groupname);
+						SubscribeFragment.this.dismiss();
+					}
+					
+				}).start();
+				
+				
 
 			}
 			if (v.getId() == R.id.cancel) {
@@ -530,11 +567,33 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		}
 	}
 
+	
+	class ListAlertFragment extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setItems(
+					new String[] { "friend", "relative" },
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// The 'which' argument contains the index position
+							// of the selected item
+							System.out.println("you click " + which);
+						}
+					});
+			return builder.create();
+		}
+	}
+	
+	
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
-
+		SubscribeFragment f1 = new SubscribeFragment();
+		f1.show(ContactsFragment.this.getActivity()
+				.getSupportFragmentManager(), "tag");
+		f1.setCancelable(false);
 		return false;
 	}
 
@@ -549,11 +608,28 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			f1.setCancelable(false);
 		}
 	}
-
 	@Override
-	public boolean onLongClick(View v) {
+	public boolean onGroupClick(ExpandableListView parent, View v,
+			int groupPosition, long id) {
 		// TODO Auto-generated method stub
+		System.out.println("onGroupClick");
 		return false;
 	};
+
+
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		// TODO Auto-generated method stub
+		ListAlertFragment f1 = new ListAlertFragment();
+		f1.show(ContactsFragment.this.getActivity()
+				.getSupportFragmentManager(), "tag");
+		f1.setCancelable(true);
+		return false;
+	}
+
+
+
 
 }
