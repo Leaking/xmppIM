@@ -61,8 +61,8 @@ import com.atermenji.android.iconicdroid.icon.IconicIcon;
 public class ContactsFragment extends Fragment implements OnClickListener,
 		OnChildClickListener, OnGroupClickListener, OnItemLongClickListener {
 
-	private static final String TOAST_FRIEND_NAME = "please input a legal friend name";
-	private static final String TOAST_GROUP_NAME = "please input a legal group name";
+	private static final String TOAST_FRIEND_NAME = " please input a legal friend name";
+	private static final String TOAST_GROUP_NAME = "  please input a legal group name";
 	ViewRoster viewRoster;
 	Smack smack;
 	// somebody request to add you ass friend
@@ -371,22 +371,17 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if (v.getId() == R.id.addGroup) {
-				/**
-				 * 
-				 */
+				final String newGroupName = edittext.getText().toString();
+				if (newGroupName == null || newGroupName.length() == 0) {
+					Toast.makeText(ContactsFragment.this.getActivity(),
+							"pleace input a legal group name",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						String newGroupName = edittext.getText().toString();
-						if (newGroupName == null || newGroupName.length() == 0) {
-							Toast.makeText(ContactsFragment.this.getActivity(),
-									"pleace input a legal group name",
-									Toast.LENGTH_SHORT).show();
-							return;
-						}
-						// smack.acceptFriend(requestJID, newGroupName);
-						smack.subscribed(requestJID);
 						smack.addEntry(requestJID, newGroupName);
 						smack.subscribe(requestJID);
 						expandAdapter = new mBaseExpandableListAdapter();
@@ -411,20 +406,24 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		}
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
 				long arg3) {
-			// TODO Auto-generated method stub
-			String groupName = viewRoster.getGroup(arg2).getGroupName();
-			L.i("you choose the group : "
-					+ viewRoster.getGroup(arg2).getGroupName());
-			// smack.acceptFriend(requestJID, groupName);
-			smack.subscribed(requestJID);
-			L.i("requestJID: 1" + requestJID);
-			smack.addEntry(requestJID, groupName);
-			// smack.subscribe(requestJID);
-			expandAdapter = new mBaseExpandableListAdapter();
-			expandableListView.setAdapter(expandAdapter);
-			this.dismiss();
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					// TODO Auto-generated method stub
+					String groupName = viewRoster.getGroup(arg2).getGroupName();
+					// smack.acceptFriend(requestJID, groupName);
+					smack.subscribed(requestJID);
+					smack.addEntry(requestJID, groupName);
+					// smack.subscribe(requestJID);
+					expandAdapter = new mBaseExpandableListAdapter();
+					expandableListView.setAdapter(expandAdapter);
+					SubscribedFragment.this.dismiss();
+				}
+			}).start();
 		}
 
 	}
@@ -478,25 +477,25 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			final int postion_2 = position;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					String name = friendName.getText().toString();
-					String groupName = viewRoster.getGroup(postion_2)
-							.getGroupName();
-					if (name == null || name.length() == 0) {
-						String toast = "please input a legal name";
-						T.mToast(SubscribeFragment.this.getActivity(), toast);
-					} else {
+			final String name = friendName.getText().toString();
+			final String groupName = viewRoster.getGroup(position)
+					.getGroupName();
+			if (name == null || name.length() == 0) {
+				String toast = "please input a legal name";
+				T.mToast(SubscribeFragment.this.getActivity(), toast);
+			} else {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
 						// subscribe
 						String jid = ValueUtil.getID(name);
 						smack.addEntry(jid, groupName);
+						SubscribeFragment.this.dismiss();
 					}
-					SubscribeFragment.this.dismiss();
-				}
-			}).start();
+				}).start();
+			}
+
 		}
 
 		// react to the 2 button in the subscribe-fragment buttom
@@ -504,30 +503,29 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if (v.getId() == R.id.addGroup) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						String nickname = friendName.getText().toString();
-						String groupname = groupName.getText().toString();
-						String toast = new String();
-						if (nickname == null || nickname.length() == 0) {
-							toast += TOAST_FRIEND_NAME;
+				final String nickname = friendName.getText().toString();
+				final String groupname = groupName.getText().toString();
+				String toast = new String();
+				if (nickname == null || nickname.length() == 0) {
+					toast += TOAST_FRIEND_NAME;
+				}
+				if (groupname == null || groupname.length() == 0) {
+					toast += TOAST_GROUP_NAME;
+				}
+				if (toast.length() > 0) {
+					T.mToast(SubscribeFragment.this.getActivity(), toast);
+					return;
+				} else {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							String jid = ValueUtil.getID(nickname);
+							smack.addEntry(jid, groupname);
+							SubscribeFragment.this.dismiss();
 						}
-						if (groupname == null || groupname.length() == 0) {
-							toast += TOAST_GROUP_NAME;
-
-						}
-						if (toast.length() > 0) {
-							T.mToast(SubscribeFragment.this.getActivity(),
-									toast);
-							return;
-						}
-						String jid = ValueUtil.getID(nickname);
-						smack.addEntry(jid, groupname);
-						SubscribeFragment.this.dismiss();
-					}
-				}).start();
+					}).start();
+				}
 
 			}
 			if (v.getId() == R.id.cancel) {
@@ -562,13 +560,12 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 									RosterGroup group;
 									if (mWhich == list.size() - 1) {
 										group = roster
-												.createGroup("A New Group" + Constants.newTag++);
+												.createGroup("A New Group"
+														+ Constants.newTag++);
 									} else {
 										group = roster.getGroup(list
 												.get(mWhich));
 									}
-									L.i("which 1 " + mWhich);
-									L.i("which 2 " + list.get(mWhich));
 									try {
 										group.addEntry(entry);
 									} catch (XMPPException e) {
@@ -670,6 +667,91 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		}
 
 	}
+	
+	class GroupLongClickFragment extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(longclickGROUP).setItems(new String[] { "Rename", "Delete"},
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// The 'which' argument contains the index position
+							// of the selected item
+
+							switch (which) {
+							case 0:
+								GroupRenameFragment f1 = new GroupRenameFragment();
+								f1.show(ContactsFragment.this.getActivity()
+										.getSupportFragmentManager(), "tag");
+								f1.setCancelable(false);
+								break;
+							case 1:
+								
+								break;
+							}
+
+						}
+					});
+
+			return builder.create();
+		}
+
+	}
+	
+	
+
+	
+	
+	class GroupRenameFragment extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			// Get the layout inflater
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+
+			View view = (View) inflater.inflate(R.layout.setgroupname, null);
+			builder.setView(view);
+			final EditText text = (EditText) view
+					.findViewById(R.id.new_group_name);
+
+			builder.setPositiveButton("YES",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							final String string = text.getText().toString();
+							if (string == null || string.length() == 0) {
+								T.mToast(getActivity(), TOAST_GROUP_NAME);
+							} else {
+								new Thread(new Runnable() {
+									public void run() {
+										RosterGroup group = ConnectionHandler
+												.getConnection().getRoster()
+												.getGroup(longclickGROUP);
+										group.setName(string);
+										Intent intent = new Intent();
+										intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+										GroupRenameFragment.this
+												.getActivity().sendBroadcast(
+														intent);
+
+									}
+								}).start();
+
+							}
+
+						}
+					}).setNegativeButton("NO",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+						}
+					});
+
+			return builder.create();
+
+		}
+
+	}
 
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
@@ -719,11 +801,15 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			ChildLongClickFragment f1 = new ChildLongClickFragment();
 			f1.show(ContactsFragment.this.getActivity()
 					.getSupportFragmentManager(), "tag");
-			f1.setCancelable(false);
 		} else {
 			// you click the parent item
 			ViewXMPPGroup viewGroup = viewRoster.getGroup(groupPosition);
 			longclickGROUP = viewGroup.getGroupName();
+			
+			
+			GroupLongClickFragment f1 = new GroupLongClickFragment();
+			f1.show(ContactsFragment.this.getActivity()
+					.getSupportFragmentManager(), "tag");
 
 		}
 		// showDeleteAlertDialog((AccountInfo)

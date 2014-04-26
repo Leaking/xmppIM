@@ -149,19 +149,19 @@ public final class R {
         public static final int Login_loginButton=0x7f0c0028;
         public static final int Login_logo=0x7f0c0024;
         public static final int MainviewFooter=0x7f0c0005;
-        public static final int action_settings=0x7f0c0032;
+        public static final int action_settings=0x7f0c0033;
         public static final int addFriend=0x7f0c001f;
-        public static final int addGroup=0x7f0c002e;
+        public static final int addGroup=0x7f0c002f;
         public static final int buttomLogin=0x7f0c0014;
         public static final int buttomSignUp=0x7f0c0015;
         public static final int buttonLogin=0x7f0c0013;
-        public static final int cancel=0x7f0c002f;
+        public static final int cancel=0x7f0c0030;
         public static final int chatting_List=0x7f0c001d;
         public static final int contactExpandableList=0x7f0c0020;
         public static final int content=0x7f0c0023;
-        public static final int ffff=0x7f0c0030;
+        public static final int ffff=0x7f0c0031;
         public static final int forget=0x7f0c0003;
-        public static final int group=0x7f0c002c;
+        public static final int group=0x7f0c002d;
         public static final int groupItemPhoto=0x7f0c0016;
         public static final int header_chatting_text=0x7f0c001c;
         public static final int header_contacts_text=0x7f0c001e;
@@ -177,11 +177,12 @@ public final class R {
         public static final int listTitle_groupMenberOnlinePercent=0x7f0c001b;
         public static final int listTitle_groupname=0x7f0c001a;
         public static final int mainview_pager=0x7f0c0004;
-        public static final int newGroupName=0x7f0c002d;
-        public static final int nickname=0x7f0c002b;
+        public static final int newGroupName=0x7f0c002e;
+        public static final int new_group_name=0x7f0c002b;
+        public static final int nickname=0x7f0c002c;
         public static final int pager=0x7f0c000c;
         public static final int password=0x7f0c0001;
-        public static final int reject=0x7f0c0031;
+        public static final int reject=0x7f0c0032;
         public static final int setting_List=0x7f0c0022;
         public static final int signature=0x7f0c0018;
         public static final int submitLogin=0x7f0c0002;
@@ -200,8 +201,9 @@ public final class R {
         public static final int fragment_setting=0x7f030008;
         public static final int learnmore_a_fragment=0x7f030009;
         public static final int login_fragment=0x7f03000a;
-        public static final int subscribe=0x7f03000b;
-        public static final int subscribed=0x7f03000c;
+        public static final int setgroupname=0x7f03000b;
+        public static final int subscribe=0x7f03000c;
+        public static final int subscribed=0x7f03000d;
     }
     public static final class menu {
         public static final int chatting=0x7f0b0000;
@@ -233,10 +235,12 @@ public final class R {
         public static final int email=0x7f090006;
         public static final int forget=0x7f090008;
         public static final int hello_world=0x7f090002;
+        public static final int hint_Input_GroupName=0x7f090019;
         public static final int ifAccept=0x7f090012;
         public static final int login=0x7f090003;
         public static final int name_psw_wrong=0x7f09000d;
         public static final int password=0x7f090007;
+        public static final int setGroupName=0x7f090018;
         public static final int setting=0x7f090010;
         public static final int swipeToLearnMore=0x7f090005;
         public static final int title_activity_chatting=0x7f090011;

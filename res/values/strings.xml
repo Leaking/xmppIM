@@ -27,4 +27,9 @@
     <string name="addFriend_Group">Add A Friend or Group</string>
     <string name="addFriend">add a friend</string>
     <string name="addGroup">create a group or exit</string>
+    
+    
+    <string name="setGroupName">Set Group Name</string>
+    <string name="hint_Input_GroupName">Input GroupName></string>
+    
 </resources>

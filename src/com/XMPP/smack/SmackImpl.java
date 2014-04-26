@@ -290,15 +290,21 @@ public class SmackImpl implements Smack {
 	@Override
 	public void addEntry(String jid, String groupname) {
 		// TODO Auto-generated method stub
-		XMPPConnection conn = ConnectionHandler.getConnection();
-		String nickname = getNickname(jid);
-		try {
-			conn.getRoster().createEntry(jid, nickname,
-					new String[] { groupname });
-		} catch (XMPPException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+
+				// TODO Auto-generated method stub
+				XMPPConnection conn = ConnectionHandler.getConnection();
+				String nickname = getNickname(jid);
+				try {
+					conn.getRoster().createEntry(jid, nickname,
+							new String[] { groupname });
+				} catch (XMPPException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+
+		
 	}
 
 	@Override
