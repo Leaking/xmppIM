@@ -2,7 +2,7 @@ package com.XMPP.Model;
 
 import java.util.ArrayList;
 
-public class ViewGroup {
+public class ViewXMPPGroup {
 	private String groupName;
 	private int onlineSum;
 	private ArrayList<ViewEntry> entryList;
@@ -11,7 +11,7 @@ public class ViewGroup {
 	public ViewEntry getEntry(int index){
 		return entryList.get(index);
 	}
-	public ViewGroup(){
+	public ViewXMPPGroup(){
 		this.entryList = new ArrayList<ViewEntry>();
 	}
 	public int getChildrenCount(){

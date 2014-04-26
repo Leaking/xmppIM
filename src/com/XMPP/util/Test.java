@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.XMPP.Database.ContactsRow;
 import com.XMPP.Model.ViewEntry;
-import com.XMPP.Model.ViewGroup;
+import com.XMPP.Model.ViewXMPPGroup;
 import com.XMPP.smack.Smack;
 
 public class Test {
@@ -49,9 +49,9 @@ public class Test {
 		}
 	}
 	
-	public static void outputViewRoster(ArrayList<ViewGroup> groupList){
+	public static void outputViewRoster(ArrayList<ViewXMPPGroup> groupList){
 		for(int i = 0; i < groupList.size(); i++){
-			ViewGroup group = new ViewGroup();
+			ViewXMPPGroup group = new ViewXMPPGroup();
 			group = groupList.get(i);
 			L.i("----------------Group-------------------------------");
 			L.i("group name  " + group.getGroupName());

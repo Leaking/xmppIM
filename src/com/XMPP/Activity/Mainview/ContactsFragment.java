@@ -2,8 +2,10 @@ package com.XMPP.Activity.Mainview;
 
 import java.util.ArrayList;
 
-import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +23,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -41,7 +42,9 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Database.ContactsRow;
+import com.XMPP.Model.ViewEntry;
 import com.XMPP.Model.ViewRoster;
+import com.XMPP.Model.ViewXMPPGroup;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -63,6 +66,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 	Smack smack;
 	// somebody request to add you ass friend
 	String requestJID;
+	String longclickJID;
+	String longclickGROUP;
 	// you request to add somebody to be you friend
 	ExpandableListView expandableListView;
 	ExpandableListAdapter expandAdapter;
@@ -86,7 +91,6 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		expandableListView.setAdapter(expandAdapter);
 		expandableListView.setOnChildClickListener(this);
 		expandableListView.setOnGroupClickListener(this);
-		
 		expandableListView.setLongClickable(true);
 		expandableListView.setOnItemLongClickListener(this);
 		add.setOnClickListener(this);
@@ -112,9 +116,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			L.i("accept broadcast receiver  ");
 
 			requestJID = intent.getStringExtra("jid");
-			L.i("recevie requestJID " + requestJID);
 			String presenceType = intent.getStringExtra("type");
-			L.i("recevie presenceType " + presenceType);
 			if (requestJID == null) {
 				expandAdapter = new mBaseExpandableListAdapter();
 				expandableListView.setAdapter(expandAdapter);
@@ -144,7 +146,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					}
 					smack.unSubscribed(requestJID);
 					smack.unSubscribe(requestJID);
-					
+
 				} else if (presenceType
 						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBED)) {
 
@@ -235,7 +237,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 						com.XMPP.R.color.group_arrow_open));
 			}
 			arrowImage.setBackground(iconicFontDrawable);
-			
+
 			ll.setId(groupPosition);
 			ll.setTag("group");
 			return ll;
@@ -266,8 +268,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					.decodeResource(getResources(), R.drawable.channel_qq),
 					online);
 			itemImage.setImageBitmap(circleBitmap);
-			ll.setId(childPosition);
-			ll.setTag("child");
+
+			ll.setTag(R.id.action_settings, "tag");
 			return ll;
 		}
 
@@ -357,7 +359,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			reject.setOnClickListener(this);
 			return builder.create();
 		}
-		
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
@@ -365,7 +367,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 				/**
 				 * 
 				 */
-				new Thread(new Runnable() {					
+				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -376,7 +378,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 									Toast.LENGTH_SHORT).show();
 							return;
 						}
-						// smack.acceptFriend(requestJID, newGroupName);						
+						// smack.acceptFriend(requestJID, newGroupName);
 						smack.subscribed(requestJID);
 						smack.addEntry(requestJID, newGroupName);
 						smack.subscribe(requestJID);
@@ -506,25 +508,24 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			// TODO Auto-generated method stub
 			final int postion_2 = position;
 			new Thread(new Runnable() {
-				
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					String name = friendName.getText().toString();
-					String groupName = viewRoster.getGroup(postion_2).getGroupName();
+					String groupName = viewRoster.getGroup(postion_2)
+							.getGroupName();
 					if (name == null || name.length() == 0) {
 						String toast = "please input a legal name";
 						T.mToast(SubscribeFragment.this.getActivity(), toast);
 					} else {
 						// subscribe
 						String jid = ValueUtil.getID(name);
-						// smack.subscribe(jid);
 						smack.addEntry(jid, groupName);
 					}
 					SubscribeFragment.this.dismiss();
 				}
 			}).start();
-			
+
 		}
 
 		// react to the 2 button in the subscribe-fragment buttom
@@ -532,7 +533,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if (v.getId() == R.id.addGroup) {
-				new Thread(new Runnable(){
+				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -544,20 +545,18 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 						}
 						if (groupname == null || groupname.length() == 0) {
 							toast += TOAST_GROUP_NAME;
-							
+
 						}
 						if (toast.length() > 0) {
-							T.mToast(SubscribeFragment.this.getActivity(), toast);
+							T.mToast(SubscribeFragment.this.getActivity(),
+									toast);
 							return;
 						}
 						String jid = ValueUtil.getID(nickname);
 						smack.addEntry(jid, groupname);
 						SubscribeFragment.this.dismiss();
 					}
-					
 				}).start();
-				
-				
 
 			}
 			if (v.getId() == R.id.cancel) {
@@ -566,33 +565,54 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			}
 		}
 	}
-
-	
-	class ListAlertFragment extends DialogFragment {
+	class ChildLongClickFragment extends DialogFragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setItems(
-					new String[] { "friend", "relative" },
+					new String[] { "Profile", "Delete" },
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							// The 'which' argument contains the index position
 							// of the selected item
-							System.out.println("you click " + which);
+							
+							new Thread(new Runnable() {
+								
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									XMPPConnection conn = ConnectionHandler.getConnection();
+									Roster roster = conn.getRoster();
+									RosterEntry entry = roster.getEntry(longclickJID);									
+									try {
+										roster.removeEntry(entry);
+										Intent intent = new Intent();
+										intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+										ChildLongClickFragment.this.getActivity().sendBroadcast(intent);					
+										ChildLongClickFragment.this.dismiss();
+									} catch (XMPPException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+
+								}
+							}).start();
 						}
 					});
 			return builder.create();
 		}
+
+
 	}
 	
-	
+
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
 		SubscribeFragment f1 = new SubscribeFragment();
-		f1.show(ContactsFragment.this.getActivity()
-				.getSupportFragmentManager(), "tag");
+		f1.show(ContactsFragment.this.getActivity().getSupportFragmentManager(),
+				"tag");
 		f1.setCancelable(false);
 		return false;
 	}
@@ -608,6 +628,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			f1.setCancelable(false);
 		}
 	}
+
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v,
 			int groupPosition, long id) {
@@ -616,18 +637,37 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		return false;
 	};
 
-
-
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		// TODO Auto-generated method stub
-		ListAlertFragment f1 = new ListAlertFragment();
-		f1.show(ContactsFragment.this.getActivity()
-				.getSupportFragmentManager(), "tag");
-		f1.setCancelable(true);
+		long packedPos = ((ExpandableListView) parent)
+				.getExpandableListPosition(position);
+		int groupPosition = ExpandableListView
+				.getPackedPositionGroup(packedPos);
+		int childPosition = ExpandableListView
+				.getPackedPositionChild(packedPos);
+		// you click the child item;
+		if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			
+			ViewEntry viewEntry = viewRoster.getEntry(groupPosition, childPosition);
+			longclickJID = viewEntry.getFriend_jID();
+			L.i("Longclick jid   " + longclickJID);
+			ChildLongClickFragment f1 = new ChildLongClickFragment();
+			f1.show(ContactsFragment.this.getActivity().getSupportFragmentManager(),
+					"tag");
+			f1.setCancelable(false);
+		}else{
+			// you click the parent item
+			ViewXMPPGroup viewGroup = viewRoster.getGroup(groupPosition);
+			longclickGROUP = viewGroup.getGroupName();
+			L.i("Longclick  longclickGROUP " + longclickGROUP);
+
+		}
+		// showDeleteAlertDialog((AccountInfo)
+		// expAdapter.getChild(groupPosition, childPosition));
 		return false;
 	}
+	
 
 
 
