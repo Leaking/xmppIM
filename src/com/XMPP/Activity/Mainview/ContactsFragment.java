@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -66,12 +67,18 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 	Smack smack;
 	// somebody request to add you ass friend
 	String requestJID;
+
+	//
+	int groupPosition;
+	int childPosition;
 	String longclickJID;
 	String longclickGROUP;
 	// you request to add somebody to be you friend
 	ExpandableListView expandableListView;
 	ExpandableListAdapter expandAdapter;
 	AdapterReceiver aReceiver;
+	ListView list;
+	MBaseAdapter adapter;
 	public static final String UPDATE_LIST_ACTION = "com.XMPP.action.UPDATE_lIST";
 
 	// Container Activity must implement this interface
@@ -280,6 +287,42 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 
 	}
 
+	class MBaseAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return viewRoster.getGroupCount();
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return viewRoster.getGroup(arg0).getGroupName();
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			// TODO Auto-generated method stub
+			return arg0;
+		}
+
+		@Override
+		public View getView(int arg0, View arg1, ViewGroup arg2) {
+			// TODO Auto-generated method stub
+			LinearLayout line = new LinearLayout(
+					ContactsFragment.this.getActivity());
+			line.setOrientation(0);
+			TextView text = new TextView(ContactsFragment.this.getActivity());
+			text.setText(viewRoster.getGroup(arg0).getGroupName());
+			text.setTextSize(25);
+			line.addView(text);
+			return line;
+
+		}
+
+	};
+
 	class SubscribedFragment extends DialogFragment implements
 			OnItemClickListener, OnClickListener {
 		ImageView addGroup;
@@ -312,47 +355,11 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_blue));
+					com.XMPP.R.color.pocket_red));
 			reject.setBackground(iconicFontDrawable_2);
 
-			ListView list = (ListView) view.findViewById(R.id.group);
-
-			BaseAdapter adapter = new BaseAdapter() {
-
-				@Override
-				public int getCount() {
-					// TODO Auto-generated method stub
-					return viewRoster.getGroupCount();
-				}
-
-				@Override
-				public Object getItem(int arg0) {
-					// TODO Auto-generated method stub
-					return viewRoster.getGroup(arg0).getGroupName();
-				}
-
-				@Override
-				public long getItemId(int arg0) {
-					// TODO Auto-generated method stub
-					return arg0;
-				}
-
-				@Override
-				public View getView(int arg0, View arg1, ViewGroup arg2) {
-					// TODO Auto-generated method stub
-					LinearLayout line = new LinearLayout(
-							ContactsFragment.this.getActivity());
-					line.setOrientation(0);
-					TextView text = new TextView(
-							ContactsFragment.this.getActivity());
-					text.setText(viewRoster.getGroup(arg0).getGroupName());
-					text.setTextSize(25);
-					line.addView(text);
-					return line;
-
-				}
-
-			};
+			list = (ListView) view.findViewById(R.id.group);
+			adapter = new MBaseAdapter();
 			list.setAdapter(adapter);
 			list.setOnItemClickListener(SubscribedFragment.this);
 			addGroup.setOnClickListener(this);
@@ -453,47 +460,12 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_blue));
+					com.XMPP.R.color.pocket_red));
 			reject.setBackground(iconicFontDrawable_2);
 
-			ListView list = (ListView) view.findViewById(R.id.group);
+			list = (ListView) view.findViewById(R.id.group);
 
-			BaseAdapter adapter = new BaseAdapter() {
-
-				@Override
-				public int getCount() {
-					// TODO Auto-generated method stub
-					return viewRoster.getGroupCount();
-				}
-
-				@Override
-				public Object getItem(int arg0) {
-					// TODO Auto-generated method stub
-					return viewRoster.getGroup(arg0).getGroupName();
-				}
-
-				@Override
-				public long getItemId(int arg0) {
-					// TODO Auto-generated method stub
-					return arg0;
-				}
-
-				@Override
-				public View getView(int arg0, View arg1, ViewGroup arg2) {
-					// TODO Auto-generated method stub
-					LinearLayout line = new LinearLayout(
-							ContactsFragment.this.getActivity());
-					line.setOrientation(0);
-					TextView text = new TextView(
-							ContactsFragment.this.getActivity());
-					text.setText(viewRoster.getGroup(arg0).getGroupName());
-					text.setTextSize(25);
-					line.addView(text);
-					return line;
-
-				}
-
-			};
+			adapter = new MBaseAdapter();
 			list.setAdapter(adapter);
 			list.setOnItemClickListener(SubscribeFragment.this);
 			addGroup.setOnClickListener(SubscribeFragment.this);
@@ -525,7 +497,6 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					SubscribeFragment.this.dismiss();
 				}
 			}).start();
-
 		}
 
 		// react to the 2 button in the subscribe-fragment buttom
@@ -565,46 +536,140 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			}
 		}
 	}
-	class ChildLongClickFragment extends DialogFragment {
+
+	class ChangeGroupFragment extends DialogFragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setItems(
-					new String[] { "Profile", "Delete" },
+			final ArrayList<String> list = viewRoster.getGroupnames();
+			list.add("To A New Group");
+			builder.setItems(list.toArray(new String[list.size()]),
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							// The 'which' argument contains the index position
 							// of the selected item
-							
+							final int mWhich = which;
 							new Thread(new Runnable() {
-								
+
 								@Override
 								public void run() {
 									// TODO Auto-generated method stub
-									XMPPConnection conn = ConnectionHandler.getConnection();
+									XMPPConnection conn = ConnectionHandler
+											.getConnection();
 									Roster roster = conn.getRoster();
-									RosterEntry entry = roster.getEntry(longclickJID);									
+									RosterEntry entry = roster
+											.getEntry(longclickJID);
+									RosterGroup group;
+									if (mWhich == list.size() - 1) {
+										group = roster
+												.createGroup("A New Group" + Constants.newTag++);
+									} else {
+										group = roster.getGroup(list
+												.get(mWhich));
+									}
+									L.i("which 1 " + mWhich);
+									L.i("which 2 " + list.get(mWhich));
 									try {
-										roster.removeEntry(entry);
-										Intent intent = new Intent();
-										intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
-										ChildLongClickFragment.this.getActivity().sendBroadcast(intent);					
-										ChildLongClickFragment.this.dismiss();
+										group.addEntry(entry);
 									} catch (XMPPException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-
+									Intent intent = new Intent();
+									intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+									ChangeGroupFragment.this.getActivity()
+											.sendBroadcast(intent);
+									ChangeGroupFragment.this.dismiss();
 								}
 							}).start();
+
 						}
 					});
 			return builder.create();
 		}
 
+	}
+
+	class ChildLongClickFragment extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setItems(new String[] { "Profile", "Delete",
+					"To another group" },
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// The 'which' argument contains the index position
+							// of the selected item
+
+							switch (which) {
+							case 0:
+								break;
+							case 1:
+								new Thread(new Runnable() {
+
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										XMPPConnection conn = ConnectionHandler
+												.getConnection();
+										Roster roster = conn.getRoster();
+										RosterEntry entry = roster
+												.getEntry(longclickJID);
+										try {
+											roster.removeEntry(entry);
+											Intent intent = new Intent();
+											intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+											ChildLongClickFragment.this
+													.getActivity()
+													.sendBroadcast(intent);
+											ChildLongClickFragment.this
+													.dismiss();
+										} catch (XMPPException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+								}).start();
+								break;
+							case 2:
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										XMPPConnection conn = ConnectionHandler
+												.getConnection();
+										Roster roster = conn.getRoster();
+										RosterEntry entry = roster
+												.getEntry(longclickJID);
+										String groupName = viewRoster.getGroup(
+												groupPosition).getGroupName();
+										RosterGroup group = roster
+												.getGroup(groupName);
+										try {
+											group.removeEntry(entry);
+										} catch (XMPPException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+								}).start();
+								ChangeGroupFragment f1 = new ChangeGroupFragment();
+								f1.show(ContactsFragment.this.getActivity()
+										.getSupportFragmentManager(), "tag");
+								break;
+							}
+
+						}
+					});
+
+			ViewEntry viewEntry = viewRoster.getEntry(groupPosition,
+					childPosition);
+			String entryName = viewEntry.getNickname();
+			builder.setTitle(entryName);
+			return builder.create();
+		}
 
 	}
-	
 
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
@@ -642,34 +707,28 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			int position, long id) {
 		long packedPos = ((ExpandableListView) parent)
 				.getExpandableListPosition(position);
-		int groupPosition = ExpandableListView
-				.getPackedPositionGroup(packedPos);
-		int childPosition = ExpandableListView
-				.getPackedPositionChild(packedPos);
+		groupPosition = ExpandableListView.getPackedPositionGroup(packedPos);
+		childPosition = ExpandableListView.getPackedPositionChild(packedPos);
 		// you click the child item;
 		if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-			
-			ViewEntry viewEntry = viewRoster.getEntry(groupPosition, childPosition);
+
+			ViewEntry viewEntry = viewRoster.getEntry(groupPosition,
+					childPosition);
 			longclickJID = viewEntry.getFriend_jID();
 			L.i("Longclick jid   " + longclickJID);
 			ChildLongClickFragment f1 = new ChildLongClickFragment();
-			f1.show(ContactsFragment.this.getActivity().getSupportFragmentManager(),
-					"tag");
+			f1.show(ContactsFragment.this.getActivity()
+					.getSupportFragmentManager(), "tag");
 			f1.setCancelable(false);
-		}else{
+		} else {
 			// you click the parent item
 			ViewXMPPGroup viewGroup = viewRoster.getGroup(groupPosition);
 			longclickGROUP = viewGroup.getGroupName();
-			L.i("Longclick  longclickGROUP " + longclickGROUP);
 
 		}
 		// showDeleteAlertDialog((AccountInfo)
 		// expAdapter.getChild(groupPosition, childPosition));
 		return false;
 	}
-	
-
-
-
 
 }

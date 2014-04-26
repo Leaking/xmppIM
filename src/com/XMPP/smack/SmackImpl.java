@@ -279,6 +279,14 @@ public class SmackImpl implements Smack {
 		addEntry(requestJID,groupName);
 		
 	}
+	
+	@Override
+	public void addGroup(String groupname) {
+		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		conn.getRoster().createGroup(groupname);
+	}
+
 	@Override
 	public void addEntry(String jid, String groupname) {
 		// TODO Auto-generated method stub

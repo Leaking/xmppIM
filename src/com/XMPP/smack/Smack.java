@@ -79,7 +79,7 @@ public interface Smack extends Serializable {
 	
 	public void acceptFriend(String jid,String groupName);
 	
-	
+	public void addGroup(String groupname);
 	public void addEntry(String jid,String groupname);
 	public void subscribe(String jid);
 	

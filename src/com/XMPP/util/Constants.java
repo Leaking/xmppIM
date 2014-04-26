@@ -31,5 +31,6 @@ public class Constants {
 	public final static String PRESENCE_TYPE_UNSUBSCRIBE = "unsubcribe";
 	public final static String PRESENCE_TYPE_UNSUBSCRIBED = "unsubcribed";
 
-	
+	//new group tag
+	public static int newTag = 1;
 }	

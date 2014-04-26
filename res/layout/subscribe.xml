@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/addFriend"
+            android:text="@string/addFriend_Group"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
@@ -26,9 +26,9 @@
 
         <EditText
             android:id="@+id/nickname"
-            android:layout_width="125dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="jack" />
+            android:hint="input friend name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -41,19 +41,19 @@
             android:layout_width="0dp"
             android:layout_height="5dp"
             android:layout_weight="1"
-            android:background="@color/commom_gray" >
+            android:background="@color/pocket_blue" >
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/accept" />
+            android:text="@string/addFriend" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="5dp"
             android:layout_weight="1"
-            android:background="@color/commom_gray" >
+            android:background="@color/pocket_blue" >
         </LinearLayout>
     </LinearLayout>
 
@@ -76,19 +76,19 @@
             android:layout_width="0dp"
             android:layout_height="5dp"
             android:layout_weight="1"
-            android:background="@color/commom_gray" >
+            android:background="@color/pocket_blue" >
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/reject" />
+            android:text="@string/addGroup" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="5dp"
             android:layout_weight="1"
-            android:background="@color/commom_gray" >
+            android:background="@color/pocket_blue" >
         </LinearLayout>
     </LinearLayout>
 
@@ -103,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="A Group Name"
+            android:hint="input a groupname"
             android:textSize="20sp" />
 
         <ImageView

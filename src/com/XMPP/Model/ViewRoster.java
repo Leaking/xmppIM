@@ -59,6 +59,14 @@ public class ViewRoster {
 		}
 	}
 
+	public ArrayList<String> getGroupnames(){
+		ArrayList<String> list = new ArrayList<String>();
+		for(int i = 0; i < this.groupList.size();i++){
+			list.add(this.groupList.get(i).getGroupName());
+		}
+		return list;
+		
+	}
 	public ViewXMPPGroup getGroup(int index) {
 		return groupList.get(index);
 	}

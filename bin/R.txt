@@ -181,14 +181,17 @@ int raw entypo_social 0x7f050001
 int raw font_awesome 0x7f050002
 int raw iconic 0x7f050003
 int string SignUp 0x7f090004
-int string accept 0x7f090014
+int string accept 0x7f090013
 int string action_settings 0x7f090001
-int string addFriend 0x7f090013
+int string addFriend 0x7f090016
+int string addFriend_Group 0x7f090015
+int string addGroup 0x7f090017
 int string appTitle 0x7f090009
 int string app_name 0x7f090000
 int string chatting 0x7f09000e
 int string connect_fail 0x7f09000c
 int string contacts 0x7f09000f
+int string create_a_Group_Exit 0x7f090014
 int string email 0x7f090006
 int string forget 0x7f090008
 int string hello_world 0x7f090002
@@ -196,7 +199,6 @@ int string ifAccept 0x7f090012
 int string login 0x7f090003
 int string name_psw_wrong 0x7f09000d
 int string password 0x7f090007
-int string reject 0x7f090015
 int string setting 0x7f090010
 int string swipeToLearnMore 0x7f090005
 int string title_activity_chatting 0x7f090011

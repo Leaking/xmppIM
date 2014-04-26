@@ -219,14 +219,17 @@ public final class R {
     }
     public static final class string {
         public static final int SignUp=0x7f090004;
-        public static final int accept=0x7f090014;
+        public static final int accept=0x7f090013;
         public static final int action_settings=0x7f090001;
-        public static final int addFriend=0x7f090013;
+        public static final int addFriend=0x7f090016;
+        public static final int addFriend_Group=0x7f090015;
+        public static final int addGroup=0x7f090017;
         public static final int appTitle=0x7f090009;
         public static final int app_name=0x7f090000;
         public static final int chatting=0x7f09000e;
         public static final int connect_fail=0x7f09000c;
         public static final int contacts=0x7f09000f;
+        public static final int create_a_Group_Exit=0x7f090014;
         public static final int email=0x7f090006;
         public static final int forget=0x7f090008;
         public static final int hello_world=0x7f090002;
@@ -234,7 +237,6 @@ public final class R {
         public static final int login=0x7f090003;
         public static final int name_psw_wrong=0x7f09000d;
         public static final int password=0x7f090007;
-        public static final int reject=0x7f090015;
         public static final int setting=0x7f090010;
         public static final int swipeToLearnMore=0x7f090005;
         public static final int title_activity_chatting=0x7f090011;

@@ -90,7 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/reject" />
+            android:text="@string/create_a_Group_Exit" />
 
         <LinearLayout
             android:layout_width="0dp"
