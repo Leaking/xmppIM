@@ -44,9 +44,11 @@ public class MainviewActivity extends FragmentActivity implements
 	private IconicFontDrawable footerChatDrawable;
 	private IconicFontDrawable footerContactsDrawable;
 	private IconicFontDrawable footerSettingsDrawable;
-	// color of the three icon in the footer view32bcb6
-	private final static int LIGHT_UP_COLOR = Color.rgb(0xff, 0xff, 0xff);
-	private final static int LIGHT_DOWN_COLOR = Color.rgb(0x32, 0xBC, 0xcc);
+	// color of the three icon in the footer view32bcb6   83edb8
+	private final static int LIGHT_DOWN_COLOR = Color.rgb(0xff, 0xff, 0xff);
+	private final static int LIGHT_UP_COLOR = Color.rgb(0x83, 0xed, 0xb8);
+	private final static int LIGHT_STOKE = Color.rgb(0x77, 0x77, 0x77);
+
 	// sum of the fragments in the viewpager
 	private final static int NUM_PAGES = 3;
 	// viewpager
@@ -186,10 +188,16 @@ public class MainviewActivity extends FragmentActivity implements
 		footerChatDrawable = new IconicFontDrawable(getBaseContext());
 		footerChatDrawable.setIcon(IconicIcon.CHAT_INV);
 		footerChatDrawable.setIconColor(LIGHT_UP_COLOR);
+		footerChatDrawable.drawContour(true);
+		footerChatDrawable.setContourColor(LIGHT_STOKE);
+		footerChatDrawable.setContourWidth(3);
+		
 		footer_chatting_icon = (ImageView) findViewById(R.id.Footer_chattingIcon);
 		footer_chatting_icon.setBackground(footerChatDrawable);
+		
 
 		footerContactsDrawable = new IconicFontDrawable(getBaseContext());
+
 		footerContactsDrawable.setIcon(IconicIcon.USER);
 		footerContactsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 		footer_contacts_icon = (ImageView) findViewById(R.id.Footer_contactsIcon);
@@ -200,6 +208,14 @@ public class MainviewActivity extends FragmentActivity implements
 		footerSettingsDrawable.setIconColor(LIGHT_DOWN_COLOR);
 		footer_setting_icon = (ImageView) findViewById(R.id.Footer_settingIcon);
 		footer_setting_icon.setBackground(footerSettingsDrawable);
+		
+		
+		footerContactsDrawable.drawContour(true);
+		footerContactsDrawable.setContourColor(LIGHT_STOKE);
+		footerContactsDrawable.setContourWidth(1);
+		footerSettingsDrawable.drawContour(true);
+		footerSettingsDrawable.setContourColor(LIGHT_STOKE);
+		footerSettingsDrawable.setContourWidth(2);
 	}
 
 	@Override

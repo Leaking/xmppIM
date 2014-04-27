@@ -21,7 +21,7 @@
         android:id="@+id/MainviewFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_mainview_footer"
-        android:background="@color/pocket_blue"
+        android:background="@drawable/theme_footer_gradientblue"
         android:orientation="horizontal" >
 
         <FrameLayout

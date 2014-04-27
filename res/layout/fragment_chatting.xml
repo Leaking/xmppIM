@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_mainview_header"
-        android:background="@color/pocket_blue"
+        android:background="@drawable/theme_header_gradientblue"
         android:gravity="center"
          >
 
