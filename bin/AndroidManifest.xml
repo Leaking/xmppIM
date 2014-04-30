@@ -53,6 +53,10 @@
             android:name="com.XMPP.Activity.Chatting.ChattingActivity"
             android:label="@string/title_activity_chatting" >
         </activity>
+        <activity
+            android:name="com.XMPP.Activity.ChatRoom.ChatRoomActivity"
+            android:label="@string/title_activity_chat_room" >
+        </activity>
     </application>
 
 </manifest>

@@ -19,17 +19,14 @@
     <string name="contacts">Contacts</string>
     <string name="setting">Setting</string>
     <string name="title_activity_chatting">ChattingActivity</string>
-	
     <string name="ifAccept">Accept ?</string>
     <string name="accept">if accept, choose a group</string>
     <string name="create_a_Group_Exit">create a group or reject</string>
-    
     <string name="addFriend_Group">Add A Friend or Group</string>
     <string name="addFriend">add a friend</string>
     <string name="addGroup">create a group or exit</string>
-    
-    
     <string name="setGroupName">Set Group Name</string>
     <string name="hint_Input_GroupName">Input GroupName></string>
-    
+    <string name="title_activity_chat_room">ChatRoomActivity</string>
+
 </resources>

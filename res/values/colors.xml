@@ -22,6 +22,12 @@
     <color name="group_arrow_open">#ff000011</color>
     
     
+    <color name="sendLightColor">#8897BF</color>
+	<color name="sendMeduimColor">#5D6CA5</color>
+	<color name="sendDarkColor">#515F9F</color>
+	
+	
+    
     <!-- not used still -->
     <color name="pocket_teal_press">#a132bcb6</color>
     <color name="pocket_teal_press_opaque">#ff77ceca</color>

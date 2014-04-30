@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.XMPP.R;
+import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
 import com.XMPP.Database.ContactsRow;
 import com.XMPP.Model.ViewEntry;
 import com.XMPP.Model.ViewRoster;
@@ -825,10 +826,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
-		SubscribeFragment f1 = new SubscribeFragment();
-		f1.show(ContactsFragment.this.getActivity().getSupportFragmentManager(),
-				"tag");
-		f1.setCancelable(false);
+		Intent intent = new Intent(ContactsFragment.this.getActivity(),ChatRoomActivity.class);
+		ContactsFragment.this.getActivity().startActivity(intent);		
 		return false;
 	}
 
