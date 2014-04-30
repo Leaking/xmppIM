@@ -55,7 +55,9 @@
         </activity>
         <activity
             android:name="com.XMPP.Activity.ChatRoom.ChatRoomActivity"
-            android:label="@string/title_activity_chat_room" >
+            android:label="@string/title_activity_chat_room" 
+            android:windowSoftInputMode="stateHidden" 
+            >
         </activity>
     </application>
 

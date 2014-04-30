@@ -6,6 +6,8 @@ import java.net.UnknownHostException;
 
 import javax.net.SocketFactory;
 
+import android.graphics.Color;
+
 public class Constants {
 	
 	
@@ -33,4 +35,9 @@ public class Constants {
 
 	//new group tag
 	public static int newTag = 1;
+	
+	// common blue
+	public final static int COLOR_COMMON_BLUE = Color.rgb(0x83, 0xed, 0xb8);
+	public final static int COLOR_COMMON_WHITE = Color.rgb(0xff, 0x44, 0x99);
+	
 }	

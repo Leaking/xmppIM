@@ -47,11 +47,10 @@
 
         <ImageView
             android:id="@+id/plus"
+            android:focusable="true"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:focusable="true"
-            android:src="@drawable/plus" />
+            android:layout_gravity="center_vertical"/>
 
         <EditText
             android:id="@+id/text"
@@ -64,11 +63,11 @@
             android:padding="5sp" />
 
         <Button
+            android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
             android:background="@drawable/send_button"
-            android:onClick="sendMessage"
             android:paddingBottom="5sp"
             android:paddingLeft="15sp"
             android:paddingRight="15sp"
