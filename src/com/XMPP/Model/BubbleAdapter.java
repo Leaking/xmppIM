@@ -59,6 +59,7 @@ public class BubbleAdapter extends BaseAdapter{
 		if(message.isStatusMessage())
 		{
 			holder.message.setBackgroundDrawable(null);
+			lp.topMargin = 40;
 			lp.gravity = Gravity.LEFT;
 		}
 		else
@@ -74,6 +75,7 @@ public class BubbleAdapter extends BaseAdapter{
 			{
 				holder.message.setBackgroundResource(R.drawable.speech_bubble_orange);
 				lp.gravity = Gravity.LEFT;
+				
 			}
 			holder.message.setLayoutParams(lp);
 		}

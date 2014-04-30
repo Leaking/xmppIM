@@ -22,11 +22,12 @@ public class IconOnTouchListener implements OnTouchListener{
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			icon.setIconColor(Constants.COLOR_COMMON_WHITE);
 			view.setBackground(icon);
-			return false;
+			return true;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			icon.setIconColor(Constants.COLOR_COMMON_BLUE);
 			view.setBackground(icon);
-			return false;
+			v.performClick();
+			return true;
 		}
 		return true;
 	}		

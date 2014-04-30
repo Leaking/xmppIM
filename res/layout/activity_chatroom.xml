@@ -21,7 +21,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/bubbleList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -36,24 +36,27 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/activity_mainview_header"
         android:background="@drawable/theme_footer_gradientblue"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
 
         <ImageView
             android:id="@+id/face"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/no_expression" />
+            android:layout_marginRight="10dp" />
 
         <ImageView
             android:id="@+id/plus"
-            android:focusable="true"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:focusable="true" />
 
         <EditText
-            android:id="@+id/text"
+            android:id="@+id/input"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
