@@ -3,8 +3,8 @@ package com.XMPP.Activity.Login;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -26,36 +26,36 @@ import com.XMPP.util.StatusBarUtil;
 public class AppStartActivity extends FragmentActivity implements
 		OnPageChangeListener {
 
-	// viewPagerÖÐ°üº¬µÄpageµÄÊýÁ¿.
+	// viewPagerï¿½Ð°ï¿½ï¿½pageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	private static final int NUM_PAGES = 5;
 	// viewPager
 	private ViewPager mPager;
 	// pagerAdapter
 	private PagerAdapter mPagerAdapter;
-	// ±£´æitemsÐ¡µãµÄ¶ÓÁÐ
+	// ï¿½ï¿½ï¿½ï¿½itemsÐ¡ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 	private List<ImageView> views;
-	// ÆÁÄ»µ×²¿¸¡ÏÖµÄview
+	// ï¿½ï¿½Ä»ï¿½×²ï¿½ï¿½ï¿½ï¿½Öµï¿½view
 	private View buttomFrame;
-	// buttonLoginµÄ¸ß¶È
+	// buttonLoginï¿½Ä¸ß¶ï¿½
 	private int buttomViewHeight;
-	// µÇÂ½°´Å¥
+	// ï¿½ï¿½Â½ï¿½ï¿½Å¥
 	private Button loginButton;
-	// ×¢²á°´Å¥
+	// ×¢ï¿½á°´Å¥
 	private Button signUpButton;
-    // µÇÂ½¼àÌýÆ÷
+    // ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private LoginListener loginListener;
 	
 	
 	/**
-	 * ±êÖ¾viewPager»¬¶¯·½ÏòµÄ³£Á¿
+	 * ï¿½ï¿½Ö¾viewPagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
 	 */
 	private static final int LEFT_TO_RIGHT = 1;
 	private static final int RIGHT_TO_LEFT = 2;
 	/**
-	 * preValue : ¼ÇÂ¼ÕýÔÚ»¬¶¯µÄviewµÄÆ«ÒÆÁ¿£¨Ç°Ò»¸ö£©£¬ proValue : ¼ÇÂ¼ÕýÔÚ»¬¶¯µÄviewµÄÆ«ÒÆÁ¿£¨µ±Ç°£©
-	 * pre_pro_choice : ÓÃÀ´±êÖ¾µ±Ç°viewÆ«ÒÆÁ¿Ó¦¸Ã¸³Öµ¸øpreValue»¹ÊÇproValue lock
-	 * £º¼ÇÂ¼ÊÇ·ñÐèÒª¼ÌÐø¸üÐÂpreValue ºÍ proValue¡££¨Ö»Ðè¼ÇÂ¼Ç°Á½¸öÖµ£¬¼´¿ÉÅÐ¶Ï·½Ïò£© direction £º
-	 * ¼ÇÂ¼·½Ïò£¬1=ÓÉ×óÏòÓÒ£¬2=ÓÉÓÒÏò×ó
+	 * preValue : ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½viewï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ proValue : ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½viewï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½
+	 * pre_pro_choice : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ç°viewÆ«ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã¸ï¿½Öµï¿½ï¿½preValueï¿½ï¿½ï¿½ï¿½proValue lock
+	 * ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½preValue ï¿½ï¿½ proValueï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Â¼Ç°ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï·ï¿½ï¿½ï¿½ direction ï¿½ï¿½
+	 * ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½1=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½2=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private float preValue = 0;
 	private float proValue = 0;
@@ -67,14 +67,14 @@ public class AppStartActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// È¥³ý±êÌâÀ¸£¬×¢Òâ£¬ÕâÌõ Óï¾ä±ØÐëÔÚsetContentViewÖ®Ç°µ÷ÓÃ
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥µô±êÌâÀ¸
+		// È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½setContentViewÖ®Ç°ï¿½ï¿½ï¿½ï¿½
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setContentView(R.layout.app_start_activity);
 
 		buttomViewHeight = (int) getResources().getDimension(
 				R.dimen.startActivityButtonViewHeight);
 
-		// ³õÊ¼»¯¶ÓÁÐ²¢»ñÈ¡itemÐ¡µã
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½È¡itemÐ¡ï¿½ï¿½
 		views = new ArrayList<ImageView>();
 		views.add((ImageView) findViewById(R.id.item1));
 		views.add((ImageView) findViewById(R.id.item2));
@@ -82,21 +82,21 @@ public class AppStartActivity extends FragmentActivity implements
 		views.add((ImageView) findViewById(R.id.item4));
 		views.add((ImageView) findViewById(R.id.item5));
 
-		// »ñµÃµ×²¿ÇøÓò£¬ÒÔ¼°ÆäÖÐµÄÁ½¸ö°´Å¥
+		// ï¿½ï¿½Ãµ×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
 		buttomFrame = findViewById(R.id.buttonLogin);
 		loginButton = (Button)findViewById(R.id.buttomLogin);
 		signUpButton = (Button)findViewById(R.id.buttomSignUp);
 		loginListener = new LoginListener(this);
 		regist(loginButton);
 
-		// ³õÊ¼»¯viewAdatperºÍviewPager
+		// ï¿½ï¿½Ê¼ï¿½ï¿½viewAdatperï¿½ï¿½viewPager
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOffscreenPageLimit(5);
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);
-		// Ìí¼Ó¼àÌý
+		// ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½
 		mPager.setOnPageChangeListener(this);
-		// ³õÊ¼»¯itemÐ¡µãµÄÉ«²Ê¡£
+		// ï¿½ï¿½Ê¼ï¿½ï¿½itemÐ¡ï¿½ï¿½ï¿½É«ï¿½Ê¡ï¿½
 		lightNextDot(0);
 	}
 
@@ -104,37 +104,37 @@ public class AppStartActivity extends FragmentActivity implements
 		loginListener.add(view);
 	}
 	
-	// µ±ÓÃ»§°´ÏÂÊÖ»úµÄ·µ»Ø°´Å¥Ê±£¬¶ÔÓ¦²»Í¬pager×ö³ö²»Í¬·´Ó¦
+	// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½Ä·ï¿½ï¿½Ø°ï¿½Å¥Ê±ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Í¬pagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½Ó¦
 	@Override
 	public void onBackPressed() {
 		if (mPager.getCurrentItem() == 0) {
-			// µ±pagerViewÏÔÊ¾µÄµÚÒ»¸öpageÊ±£¬·µ»Ø°´Å¥µÄ×÷ÓÃÊÇ-----·µ»Øµ½ÊÖ»úhome½çÃæ
+			// ï¿½ï¿½pagerViewï¿½ï¿½Ê¾ï¿½Äµï¿½Ò»ï¿½ï¿½pageÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ø°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-----ï¿½ï¿½ï¿½Øµï¿½ï¿½Ö»ï¿½homeï¿½ï¿½ï¿½ï¿½
 			super.onBackPressed();
 		} else {
-			// µ±pagerViewÏÔÊ¾µÄµÚ¶þ»òÕß¸üºóµÄpageÊ±£¬·µ»Ø°´Å¥µÄ×÷ÓÃÊÇ-----·µ»ØÉÏÒ»¸öpage
+			// ï¿½ï¿½pagerViewï¿½ï¿½Ê¾ï¿½ÄµÚ¶ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½pageÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ø°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-----ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½page
 			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
 		}
 	}
 
-	// ÐÞ¸ÄµãÁÁµÄdot
+	// ï¿½Þ¸Äµï¿½ï¿½ï¿½ï¿½ï¿½dot
 	
 	public void lightNextDot(int position) {
 		for (int i = 0; i < NUM_PAGES; i++) {
-			// µ±ÔÚµÚÒ»¸öpageÊ±£¬ËùÓÐdot¶¼²»ÏÔÊ¾ÑÕÉ«
+			// ï¿½ï¿½ï¿½Úµï¿½Ò»ï¿½ï¿½pageÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dotï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½É«
 			if (position == 0) {
 				views.get(i).setColorFilter(
 						getResources().getColor(R.color.white));
 				continue;
 			}
-			// µãÁÁµÄdotÓÒÒÆ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dotï¿½ï¿½ï¿½ï¿½
 			if (i == position) {
 				views.get(i).setColorFilter(
 						getResources().getColor(R.color.dot_big_black));
-				// ³õÊ¼»¯
+				// ï¿½ï¿½Ê¼ï¿½ï¿½
 				Animation scaleAnimation = new ScaleAnimation(1.0f, 3/2f, 1.0f,
 						3/2f, Animation.RELATIVE_TO_SELF, 0.5f,
 						Animation.RELATIVE_TO_SELF, 0.5f);
-				// ÉèÖÃ¶¯»­Ê±¼ä
+				// ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 				scaleAnimation.setFillAfter(true);
 				scaleAnimation.setDuration(500);
 				views.get(i).startAnimation(scaleAnimation);
@@ -142,7 +142,7 @@ public class AppStartActivity extends FragmentActivity implements
 					Animation scaleDownAnimation = new ScaleAnimation(1.0f, 2/3f,
 							1.0f, 2/3f, Animation.RELATIVE_TO_SELF, 0.5f,
 							Animation.RELATIVE_TO_SELF, 0.5f);
-					// ÉèÖÃ¶¯»­Ê±¼ä
+					// ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 					scaleDownAnimation.setFillAfter(true);
 					scaleDownAnimation.setDuration(500);
 					views.get(position - 1).startAnimation(scaleDownAnimation);
@@ -151,7 +151,7 @@ public class AppStartActivity extends FragmentActivity implements
 					Animation scaleDownAnimation = new ScaleAnimation(1.0f, 2/3f,
 							1.0f, 2/3f, Animation.RELATIVE_TO_SELF, 0.5f,
 							Animation.RELATIVE_TO_SELF, 0.5f);
-					// ÉèÖÃ¶¯»­Ê±¼ä
+					// ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 					scaleDownAnimation.setFillAfter(true);
 					scaleDownAnimation.setDuration(1000);
 					views.get(position + 1).startAnimation(scaleDownAnimation);
@@ -194,7 +194,7 @@ public class AppStartActivity extends FragmentActivity implements
 
 
 	/**
-	 * ¼ì²â»¬¶¯·½Ïò
+	 * ï¿½ï¿½â»¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void checkDirection(float arg1) {
 		if (pre_pro_choice == 1 && lock < 2) {

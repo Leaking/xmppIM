@@ -2,16 +2,17 @@ package com.XMPP.Activity.ChatRoom;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
+import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,23 +24,36 @@ import com.XMPP.Model.BubbleAdapter;
 import com.XMPP.Model.IconOnTouchListener;
 import com.XMPP.Model.Message;
 import com.XMPP.util.Constants;
+import com.XMPP.util.SystemUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
+import com.rockerhieu.emojicon.EmojiconGridFragment;
+import com.rockerhieu.emojicon.EmojiconsFragment;
+import com.rockerhieu.emojicon.emoji.Emojicon;
 
-public class ChatRoomActivity extends Activity {
+public class ChatRoomActivity extends FragmentActivity implements
+		EmojiconGridFragment.OnEmojiconClickedListener,
+		EmojiconsFragment.OnEmojiconBackspaceClickedListener {
 
 	ImageView face;
 	ImageView plus;
 	EditText input;
 	Button send;
 	LinearLayout rootLayout;
-	LinearLayout footLayout;
+	//
+	LinearLayout plusLayout;
+	View faceLayout;
+	boolean open_plus = false;
+	boolean open_face = false;
+	//
 	ListView bubbleList;
-	Plus_appear_Listener appear_listener;
-	Plus_disappear_Listener disappear_listener;
+	Plus_appear_Listener plus_appear_listener;
+	Plus_disappear_Listener plus_disappear_listener;
+	Face_appear_Listener face_appear_listener;
+	Face_disappear_Listener face_disappear_listener;
 	ArrayList<Message> messages;
 	BubbleAdapter adapter;
 
@@ -63,30 +77,16 @@ public class ChatRoomActivity extends Activity {
 	}
 
 	public void init() {
+
 		face = (ImageView) findViewById(R.id.face);
 		plus = (ImageView) findViewById(R.id.plus);
 		input = (EditText) findViewById(R.id.input);
 		send = (Button) findViewById(R.id.send);
 		rootLayout = (LinearLayout) findViewById(R.id.root);
-
 		send.setOnClickListener(new Send_Listener());
 
-		
-		//**插入图片
-//		Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher);
-//		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-//				drawable.getIntrinsicHeight());
-//		// 需要处理的文本，[smile]是需要被替代的文本
-//		SpannableString spannable = new SpannableString(input.getText()
-//				.toString() + "[smile]");
-//		// 要让图片替代指定的文字就要用ImageSpan
-//		ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-//		// 开始替换，注意第2和第3个参数表示从哪里开始替换到哪里替换结束（start和end）
-//		// 最后一个参数类似数学中的集合,[5,12)表示从5到12，包括5但不包括12
-//		spannable.setSpan(span, input.getText().length(), input.getText()
-//				.length() + "[smile]".length(),
-//				Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-//		input.setText(spannable);
+		plusLayout = getPlusLayout();
+		faceLayout = getFaceView();
 
 		IconicFontDrawable icon_face = new IconicFontDrawable(this);
 		icon_face.setIcon(FontAwesomeIcon.GITHUB_ALT);
@@ -98,13 +98,30 @@ public class ChatRoomActivity extends Activity {
 		icon_plus.setIconColor(Constants.COLOR_COMMON_BLUE);
 		plus.setBackground(icon_plus);
 
-		appear_listener = new Plus_appear_Listener();
-		disappear_listener = new Plus_disappear_Listener();
+		face_appear_listener = new Face_appear_Listener();
+		face_disappear_listener = new Face_disappear_Listener();
+		plus_appear_listener = new Plus_appear_Listener();
+		plus_disappear_listener = new Plus_disappear_Listener();
+
+		//input.setOnFocusChangeListener(new EditTextFocusChangeListener());
+		input.setOnTouchListener(new EditOnTouchListener());
 		face.setOnTouchListener(new IconOnTouchListener(icon_face, face));
 		plus.setOnTouchListener(new IconOnTouchListener(icon_plus, plus));
-		plus.setOnClickListener(appear_listener);
+		face.setOnClickListener(face_appear_listener);
+		plus.setOnClickListener(plus_appear_listener);
 	}
+	
+	class EditOnTouchListener implements OnTouchListener{
 
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			close_Face();
+			close_Plus();
+			return false;
+		}
+		
+	}
 	class Send_Listener implements OnClickListener {
 
 		@Override
@@ -131,10 +148,12 @@ public class ChatRoomActivity extends Activity {
 			icon_close.setIconColor(Constants.COLOR_COMMON_BLUE);
 			plus.setBackground(icon_close);
 			plus.setOnTouchListener(new IconOnTouchListener(icon_close, plus));
-
-			footLayout = getFootLayout();
-			rootLayout.addView(footLayout);
-			plus.setOnClickListener(disappear_listener);
+			
+			SystemUtil.closeInputMethod(ChatRoomActivity.this);
+			close_Face();
+			open_plus = true;
+			rootLayout.addView(plusLayout);
+			plus.setOnClickListener(plus_disappear_listener);
 		}
 
 	}
@@ -151,21 +170,56 @@ public class ChatRoomActivity extends Activity {
 			plus.setBackground(icon_open);
 			plus.setOnTouchListener(new IconOnTouchListener(icon_open, plus));
 
-			rootLayout.removeView(footLayout);
-			plus.setOnClickListener(appear_listener);
+			open_plus = false;
+			rootLayout.removeView(plusLayout);
+			plus.setOnClickListener(plus_appear_listener);
 
 		}
 
 	}
 
-	public LinearLayout getFootLayout() {
+	class Face_appear_Listener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+
+			SystemUtil.closeInputMethod(ChatRoomActivity.this);
+			close_Plus();
+			open_face = true;
+			rootLayout.addView(faceLayout);
+			face.setOnClickListener(new Face_disappear_Listener());
+		}
+
+	}
+
+	class Face_disappear_Listener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			open_face = false;
+			rootLayout.removeView(faceLayout);
+			face.setOnClickListener(new Face_appear_Listener());
+		}
+
+	}
+
+	public View getFaceView() {
+		View faceView = new View(ChatRoomActivity.this);
+
+		faceView = (View) View.inflate(this, R.layout.face_layout, null);
+		return faceView;
+	}
+
+	public LinearLayout getPlusLayout() {
 		LinearLayout footLayout = new LinearLayout(ChatRoomActivity.this);
 
-		int footHeight = (int) ValueUtil.convertDpToPixel(50,
+		int plusHeight = (int) ValueUtil.convertDpToPixel(50,
 				ChatRoomActivity.this);
 
 		footLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				footHeight));
+				plusHeight));
 		footLayout.setOrientation(0);
 		footLayout.setPadding(20, 20, 20, 20);
 
@@ -238,5 +292,28 @@ public class ChatRoomActivity extends Activity {
 		footLayout.addView(plus_locate);
 
 		return footLayout;
+	}
+
+	
+	public void close_Plus(){
+		if(open_plus)
+			rootLayout.removeView(plusLayout);
+	}
+	public void close_Face(){
+		if(open_face)
+			rootLayout.removeView(faceLayout);
+	}
+	
+	
+	@Override
+	public void onEmojiconBackspaceClicked(View v) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onEmojiconClicked(Emojicon emojicon) {
+		// TODO Auto-generated method stub
+
 	}
 }
