@@ -2,7 +2,6 @@ package com.XMPP.Activity.ChatRoom;
 
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
@@ -12,7 +11,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,10 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.XMPP.R;
-import com.XMPP.Model.BubbleAdapter;
 import com.XMPP.Model.IconOnTouchListener;
 import com.XMPP.Model.Message;
 import com.XMPP.util.Constants;
+import com.XMPP.util.L;
 import com.XMPP.util.SystemUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
@@ -41,7 +39,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	ImageView face;
 	ImageView plus;
 	EditText input;
-	Button send;
+	ImageView send;
 	LinearLayout rootLayout;
 	//
 	LinearLayout plusLayout;
@@ -81,7 +79,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		face = (ImageView) findViewById(R.id.face);
 		plus = (ImageView) findViewById(R.id.plus);
 		input = (EditText) findViewById(R.id.input);
-		send = (Button) findViewById(R.id.send);
+		send = (ImageView) findViewById(R.id.send);
 		rootLayout = (LinearLayout) findViewById(R.id.root);
 		send.setOnClickListener(new Send_Listener());
 
@@ -98,6 +96,12 @@ public class ChatRoomActivity extends FragmentActivity implements
 		icon_plus.setIconColor(Constants.COLOR_COMMON_BLUE);
 		plus.setBackground(icon_plus);
 
+		IconicFontDrawable icon_send = new IconicFontDrawable(this);
+		icon_send.setIcon(FontAwesomeIcon.PLAY);
+		icon_send.setIconColor(Constants.COLOR_COMMON_BLUE);
+		send.setBackground(icon_send);
+		
+		
 		face_appear_listener = new Face_appear_Listener();
 		face_disappear_listener = new Face_disappear_Listener();
 		plus_appear_listener = new Plus_appear_Listener();
@@ -105,6 +109,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		//input.setOnFocusChangeListener(new EditTextFocusChangeListener());
 		input.setOnTouchListener(new EditOnTouchListener());
+		input.addTextChangedListener(new ChatTextChangeListener());
 		face.setOnTouchListener(new IconOnTouchListener(icon_face, face));
 		plus.setOnTouchListener(new IconOnTouchListener(icon_plus, plus));
 		face.setOnClickListener(face_appear_listener);
@@ -122,6 +127,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}
 		
 	}
+
 	class Send_Listener implements OnClickListener {
 
 		@Override
@@ -142,6 +148,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+
 			IconicFontDrawable icon_close = new IconicFontDrawable(
 					ChatRoomActivity.this);
 			icon_close.setIcon(FontAwesomeIcon.RESIZE_SMALL);
@@ -308,12 +315,12 @@ public class ChatRoomActivity extends FragmentActivity implements
 	@Override
 	public void onEmojiconBackspaceClicked(View v) {
 		// TODO Auto-generated method stub
-
+		EmojiconsFragment.backspace(input);
 	}
 
 	@Override
 	public void onEmojiconClicked(Emojicon emojicon) {
 		// TODO Auto-generated method stub
-
+		EmojiconsFragment.input(input, emojicon);
 	}
 }

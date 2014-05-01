@@ -34,9 +34,11 @@
     <LinearLayout
         android:id="@+id/bottom_write_bar"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/activity_mainview_header"
+        android:layout_height="wrap_content"
         android:background="@drawable/theme_footer_gradientblue"
         android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
@@ -55,28 +57,24 @@
             android:layout_marginRight="10dp"
             android:focusable="true" />
 
-        <EditText
+        <com.rockerhieu.emojicon.EmojiconEditText
             android:id="@+id/input"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_margin="5sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/message_field"
+            android:gravity="top"
             android:hint="Write here"
-            android:padding="5sp" />
+            android:textSize="20sp"
+            android:maxLines="3"
+            android:minLines="1" />
 
-        <Button
+        <ImageView
             android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_margin="5sp"
-            android:background="@drawable/send_button"
-            android:paddingBottom="5sp"
-            android:paddingLeft="15sp"
-            android:paddingRight="15sp"
-            android:paddingTop="5sp"
-            android:text="Send"
-            android:textColor="#FFF" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
 </LinearLayout>
