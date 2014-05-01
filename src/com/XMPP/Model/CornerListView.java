@@ -34,17 +34,17 @@ public class CornerListView extends ListView{
             else {  
                 if (itemnum == 0) {  
                     if (itemnum == (getAdapter().getCount() - 1)) {  
-                        //只有一项  
+                       
                       setSelector(R.drawable.round_corner);  
                     } else {  
-                        //第一项  
+                       
                       setSelector(R.drawable.top_round_corner);  
                     }  
                 } else if (itemnum == (getAdapter().getCount() - 1))  
-                    //最后一项  
+                   
                   setSelector(R.drawable.buttom_round_corner);  
                 else {  
-                    //中间项  
+                   
                   setSelector(R.drawable.mid_round_corner);  
                 }  
             }  

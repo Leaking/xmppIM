@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -250,6 +251,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 
 			ll.setId(groupPosition);
 			ll.setTag("group");
+			
+			//ll.setBackgroundColor(Color.GRAY);
 			return ll;
 		}
 
