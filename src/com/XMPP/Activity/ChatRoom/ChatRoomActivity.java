@@ -2,12 +2,18 @@ package com.XMPP.Activity.ChatRoom;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -16,12 +22,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
-import com.XMPP.Model.Message;
+import com.XMPP.smack.ConnectionHandler;
+import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
-import com.XMPP.util.L;
 import com.XMPP.util.SystemUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
@@ -35,7 +44,12 @@ import com.rockerhieu.emojicon.emoji.Emojicon;
 public class ChatRoomActivity extends FragmentActivity implements
 		EmojiconGridFragment.OnEmojiconClickedListener,
 		EmojiconsFragment.OnEmojiconBackspaceClickedListener {
-
+	RosterEntry entry;
+	String JID;
+	XMPPConnection conn;
+	Smack smack;
+	Chat chat;
+	TextView room;
 	ImageView face;
 	ImageView plus;
 	EditText input;
@@ -52,7 +66,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	Plus_disappear_Listener plus_disappear_listener;
 	Face_appear_Listener face_appear_listener;
 	Face_disappear_Listener face_disappear_listener;
-	ArrayList<Message> messages;
+	ArrayList<BubbleMessage> messages;
 	BubbleAdapter adapter;
 
 	@Override
@@ -64,10 +78,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		bubbleList = (ListView) findViewById(R.id.bubbleList);
 
-		messages = new ArrayList<Message>();
-		messages.add(new Message("Hello", true));
-		messages.add(new Message("HelloHelloHelloHello", true));
-		messages.add(new Message("HelloHelloHelloHello", false));
+		messages = new ArrayList<BubbleMessage>();
+		messages.add(new BubbleMessage("Hello", true));
+		messages.add(new BubbleMessage("HelloHelloHelloHello", true));
+		messages.add(new BubbleMessage("HelloHelloHelloHello", false));
 
 		adapter = new BubbleAdapter(this, messages);
 		bubbleList.setAdapter(adapter);
@@ -75,7 +89,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 	}
 
 	public void init() {
-
+		smack = SmackImpl.getInstance();
+		conn = ConnectionHandler.getConnection();
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			JID = extras.getString("JID");
+			entry = conn.getRoster().getEntry(JID);
+		}
+		room = (TextView) findViewById(R.id.room_Friend);
+		room.setText(smack.getNickname(JID));
 		face = (ImageView) findViewById(R.id.face);
 		plus = (ImageView) findViewById(R.id.plus);
 		input = (EditText) findViewById(R.id.input);
@@ -100,23 +122,56 @@ public class ChatRoomActivity extends FragmentActivity implements
 		icon_send.setIcon(FontAwesomeIcon.PLAY);
 		icon_send.setIconColor(Constants.COLOR_COMMON_BLUE);
 		send.setBackground(icon_send);
-		
-		
+
 		face_appear_listener = new Face_appear_Listener();
 		face_disappear_listener = new Face_disappear_Listener();
 		plus_appear_listener = new Plus_appear_Listener();
 		plus_disappear_listener = new Plus_disappear_Listener();
 
-		//input.setOnFocusChangeListener(new EditTextFocusChangeListener());
+		// input.setOnFocusChangeListener(new EditTextFocusChangeListener());
 		input.setOnTouchListener(new EditOnTouchListener());
 		input.addTextChangedListener(new ChatTextChangeListener());
 		face.setOnTouchListener(new IconOnTouchListener(icon_face, face));
 		plus.setOnTouchListener(new IconOnTouchListener(icon_plus, plus));
 		face.setOnClickListener(face_appear_listener);
 		plus.setOnClickListener(plus_appear_listener);
+
+		//
+		receiveMessage();
 	}
-	
-	class EditOnTouchListener implements OnTouchListener{
+
+	public void sendMessage(final Message message) {
+
+		// TODO Auto-generated method stub
+		try {
+			chat.sendMessage(message);
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void receiveMessage() {
+
+		// TODO Auto-generated method stub
+		chat = conn.getChatManager().createChat(JID, new MessageListener() {
+
+			public void processMessage(Chat chat, Message message) {
+				System.out.println("Received message: " + message.getBody());
+				BubbleMessage bubbleMessage = new BubbleMessage(message
+						.getBody(), false);
+				messages.add(bubbleMessage);
+				
+				adapter = new BubbleAdapter(ChatRoomActivity.this, messages);
+				bubbleList.setAdapter(adapter);
+				System.out.println("to the buttom receive" + messages.size());
+			}
+		});
+
+	}
+
+	class EditOnTouchListener implements OnTouchListener {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
@@ -125,7 +180,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			close_Plus();
 			return false;
 		}
-		
+
 	}
 
 	class Send_Listener implements OnClickListener {
@@ -134,10 +189,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			String inputContent = input.getText().toString();
-			Message message = new Message(inputContent, true);
-			messages.add(message);
+			BubbleMessage bubbleMessage = new BubbleMessage(inputContent, true);
+			// int sourceID = R.drawable.channel_qq;
+			// Message message = new Message(sourceID,true);
+			Message message = new Message();
+			message.setBody(inputContent);
+			messages.add(bubbleMessage);
 			adapter.notifyDataSetChanged();
 			bubbleList.setSelection(messages.size() - 1);
+
+			System.out.println("to the buttom send " + messages.size());
+			sendMessage(message);
 			input.setText(null);
 		}
 
@@ -155,7 +217,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			icon_close.setIconColor(Constants.COLOR_COMMON_BLUE);
 			plus.setBackground(icon_close);
 			plus.setOnTouchListener(new IconOnTouchListener(icon_close, plus));
-			
+
 			SystemUtil.closeInputMethod(ChatRoomActivity.this);
 			close_Face();
 			open_plus = true;
@@ -301,17 +363,16 @@ public class ChatRoomActivity extends FragmentActivity implements
 		return footLayout;
 	}
 
-	
-	public void close_Plus(){
-		if(open_plus)
+	public void close_Plus() {
+		if (open_plus)
 			rootLayout.removeView(plusLayout);
 	}
-	public void close_Face(){
-		if(open_face)
+
+	public void close_Face() {
+		if (open_face)
 			rootLayout.removeView(faceLayout);
 	}
-	
-	
+
 	@Override
 	public void onEmojiconBackspaceClicked(View v) {
 		// TODO Auto-generated method stub
