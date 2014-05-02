@@ -140,9 +140,9 @@ public class ContactsService extends Service {
 				/**
 				 * send a broadcast to change the ui
 				 */
-//				Intent sendIntent = new Intent(
-//						ContactsFragment.UPDATE_LIST_ACTION);
-//				sendBroadcast(sendIntent);
+				Intent sendIntent = new Intent(
+						ContactsFragment.UPDATE_LIST_ACTION);
+				sendBroadcast(sendIntent);
 			}
 
 			public void entriesUpdated(Collection<String> presence) {

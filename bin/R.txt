@@ -91,6 +91,8 @@ int dimen activity_mainview_footer_iconHeight 0x7f090006
 int dimen activity_mainview_footer_iconWidth 0x7f090007
 int dimen activity_mainview_header 0x7f090004
 int dimen activity_vertical_margin 0x7f090003
+int dimen bubbleTTextsizeText 0x7f09000f
+int dimen bubbleTTextsizeTime 0x7f090010
 int dimen groupItemHeight 0x7f09000c
 int dimen groupItemPadding 0x7f09000d
 int dimen groupItemPhotoFrameSize 0x7f09000b
@@ -1103,9 +1105,8 @@ int layout fragment_setting_item 0x7f030010
 int layout learnmore_a_fragment 0x7f030011
 int layout login_fragment 0x7f030012
 int layout setgroupname 0x7f030013
-int layout sms_row 0x7f030014
-int layout subscribe 0x7f030015
-int layout subscribed 0x7f030016
+int layout subscribe 0x7f030014
+int layout subscribed 0x7f030015
 int menu chat_room 0x7f0b0000
 int menu chatting 0x7f0b0001
 int menu firends_list 0x7f0b0002

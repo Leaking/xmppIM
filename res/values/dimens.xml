@@ -19,4 +19,9 @@
     <dimen name="groupItemHeight">50dp</dimen>
     <dimen name="groupItemPadding">10dp</dimen>
     <dimen name="groupItemPhotoHeight_Width">35dp</dimen>
+    
+    
+    <dimen name="bubbleTTextsizeText">10sp</dimen>
+    <dimen name="bubbleTTextsizeTime">8sp</dimen>
+    
 </resources>

@@ -17,9 +17,12 @@ public class BubbleMessage {
 	int pictureID;
 	String status;
 
-	public BubbleMessage(String message ,boolean isMine) {
+	public BubbleMessage(){
+		
+	}
+	public BubbleMessage(String message ,MessageType type , boolean isMine) {
 		super();
-		this.type = MessageType.TEXT;
+		this.type = type;
 		this.message = message;
 		this.isMine = isMine;
 	}

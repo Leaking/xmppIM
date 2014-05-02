@@ -1,6 +1,8 @@
 package com.XMPP.Activity.ChatRoom;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -35,6 +37,8 @@ import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
+import com.XMPP.util.L;
+import com.XMPP.util.MessageType;
 import com.XMPP.util.SystemUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
@@ -72,6 +76,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 	Face_disappear_Listener face_disappear_listener;
 	ArrayList<BubbleMessage> messages;
 	BubbleAdapter adapter;
+	AdapterRefreshReceiver aReceiver;
+
+	//
+	private static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +91,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 		bubbleList = (ListView) findViewById(R.id.bubbleList);
 
 		messages = new ArrayList<BubbleMessage>();
-		messages.add(new BubbleMessage("Hello", true));
-		messages.add(new BubbleMessage("HelloHelloHelloHello", true));
-		messages.add(new BubbleMessage("HelloHelloHelloHello", false));
 
 		adapter = new BubbleAdapter(this, messages);
 		bubbleList.setAdapter(adapter);
-		
-		
-		
-		AdapterRefreshReceiver aReceiver = new AdapterRefreshReceiver();
+
+		aReceiver = new AdapterRefreshReceiver();
 		IntentFilter filter = new IntentFilter();
-		filter.addAction("fuck");
+		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 		registerReceiver(aReceiver, filter);
 
 	}
@@ -154,8 +157,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 	public void sendMessage(final Message message) {
 
 		// TODO Auto-generated method stub
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// }).start();
 		try {
+
 			chat.sendMessage(message);
+
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,35 +182,26 @@ public class ChatRoomActivity extends FragmentActivity implements
 		chat = conn.getChatManager().createChat(JID, new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
-				System.out.println("Received message: " + message.getBody());
-				BubbleMessage bubbleMessage = new BubbleMessage(message
-						.getBody(), false);
+				System.out.println("Received message type: " + message.getProperty("TYPE").toString());
+				BubbleMessage bubbleMessage = new BubbleMessage();
+				
+				if (message.getProperty("TYPE").toString().equals("TEXT")) {
+					L.i("equals(TEXT)");
+					bubbleMessage = new BubbleMessage(message.getBody(),
+							MessageType.TEXT, false);
+				}
+				if (message.getProperty("TYPE").toString().equals("TIME")) {
+					L.i("equals(TIME)");
+					bubbleMessage = new BubbleMessage(message.getBody(),
+							MessageType.TIME, false);
+				}
+
 				messages.add(bubbleMessage);
 
-//				adapter.notifyDataSetChanged();
-//
-//				bubbleList.setSelection(messages.size() - 1);
-
-				
 				Intent intent = new Intent();
-				intent.setAction("fuck");
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 				sendBroadcast(intent);
-				
-				
-				
-				
-				// touch ok
-				// adapter.notifyDataSetChanged();
-				// bubbleList.setSelection(messages.size() - 1);
-				// bubbleList.requestFocusFromTouch();
-				// bubbleList.requestFocus();
 
-				// adapter.notifyDataSetChanged();
-				// bubbleList.requestFocusFromTouch();
-				// bubbleList.setSelection(messages.size() - 1);
-				// bubbleList.requestFocus();
-				// System.out.println("to the buttom receive" +
-				// messages.size());
 			}
 		});
 
@@ -221,32 +225,44 @@ public class ChatRoomActivity extends FragmentActivity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			String inputContent = input.getText().toString();
-			BubbleMessage bubbleMessage = new BubbleMessage(inputContent, true);
+			System.out.println("face: " + inputContent);
 
-			Message message = new Message();
-			message.setBody(inputContent);
-			messages.add(bubbleMessage);
+			String format = "MM-dd HH:mm";
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			String strDate = sdf.format(Calendar.getInstance().getTime());
+			Message messageTime = new Message();
+			messageTime.setProperty("TYPE", "TIME");
+			messageTime.setBody(strDate);
 
-//			adapter.notifyDataSetChanged();
-//			bubbleList.setSelection(messages.size() - 1);
+			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
+					MessageType.TEXT, true);
+			BubbleMessage bubbleMessageTime = new BubbleMessage(strDate,
+					MessageType.TIME, true);
+
+			Message messageText = new Message();
+			messageText.setBody(inputContent);
+			messageText.setProperty("TYPE", "TEXT");
+
+			messages.add(bubbleMessageTime);
+			messages.add(bubbleMessageText);
+
+			
+			sendMessage(messageTime);
+			sendMessage(messageText);
+
+			
 			
 			Intent intent = new Intent();
-			intent.setAction("fuck");
+			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
 
-			System.out.println("to the buttom send " + messages.size());
-			sendMessage(message);
+
+
 			input.setText(null);
 		}
 
 	}
-	class AdapterRefreshReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			adapter.notifyDataSetChanged();
-			bubbleList.setSelection(messages.size() - 1);
-		}		
-	}
+
 	class Plus_appear_Listener implements OnClickListener {
 
 		@Override
@@ -426,4 +442,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		EmojiconsFragment.input(input, emojicon);
 	}
+
+	class AdapterRefreshReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+			bubbleList.setSelection(messages.size() - 1);
+		}
+	}
+
 }

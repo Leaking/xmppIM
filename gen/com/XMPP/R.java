@@ -126,6 +126,8 @@ containing a value of this type.
         public static final int activity_mainview_footer_iconWidth=0x7f090007;
         public static final int activity_mainview_header=0x7f090004;
         public static final int activity_vertical_margin=0x7f090003;
+        public static final int bubbleTTextsizeText=0x7f09000f;
+        public static final int bubbleTTextsizeTime=0x7f090010;
         public static final int groupItemHeight=0x7f09000c;
         public static final int groupItemPadding=0x7f09000d;
         public static final int groupItemPhotoFrameSize=0x7f09000b;
@@ -1144,9 +1146,8 @@ containing a value of this type.
         public static final int learnmore_a_fragment=0x7f030011;
         public static final int login_fragment=0x7f030012;
         public static final int setgroupname=0x7f030013;
-        public static final int sms_row=0x7f030014;
-        public static final int subscribe=0x7f030015;
-        public static final int subscribed=0x7f030016;
+        public static final int subscribe=0x7f030014;
+        public static final int subscribed=0x7f030015;
     }
     public static final class menu {
         public static final int chat_room=0x7f0b0000;

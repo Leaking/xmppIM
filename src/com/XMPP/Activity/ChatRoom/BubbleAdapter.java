@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.XMPP.R;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.util.MessageType;
+import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
  * AwesomeAdapter is a Custom class to implement custom row in ListView
@@ -21,77 +22,119 @@ import com.XMPP.util.MessageType;
  * @author Adil Soomro
  * 
  */
-public class BubbleAdapter extends BaseAdapter{
+public class BubbleAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<BubbleMessage> mMessages;
-
-
+	private BubbleMessage positonMessage;
 
 	public BubbleAdapter(Context context, ArrayList<BubbleMessage> messages) {
 		super();
 		this.mContext = context;
 		this.mMessages = messages;
 	}
+
 	@Override
 	public int getCount() {
 		return mMessages.size();
 	}
+
 	@Override
-	public Object getItem(int position) {		
+	public Object getItem(int position) {
 		return mMessages.get(position);
 	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		BubbleMessage message = (BubbleMessage) this.getItem(position);
+		positonMessage = (BubbleMessage) this.getItem(position);
+		//
+		switch (getItemViewType(position)) {
+		case 1:
+			View v1 = convertView;
+			v1 = getTextMessage(position, v1, parent);
+			return v1;
+		case 0:
+			View v0 = convertView;
+			v0 = getTimeMessage(position, v0, parent);
+			return v0;
+		case 2:
 
-		ViewHolder holder; 
-		if(convertView == null)
-		{
-			holder = new ViewHolder();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.sms_row, parent, false);
-			holder.message = (TextView) convertView.findViewById(R.id.message_text);
-			convertView.setTag(holder);
+			break;
+
 		}
-		else
-			holder = (ViewHolder) convertView.getTag();
 
-		holder.message.setText(message.getMessage());
-
-		LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
-		//check if it is a status message then remove background, and change text color.
-		if(message.getType() == MessageType.STATUS)
-		{
-			holder.message.setBackgroundDrawable(null);
-			lp.topMargin = 40;
-			lp.gravity = Gravity.LEFT;
-		}
-		else
-		{		
-			//Check whether message is mine to show green background and align to right
-			if(message.isMine())
-			{
-				holder.message.setBackgroundResource(R.drawable.bubble_right);
-				lp.gravity = Gravity.RIGHT;
-			}
-			//If not mine then it is from sender to show orange background and align to left
-			else
-			{
-				holder.message.setBackgroundResource(R.drawable.bubble_left);
-				lp.gravity = Gravity.LEFT;
-
-			}
-			holder.message.setLayoutParams(lp);
-		}
 		return convertView;
 	}
-	private static class ViewHolder
-	{
-		TextView message;
+
+	public View getTimeMessage(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.bubble_text, parent, false);
+			holder.message = (EmojiconTextView) convertView
+					.findViewById(R.id.message_text);
+			convertView.setTag( holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		holder.message.setText(positonMessage.getMessage());
+		holder.message.setTextSize(mContext.getResources().getDimension(R.dimen.bubbleTTextsizeTime));
+		holder.message.setMinimumHeight(10);
+		LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
+		lp.gravity = Gravity.CENTER;
+		holder.message.setLayoutParams(lp);
+		return convertView;
+
 	}
+
+	@Override
+	public int getItemViewType (int position){
+		positonMessage = (BubbleMessage) this.getItem(position);
+		if(positonMessage.getType() == MessageType.TIME)
+			return 0;
+		if(positonMessage.getType() == MessageType.TEXT)
+			return 1;
+		return 1;
+	}
+	public View getTextMessage(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.bubble_text, parent, false);
+			holder.message = (EmojiconTextView) convertView
+					.findViewById(R.id.message_text);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		holder.message.setText(positonMessage.getMessage());
+		holder.message.setTextSize(mContext.getResources().getDimension(R.dimen.bubbleTTextsizeText));
+		
+		LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
+
+		if (positonMessage.isMine()) {
+			holder.message.setBackgroundResource(R.drawable.bubble_right);
+			lp.gravity = Gravity.RIGHT;
+		} else {
+			holder.message.setBackgroundResource(R.drawable.bubble_left);
+			lp.gravity = Gravity.LEFT;
+
+		}
+		holder.message.setLayoutParams(lp);
+
+		return convertView;
+	}
+
+	private class ViewHolder {
+		EmojiconTextView message;
+	}
+	
+
 
 	@Override
 	public long getItemId(int position) {
-		//Unimplemented, because we aren't using Sqlite.
+		// Unimplemented, because we aren't using Sqlite.
 		return position;
 	}
 
