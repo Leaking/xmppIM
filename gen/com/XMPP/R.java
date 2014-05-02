@@ -1144,8 +1144,9 @@ containing a value of this type.
         public static final int learnmore_a_fragment=0x7f030011;
         public static final int login_fragment=0x7f030012;
         public static final int setgroupname=0x7f030013;
-        public static final int subscribe=0x7f030014;
-        public static final int subscribed=0x7f030015;
+        public static final int sms_row=0x7f030014;
+        public static final int subscribe=0x7f030015;
+        public static final int subscribed=0x7f030016;
     }
     public static final class menu {
         public static final int chat_room=0x7f0b0000;

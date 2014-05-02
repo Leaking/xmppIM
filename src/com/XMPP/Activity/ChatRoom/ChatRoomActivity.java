@@ -9,6 +9,10 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
@@ -85,6 +89,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		adapter = new BubbleAdapter(this, messages);
 		bubbleList.setAdapter(adapter);
+		
+		
+		
+		AdapterRefreshReceiver aReceiver = new AdapterRefreshReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("fuck");
+		registerReceiver(aReceiver, filter);
 
 	}
 
@@ -162,10 +173,31 @@ public class ChatRoomActivity extends FragmentActivity implements
 				BubbleMessage bubbleMessage = new BubbleMessage(message
 						.getBody(), false);
 				messages.add(bubbleMessage);
+
+//				adapter.notifyDataSetChanged();
+//
+//				bubbleList.setSelection(messages.size() - 1);
+
 				
-				adapter = new BubbleAdapter(ChatRoomActivity.this, messages);
-				bubbleList.setAdapter(adapter);
-				System.out.println("to the buttom receive" + messages.size());
+				Intent intent = new Intent();
+				intent.setAction("fuck");
+				sendBroadcast(intent);
+				
+				
+				
+				
+				// touch ok
+				// adapter.notifyDataSetChanged();
+				// bubbleList.setSelection(messages.size() - 1);
+				// bubbleList.requestFocusFromTouch();
+				// bubbleList.requestFocus();
+
+				// adapter.notifyDataSetChanged();
+				// bubbleList.requestFocusFromTouch();
+				// bubbleList.setSelection(messages.size() - 1);
+				// bubbleList.requestFocus();
+				// System.out.println("to the buttom receive" +
+				// messages.size());
 			}
 		});
 
@@ -190,13 +222,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 			// TODO Auto-generated method stub
 			String inputContent = input.getText().toString();
 			BubbleMessage bubbleMessage = new BubbleMessage(inputContent, true);
-			// int sourceID = R.drawable.channel_qq;
-			// Message message = new Message(sourceID,true);
+
 			Message message = new Message();
 			message.setBody(inputContent);
 			messages.add(bubbleMessage);
-			adapter.notifyDataSetChanged();
-			bubbleList.setSelection(messages.size() - 1);
+
+//			adapter.notifyDataSetChanged();
+//			bubbleList.setSelection(messages.size() - 1);
+			
+			Intent intent = new Intent();
+			intent.setAction("fuck");
+			sendBroadcast(intent);
 
 			System.out.println("to the buttom send " + messages.size());
 			sendMessage(message);
@@ -204,7 +240,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}
 
 	}
-
+	class AdapterRefreshReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+			bubbleList.setSelection(messages.size() - 1);
+		}		
+	}
 	class Plus_appear_Listener implements OnClickListener {
 
 		@Override
