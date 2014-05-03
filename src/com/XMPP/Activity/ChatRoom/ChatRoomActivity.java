@@ -40,6 +40,8 @@ import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 import com.XMPP.util.SystemUtil;
+import com.XMPP.util.T;
+import com.XMPP.util.TimeUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
@@ -80,7 +82,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	//
 	private static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
-
+	
+	// time
+	private static final String format = "MM-dd HH:mm";
+	private String pastTimeStr;
+	private String nowTimeStr;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,25 +163,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 	}
 
 	public void sendMessage(final Message message) {
-
-		// TODO Auto-generated method stub
-		// new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		// }).start();
-		try {
-
-			chat.sendMessage(message);
-
-		} catch (XMPPException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					chat.sendMessage(message);
+				} catch (XMPPException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	public void receiveMessage() {
@@ -182,22 +183,38 @@ public class ChatRoomActivity extends FragmentActivity implements
 		chat = conn.getChatManager().createChat(JID, new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
-				System.out.println("Received message type: " + message.getProperty("TYPE").toString());
 				BubbleMessage bubbleMessage = new BubbleMessage();
-				
-				if (message.getProperty("TYPE").toString().equals("TEXT")) {
-					L.i("equals(TEXT)");
+
+				if (message.getProperty("TYPE").toString()
+						.equals(Constants.MESSAGE_TYPE_TEXT)) {
 					bubbleMessage = new BubbleMessage(message.getBody(),
 							MessageType.TEXT, false);
-				}
-				if (message.getProperty("TYPE").toString().equals("TIME")) {
-					L.i("equals(TIME)");
-					bubbleMessage = new BubbleMessage(message.getBody(),
-							MessageType.TIME, false);
-				}
-
-				messages.add(bubbleMessage);
-
+					messages.add(bubbleMessage);
+				} else if (message.getProperty("TYPE").toString()
+						.equals(Constants.MESSAGE_TYPE_TIME)) {
+					//
+					String strDate = message.getBody();
+					if(pastTimeStr == null)
+						pastTimeStr = strDate;
+					else {
+						pastTimeStr = nowTimeStr;
+					}
+					nowTimeStr = strDate;
+					//
+					if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
+						String viewTime = TimeUtil.getCurrentViewTime();
+						bubbleMessage = new BubbleMessage(viewTime,
+								MessageType.TIME, false);
+						messages.add(bubbleMessage);
+					}
+					
+				} else if (message.getProperty("TYPE").toString().equals(Constants.MESSAGE_TYPE_FILE)){
+					/**
+					 * file
+					 */
+					
+					
+				}							
 				Intent intent = new Intent();
 				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 				sendBroadcast(intent);
@@ -224,40 +241,46 @@ public class ChatRoomActivity extends FragmentActivity implements
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			//
 			String inputContent = input.getText().toString();
-			System.out.println("face: " + inputContent);
-
-			String format = "MM-dd HH:mm";
-			SimpleDateFormat sdf = new SimpleDateFormat(format);
-			String strDate = sdf.format(Calendar.getInstance().getTime());
-			Message messageTime = new Message();
-			messageTime.setProperty("TYPE", "TIME");
-			messageTime.setBody(strDate);
-
+			if(inputContent == null || inputContent.length() == 0){
+				T.mToast(ChatRoomActivity.this, "oops, you forget to input something");
+				return;
+			}else if(inputContent.length() > 300){
+				T.mToast(ChatRoomActivity.this, "oops，you input too much");
+			}
+			//
+			String strDate = TimeUtil.getCurrentTime2String();
+			if(pastTimeStr == null)
+				pastTimeStr = strDate;
+			else {
+				pastTimeStr = nowTimeStr;
+			}
+			nowTimeStr = strDate;
+			//
+			if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
+				String viewTime = TimeUtil.getCurrentViewTime();
+				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
+					MessageType.TIME, true);
+				messages.add(bubbleMessageTime);
+			}
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
-			BubbleMessage bubbleMessageTime = new BubbleMessage(strDate,
-					MessageType.TIME, true);
-
+			messages.add(bubbleMessageText);		
+			//
+			Message messageTime = new Message();
+			messageTime.setProperty("TYPE", "TIME");
+			messageTime.setBody(strDate);			
 			Message messageText = new Message();
 			messageText.setBody(inputContent);
-			messageText.setProperty("TYPE", "TEXT");
-
-			messages.add(bubbleMessageTime);
-			messages.add(bubbleMessageText);
-
-			
+			messageText.setProperty("TYPE", "TEXT");			
 			sendMessage(messageTime);
 			sendMessage(messageText);
-
-			
-			
+			//
 			Intent intent = new Intent();
 			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
-
-
-
+			//
 			input.setText(null);
 		}
 

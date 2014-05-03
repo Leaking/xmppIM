@@ -12,7 +12,7 @@ public class Constants {
 	
 	
 	//server ip and ip
-	public final static String SERVER_IP = "192.168.1.101";
+	public final static String SERVER_IP = "192.168.1.105";
 	public final static int SERVER_PORT = 5222;
 
 	//
@@ -39,5 +39,11 @@ public class Constants {
 	// common blue
 	public final static int COLOR_COMMON_BLUE = Color.rgb(0x83, 0xed, 0xb8);
 	public final static int COLOR_COMMON_WHITE = Color.argb(60, 0x83, 0xed, 0xb8);
+	
+	// message type
+	public final static String MESSAGE_TYPE_TIME = "TIME";
+	public final static String MESSAGE_TYPE_TEXT = "TEXT";
+	public final static String MESSAGE_TYPE_FILE = "FILE";
+	
 	
 }	
