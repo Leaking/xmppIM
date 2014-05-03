@@ -2,18 +2,21 @@ package com.XMPP.Service;
 
 import java.util.Collection;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 
 import com.XMPP.Activity.Mainview.ContactsFragment;
@@ -36,6 +39,7 @@ public class ContactsService extends Service {
 			@Override
 			public void run() {
 				admitFriendsRequest();
+				test();
 			}
 		}).start();
 		return super.onStartCommand(intent, flags, startId);
@@ -44,8 +48,6 @@ public class ContactsService extends Service {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		L.i("come into friend service onCreate");
-
 		super.onCreate();
 	}
 
@@ -53,6 +55,42 @@ public class ContactsService extends Service {
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void test(){
+		XMPPConnection connection = ConnectionHandler.getConnection();
+		connection.getChatManager().addChatListener(
+				new ChatManagerListener(){
+					@Override
+					public void chatCreated(Chat chat, boolean createLocally) {
+						// TODO Auto-generated method stub
+						if(!createLocally){
+							chat.addMessageListener(new MessageListener(){
+								@Override
+								public void processMessage(Chat chat,
+										Message message) {
+									System.out.println("echo echo echo");
+									String jid = chat.getParticipant();
+									System.out.println("echo " + message.getBody());
+									
+									/**
+									 * restore the message into DB and send notify to the UI
+									 */
+									
+									
+									
+									
+								}
+								
+							});;
+						
+						
+						}else{
+							L.i("chat create  already");
+						}
+					}
+				}				
+				);
 	}
 
 	public void admitFriendsRequest() {

@@ -15,13 +15,19 @@
     <dimen name="groupTitleLeftFrameWidth">50dp</dimen>
     <dimen name="groupTitleRightPadding">20dp</dimen>
 
-    <dimen name="groupItemPhotoFrameSize">50dp</dimen>
+    
+    <!-- about the contactsFragment listview childitem -->
     <dimen name="groupItemHeight">50dp</dimen>
-    <dimen name="groupItemPadding">10dp</dimen>
-    <dimen name="groupItemPhotoHeight_Width">35dp</dimen>
+    <dimen name="groupItemPhotoSize">40dp</dimen>
+    <dimen name="groupItemPadding">5dp</dimen>
     
     
     <dimen name="bubbleTTextsizeText">10sp</dimen>
     <dimen name="bubbleTTextsizeTime">8sp</dimen>
+    
+    <!-- about the chattingFragment listview item -->
+    <dimen name="chattingItemHeight">70dp</dimen>
+    <dimen name="chattingItemPhotoSize">50dp</dimen>
+    <dimen name="chattingItemPadding">5dp</dimen>
     
 </resources>

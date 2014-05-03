@@ -48,7 +48,9 @@ public class TimeUtil {
 			dateNow = new SimpleDateFormat(format).parse(nowStr);
 			datePast = new SimpleDateFormat(format).parse(pastStr);
 			System.out.println(dateNow.getTime() + "longbefore " +datePast.getTime());
-			if(dateNow.getTime() - datePast.getTime() >= longBefore){
+			long nowMill = dateNow.getTime();
+			long pastMill = datePast.getTime();
+			if(nowMill == pastMill || nowMill - pastMill >= longBefore){
 				return true;
 			}
 		} catch (ParseException e) {

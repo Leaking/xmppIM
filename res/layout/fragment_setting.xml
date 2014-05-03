@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_mainview_header"
         android:background="@drawable/theme_header_gradientblue"
-        android:gravity="center"
-         >
+        android:gravity="center" >
 
         <TextView
             android:id="@+id/header_setting_text"
@@ -21,11 +20,13 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-     <com.XMPP.Model.CornerListView
+    <com.XMPP.Model.CornerListView
         android:id="@+id/setting_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="@drawable/background_round_corner"
         android:cacheColorHint="#00000000" />
 

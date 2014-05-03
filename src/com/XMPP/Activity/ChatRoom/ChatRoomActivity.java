@@ -187,6 +187,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 				if (message.getProperty("TYPE").toString()
 						.equals(Constants.MESSAGE_TYPE_TEXT)) {
+					L.i("receive content: " +  message.getBody());
 					bubbleMessage = new BubbleMessage(message.getBody(),
 							MessageType.TEXT, false);
 					messages.add(bubbleMessage);
@@ -472,6 +473,14 @@ public class ChatRoomActivity extends FragmentActivity implements
 			adapter.notifyDataSetChanged();
 			bubbleList.setSelection(messages.size() - 1);
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		unregisterReceiver(aReceiver);
+		
 	}
 
 }

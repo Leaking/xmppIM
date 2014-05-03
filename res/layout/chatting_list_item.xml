@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/chattingItemHeight"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="@dimen/chattingItemPadding" >
+
+    <FrameLayout
+        android:layout_width="@dimen/chattingItemPhotoSize"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp" >
+
+        <ImageView
+            android:id="@+id/chattingItemPhoto"
+            android:layout_width="@dimen/chattingItemPhotoSize"
+            android:layout_height="@dimen/chattingItemPhotoSize"
+            android:layout_gravity="center"
+            android:src="@drawable/channel_qq" />
+
+        <TextView
+            android:id="@+id/notify"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="right"
+            android:background="@color/pocket_red"
+            android:text="10"
+            android:textColor="@color/white" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="陈华钊"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/signature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="敌军还有30秒到达战场"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

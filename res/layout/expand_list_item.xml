@@ -4,30 +4,30 @@
     android:layout_height="@dimen/groupItemHeight"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/groupItemPadding" >
+    android:padding="@dimen/groupItemPadding" >
 
     <FrameLayout
-        android:layout_width="@dimen/groupItemPhotoFrameSize"
-        android:layout_height="@dimen/groupItemPhotoFrameSize"
-        android:layout_gravity="center" >
+        android:layout_width="@dimen/groupItemPhotoSize"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp" >
 
         <ImageView
             android:id="@+id/groupItemPhoto"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/groupItemPhotoSize"
+            android:layout_height="@dimen/groupItemPhotoSize"
             android:layout_gravity="center"
             android:src="@drawable/channel_qq" />
+
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="0dp"
-        android:layout_height="@dimen/groupItemPhotoFrameSize"
-        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent"
         android:layout_weight="1" >
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -36,14 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="陈华钊"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="敌军还有30秒到达战场"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
         </LinearLayout>
     </FrameLayout>
 
