@@ -47,7 +47,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/signature"
+                android:id="@+id/lastMSG"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="敌军还有30秒到达战场"

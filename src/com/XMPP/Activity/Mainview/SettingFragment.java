@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.XMPP.R;
 import com.XMPP.Model.CornerListView;
+import com.XMPP.smack.Smack;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
 public class SettingFragment extends Fragment {
+	Smack smack;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -28,7 +30,9 @@ public class SettingFragment extends Fragment {
 
 		return view;
 	}
-
+	
+	
+	
 	class MBaseAdapter extends BaseAdapter {
 		String[] items = { "Profile", "Photos", "About us" };
 

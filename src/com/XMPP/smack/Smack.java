@@ -15,6 +15,7 @@ public interface Smack extends Serializable {
 	
 	public String getUsername();
 	
+	public String getJID();
 	public XMPPConnection getConnection();
 
 	/**

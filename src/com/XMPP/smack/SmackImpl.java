@@ -348,6 +348,13 @@ public class SmackImpl implements Smack {
 		XMPPConnection conn = ConnectionHandler.getConnection();
 		conn.sendPacket(newp);
 	}
+
+	@Override
+	public String getJID() {
+		// TODO Auto-generated method stub
+		String string = this.getConnection().getUser();
+		return ValueUtil.deleteSth(string, Constants.DELETE_STH);
+	}
 	
 	
 
