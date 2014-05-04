@@ -116,7 +116,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		super.onStart();
 		// move these operation into a seperate service
 		registerReceiver(aReceiver, filter);
-
+		
 		if(messages.size() == 0){
 			messages = new ArrayList<BubbleMessage>();
 			TableHistory tableHistory = TableHistory.getInstance(this);

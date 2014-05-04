@@ -10,7 +10,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
+import com.XMPP.Database.TableChatting;
 import com.XMPP.Database.TableHistory;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
@@ -23,6 +25,7 @@ public class MessageService extends Service {
 
 	Smack smack;
 	TableHistory tableHistory;
+	TableChatting tableChatting;
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -35,6 +38,7 @@ public class MessageService extends Service {
 		L.i("come into message service onStartCommand  1 ");
 		smack = SmackImpl.getInstance();
 		tableHistory = TableHistory.getInstance(this);
+		tableChatting = TableChatting.getInstance(this);
 		L.i("come into message service onStartCommand 2");
 		new Thread(new Runnable() {
 			@Override
@@ -79,6 +83,9 @@ public class MessageService extends Service {
 									String messageTime = (String) message.getProperty("TIME");
 									RowHistory historyRow = new RowHistory(messageTime, messageContent, messageType, fromJID, toJID);
 									tableHistory.insert(historyRow);
+								
+									RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", messageContent, messageTime);
+									tableChatting.insert_update(chattingRow);
 								}							
 							});;					
 						}else{

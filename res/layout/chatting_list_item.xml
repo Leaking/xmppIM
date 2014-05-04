@@ -53,5 +53,14 @@
                 android:text="敌军还有30秒到达战场"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="05-25 14:11"
+            android:textSize="10sp" />
     </FrameLayout>
+
 </LinearLayout>
