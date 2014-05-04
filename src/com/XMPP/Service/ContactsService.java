@@ -39,7 +39,6 @@ public class ContactsService extends Service {
 			@Override
 			public void run() {
 				admitFriendsRequest();
-				test();
 			}
 		}).start();
 		return super.onStartCommand(intent, flags, startId);
@@ -57,41 +56,7 @@ public class ContactsService extends Service {
 		return null;
 	}
 	
-	public void test(){
-		XMPPConnection connection = ConnectionHandler.getConnection();
-		connection.getChatManager().addChatListener(
-				new ChatManagerListener(){
-					@Override
-					public void chatCreated(Chat chat, boolean createLocally) {
-						// TODO Auto-generated method stub
-						if(!createLocally){
-							chat.addMessageListener(new MessageListener(){
-								@Override
-								public void processMessage(Chat chat,
-										Message message) {
-									System.out.println("echo echo echo");
-									String jid = chat.getParticipant();
-									System.out.println("echo " + message.getBody());
-									
-									/**
-									 * restore the message into DB and send notify to the UI
-									 */
-									
-									
-									
-									
-								}
-								
-							});;
-						
-						
-						}else{
-							L.i("chat create  already");
-						}
-					}
-				}				
-				);
-	}
+	
 
 	public void admitFriendsRequest() {
 		final XMPPConnection connection = ConnectionHandler.getConnection();

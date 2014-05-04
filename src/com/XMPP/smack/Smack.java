@@ -9,7 +9,7 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
-import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.RowContacts;
 
 public interface Smack extends Serializable {
 	
@@ -63,7 +63,7 @@ public interface Smack extends Serializable {
 	 * get all the friends and group
 	 * @return
 	 */
-	public ArrayList<ContactsRow> getContactsRows() ;
+	public ArrayList<RowContacts> getContactsRows() ;
 	
 	/**
 	 * disconnect

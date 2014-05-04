@@ -2,7 +2,8 @@ package com.XMPP.util;
 
 import java.util.ArrayList;
 
-import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.RowContacts;
+import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.ViewEntry;
 import com.XMPP.Model.ViewXMPPGroup;
 import com.XMPP.smack.Smack;
@@ -26,6 +27,11 @@ public class Test {
 		}
 	}
 	
+	public static void outputMessageBubbleList(ArrayList<BubbleMessage> list){
+		for(int i = 0; i < list.size();i++){
+			L.i("bubble=====  " + list.get(i).toString());
+		}
+	}
 	public static void outputConnectedUser(Smack smack){
 		L.i("TEST : output current connection info");
 		L.i("connect ip " + smack.getConnection().getHost());
@@ -43,7 +49,7 @@ public class Test {
 	}
 	
 	
-	public static void outputContactsRows (ArrayList<ContactsRow> rows){
+	public static void outputContactsRows (ArrayList<RowContacts> rows){
 		for(int i = 0; i < rows.size(); i++){
 			System.out.println(rows.get(i).toString());
 		}

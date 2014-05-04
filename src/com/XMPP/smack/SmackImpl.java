@@ -13,7 +13,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.packet.VCard;
 
-import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.RowContacts;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
@@ -192,12 +192,12 @@ public class SmackImpl implements Smack {
 	}
 
 	@Override
-	public ArrayList<ContactsRow> getContactsRows() {
+	public ArrayList<RowContacts> getContactsRows() {
 		// TODO Auto-generated method stub
 		XMPPConnection conn = ConnectionHandler.getConnection();
 		String jid = conn.getUser();
 		L.i("jID:" + jid);
-		ArrayList<ContactsRow> rows = new ArrayList<ContactsRow>();
+		ArrayList<RowContacts> rows = new ArrayList<RowContacts>();
 		
 		Roster roster = conn.getRoster();
 		Iterator<RosterGroup> iter = roster.getGroups().iterator();
@@ -224,13 +224,13 @@ public class SmackImpl implements Smack {
 				//
 				photo = null;
 				signature = null;
-				ContactsRow row = new ContactsRow(jid, group, friend_jID,
+				RowContacts row = new RowContacts(jid, group, friend_jID,
 						nickname, online, photo, signature);
 				rows.add(row);
 			}
 			if(intoFlag == 0){
 				System.out.println("empty group " + group);
-				ContactsRow row = new ContactsRow(jid,group,null,null,null,null,null);
+				RowContacts row = new RowContacts(jid,group,null,null,null,null,null);
 				rows.add(row);
 			}
 

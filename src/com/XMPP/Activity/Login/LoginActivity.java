@@ -1,7 +1,5 @@
 package com.XMPP.Activity.Login;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +13,8 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.MainviewActivity;
-import com.XMPP.Database.ContactsRow;
-import com.XMPP.Database.ContactsTable;
-import com.XMPP.Database.XMPPSQLiteOpenHelper;
-import com.XMPP.Model.ViewRoster;
 import com.XMPP.Service.ContactsService;
+import com.XMPP.Service.MessageService;
 import com.XMPP.Service.ReconnectService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
@@ -53,9 +48,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void startAllServices() {
 		Intent contacts_intent = new Intent(this, ContactsService.class);
 		this.startService(contacts_intent);
+		
+		Intent message_intent = new Intent(this, MessageService.class);
+		this.startService(message_intent);
+		
 		Intent reconnect_intent = new Intent(this, ReconnectService.class);
 		this.startService(reconnect_intent);
+		
 
+		
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 								Intent intent = new Intent(LoginActivity.this,
 										MainviewActivity.class);
 		
-//								ContactsTable table = new ContactsTable(XMPPSQLiteOpenHelper.getInstance(LoginActivity.this));
+//								ContactsTable table = new ContactsTable(LoginActivity.this);
 //								ArrayList<ContactsRow> rows = smack.getContactsRows();
 //								table.insertAll(rows);
 //								new ViewRoster(rows);

@@ -14,9 +14,7 @@ public class TimeUtil {
 		String strDate = sdf.format(Calendar.getInstance().getTime());	
 		return strDate;	
 	}
-	
-	public static String getCurrentViewTime(){
-		String strDate = getCurrentTime2String();
+	public static String getViewTime(String strDate){
 		String viewTime = null;
 		Date date;
 		try {
@@ -40,6 +38,12 @@ public class TimeUtil {
 		} 
 		return viewTime;
 	}
+	public static String getCurrentViewTime(){
+		String strDate = getCurrentTime2String();
+		return getViewTime(strDate);
+	}
+	
+	
 	
 	public static boolean isLongBefore(String pastStr,String nowStr){
 		Date datePast;

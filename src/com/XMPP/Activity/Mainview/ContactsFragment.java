@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
-import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.RowContacts;
 import com.XMPP.Model.ViewEntry;
 import com.XMPP.Model.ViewRoster;
 import com.XMPP.Model.ViewXMPPGroup;
@@ -171,7 +171,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 
 	// ExpandableListAdapter expandAdapter = new mBaseExpandableListAdapter();
 	class mBaseExpandableListAdapter extends BaseExpandableListAdapter {
-		ArrayList<ContactsRow> rows;
+		ArrayList<RowContacts> rows;
 
 		public mBaseExpandableListAdapter() {
 			rows = smack.getContactsRows();

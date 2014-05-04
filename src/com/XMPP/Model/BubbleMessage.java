@@ -72,5 +72,12 @@ public class BubbleMessage {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String string = " Time : "  + this.type + " Content "  + this.getMessage();
+		return string;
+	}
+	
 
 }

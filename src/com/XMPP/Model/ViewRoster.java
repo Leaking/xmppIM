@@ -2,7 +2,7 @@ package com.XMPP.Model;
 
 import java.util.ArrayList;
 
-import com.XMPP.Database.ContactsRow;
+import com.XMPP.Database.RowContacts;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
@@ -10,12 +10,12 @@ import com.XMPP.util.Test;
 public class ViewRoster {
 	private ArrayList<ViewXMPPGroup> groupList;
 
-	public ViewRoster(ArrayList<ContactsRow> rows) {
+	public ViewRoster(ArrayList<RowContacts> rows) {
 		groupList = new ArrayList<ViewXMPPGroup>();
 		change(rows);
 	}
 
-	public void change(ArrayList<ContactsRow> rows) {
+	public void change(ArrayList<RowContacts> rows) {
 		int size = rows.size();
 		ArrayList<String> groupNames_list = new ArrayList<String>();
 

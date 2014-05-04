@@ -1,8 +1,6 @@
 package com.XMPP.Activity.ChatRoom;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -31,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
 import com.XMPP.smack.ConnectionHandler;
@@ -41,6 +40,7 @@ import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 import com.XMPP.util.SystemUtil;
 import com.XMPP.util.T;
+import com.XMPP.util.Test;
 import com.XMPP.util.TimeUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
@@ -110,6 +110,31 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	}
 
+	
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		XMPPConnection conn = smack.getConnection();
+		if(messages.size() == 0){
+			messages = new ArrayList<BubbleMessage>();
+			TableHistory tableHistory = TableHistory.getInstance(this);
+			L.i("test onStart 1");
+			messages = tableHistory.getBubbleList(conn.getUser());
+			L.i("test onStart 2  "  +  messages.size());
+			Test.outputMessageBubbleList(messages);
+			adapter = new BubbleAdapter(this, messages);
+			bubbleList.setAdapter(adapter);
+			
+		}
+		
+		
+		
+	}
+
+
+
 	public void init() {
 		smack = SmackImpl.getInstance();
 		conn = ConnectionHandler.getConnection();
@@ -168,6 +193,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
+					L.i("test sending");
 					chat.sendMessage(message);
 				} catch (XMPPException e) {
 					// TODO Auto-generated catch block
@@ -184,30 +210,30 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
+				L.i("test receiving");
 
 				if (message.getProperty("TYPE").toString()
 						.equals(Constants.MESSAGE_TYPE_TEXT)) {
 					L.i("receive content: " +  message.getBody());
-					bubbleMessage = new BubbleMessage(message.getBody(),
-							MessageType.TEXT, false);
-					messages.add(bubbleMessage);
-				} else if (message.getProperty("TYPE").toString()
-						.equals(Constants.MESSAGE_TYPE_TIME)) {
 					//
-					String strDate = message.getBody();
+					String strBody = message.getBody();
+					String strDate = (String) message.getProperty("TIME");
 					if(pastTimeStr == null)
 						pastTimeStr = strDate;
 					else {
 						pastTimeStr = nowTimeStr;
 					}
 					nowTimeStr = strDate;
-					//
 					if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
 						String viewTime = TimeUtil.getCurrentViewTime();
 						bubbleMessage = new BubbleMessage(viewTime,
 								MessageType.TIME, false);
 						messages.add(bubbleMessage);
 					}
+					//
+					bubbleMessage = new BubbleMessage(message.getBody(),
+							MessageType.TEXT, false);
+					messages.add(bubbleMessage);
 					
 				} else if (message.getProperty("TYPE").toString().equals(Constants.MESSAGE_TYPE_FILE)){
 					/**
@@ -225,17 +251,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	}
 
-	class EditOnTouchListener implements OnTouchListener {
 
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			// TODO Auto-generated method stub
-			close_Face();
-			close_Plus();
-			return false;
-		}
-
-	}
 
 	class Send_Listener implements OnClickListener {
 
@@ -268,14 +284,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
 			messages.add(bubbleMessageText);		
-			//
-			Message messageTime = new Message();
-			messageTime.setProperty("TYPE", "TIME");
-			messageTime.setBody(strDate);			
+			//			
 			Message messageText = new Message();
 			messageText.setBody(inputContent);
-			messageText.setProperty("TYPE", "TEXT");			
-			sendMessage(messageTime);
+			messageText.setProperty("TYPE", Constants.MESSAGE_TYPE_TEXT);
+			messageText.setProperty("TIME", strDate);			
 			sendMessage(messageText);
 			//
 			Intent intent = new Intent();
@@ -287,6 +300,19 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	}
 
+	
+	
+	class EditOnTouchListener implements OnTouchListener {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			close_Face();
+			close_Plus();
+			return false;
+		}
+
+	}
 	class Plus_appear_Listener implements OnClickListener {
 
 		@Override

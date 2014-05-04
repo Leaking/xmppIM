@@ -45,7 +45,7 @@
             android:enabled="true" >
         </service>
         <service
-            android:name="com.XMPP.Service.ChatroomService"
+            android:name="com.XMPP.Service.MessageService"
             android:enabled="true" >
         </service>
 
@@ -55,9 +55,8 @@
         </activity>
         <activity
             android:name="com.XMPP.Activity.ChatRoom.ChatRoomActivity"
-            android:label="@string/title_activity_chat_room" 
-            android:windowSoftInputMode="stateHidden" 
-            >
+            android:label="@string/title_activity_chat_room"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
     </application>
 

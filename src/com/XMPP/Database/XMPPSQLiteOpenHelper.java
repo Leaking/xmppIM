@@ -21,6 +21,18 @@ public class XMPPSQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_GROUPS_PHOTO = "photo TEXT,";
 	public static final String COLUMN_GROUPS_SIGNATURE = "signature TEXT)";
 
+	public static final String TABLE_HISTORY = "table_history";
+	public static final String COLUMN_TYPE_TIME = "messageTime TEXT,";
+	public static final String COLUMN_TYPE_CONTENT = "messageContent TEXT,";
+	public static final String COLUMN_TYPE_TYPE = "messageType TEXT,";
+	public static final String COLUMN_TYPE_FROM_JID = "fromJID TEXT,";
+	public static final String COLUMN_TYPE_TO_JID = "toJID TEXT)";	
+	public static final String COLUMN_TIME = "messageTime";
+	public static final String COLUMN_CONTENT = "messageContent";
+	public static final String COLUMN_TYPE = "messageType";
+	public static final String COLUMN_FROM_JID = "fromJID";
+	public static final String COLUMN_TO_JID = "toJID";
+
 	private static final String TABLE_MESSAGE = "table_message";
 
 	public XMPPSQLiteOpenHelper(Context context) {
@@ -40,10 +52,16 @@ public class XMPPSQLiteOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_GROUPS_NICKNAME + COLUMN_GROUPS_IFONLINE
 			+ COLUMN_GROUPS_PHOTO + COLUMN_GROUPS_SIGNATURE;
 
+	private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
+			+ TABLE_HISTORY + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,  "
+			+ COLUMN_TYPE_TIME + COLUMN_TYPE_CONTENT + COLUMN_TYPE_TYPE + COLUMN_TYPE_FROM_JID
+			+ COLUMN_TYPE_TO_JID;
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_TABLE_CONTACTS);
+		db.execSQL(CREATE_TABLE_HISTORY);
 	}
 
 	@Override

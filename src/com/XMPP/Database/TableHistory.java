@@ -1,0 +1,78 @@
+package com.XMPP.Database;
+
+import java.util.ArrayList;
+
+import com.XMPP.Model.BubbleMessage;
+import com.XMPP.util.Constants;
+import com.XMPP.util.L;
+import com.XMPP.util.MessageType;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+public class TableHistory {
+	private SQLiteDatabase db;
+
+	private TableHistory(Context context) {
+		this.db = XMPPSQLiteOpenHelper.getInstance(context);
+	}
+
+	public static TableHistory getInstance(Context context) {
+		return new TableHistory(context);
+	}
+
+	public void insert(RowHistory row) {
+		db.execSQL(
+				"insert into " + XMPPSQLiteOpenHelper.TABLE_HISTORY
+						+ " values(null,?,?,?,?,?)",
+				new String[] { row.getMessageTime(), row.getMessageContent(),
+						row.getMessageType(), row.getFromJID(), row.getToJID() });
+	}
+
+	public ArrayList<RowHistory> select(String jid) {
+		ArrayList<RowHistory> rows = new ArrayList<RowHistory>();
+		String sql = "select *from " + XMPPSQLiteOpenHelper.TABLE_HISTORY
+				+ " where " + XMPPSQLiteOpenHelper.COLUMN_FROM_JID + " = '" + jid
+				+ "' or " + XMPPSQLiteOpenHelper.COLUMN_TO_JID + " = '" + jid + "'";
+		Cursor cursor = db.rawQuery(sql, null);
+		while (cursor.moveToNext()) {
+			String time = cursor.getString(cursor
+					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TIME));
+			String content = cursor.getString(cursor
+					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_CONTENT));
+			String type = cursor.getString(cursor
+					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TYPE));
+			String fromJID = cursor.getString(cursor
+					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_FROM_JID));
+			String toJID = cursor.getString(cursor
+					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TO_JID));
+			RowHistory row = new RowHistory(time, content, type, fromJID, toJID);
+			rows.add(row);
+		}
+		return rows;
+	}
+
+	public ArrayList<BubbleMessage> getBubbleList(String JID) {
+		ArrayList<BubbleMessage> bubbleList = new ArrayList<BubbleMessage>();
+		ArrayList<RowHistory> historyList = select(JID);
+		for (int i = 0; i < historyList.size(); i++) {
+			RowHistory history = historyList.get(i);
+			L.i("select  historyList size : " + history);
+			if (history.getMessageType().equals(Constants.MESSAGE_TYPE_TEXT)) {
+
+				BubbleMessage bubbleMessageTime = new BubbleMessage(
+						history.getMessageTime(), MessageType.TIME, true);
+				BubbleMessage bubbleMessageText = new BubbleMessage(
+						history.getMessageContent(), MessageType.TEXT, true);
+
+				bubbleList.add(bubbleMessageTime);
+				bubbleList.add(bubbleMessageText);
+			}
+		}
+
+		return bubbleList;
+
+	}
+
+}
