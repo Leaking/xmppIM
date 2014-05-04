@@ -21,6 +21,10 @@ public class ValueUtil {
 		return jid;
 	}
 	
+	public static String deleteSth(String string,String sth){
+		return string.replaceAll(sth, "");
+	}
+	
 	/**
 	 * This method converts dp unit to equivalent pixels, depending on device density. 
 	 * 

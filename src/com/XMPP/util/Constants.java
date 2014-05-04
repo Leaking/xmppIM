@@ -45,5 +45,6 @@ public class Constants {
 	public final static String MESSAGE_TYPE_TEXT = "TEXT";
 	public final static String MESSAGE_TYPE_FILE = "FILE";
 	
-	
+	//
+	public final static String DELETE_STH = "/Smack";
 }	

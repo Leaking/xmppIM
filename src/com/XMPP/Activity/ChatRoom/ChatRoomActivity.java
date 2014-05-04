@@ -80,6 +80,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	ArrayList<BubbleMessage> messages;
 	BubbleAdapter adapter;
 	AdapterRefreshReceiver aReceiver;
+	IntentFilter filter;
 
 	//
 	private static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
@@ -100,11 +101,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 		messages = new ArrayList<BubbleMessage>();
 		adapter = new BubbleAdapter(this, messages);
 		bubbleList.setAdapter(adapter);
+		bubbleList.setSelection(messages.size() - 1);
 		aReceiver = new AdapterRefreshReceiver();
-		IntentFilter filter = new IntentFilter();
+		filter = new IntentFilter();
 		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 		registerReceiver(aReceiver, filter);
-
 	}
 
 	
@@ -113,14 +114,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		XMPPConnection conn = smack.getConnection();
+		// move these operation into a seperate service
+		registerReceiver(aReceiver, filter);
+
 		if(messages.size() == 0){
 			messages = new ArrayList<BubbleMessage>();
 			TableHistory tableHistory = TableHistory.getInstance(this);
-			messages = tableHistory.getBubbleList(conn.getUser());
+			messages = tableHistory.getBubbleList(chat.getParticipant());
 			Test.outputMessageBubbleList(messages);
 			adapter = new BubbleAdapter(this, messages);
-			bubbleList.setAdapter(adapter);			
+			bubbleList.setAdapter(adapter);	
+			bubbleList.setSelection(messages.size() - 1);
 		}
 		
 		
@@ -187,7 +191,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					L.i("test sending");
 					chat.sendMessage(message);
 				} catch (XMPPException e) {
 					// TODO Auto-generated catch block
@@ -205,34 +208,42 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
-				L.i("test receiving");
 
 				if (message.getProperty("TYPE").toString()
 						.equals(Constants.MESSAGE_TYPE_TEXT)) {
 					//store the data 
+					/**
+					 * here ,chat.getParticipant() == ,,,,,,@,,,
+					 * in the other hand
+					 * in the chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
+					 * in order to fix this difference, i delete a "/Smack"  in the chatlistener.
+					 */
 					String toJID = conn.getUser();
+					toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
 					String fromJID = chat.getParticipant();
+					fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+
 					String MsgType = Constants.MESSAGE_TYPE_TEXT;
 					String strBody = message.getBody();
 					String strDate = (String) message.getProperty("TIME");
 					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
-					TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
+					restoreMessage(historyRow);					
 					
-					
-					//
+					//get the string of time to show
 					if(pastTimeStr == null)
 						pastTimeStr = strDate;
 					else {
 						pastTimeStr = nowTimeStr;
 					}
 					nowTimeStr = strDate;
+					// add time bubble
 					if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
-						String viewTime = TimeUtil.getCurrentViewTime();
+						String viewTime = TimeUtil.getViewTime(nowTimeStr);
 						bubbleMessage = new BubbleMessage(viewTime,
 								MessageType.TIME, false);
 						messages.add(bubbleMessage);
 					}
-					//
+					// add content bubble
 					bubbleMessage = new BubbleMessage(message.getBody(),
 							MessageType.TEXT, false);
 					messages.add(bubbleMessage);
@@ -260,7 +271,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			//
+			//check the input content
 			String inputContent = input.getText().toString();
 			if(inputContent == null || inputContent.length() == 0){
 				T.mToast(ChatRoomActivity.this, "oops, you forget to input something");
@@ -268,7 +279,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			}else if(inputContent.length() > 300){
 				T.mToast(ChatRoomActivity.this, "oops，you input too much");
 			}
-			//
+			//get the string of time
 			String strDate = TimeUtil.getCurrentTime2String();
 			if(pastTimeStr == null)
 				pastTimeStr = strDate;
@@ -276,7 +287,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 				pastTimeStr = nowTimeStr;
 			}
 			nowTimeStr = strDate;
-			//
+			//add a bubble
 			if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
@@ -286,23 +297,25 @@ public class ChatRoomActivity extends FragmentActivity implements
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
 			messages.add(bubbleMessageText);
-			// store to DB
+			// restore to DB
 			String fromJID = conn.getUser();
 			String toJID = chat.getParticipant();
+			toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
+			fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+
 			String MsgType = Constants.MESSAGE_TYPE_TEXT;
 			String strBody = inputContent;
 			RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
-			TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
-			
-			
-			
-			//			
+			restoreMessage(historyRow);
+						
+			//send Message
 			Message messageText = new Message();
 			messageText.setBody(inputContent);
 			messageText.setProperty("TYPE", Constants.MESSAGE_TYPE_TEXT);
 			messageText.setProperty("TIME", strDate);			
 			sendMessage(messageText);
-			//
+			
+			//send a broadcast to renew the UI
 			Intent intent = new Intent();
 			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
@@ -312,7 +325,16 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	}
 
-	
+	public void restoreMessage(final RowHistory historyRow){
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
+			}
+		}).start();
+	}
 	
 	class EditOnTouchListener implements OnTouchListener {
 

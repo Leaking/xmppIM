@@ -17,6 +17,7 @@ import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
+import com.XMPP.util.ValueUtil;
 
 public class MessageService extends Service {
 
@@ -59,11 +60,20 @@ public class MessageService extends Service {
 						if(!createLocally){
 							L.i("chat create remote");
 							chat.addMessageListener(new MessageListener(){
+								/**
+								 * in the ChatRoomAcitivity,where chat is built.chat.getParticipant() == ,,,,,,@,,,
+								 * but here
+								 * chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
+								 * in order to fix this difference, i delete a "/Smack"  here.
+								 */
 								@Override
 								public void processMessage(Chat chat,
 										Message message) {
 									String fromJID = chat.getParticipant();
+									fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
 									String toJID = conn.getUser();
+									toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
+
 									String messageType = Constants.MESSAGE_TYPE_TEXT;
 									String messageContent = message.getBody();
 									String messageTime = (String) message.getProperty("TIME");

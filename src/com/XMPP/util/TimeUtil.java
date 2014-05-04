@@ -7,7 +7,8 @@ import java.util.Date;
 
 public class TimeUtil {
 	private final static String format = "MM-dd HH:mm";
-	private final static int longBefore = 5000;
+	// x * 60000 = x min
+	private final static long longBefore = 2 * 60000;
 	
 	public static String getCurrentTime2String(){
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -51,17 +52,20 @@ public class TimeUtil {
 		try {
 			dateNow = new SimpleDateFormat(format).parse(nowStr);
 			datePast = new SimpleDateFormat(format).parse(pastStr);
-			System.out.println(dateNow.getTime() + "longbefore " +datePast.getTime());
 			long nowMill = dateNow.getTime();
 			long pastMill = datePast.getTime();
-			if(nowMill == pastMill || nowMill - pastMill >= longBefore){
-				return true;
+			L.i("time long NOW   " + nowMill);
+			L.i("time long PAST  " + pastMill);
+			long a = nowMill - pastMill;
+			L.i("difffference    " + a);
+			if(nowMill - pastMill == 0 || nowMill - pastMill <= longBefore){
+				return false;
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		return false;
+		return true;
 	}
 
 }
