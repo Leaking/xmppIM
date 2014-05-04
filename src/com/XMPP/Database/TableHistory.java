@@ -3,6 +3,7 @@ package com.XMPP.Database;
 import java.util.ArrayList;
 
 import com.XMPP.Model.BubbleMessage;
+import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
@@ -33,8 +34,9 @@ public class TableHistory {
 	public ArrayList<RowHistory> select(String jid) {
 		ArrayList<RowHistory> rows = new ArrayList<RowHistory>();
 		String sql = "select *from " + XMPPSQLiteOpenHelper.TABLE_HISTORY
-				+ " where " + XMPPSQLiteOpenHelper.COLUMN_FROM_JID + " = '" + jid
-				+ "' or " + XMPPSQLiteOpenHelper.COLUMN_TO_JID + " = '" + jid + "'";
+				+ " where " + XMPPSQLiteOpenHelper.COLUMN_FROM_JID + " = '"
+				+ jid + "' or " + XMPPSQLiteOpenHelper.COLUMN_TO_JID + " = '"
+				+ jid + "'";
 		Cursor cursor = db.rawQuery(sql, null);
 		while (cursor.moveToNext()) {
 			String time = cursor.getString(cursor
@@ -56,16 +58,20 @@ public class TableHistory {
 	public ArrayList<BubbleMessage> getBubbleList(String JID) {
 		ArrayList<BubbleMessage> bubbleList = new ArrayList<BubbleMessage>();
 		ArrayList<RowHistory> historyList = select(JID);
+		String rightUser = SmackImpl.getInstance().getConnection().getUser();
+		boolean isMine = false;
 		for (int i = 0; i < historyList.size(); i++) {
 			RowHistory history = historyList.get(i);
 			L.i("select  historyList size : " + history);
 			if (history.getMessageType().equals(Constants.MESSAGE_TYPE_TEXT)) {
-
+				if (rightUser.equals(history.getFromJID()))
+					isMine = true;
+				else
+					isMine = false;
 				BubbleMessage bubbleMessageTime = new BubbleMessage(
-						history.getMessageTime(), MessageType.TIME, true);
+						history.getMessageTime(), MessageType.TIME, isMine);
 				BubbleMessage bubbleMessageText = new BubbleMessage(
-						history.getMessageContent(), MessageType.TEXT, true);
-
+						history.getMessageContent(), MessageType.TEXT, isMine);
 				bubbleList.add(bubbleMessageTime);
 				bubbleList.add(bubbleMessageText);
 			}

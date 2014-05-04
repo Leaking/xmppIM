@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
@@ -95,14 +96,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_chatroom);
 		init();
-
 		bubbleList = (ListView) findViewById(R.id.bubbleList);
-
 		messages = new ArrayList<BubbleMessage>();
-
 		adapter = new BubbleAdapter(this, messages);
 		bubbleList.setAdapter(adapter);
-
 		aReceiver = new AdapterRefreshReceiver();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
@@ -120,13 +117,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 		if(messages.size() == 0){
 			messages = new ArrayList<BubbleMessage>();
 			TableHistory tableHistory = TableHistory.getInstance(this);
-			L.i("test onStart 1");
 			messages = tableHistory.getBubbleList(conn.getUser());
-			L.i("test onStart 2  "  +  messages.size());
 			Test.outputMessageBubbleList(messages);
 			adapter = new BubbleAdapter(this, messages);
-			bubbleList.setAdapter(adapter);
-			
+			bubbleList.setAdapter(adapter);			
 		}
 		
 		
@@ -203,6 +197,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}).start();
 	}
 
+
 	public void receiveMessage() {
 
 		// TODO Auto-generated method stub
@@ -214,10 +209,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 				if (message.getProperty("TYPE").toString()
 						.equals(Constants.MESSAGE_TYPE_TEXT)) {
-					L.i("receive content: " +  message.getBody());
-					//
+					//store the data 
+					String toJID = conn.getUser();
+					String fromJID = chat.getParticipant();
+					String MsgType = Constants.MESSAGE_TYPE_TEXT;
 					String strBody = message.getBody();
 					String strDate = (String) message.getProperty("TIME");
+					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
+					TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
+					
+					
+					//
 					if(pastTimeStr == null)
 						pastTimeStr = strDate;
 					else {
@@ -283,7 +285,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 			}
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
-			messages.add(bubbleMessageText);		
+			messages.add(bubbleMessageText);
+			// store to DB
+			String fromJID = conn.getUser();
+			String toJID = chat.getParticipant();
+			String MsgType = Constants.MESSAGE_TYPE_TEXT;
+			String strBody = inputContent;
+			RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
+			TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
+			
+			
+			
 			//			
 			Message messageText = new Message();
 			messageText.setBody(inputContent);
@@ -506,7 +518,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onStop();
 		unregisterReceiver(aReceiver);
-		
 	}
 
 }
