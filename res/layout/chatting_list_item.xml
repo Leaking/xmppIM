@@ -22,6 +22,7 @@
             android:id="@+id/notify"
             android:layout_width="18dp"
             android:layout_height="18dp"
+            android:gravity="center"
             android:layout_gravity="right"
             android:background="@color/pocket_red"
             android:text="10"

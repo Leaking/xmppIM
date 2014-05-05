@@ -29,7 +29,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Activity.Mainview.ChattingFragment;
+import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
+import com.XMPP.Database.TableChatting;
+import com.XMPP.Database.TableContacts;
 import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
@@ -56,7 +60,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		EmojiconGridFragment.OnEmojiconClickedListener,
 		EmojiconsFragment.OnEmojiconBackspaceClickedListener {
 	RosterEntry entry;
-	String JID;
+	String u_JID;
 	XMPPConnection conn;
 	Smack smack;
 	Chat chat;
@@ -89,6 +93,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 	private static final String format = "MM-dd HH:mm";
 	private String pastTimeStr;
 	private String nowTimeStr;
+	//DB
+	TableHistory tableHistory;
+	TableChatting tableChatting;
 	
 	
 	@Override
@@ -119,7 +126,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		
 		if(messages.size() == 0){
 			messages = new ArrayList<BubbleMessage>();
-			TableHistory tableHistory = TableHistory.getInstance(this);
+			tableHistory = TableHistory.getInstance(this);
 			messages = tableHistory.getBubbleList(chat.getParticipant());
 			Test.outputMessageBubbleList(messages);
 			adapter = new BubbleAdapter(this, messages);
@@ -138,11 +145,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 		conn = ConnectionHandler.getConnection();
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			JID = extras.getString("JID");
-			entry = conn.getRoster().getEntry(JID);
+			u_JID = extras.getString("JID");
+			L.i("test the u_JID style " + u_JID);
+			entry = conn.getRoster().getEntry(u_JID);
 		}
+		
 		room = (TextView) findViewById(R.id.room_Friend);
-		room.setText(smack.getNickname(JID));
+		room.setText(smack.getNickname(u_JID));
 		face = (ImageView) findViewById(R.id.face);
 		plus = (ImageView) findViewById(R.id.plus);
 		input = (EditText) findViewById(R.id.input);
@@ -204,7 +213,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	public void receiveMessage() {
 
 		// TODO Auto-generated method stub
-		chat = conn.getChatManager().createChat(JID, new MessageListener() {
+		chat = conn.getChatManager().createChat(u_JID, new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
@@ -247,25 +256,31 @@ public class ChatRoomActivity extends FragmentActivity implements
 					bubbleMessage = new BubbleMessage(message.getBody(),
 							MessageType.TEXT, false);
 					messages.add(bubbleMessage);
+										
+					
+					RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", message.getBody(), nowTimeStr);
+					tableChatting = TableChatting.getInstance(ChatRoomActivity.this);
+					tableChatting.insert_update(chattingRow);
+
+					
+					
+
 					
 				} else if (message.getProperty("TYPE").toString().equals(Constants.MESSAGE_TYPE_FILE)){
 					/**
 					 * file
 					 */
-					
-					
-				}							
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-
+										
+				}					
+				Intent intent1 = new Intent();
+				intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+				sendBroadcast(intent1);
+				Intent intent2 = new Intent();
+				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent2);
 			}
 		});
-
 	}
-
-
-
 	class Send_Listener implements OnClickListener {
 
 		@Override
@@ -530,6 +545,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	class AdapterRefreshReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			L.i("BroadcastReceiver AdapterRefreshReceiver ChatRoomActivity");
 			adapter.notifyDataSetChanged();
 			bubbleList.setSelection(messages.size() - 1);
 		}
@@ -540,6 +556,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onStop();
 		unregisterReceiver(aReceiver);
+		tableChatting = TableChatting.getInstance(this);
+		tableChatting.reset(smack.getJID(), u_JID);
+		Intent intent = new Intent();
+		intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+		sendBroadcast(intent);
 	}
 
 }

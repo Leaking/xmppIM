@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
@@ -86,6 +87,11 @@ public class MessageService extends Service {
 								
 									RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", messageContent, messageTime);
 									tableChatting.insert_update(chattingRow);
+									
+									
+									Intent intent = new Intent();
+									intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+									sendBroadcast(intent);
 								}							
 							});;					
 						}else{

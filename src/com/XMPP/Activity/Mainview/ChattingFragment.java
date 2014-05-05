@@ -5,30 +5,40 @@ import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.XMPP.R;
+import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.TableChatting;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
 
-public class ChattingFragment extends Fragment {
+public class ChattingFragment extends Fragment implements OnItemClickListener {
 
 	Smack smack;
 	ListView listView;
 	ChattingAdapter adapter;
+	AdapterRefreshReceiver aReceiver;
+	IntentFilter filter;
+	public static final String ACTION_FRESH_CHATTING_LISTVIEW = "fresh_chatting_listview";
+	
+	
 	ArrayList<RowChatting> listData;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +51,11 @@ public class ChattingFragment extends Fragment {
 		listView = (ListView) view.findViewById(R.id.chatting_List);
 		adapter = new ChattingAdapter();
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
+		filter = new IntentFilter();
+		aReceiver = new AdapterRefreshReceiver();
+		filter.addAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+		this.getActivity().registerReceiver(aReceiver, filter);
 		return view;
 	}
 	
@@ -93,9 +108,12 @@ public class ChattingFragment extends Fragment {
 			TextView friendName = (TextView)convertView.findViewById(R.id.itemName);
 			TextView lastMsg = (TextView)convertView.findViewById(R.id.lastMSG);
 			TextView lastTime = (TextView)convertView.findViewById(R.id.time);
-
+			
+			if(listData.get(position).getUnReadNum().equals("0"))
+				unReadNum.setVisibility(View.INVISIBLE);
 			unReadNum.setText(listData.get(position).getUnReadNum());
-			friendName.setText(listData.get(position).getU_JID());
+			String nickname = smack.getNickname(listData.get(position).getU_JID());
+			friendName.setText(nickname);
 			lastMsg.setText(listData.get(position).getLastMSG());
 			lastTime.setText(listData.get(position).getLastTime());
 			Bitmap circleBitmap = CircleImage.toRoundBitmap(BitmapFactory
@@ -104,9 +122,17 @@ public class ChattingFragment extends Fragment {
 			itemImage.setImageBitmap(circleBitmap);
 
 			
-			
 			return convertView;
 		}
 
+	}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+		String u_jid = listData.get(position).getU_JID();
+		Intent intent = new Intent(ChattingFragment.this.getActivity(),ChatRoomActivity.class);
+		intent.putExtra("JID",u_jid);
+		ChattingFragment.this.getActivity().startActivity(intent);		
 	}
 }
