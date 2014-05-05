@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterGroup;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 
 import com.XMPP.R;
 import com.XMPP.Database.XMPPSQLiteOpenHelper;
+import com.XMPP.Service.MyApplication;
 import com.XMPP.util.L;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
@@ -64,20 +67,23 @@ public class MainviewActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mainview);
-
+		((MyApplication)getApplication()).appAppear();
 		XMPPSQLiteOpenHelper.getInstance(this);
 		vPager = (ViewPager) findViewById(R.id.mainview_pager);
 		vPager.setOffscreenPageLimit(3);
 		vPager.setAdapter(new ScreenSlidePagerAdapter(
 				getSupportFragmentManager()));
 		vPager.setOnPageChangeListener(this);
+		
+		
+		
+		
+		
+		
 		initFooter();
 		registIconListerner();
 		updateContentFragment(TYPE_CHATTING_FRAGMENT);
 		L.d("onCreate  line 87");
-
-
-
 
 
 	}
@@ -271,13 +277,39 @@ public class MainviewActivity extends FragmentActivity implements
 	@Override
 	protected void onStart() {
 		super.onStart();
+		((MyApplication)getApplication()).appAppear();
 	}
+
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(1);
+
+		((MyApplication)getApplication()).appAppear();
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		((MyApplication)getApplication()).appDisappear();
+	}
+
+
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		((MyApplication)getApplication()).appDisappear();
 
 	}
-
+	@Override
+	public void onBackPressed() {
+		((MyApplication)getApplication()).appDisappear();
+	    moveTaskToBack(true);
+	}
 
 }

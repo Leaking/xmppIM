@@ -111,6 +111,9 @@ public class ChattingFragment extends Fragment implements OnItemClickListener {
 			
 			if(listData.get(position).getUnReadNum().equals("0"))
 				unReadNum.setVisibility(View.INVISIBLE);
+			else{
+				unReadNum.setVisibility(View.VISIBLE);
+			}
 			unReadNum.setText(listData.get(position).getUnReadNum());
 			String nickname = smack.getNickname(listData.get(position).getU_JID());
 			friendName.setText(nickname);

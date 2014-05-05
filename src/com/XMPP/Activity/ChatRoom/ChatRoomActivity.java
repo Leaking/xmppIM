@@ -9,12 +9,16 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +34,7 @@ import android.widget.TextView;
 
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.ChattingFragment;
+import com.XMPP.Activity.Mainview.MainviewActivity;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
@@ -37,6 +42,7 @@ import com.XMPP.Database.TableContacts;
 import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
+import com.XMPP.Service.MyApplication;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -97,6 +103,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 	TableHistory tableHistory;
 	TableChatting tableChatting;
 	
+	// notify
+	String last_uJID;
+	String last_Msg;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -231,12 +240,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 					toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
 					String fromJID = chat.getParticipant();
 					fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
-
+					
 					String MsgType = Constants.MESSAGE_TYPE_TEXT;
 					String strBody = message.getBody();
 					String strDate = (String) message.getProperty("TIME");
 					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
-					restoreMessage(historyRow);					
+					restoreMessage(historyRow);	
+					
+					last_uJID = smack.getNickname(last_uJID);
+					last_Msg = message.getBody();
 					
 					//get the string of time to show
 					if(pastTimeStr == null)
@@ -262,7 +274,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 					tableChatting = TableChatting.getInstance(ChatRoomActivity.this);
 					tableChatting.insert_update(chattingRow);
 
-					
+					if(!((MyApplication)getApplication()).isActivityVisible()){
+						sendNotify();
+					}
+			
 					
 
 					
@@ -561,6 +576,36 @@ public class ChatRoomActivity extends FragmentActivity implements
 		Intent intent = new Intent();
 		intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
 		sendBroadcast(intent);
+	}
+	
+	public void sendNotify(){
+		NotificationCompat.Builder mBuilder =
+		        new NotificationCompat.Builder(this)
+		        .setSmallIcon(R.drawable.channel_qq)
+		        .setContentTitle(last_uJID)
+		        .setContentText(last_Msg);
+		// Creates an explicit intent for an Activity in your app
+		Intent resultIntent = new Intent(this, MainviewActivity.class);
+
+		// The stack builder object will contain an artificial back stack for the
+		// started Activity.
+		// This ensures that navigating backward from the Activity leads out of
+		// your application to the Home screen.
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		// Adds the back stack for the Intent (but not the Intent itself)
+		stackBuilder.addParentStack(MainviewActivity.class);
+		// Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addNextIntent(resultIntent);
+		PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager =
+		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// mId allows you to update the notification later on.
+		mNotificationManager.notify(1, mBuilder.build());
 	}
 
 }
