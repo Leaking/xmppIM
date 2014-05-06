@@ -22,8 +22,12 @@ public class ValueUtil {
 	}
 	
 	public static String deleteSth(String string,String sth){
-		return string.replaceAll(sth, "");
+		if(string.indexOf("/") > 0)
+			return string.substring(0, string.indexOf("/"));
+		else
+			return string;
 	}
+	
 	
 	/**
 	 * This method converts dp unit to equivalent pixels, depending on device density. 

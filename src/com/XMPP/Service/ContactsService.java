@@ -7,6 +7,7 @@ import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -19,7 +20,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.ContactsFragment;
+import com.XMPP.Database.TableChatting;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -68,10 +71,7 @@ public class ContactsService extends Service {
 				if (paramPacket instanceof Presence) {
 					Presence presence = (Presence) paramPacket;
 					String email = presence.getFrom();
-					L.i("-------------accept an presence----------");
-					L.i("from: " + email);
-					L.i("type: " + presence.getType());
-					L.i("to: " + presence.getTo());
+
 					Roster roster = connection.getRoster();
 					String jid = null;
 					// request to add friend
@@ -102,8 +102,16 @@ public class ContactsService extends Service {
 						intent.putExtra("type",
 								Constants.PRESENCE_TYPE_UNSUBSCRIBE);
 						intent.putExtra("jid", jid);
+						smack.removeEntry(jid);
 						sendBroadcast(intent);
 
+						TableChatting tableChatting = TableChatting.getInstance(ContactsService.this);
+						tableChatting.delete(smack.getJID(), jid);
+						Intent intent1 = new Intent();
+						intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+						sendBroadcast(intent1);
+						
+						
 					} else if (presence.getType().equals(
 							Presence.Type.unsubscribed)) {
 						L.i("Presence.Type: unsubscribed");

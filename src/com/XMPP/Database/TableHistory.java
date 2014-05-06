@@ -69,10 +69,12 @@ public class TableHistory {
 		ArrayList<BubbleMessage> bubbleList = new ArrayList<BubbleMessage>();
 		ArrayList<RowHistory> historyList = select(JID);
 		String rightUser = SmackImpl.getInstance().getConnection().getUser();
+		rightUser = ValueUtil.deleteSth(rightUser, Constants.DELETE_STH);
 		boolean isMine = false;
 		for (int i = 0; i < historyList.size(); i++) {
 			RowHistory history = historyList.get(i);
 			if (history.getMessageType().equals(Constants.MESSAGE_TYPE_TEXT)) {
+				
 				if (rightUser.equals(history.getFromJID()))
 					isMine = true;
 				else

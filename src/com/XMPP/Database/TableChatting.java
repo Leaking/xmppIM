@@ -26,9 +26,12 @@ public class TableChatting {
 	}
 	
 	public void delete(String i_jid,String u_jid){
+		
 		String sql = "delete from " + XMPPSQLiteOpenHelper.TABLE_CHATTING
 				+ " where " + XMPPSQLiteOpenHelper.COLUMN_I_JID + " = '" + i_jid + "'"
 				+ " and " + XMPPSQLiteOpenHelper.COLUMN_U_JID + " = '" + u_jid + "'";
+		L.i("SQL delete  " + sql);
+
 		db.execSQL(sql);
 	}
 	

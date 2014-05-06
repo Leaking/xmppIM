@@ -47,9 +47,11 @@ import android.widget.Toast;
 import com.XMPP.R;
 import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
 import com.XMPP.Database.RowContacts;
+import com.XMPP.Database.TableChatting;
 import com.XMPP.Model.ViewEntry;
 import com.XMPP.Model.ViewRoster;
 import com.XMPP.Model.ViewXMPPGroup;
+import com.XMPP.Service.ContactsService;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -155,8 +157,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					if (conn.getRoster().getEntry(requestJID) != null) {
 						L.i(" the request is rejected ");
 					}
-					smack.unSubscribed(requestJID);
-					smack.unSubscribe(requestJID);
+
 
 				} else if (presenceType
 						.equals(Constants.PRESENCE_TYPE_UNSUBSCRIBED)) {
@@ -387,8 +388,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						smack.subscribed(requestJID);
 						smack.addEntry(requestJID, newGroupName);
-						smack.subscribe(requestJID);
 						SubscribedFragment.this.dismiss();
 					}
 				}).start();
@@ -617,6 +618,15 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 												.getEntry(longclickJID);
 										try {
 											roster.removeEntry(entry);
+											smack.unSubscribe(longclickJID);
+											
+											TableChatting tableChatting = TableChatting.getInstance(ContactsFragment.this.getActivity());
+											tableChatting.delete(smack.getJID(), longclickJID);
+											Intent intent1 = new Intent();
+											intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+											ContactsFragment.this.getActivity().sendBroadcast(intent1);
+											
+											
 											Intent intent = new Intent();
 											intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
 											ChildLongClickFragment.this

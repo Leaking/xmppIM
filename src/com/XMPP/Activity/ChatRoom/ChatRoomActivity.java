@@ -131,20 +131,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onStart();
 		// move these operation into a seperate service
-		registerReceiver(aReceiver, filter);
+		//registerReceiver(aReceiver, filter);
 		
 		if(messages.size() == 0){
 			messages = new ArrayList<BubbleMessage>();
 			tableHistory = TableHistory.getInstance(this);
 			messages = tableHistory.getBubbleList(chat.getParticipant());
-			Test.outputMessageBubbleList(messages);
+		//	Test.outputMessageBubbleList(messages);
 			adapter = new BubbleAdapter(this, messages);
 			bubbleList.setAdapter(adapter);	
 			bubbleList.setSelection(messages.size() - 1);
 		}
-		
-		
-		
+				
 	}
 
 
@@ -229,6 +227,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 				if (message.getProperty("TYPE").toString()
 						.equals(Constants.MESSAGE_TYPE_TEXT)) {
+					L.i("receive,,,,");
+
 					//store the data 
 					/**
 					 * here ,chat.getParticipant() == ,,,,,,@,,,
@@ -244,12 +244,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 					String MsgType = Constants.MESSAGE_TYPE_TEXT;
 					String strBody = message.getBody();
 					String strDate = (String) message.getProperty("TIME");
+
 					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
+
 					restoreMessage(historyRow);	
-					
+
+					last_uJID = chat.getParticipant();
 					last_uJID = smack.getNickname(last_uJID);
 					last_Msg = message.getBody();
-					
+
 					//get the string of time to show
 					if(pastTimeStr == null)
 						pastTimeStr = strDate;
@@ -257,6 +260,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 						pastTimeStr = nowTimeStr;
 					}
 					nowTimeStr = strDate;
+
 					// add time bubble
 					if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
 						String viewTime = TimeUtil.getViewTime(nowTimeStr);
@@ -264,15 +268,19 @@ public class ChatRoomActivity extends FragmentActivity implements
 								MessageType.TIME, false);
 						messages.add(bubbleMessage);
 					}
+
 					// add content bubble
 					bubbleMessage = new BubbleMessage(message.getBody(),
 							MessageType.TEXT, false);
+
 					messages.add(bubbleMessage);
-										
+		
 					
 					RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", message.getBody(), nowTimeStr);
 					tableChatting = TableChatting.getInstance(ChatRoomActivity.this);
+
 					tableChatting.insert_update(chattingRow);
+
 
 					if(!((MyApplication)getApplication()).isActivityVisible()){
 						sendNotify();
@@ -287,12 +295,14 @@ public class ChatRoomActivity extends FragmentActivity implements
 					 */
 										
 				}					
-				Intent intent1 = new Intent();
-				intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
-				sendBroadcast(intent1);
 				Intent intent2 = new Intent();
 				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 				sendBroadcast(intent2);
+
+				Intent intent1 = new Intent();
+				intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+				sendBroadcast(intent1);
+
 			}
 		});
 	}

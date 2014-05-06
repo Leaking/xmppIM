@@ -335,7 +335,12 @@ public class SmackImpl implements Smack {
 	@Override
 	public void unSubscribe(String jid) {
 		// TODO Auto-generated method stub
-		
+		Presence newp = new Presence(Presence.Type.unsubscribe);
+		newp.setMode(Presence.Mode.available);
+		newp.setPriority(24);
+		newp.setTo(jid);
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		conn.sendPacket(newp);
 	}
 
 	@Override
@@ -355,7 +360,16 @@ public class SmackImpl implements Smack {
 		String string = this.getConnection().getUser();
 		return ValueUtil.deleteSth(string, Constants.DELETE_STH);
 	}
-	
+	@Override
+	public void removeEntry(String jid){
+		RosterEntry entry = this.getConnection().getRoster().getEntry(jid);
+		try {
+			this.getConnection().getRoster().removeEntry(entry);
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 
 }

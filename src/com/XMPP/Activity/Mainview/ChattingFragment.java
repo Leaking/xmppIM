@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +27,7 @@ import com.XMPP.Database.TableChatting;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
+import com.XMPP.util.L;
 
 public class ChattingFragment extends Fragment implements OnItemClickListener {
 
@@ -67,6 +67,7 @@ public class ChattingFragment extends Fragment implements OnItemClickListener {
 	class AdapterRefreshReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			L.i("AdapterRefreshReceiver ChattingFragment");
 			listData = getListData();
 			adapter.notifyDataSetChanged();
 			listView.setSelection(listData.size() - 1);

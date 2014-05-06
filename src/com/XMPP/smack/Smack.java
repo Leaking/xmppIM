@@ -88,4 +88,6 @@ public interface Smack extends Serializable {
 	
 	public void unSubscribe(String jid);
 	public void unSubscribed(String jid);
+	
+	public void removeEntry(String jid);
 }
