@@ -225,8 +225,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
 
-				if (message.getProperty("TYPE").toString()
-						.equals(Constants.MESSAGE_TYPE_TEXT)) {
+
 					L.i("receive,,,,");
 
 					//store the data 
@@ -243,11 +242,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 					
 					String MsgType = Constants.MESSAGE_TYPE_TEXT;
 					String strBody = message.getBody();
-					String strDate = (String) message.getProperty("TIME");
+					String strDate = TimeUtil.getCurrentTime2String();
 
-					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
 
-					restoreMessage(historyRow);	
 
 					last_uJID = chat.getParticipant();
 					last_uJID = smack.getNickname(last_uJID);
@@ -275,12 +272,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 					messages.add(bubbleMessage);
 		
-					
 					RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", message.getBody(), nowTimeStr);
 					tableChatting = TableChatting.getInstance(ChatRoomActivity.this);
-
 					tableChatting.insert_update(chattingRow);
-
+					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
+					restoreMessage(historyRow);	
 
 					if(!((MyApplication)getApplication()).isActivityVisible()){
 						sendNotify();
@@ -289,12 +285,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 					
 
 					
-				} else if (message.getProperty("TYPE").toString().equals(Constants.MESSAGE_TYPE_FILE)){
-					/**
-					 * file
-					 */
-										
-				}					
+								
 				Intent intent2 = new Intent();
 				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 				sendBroadcast(intent2);
@@ -350,9 +341,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 						
 			//send Message
 			Message messageText = new Message();
-			messageText.setBody(inputContent);
-			messageText.setProperty("TYPE", Constants.MESSAGE_TYPE_TEXT);
-			messageText.setProperty("TIME", strDate);			
+			messageText.setBody(inputContent);			
 			sendMessage(messageText);
 			
 			//send a broadcast to renew the UI

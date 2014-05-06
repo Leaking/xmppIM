@@ -1,10 +1,17 @@
 package com.XMPP.Service;
 
+import java.util.Date;
+import java.util.Iterator;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smackx.OfflineMessageManager;
+import org.jivesoftware.smackx.packet.DelayInformation;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,6 +37,7 @@ import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
+import com.XMPP.util.TimeUtil;
 import com.XMPP.util.ValueUtil;
 
 public class MessageService extends Service {
@@ -57,6 +65,7 @@ public class MessageService extends Service {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				fetchOfflineMessage();
 				listenIncomeMessage();
 			}
 		}).start();
@@ -67,6 +76,66 @@ public class MessageService extends Service {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+	}
+
+	
+	public String getOffLineMsgTime(Message message){
+		DelayInformation inf = null;
+		try {
+			inf = (DelayInformation)message.getExtension("x","jabber:x:delay");
+		} catch (Exception e) {
+			
+		}
+		// get offline message timestamp
+		Date date;
+		date = inf.getStamp();
+		L.i("offline message time " + date.toString());
+		return TimeUtil.getCertainTime2String(date);
+	}
+		
+	public void fetchOfflineMessage() {
+		OfflineMessageManager offlineManager = new OfflineMessageManager(
+				smack.getConnection());
+		try {
+			Iterator<Message> it = offlineManager.getMessages();
+
+			while (it.hasNext()) {
+				Message message = it.next();
+				L.i("offline message from " + message.getFrom());
+				L.i("offline message body " + message.getBody());
+									
+				String msgTime = getOffLineMsgTime(message);
+				String fromJID = ValueUtil.deleteSth(message.getFrom(), "");
+				String toJID = smack.getJID();
+				String messageType = Constants.MESSAGE_TYPE_TEXT;
+				String messageContent = message.getBody();
+				
+				RowHistory historyRow = new RowHistory(msgTime,
+						message.getBody(), messageType, fromJID, toJID);
+				tableHistory.insert(historyRow);	
+				
+				
+				RowChatting chattingRow = new RowChatting(toJID,
+						fromJID, "1", messageContent, msgTime);
+				tableChatting.insert_update(chattingRow);
+
+				Intent intent = new Intent();
+				intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+				sendBroadcast(intent);
+				
+			}
+			
+			
+			
+			offlineManager.deleteMessages();				
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		Presence presence = new Presence(Presence.Type.available);// 此时再上报用户状态
+		smack.getConnection().sendPacket(presence);
+
 	}
 
 	public void listenIncomeMessage() {
@@ -108,9 +177,7 @@ public class MessageService extends Service {
 									fromJID, "1", messageContent, messageTime);
 							tableChatting.insert_update(chattingRow);
 
-							Intent intent = new Intent();
-							intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
-							sendBroadcast(intent);
+
 							if (!((MyApplication) getApplication())
 									.isActivityVisible()) {
 								sendNotify();
@@ -130,10 +197,8 @@ public class MessageService extends Service {
 		Bitmap circleBitmap = CircleImage.toRoundBitmap(BitmapFactory
 				.decodeResource(getResources(), R.drawable.channel_qq), true);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this)
-				.setLargeIcon(circleBitmap)
-				.setSmallIcon(R.drawable.channel_qq)
-				.setContentTitle(last_uJID)
+				this).setLargeIcon(circleBitmap)
+				.setSmallIcon(R.drawable.channel_qq).setContentTitle(last_uJID)
 				.setContentText(last_Msg);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(this, MainviewActivity.class);

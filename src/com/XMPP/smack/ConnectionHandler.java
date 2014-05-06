@@ -46,6 +46,7 @@ public class ConnectionHandler {
 		connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
+		connConfig.setSendPresence(false);
 		L.i("rebuild   rebuild reu");
 		configureConnection();
 		conn = new XMPPConnection(connConfig);
