@@ -30,4 +30,10 @@
     <dimen name="chattingItemPhotoSize">50dp</dimen>
     <dimen name="chattingItemPadding">5dp</dimen>
     
+    
+    <!-- file list -->
+    <dimen name="fileListItemHeight">30dp</dimen>
+    <dimen name="fileListItemVericalPadding">5dp</dimen>
+    <dimen name="fileListItemHorizonPadding">8dp</dimen>
+    
 </resources>

@@ -18,6 +18,11 @@
     <string name="chatting">Message</string>
     <string name="contacts">Contacts</string>
     <string name="setting">Setting</string>
+    <string name="select_a_file">Select A File</string>
+    <string name="send_the_file">send </string>
+    
+    
+    
     <string name="title_activity_chatting">ChattingActivity</string>
     <string name="ifAccept">Accept ?</string>
     <string name="accept">if accept, choose a group</string>
@@ -28,5 +33,6 @@
     <string name="setGroupName">Set Group Name</string>
     <string name="hint_Input_GroupName">Input GroupName></string>
     <string name="title_activity_chat_room">ChatRoomActivity</string>
+    <string name="title_activity_file_sender">FileSenderActivity</string>
 
 </resources>

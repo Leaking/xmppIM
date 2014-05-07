@@ -133,7 +133,7 @@ public class MessageService extends Service {
 			e.printStackTrace();
 		} 
 
-		Presence presence = new Presence(Presence.Type.available);// 此时再上报用户状态
+		Presence presence = new Presence(Presence.Type.available);// 姝ゆ椂鍐嶄笂鎶ョ敤鎴风姸鎬�
 		smack.getConnection().sendPacket(presence);
 
 	}
@@ -167,8 +167,7 @@ public class MessageService extends Service {
 							String messageType = Constants.MESSAGE_TYPE_TEXT;
 							String messageContent = message.getBody();
 							last_Msg = messageContent;
-							String messageTime = (String) message
-									.getProperty("TIME");
+							String messageTime = TimeUtil.getCurrentTime2String();
 							RowHistory historyRow = new RowHistory(messageTime,
 									messageContent, messageType, fromJID, toJID);
 							tableHistory.insert(historyRow);
@@ -177,10 +176,14 @@ public class MessageService extends Service {
 									fromJID, "1", messageContent, messageTime);
 							tableChatting.insert_update(chattingRow);
 
-
+							
 							if (!((MyApplication) getApplication())
 									.isActivityVisible()) {
 								sendNotify();
+							}else{
+								Intent intent1 = new Intent();
+								intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
+								sendBroadcast(intent1);
 							}
 
 						}

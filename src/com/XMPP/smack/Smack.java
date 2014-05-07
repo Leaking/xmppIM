@@ -82,6 +82,7 @@ public interface Smack extends Serializable {
 	
 	public void addGroup(String groupname);
 	public void addEntry(String jid,String groupname);
+	public RosterEntry getEntry(String u_jid);
 	public void subscribe(String jid);
 	
 	public void subscribed(String jid);

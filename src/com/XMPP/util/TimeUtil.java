@@ -26,6 +26,7 @@ public class TimeUtil {
 		String viewTime = null;
 		Date date;
 		try {
+			L.i("test getViewTime " + strDate);
 			date = new SimpleDateFormat(format).parse(strDate);
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);

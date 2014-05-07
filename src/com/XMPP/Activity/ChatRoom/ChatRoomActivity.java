@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.MainviewActivity;
+import com.XMPP.Activity.Plus.FileSenderActivity;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
@@ -125,7 +126,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 	}
 
 	
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+//		aReceiver = new AdapterRefreshReceiver();
+//		filter = new IntentFilter();
+//		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+		registerReceiver(aReceiver, filter);
+		super.onResume();
+	}
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -153,8 +162,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			u_JID = extras.getString("JID");
-			L.i("test the u_JID style " + u_JID);
-			entry = conn.getRoster().getEntry(u_JID);
+			entry = smack.getEntry(u_JID);
 		}
 		
 		room = (TextView) findViewById(R.id.room_Friend);
@@ -466,8 +474,22 @@ public class ChatRoomActivity extends FragmentActivity implements
 		Button plus_picture = new Button(ChatRoomActivity.this);
 		Button plus_camera = new Button(ChatRoomActivity.this);
 		Button plus_file = new Button(ChatRoomActivity.this);
+		plus_file.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ChatRoomActivity.this,FileSenderActivity.class);				
+				intent.putExtra("JID",u_JID);
+				ChatRoomActivity.this.startActivity(intent);
+			}
+		});
+		
+		
 		Button plus_video = new Button(ChatRoomActivity.this);
 		Button plus_locate = new Button(ChatRoomActivity.this);
+		
+		
 		int size = (int) ValueUtil.convertDpToPixel(5, ChatRoomActivity.this);
 		plus_picture.setLayoutParams(new LayoutParams(size, size));
 		plus_camera.setLayoutParams(new LayoutParams(size, size));
@@ -569,7 +591,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		unregisterReceiver(aReceiver);
+		//unregisterReceiver(aReceiver);
 		tableChatting = TableChatting.getInstance(this);
 		tableChatting.reset(smack.getJID(), u_JID);
 		Intent intent = new Intent();
@@ -577,6 +599,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 		sendBroadcast(intent);
 	}
 	
+
+
+
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		unregisterReceiver(aReceiver);
+		super.onPause();
+	}
+
+
 	public void sendNotify(){
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)

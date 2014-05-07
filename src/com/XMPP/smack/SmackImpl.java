@@ -370,6 +370,12 @@ public class SmackImpl implements Smack {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public RosterEntry getEntry(String u_jid) {
+		// TODO Auto-generated method stub
+		return this.getConnection().getRoster().getEntry(u_jid);
+	}
 	
 
 }
