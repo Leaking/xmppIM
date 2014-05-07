@@ -46,7 +46,7 @@ public class ConnectionHandler {
 
 	private static void openConnection(String ip, int port) {
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
-				port);
+				port,"Smack");
 		connConfig.setReconnectionAllowed(true);
 		connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
@@ -199,6 +199,14 @@ public class ConnectionHandler {
 		pm.addExtensionProvider("data", "http://jabber.org/protocol/ibb",
 				new DataPacketProvider());
 
+		pm.addIQProvider("query","http://jabber.org/protocol/bytestreams", new BytestreamsProvider());
+		pm.addIQProvider("query","http://jabber.org/protocol/disco#items", new DiscoverItemsProvider());
+		pm.addIQProvider("query","http://jabber.org/protocol/disco#info", new DiscoverInfoProvider());
+		
+		
+		
+		
+		
 		// Privacy
 		pm.addIQProvider("query", "jabber:iq:privacy", new PrivacyProvider());
 		pm.addIQProvider("command", "http://jabber.org/protocol/commands",

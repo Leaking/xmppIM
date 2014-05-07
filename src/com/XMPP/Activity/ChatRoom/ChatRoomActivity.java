@@ -95,19 +95,19 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	//
 	private static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
-	
+
 	// time
 	private static final String format = "MM-dd HH:mm";
 	private String pastTimeStr;
 	private String nowTimeStr;
-	//DB
+	// DB
 	TableHistory tableHistory;
 	TableChatting tableChatting;
-	
+
 	// notify
 	String last_uJID;
 	String last_Msg;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,36 +125,34 @@ public class ChatRoomActivity extends FragmentActivity implements
 		registerReceiver(aReceiver, filter);
 	}
 
-	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-//		aReceiver = new AdapterRefreshReceiver();
-//		filter = new IntentFilter();
-//		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+		// aReceiver = new AdapterRefreshReceiver();
+		// filter = new IntentFilter();
+		// filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 		registerReceiver(aReceiver, filter);
 		super.onResume();
 	}
+
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		// move these operation into a seperate service
-		//registerReceiver(aReceiver, filter);
-		
-		if(messages.size() == 0){
+		// registerReceiver(aReceiver, filter);
+
+		if (messages.size() == 0) {
 			messages = new ArrayList<BubbleMessage>();
 			tableHistory = TableHistory.getInstance(this);
 			messages = tableHistory.getBubbleList(chat.getParticipant());
-		//	Test.outputMessageBubbleList(messages);
+			// Test.outputMessageBubbleList(messages);
 			adapter = new BubbleAdapter(this, messages);
-			bubbleList.setAdapter(adapter);	
+			bubbleList.setAdapter(adapter);
 			bubbleList.setSelection(messages.size() - 1);
 		}
-				
+
 	}
-
-
 
 	public void init() {
 		smack = SmackImpl.getInstance();
@@ -164,7 +162,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 			u_JID = extras.getString("JID");
 			entry = smack.getEntry(u_JID);
 		}
-		
+		L.i("entry getuser " + smack.getEntry(u_JID).getUser());
+		L.i("entry getName " + smack.getEntry(u_JID).getName());
+
 		room = (TextView) findViewById(R.id.room_Friend);
 		room.setText(smack.getNickname(u_JID));
 		face = (ImageView) findViewById(R.id.face);
@@ -224,7 +224,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}).start();
 	}
 
-
 	public void receiveMessage() {
 
 		// TODO Auto-generated method stub
@@ -233,67 +232,63 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
 
+				L.i("receive,,,,");
 
-					L.i("receive,,,,");
+				// store the data
+				/**
+				 * here ,chat.getParticipant() == ,,,,,,@,,, in the other hand
+				 * in the chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
+				 * in order to fix this difference, i delete a "/Smack" in the
+				 * chatlistener.
+				 */
+				String toJID = conn.getUser();
+				toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
+				String fromJID = chat.getParticipant();
+				fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
 
-					//store the data 
-					/**
-					 * here ,chat.getParticipant() == ,,,,,,@,,,
-					 * in the other hand
-					 * in the chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
-					 * in order to fix this difference, i delete a "/Smack"  in the chatlistener.
-					 */
-					String toJID = conn.getUser();
-					toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
-					String fromJID = chat.getParticipant();
-					fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
-					
-					String MsgType = Constants.MESSAGE_TYPE_TEXT;
-					String strBody = message.getBody();
-					String strDate = TimeUtil.getCurrentTime2String();
+				String MsgType = Constants.MESSAGE_TYPE_TEXT;
+				String strBody = message.getBody();
+				String strDate = TimeUtil.getCurrentTime2String();
 
+				last_uJID = chat.getParticipant();
+				last_uJID = smack.getNickname(last_uJID);
+				last_Msg = message.getBody();
 
+				// get the string of time to show
+				if (pastTimeStr == null)
+					pastTimeStr = strDate;
+				else {
+					pastTimeStr = nowTimeStr;
+				}
+				nowTimeStr = strDate;
 
-					last_uJID = chat.getParticipant();
-					last_uJID = smack.getNickname(last_uJID);
-					last_Msg = message.getBody();
-
-					//get the string of time to show
-					if(pastTimeStr == null)
-						pastTimeStr = strDate;
-					else {
-						pastTimeStr = nowTimeStr;
-					}
-					nowTimeStr = strDate;
-
-					// add time bubble
-					if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
-						String viewTime = TimeUtil.getViewTime(nowTimeStr);
-						bubbleMessage = new BubbleMessage(viewTime,
-								MessageType.TIME, false);
-						messages.add(bubbleMessage);
-					}
-
-					// add content bubble
-					bubbleMessage = new BubbleMessage(message.getBody(),
-							MessageType.TEXT, false);
-
+				// add time bubble
+				if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
+					String viewTime = TimeUtil.getViewTime(nowTimeStr);
+					bubbleMessage = new BubbleMessage(viewTime,
+							MessageType.TIME, false);
 					messages.add(bubbleMessage);
-		
-					RowChatting chattingRow = new RowChatting(toJID, fromJID, "1", message.getBody(), nowTimeStr);
-					tableChatting = TableChatting.getInstance(ChatRoomActivity.this);
-					tableChatting.insert_update(chattingRow);
-					RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
-					restoreMessage(historyRow);	
+				}
 
-					if(!((MyApplication)getApplication()).isActivityVisible()){
-						sendNotify();
-					}
-			
-					
+				// add content bubble
+				bubbleMessage = new BubbleMessage(message.getBody(),
+						MessageType.TEXT, false);
 
-					
-								
+				messages.add(bubbleMessage);
+
+				RowChatting chattingRow = new RowChatting(toJID, fromJID, "1",
+						message.getBody(), nowTimeStr);
+				tableChatting = TableChatting
+						.getInstance(ChatRoomActivity.this);
+				tableChatting.insert_update(chattingRow);
+				RowHistory historyRow = new RowHistory(strDate, strBody,
+						MsgType, fromJID, toJID);
+				restoreMessage(historyRow);
+
+				if (!((MyApplication) getApplication()).isActivityVisible()) {
+					sendNotify();
+				}
+
 				Intent intent2 = new Intent();
 				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 				sendBroadcast(intent2);
@@ -305,32 +300,34 @@ public class ChatRoomActivity extends FragmentActivity implements
 			}
 		});
 	}
+
 	class Send_Listener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			//check the input content
+			// check the input content
 			String inputContent = input.getText().toString();
-			if(inputContent == null || inputContent.length() == 0){
-				T.mToast(ChatRoomActivity.this, "oops, you forget to input something");
+			if (inputContent == null || inputContent.length() == 0) {
+				T.mToast(ChatRoomActivity.this,
+						"oops, you forget to input something");
 				return;
-			}else if(inputContent.length() > 300){
+			} else if (inputContent.length() > 300) {
 				T.mToast(ChatRoomActivity.this, "oops，you input too much");
 			}
-			//get the string of time
+			// get the string of time
 			String strDate = TimeUtil.getCurrentTime2String();
-			if(pastTimeStr == null)
+			if (pastTimeStr == null)
 				pastTimeStr = strDate;
 			else {
 				pastTimeStr = nowTimeStr;
 			}
 			nowTimeStr = strDate;
-			//add a bubble
-			if(TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)){
+			// add a bubble
+			if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
-					MessageType.TIME, true);
+						MessageType.TIME, true);
 				messages.add(bubbleMessageTime);
 			}
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
@@ -344,15 +341,16 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 			String MsgType = Constants.MESSAGE_TYPE_TEXT;
 			String strBody = inputContent;
-			RowHistory historyRow = new RowHistory(strDate, strBody, MsgType, fromJID, toJID);
+			RowHistory historyRow = new RowHistory(strDate, strBody, MsgType,
+					fromJID, toJID);
 			restoreMessage(historyRow);
-						
-			//send Message
+
+			// send Message
 			Message messageText = new Message();
-			messageText.setBody(inputContent);			
+			messageText.setBody(inputContent);
 			sendMessage(messageText);
-			
-			//send a broadcast to renew the UI
+
+			// send a broadcast to renew the UI
 			Intent intent = new Intent();
 			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
@@ -362,17 +360,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	}
 
-	public void restoreMessage(final RowHistory historyRow){
+	public void restoreMessage(final RowHistory historyRow) {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				TableHistory.getInstance(ChatRoomActivity.this).insert(historyRow);
+				TableHistory.getInstance(ChatRoomActivity.this).insert(
+						historyRow);
 			}
 		}).start();
 	}
-	
+
 	class EditOnTouchListener implements OnTouchListener {
 
 		@Override
@@ -384,6 +383,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}
 
 	}
+
 	class Plus_appear_Listener implements OnClickListener {
 
 		@Override
@@ -475,21 +475,20 @@ public class ChatRoomActivity extends FragmentActivity implements
 		Button plus_camera = new Button(ChatRoomActivity.this);
 		Button plus_file = new Button(ChatRoomActivity.this);
 		plus_file.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(ChatRoomActivity.this,FileSenderActivity.class);				
-				intent.putExtra("JID",u_JID);
-				ChatRoomActivity.this.startActivity(intent);
+				Intent intent = new Intent(ChatRoomActivity.this,
+						FileSenderActivity.class);
+				intent.putExtra("JID", u_JID);
+				ChatRoomActivity.this.startActivityForResult(intent, 1);
 			}
 		});
-		
-		
+
 		Button plus_video = new Button(ChatRoomActivity.this);
 		Button plus_locate = new Button(ChatRoomActivity.this);
-		
-		
+
 		int size = (int) ValueUtil.convertDpToPixel(5, ChatRoomActivity.this);
 		plus_picture.setLayoutParams(new LayoutParams(size, size));
 		plus_camera.setLayoutParams(new LayoutParams(size, size));
@@ -591,17 +590,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		//unregisterReceiver(aReceiver);
+		// unregisterReceiver(aReceiver);
 		tableChatting = TableChatting.getInstance(this);
 		tableChatting.reset(smack.getJID(), u_JID);
 		Intent intent = new Intent();
 		intent.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
 		sendBroadcast(intent);
 	}
-	
-
-
-
 
 	@Override
 	protected void onPause() {
@@ -610,17 +605,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 		super.onPause();
 	}
 
-
-	public void sendNotify(){
-		NotificationCompat.Builder mBuilder =
-		        new NotificationCompat.Builder(this)
-		        .setSmallIcon(R.drawable.channel_qq)
-		        .setContentTitle(last_uJID)
-		        .setContentText(last_Msg);
+	public void sendNotify() {
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				this).setSmallIcon(R.drawable.channel_qq)
+				.setContentTitle(last_uJID).setContentText(last_Msg);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(this, MainviewActivity.class);
 
-		// The stack builder object will contain an artificial back stack for the
+		// The stack builder object will contain an artificial back stack for
+		// the
 		// started Activity.
 		// This ensures that navigating backward from the Activity leads out of
 		// your application to the Home screen.
@@ -629,16 +622,28 @@ public class ChatRoomActivity extends FragmentActivity implements
 		stackBuilder.addParentStack(MainviewActivity.class);
 		// Adds the Intent that starts the Activity to the top of the stack
 		stackBuilder.addNextIntent(resultIntent);
-		PendingIntent resultPendingIntent =
-		        stackBuilder.getPendingIntent(
-		            0,
-		            PendingIntent.FLAG_UPDATE_CURRENT
-		        );
+		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 		mBuilder.setContentIntent(resultPendingIntent);
-		NotificationManager mNotificationManager =
-		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
 		mNotificationManager.notify(1, mBuilder.build());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+
+		if (requestCode == 1) {
+
+			if (resultCode == RESULT_OK) {
+				String result = data.getStringExtra("result");
+				L.i("result : " + result);
+			}
+			if (resultCode == RESULT_CANCELED) {
+				// Write  code if there's no result
+			}
+		}
 	}
 
 }

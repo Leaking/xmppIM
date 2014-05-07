@@ -2,6 +2,7 @@ package com.XMPP.smack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.jivesoftware.smack.ConnectionListener;
@@ -26,6 +27,7 @@ public class SmackImpl implements Smack {
 
 	private String username;
 	private String password;
+	private static final HashMap<String ,String> jid_resource_map = new HashMap<String, String>();
 
 	private SmackImpl() {
 
@@ -375,7 +377,21 @@ public class SmackImpl implements Smack {
 	public RosterEntry getEntry(String u_jid) {
 		// TODO Auto-generated method stub
 		return this.getConnection().getRoster().getEntry(u_jid);
+		
 	}
+
+	@Override
+	public void markResource(String fullyJID) {
+		// TODO Auto-generated method stub
+		String bareJID = fullyJID.substring(0,fullyJID.lastIndexOf("/"));
+		this.jid_resource_map.put(bareJID, fullyJID);
+	}
+
+	@Override
+	public String getFullyJID(String bareJID){
+		return jid_resource_map.get(bareJID);
+	}
+	
 	
 
 }

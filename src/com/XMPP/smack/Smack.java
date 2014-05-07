@@ -91,4 +91,8 @@ public interface Smack extends Serializable {
 	public void unSubscribed(String jid);
 	
 	public void removeEntry(String jid);
+
+	public void markResource(String fullyJID);
+
+	public String getFullyJID(String bareJID);
 }

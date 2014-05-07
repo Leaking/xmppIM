@@ -1,5 +1,6 @@
 package com.XMPP.Service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -11,6 +12,10 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.OfflineMessageManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferListener;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 import org.jivesoftware.smackx.packet.DelayInformation;
 
 import android.app.NotificationManager;
@@ -67,6 +72,7 @@ public class MessageService extends Service {
 			public void run() {
 				fetchOfflineMessage();
 				listenIncomeMessage();
+				fileListen();
 			}
 		}).start();
 		return super.onStartCommand(intent, flags, startId);
@@ -196,6 +202,31 @@ public class MessageService extends Service {
 		});
 	}
 
+	public void fileListen(){
+		final FileTransferManager manager = new FileTransferManager(smack.getConnection());
+
+	      // Create the listener
+	      manager.addFileTransferListener(new FileTransferListener() {
+	            public void fileTransferRequest(FileTransferRequest request) {
+	                  // Check to see if the request should be accepted
+	                L.i("listern a file request");  
+	            	if(1 == 1) {
+	                        // Accept it
+	            
+	                        IncomingFileTransfer transfer = request.accept();
+	                        L.i("file from  " + request.getRequestor());
+	                        L.i("file name " + transfer.getFileName());
+							//transfer.recieveFile(new File("shakespeare_complete_works.txt"));
+	                  } else {
+	                        // Reject it
+	                        request.reject();
+	                  }
+	            }
+	      });
+	}
+	
+	
+	
 	public void sendNotify() {
 		Bitmap circleBitmap = CircleImage.toRoundBitmap(BitmapFactory
 				.decodeResource(getResources(), R.drawable.channel_qq), true);

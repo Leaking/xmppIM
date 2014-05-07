@@ -141,23 +141,17 @@ public class ContactsService extends Service {
 
 		connection.getRoster().addRosterListener(new RosterListener() {
 			public void presenceChanged(Presence presence) {
-				L.i("------------presenceChanged--------------");
-				L.i("from : " + presence.getFrom());
-				L.i("to : " + presence.getTo());
-				L.i("status : " + presence.getStatus());
-				L.i("mode : " + presence.getMode());
-				L.i("type : " + presence.getType());
-				L.i("-----------------------------------------");
-				/**
-				 * send a broadcast to change the ui
-				 */
+
+				L.i("presenceChanged " + presence.getFrom());
+				
+				smack.markResource(presence.getFrom()); 
 				Intent sendIntent = new Intent(
 						ContactsFragment.UPDATE_LIST_ACTION);
 				sendBroadcast(sendIntent);
 			}
 
 			public void entriesUpdated(Collection<String> presence) {
-				System.out.println("entriesUpdated");
+				L.i("entriesUpdated ");
 			}
 
 			public void entriesDeleted(Collection<String> presence) {
