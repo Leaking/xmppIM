@@ -114,7 +114,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	//
 	private int progressVal = 0;
-	private HashMap<Integer,Integer> position_progressVal_map = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 	private boolean fileSenderLocked = false;
 
 	@Override
@@ -488,9 +488,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(fileSenderLocked){
-					T.mToast(ChatRoomActivity.this, "A file Sending,wait a minute");
-					return ;
+				if (fileSenderLocked) {
+					T.mToast(ChatRoomActivity.this,
+							"A file Sending,wait a minute");
+					return;
 				}
 				Intent intent = new Intent(ChatRoomActivity.this,
 						FileSenderActivity.class);
@@ -671,6 +672,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			fileSenderLocked = true;
+			publishProgress(0);
 			super.onPreExecute();
 
 		}
@@ -702,45 +704,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 				e.printStackTrace();
 			}
 
-			if (transfer
-					.getStatus()
-					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)
-					|| transfer
-							.getStatus()
-							.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)
-					|| transfer
-							.getStatus()
-							.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.cancelled)) {
-				System.out.println(transfer.getStatus()
-						+ "  refused cancelled error " + transfer.getError());
-			} else {
-				System.out.println("Success");
-			}
-
-			if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)){
-				publishProgress(-1);
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-				return null;
-			}else if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)){
-				publishProgress(-2);
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-				return null;
-			}
-			
 			while (!transfer.isDone()) {
+
 				if (transfer
 						.getStatus()
 						.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)) {
 					System.out.println("ERROR!!! " + transfer.getError());
 				} else {
 					progressVal = (int) (100 * transfer.getProgress());
-					int pois = messages.size() - 1;
-					L.i("position 1 " + pois);
-					position_progressVal_map.put(messages.size() - 1,progressVal);
+					publishProgress(progressVal);
 					Intent intent = new Intent();
 					intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 					sendBroadcast(intent);
@@ -752,6 +724,25 @@ public class ChatRoomActivity extends FragmentActivity implements
 					e.printStackTrace();
 				}
 			}
+			if (transfer
+					.getStatus()
+					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)) {
+				publishProgress(-1);
+				Intent intent = new Intent();
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent);
+				return -1l;
+			} else if (transfer
+					.getStatus()
+					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)) {
+				publishProgress(-2);
+
+				Intent intent = new Intent();
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent);
+				return -2l;
+
+			}
 
 			return null;
 		}
@@ -759,8 +750,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 		@Override
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
-			publishProgress(100);
-			progressVal = 0;
+			if (result == null)
+				publishProgress(100);
 			Intent intent = new Intent();
 			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
@@ -770,19 +761,27 @@ public class ChatRoomActivity extends FragmentActivity implements
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			// TODO Auto-generated method stub
-			// not work here
-			progressVal = values[0];
-			position_progressVal_map.put(messages.size() - 1,progressVal);
+			L.i("onProgressUpdate");
+			switch (values[0]) {
+			case -1:
+				messages.get(messages.size() - 1).setFileStage("Rejected");
+				break;
+			case -2:
+				messages.get(messages.size() - 1).setFileStage("Error");
+				break;
+			case 100:
+				messages.get(messages.size() - 1).setFileStage("Finished");
+				break;
+			case 0:
+				messages.get(messages.size() - 1).setFileStage("Negotiating");
+				break;
+			}
+
+			messages.get(messages.size() - 1)
+					.setFileProgressVal(values[0]);
+
 		}
 
 	}
-
-	public int getProgressVal() {
-		return progressVal;
-	}
-	public HashMap<Integer,Integer> getMap(){
-		return position_progressVal_map;
-	}
-
 
 }

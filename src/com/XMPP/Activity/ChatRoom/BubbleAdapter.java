@@ -39,13 +39,7 @@ public class BubbleAdapter extends BaseAdapter {
 		this.mMessages = messages;
 	}
 
-	public int getProgressVal() {
-		return ((ChatRoomActivity) mContext).getProgressVal();
-	}
 
-	public HashMap<Integer, Integer> getMap() {
-		return ((ChatRoomActivity) mContext).getMap();
-	}
 
 	@Override
 	public int getCount() {
@@ -106,39 +100,18 @@ public class BubbleAdapter extends BaseAdapter {
 		}
 		holder.filename.setText(positonMessage.getFilename());
 		holder.filesize.setText(positonMessage.getFilesize());
-		if (getMap() == null) {
-			L.i("getMap() is null");
-		} else {
-			L.i("getMap() is not  null");
-
-		}
-		L.i("position 2 " + position);
-		L.i("map size " + getMap().size());
-		int progressVal = getMap().get(position);
-
-		if (progressVal == 100) {
-			holder.fileStage.setText("finish");
+		holder.fileStage.setText(positonMessage.getFileStage());
+		int val = positonMessage.getFileProgressVal();
+		if(val > 0 && val < 100 ){
+			holder.progressBar.setVisibility(View.VISIBLE);
+			holder.progressBar.setProgress(val);
+			holder.fileStage.setText(val + "%");
+		}else{
 			holder.progressBar.setVisibility(View.GONE);
-		} else {
-			if (progressVal != -1) {
-				holder.fileStage.setText(getProgressVal() + "%");
-				holder.progressBar.setProgress(getProgressVal());
-			} else {
-				switch (progressVal) {
-				case -1:
-					holder.fileStage.setText("Rejected");
-					holder.progressBar.setVisibility(View.GONE);
-					break;
-				case -2:
-					holder.fileStage.setText("Error");
-					holder.progressBar.setVisibility(View.GONE);
-					break;
-				case 0:
-					holder.fileStage.setText("Negotialting");
-					break;
-				}
-			}
 		}
+		
+		
+	
 
 		LayoutParams lp = (LayoutParams) holder.fileArea.getLayoutParams();
 

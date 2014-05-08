@@ -19,8 +19,22 @@ public class BubbleMessage {
 
 	String filename;
 	String filesize;
+	String fileStage;
+	int fileProgressVal;
 	
 	
+	public String getFileStage() {
+		return fileStage;
+	}
+	public void setFileStage(String fileStage) {
+		this.fileStage = fileStage;
+	}
+	public int getFileProgressVal() {
+		return fileProgressVal;
+	}
+	public void setFileProgressVal(int fileProgressVal) {
+		this.fileProgressVal = fileProgressVal;
+	}
 	public String getFilename() {
 		return filename;
 	}
