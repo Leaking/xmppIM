@@ -1,6 +1,8 @@
 package com.XMPP.Activity.ChatRoom;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -8,6 +10,9 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.ServiceDiscoveryManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
@@ -39,7 +45,6 @@ import com.XMPP.Activity.Plus.FileSenderActivity;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
-import com.XMPP.Database.TableContacts;
 import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.Model.IconOnTouchListener;
@@ -52,7 +57,6 @@ import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 import com.XMPP.util.SystemUtil;
 import com.XMPP.util.T;
-import com.XMPP.util.Test;
 import com.XMPP.util.TimeUtil;
 import com.XMPP.util.ValueUtil;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
@@ -107,6 +111,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 	// notify
 	String last_uJID;
 	String last_Msg;
+
+	//
+	private int progressVal = 0;
+	private HashMap<Integer,Integer> position_progressVal_map = new HashMap<Integer, Integer>();
+	private boolean fileSenderLocked = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -479,6 +488,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				if(fileSenderLocked){
+					T.mToast(ChatRoomActivity.this, "A file Sending,wait a minute");
+					return ;
+				}
 				Intent intent = new Intent(ChatRoomActivity.this,
 						FileSenderActivity.class);
 				intent.putExtra("JID", u_JID);
@@ -638,12 +651,138 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 			if (resultCode == RESULT_OK) {
 				String result = data.getStringExtra("result");
-				L.i("result : " + result);
+				File f = new File(result);
+				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
+						ValueUtil.getFileSize(f), MessageType.FILE, true);
+				messages.add(bubbleFile);
+				adapter.notifyDataSetChanged();
+
+				new FileSenderAsyncTask().execute(f, null, null);
 			}
 			if (resultCode == RESULT_CANCELED) {
-				// Write  code if there's no result
+				// Write code if there's no result
 			}
 		}
 	}
+
+	public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			fileSenderLocked = true;
+			super.onPreExecute();
+
+		}
+
+		@Override
+		protected Long doInBackground(File... params) {
+			// TODO Auto-generated method stub
+
+			final File file = params[0];
+			ServiceDiscoveryManager sdm = ServiceDiscoveryManager
+					.getInstanceFor(smack.getConnection());
+			if (sdm == null)
+				sdm = new ServiceDiscoveryManager(smack.getConnection());
+			sdm.addFeature("http://jabber.org/protocol/disco#info");
+			sdm.addFeature("jabber:iq:privacy");
+
+			FileTransferManager manager = new FileTransferManager(
+					smack.getConnection());
+
+			// Create the outgoing file transfer
+			final OutgoingFileTransfer transfer = manager
+					.createOutgoingFileTransfer(smack.getFullyJID(u_JID));
+
+			// TODO Auto-generated method stub
+			try {
+				transfer.sendFile(file, "come on buddy,get it");
+			} catch (XMPPException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (transfer
+					.getStatus()
+					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)
+					|| transfer
+							.getStatus()
+							.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)
+					|| transfer
+							.getStatus()
+							.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.cancelled)) {
+				System.out.println(transfer.getStatus()
+						+ "  refused cancelled error " + transfer.getError());
+			} else {
+				System.out.println("Success");
+			}
+
+			if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)){
+				publishProgress(-1);
+				Intent intent = new Intent();
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent);
+				return null;
+			}else if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)){
+				publishProgress(-2);
+				Intent intent = new Intent();
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent);
+				return null;
+			}
+			
+			while (!transfer.isDone()) {
+				if (transfer
+						.getStatus()
+						.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)) {
+					System.out.println("ERROR!!! " + transfer.getError());
+				} else {
+					progressVal = (int) (100 * transfer.getProgress());
+					int pois = messages.size() - 1;
+					L.i("position 1 " + pois);
+					position_progressVal_map.put(messages.size() - 1,progressVal);
+					Intent intent = new Intent();
+					intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+					sendBroadcast(intent);
+				}
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			// TODO Auto-generated method stub
+			publishProgress(100);
+			progressVal = 0;
+			Intent intent = new Intent();
+			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+			sendBroadcast(intent);
+			fileSenderLocked = false;
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			// not work here
+			progressVal = values[0];
+			position_progressVal_map.put(messages.size() - 1,progressVal);
+		}
+
+	}
+
+	public int getProgressVal() {
+		return progressVal;
+	}
+	public HashMap<Integer,Integer> getMap(){
+		return position_progressVal_map;
+	}
+
 
 }

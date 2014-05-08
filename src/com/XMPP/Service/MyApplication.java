@@ -11,7 +11,7 @@ public class MyApplication extends Application {
 	public static MyApplication getInstance(){
 		return new MyApplication();
 	}
-	private static boolean appVisible;
+	private static boolean appVisible = true;
 
 	public static boolean isActivityVisible() {
 		return appVisible;

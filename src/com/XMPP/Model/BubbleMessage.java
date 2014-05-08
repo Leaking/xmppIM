@@ -17,6 +17,23 @@ public class BubbleMessage {
 	int pictureID;
 	String status;
 
+	String filename;
+	String filesize;
+	
+	
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(String filesize) {
+		this.filesize = filesize;
+	}
+
 	public BubbleMessage(){
 		
 	}
@@ -33,6 +50,12 @@ public class BubbleMessage {
 		this.isMine = isMine;
 	}
 
+	public BubbleMessage(String filename,String filesize ,MessageType type , boolean isMine){
+		this.filename =filename;
+		this.filesize = filesize;
+		this.type = type;
+		this.isMine = isMine;
+	}
 	public boolean isMine() {
 		return isMine;
 	}

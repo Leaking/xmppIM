@@ -1,6 +1,7 @@
 package com.XMPP.Activity.ChatRoom;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.XMPP.R;
 import com.XMPP.Model.BubbleMessage;
+import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 import com.rockerhieu.emojicon.EmojiconTextView;
 
@@ -26,11 +29,22 @@ public class BubbleAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<BubbleMessage> mMessages;
 	private BubbleMessage positonMessage;
+	private final static int ITEM_VIEW_TYPE = 3;
+	private int progressVal;
+	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 
 	public BubbleAdapter(Context context, ArrayList<BubbleMessage> messages) {
 		super();
 		this.mContext = context;
 		this.mMessages = messages;
+	}
+
+	public int getProgressVal() {
+		return ((ChatRoomActivity) mContext).getProgressVal();
+	}
+
+	public HashMap<Integer, Integer> getMap() {
+		return ((ChatRoomActivity) mContext).getMap();
 	}
 
 	@Override
@@ -44,12 +58,18 @@ public class BubbleAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		// TODO Auto-generated method stub
+		return ITEM_VIEW_TYPE;
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		positonMessage = (BubbleMessage) this.getItem(position);
-		
+
 		//
 		switch (getItemViewType(position)) {
-		
+
 		case 0:
 			convertView = getTimeMessage(position, convertView, parent);
 			return convertView;
@@ -57,17 +77,88 @@ public class BubbleAdapter extends BaseAdapter {
 			convertView = getTextMessage(position, convertView, parent);
 			return convertView;
 		case 2:
-
-			break;
+			convertView = getFileMessage(position, convertView, parent);
+			return convertView;
 
 		}
 
 		return convertView;
 	}
 
+	public View getFileMessage(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.bubble_file, parent, false);
+			holder.fileArea = (View) convertView.findViewById(R.id.fileArea);
+			holder.filename = (TextView) convertView
+					.findViewById(R.id.filename);
+			holder.filesize = (TextView) convertView
+					.findViewById(R.id.filesize);
+			holder.progressBar = (ProgressBar) convertView
+					.findViewById(R.id.progressFile);
+			holder.fileStage = (TextView) convertView
+					.findViewById(R.id.fileStage);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		holder.filename.setText(positonMessage.getFilename());
+		holder.filesize.setText(positonMessage.getFilesize());
+		if (getMap() == null) {
+			L.i("getMap() is null");
+		} else {
+			L.i("getMap() is not  null");
+
+		}
+		L.i("position 2 " + position);
+		L.i("map size " + getMap().size());
+		int progressVal = getMap().get(position);
+
+		if (progressVal == 100) {
+			holder.fileStage.setText("finish");
+			holder.progressBar.setVisibility(View.GONE);
+		} else {
+			if (progressVal != -1) {
+				holder.fileStage.setText(getProgressVal() + "%");
+				holder.progressBar.setProgress(getProgressVal());
+			} else {
+				switch (progressVal) {
+				case -1:
+					holder.fileStage.setText("Rejected");
+					holder.progressBar.setVisibility(View.GONE);
+					break;
+				case -2:
+					holder.fileStage.setText("Error");
+					holder.progressBar.setVisibility(View.GONE);
+					break;
+				case 0:
+					holder.fileStage.setText("Negotialting");
+					break;
+				}
+			}
+		}
+
+		LayoutParams lp = (LayoutParams) holder.fileArea.getLayoutParams();
+
+		if (positonMessage.isMine()) {
+			holder.fileArea.setBackgroundResource(R.drawable.bubble_right);
+			lp.gravity = Gravity.RIGHT;
+		} else {
+			holder.fileArea.setBackgroundResource(R.drawable.bubble_left);
+			lp.gravity = Gravity.LEFT;
+
+		}
+		holder.fileArea.setLayoutParams(lp);
+		return convertView;
+
+	}
+
 	public View getTimeMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		if (convertView == null || ((ViewHolder)convertView.getTag()).time ==  null) {
+		if (convertView == null
+				|| ((ViewHolder) convertView.getTag()).time == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.bubble_text, parent, false);
@@ -78,19 +169,19 @@ public class BubbleAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.time.setText(positonMessage.getMessage());
-		holder.time.setTextSize(mContext.getResources().getDimension(R.dimen.bubbleTTextsizeTime));
+		holder.time.setTextSize(mContext.getResources().getDimension(
+				R.dimen.bubbleTTextsizeTime));
 		holder.time.setMinimumHeight(10);
 		LayoutParams lp = (LayoutParams) holder.time.getLayoutParams();
 		lp.gravity = Gravity.CENTER;
 		holder.time.setLayoutParams(lp);
 		return convertView;
-
 	}
-
 
 	public View getTextMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		if (convertView == null || ((ViewHolder)convertView.getTag()).message ==  null) {
+		if (convertView == null
+				|| ((ViewHolder) convertView.getTag()).message == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.bubble_text, parent, false);
@@ -100,10 +191,11 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		holder.message.setText(positonMessage.getMessage());
-		holder.message.setTextSize(mContext.getResources().getDimension(R.dimen.bubbleTTextsizeText));
-		
+		holder.message.setTextSize(mContext.getResources().getDimension(
+				R.dimen.bubbleTTextsizeText));
+
 		LayoutParams lp = (LayoutParams) holder.message.getLayoutParams();
 
 		if (positonMessage.isMine()) {
@@ -115,26 +207,31 @@ public class BubbleAdapter extends BaseAdapter {
 
 		}
 		holder.message.setLayoutParams(lp);
-
 		return convertView;
 	}
 
-	
 	@Override
-	public int getItemViewType (int position){
+	public int getItemViewType(int position) {
 		positonMessage = (BubbleMessage) this.getItem(position);
-		if(positonMessage.getType() == MessageType.TIME)
+		if (positonMessage.getType() == MessageType.TIME)
 			return 0;
-		if(positonMessage.getType() == MessageType.TEXT)
+		if (positonMessage.getType() == MessageType.TEXT)
 			return 1;
+		if (positonMessage.getType() == MessageType.FILE)
+			return 2;
 		return 1;
 	}
+
 	private class ViewHolder {
 		EmojiconTextView message;
 		EmojiconTextView time;
-	}
-	
 
+		View fileArea;
+		TextView filename;
+		TextView filesize;
+		TextView fileStage;
+		ProgressBar progressBar;
+	}
 
 	@Override
 	public long getItemId(int position) {

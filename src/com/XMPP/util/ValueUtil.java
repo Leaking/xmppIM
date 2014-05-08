@@ -1,5 +1,7 @@
 package com.XMPP.util;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -21,6 +23,19 @@ public class ValueUtil {
 		return jid;
 	}
 	
+	public static String getFileSize(File f) {
+	
+		long fileLength = f.length();
+		if (fileLength < 1024)
+			return fileLength + "B";
+		else {
+			long fileSize = fileLength / 1024;
+			if (fileSize < 1024)
+				return fileSize + "KB";
+			else
+				return fileSize / 1024 + "MB";
+		}
+	}
 	public static String deleteSth(String string,String sth){
 		if(string.indexOf("/") > 0)
 			return string.substring(0, string.indexOf("/"));
