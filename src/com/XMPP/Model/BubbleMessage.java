@@ -39,6 +39,7 @@ public class BubbleMessage {
 		this.filename = filename;
 		this.filesize = filesize;
 		this.request = request;
+		this.fileStage = "Negotiating";
 		this.type = MessageType.FILE;
 		this.fileProgressVal = 0;
 		this.isMine = false;

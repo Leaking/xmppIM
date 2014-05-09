@@ -52,6 +52,7 @@ import com.XMPP.R;
 import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.MainviewActivity;
 import com.XMPP.Activity.Plus.FileSenderActivity;
+import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
@@ -85,6 +86,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	XMPPConnection conn;
 	Smack smack;
 	Chat chat;
+	//
 	TextView room;
 	ImageView face;
 	ImageView plus;
@@ -97,18 +99,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 	boolean open_plus = false;
 	boolean open_face = false;
 	//
-	ListView bubbleList;
+	BubbleAdapter adapter;
+	ListView bubbleList_view;
+	ArrayList<BubbleMessage> bubbleList_data;
+	//
 	Plus_appear_Listener plus_appear_listener;
 	Plus_disappear_Listener plus_disappear_listener;
 	Face_appear_Listener face_appear_listener;
 	Face_disappear_Listener face_disappear_listener;
-	ArrayList<BubbleMessage> messages;
-	BubbleAdapter adapter;
+	//
 	AdapterRefreshReceiver aReceiver;
 	IntentFilter filter;
-
 	//
-	private static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
 
 	// time
 	private static final String format = "MM-dd HH:mm";
@@ -126,21 +128,21 @@ public class ChatRoomActivity extends FragmentActivity implements
 	private int progressVal = 0;
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_chatroom);
 		init();
-		bubbleList = (ListView) findViewById(R.id.bubbleList);
-		messages = new ArrayList<BubbleMessage>();
-		adapter = new BubbleAdapter(this, messages);
-		bubbleList.setAdapter(adapter);
-		bubbleList.setSelection(messages.size() - 1);
+		bubbleList_view = (ListView) findViewById(R.id.bubbleList);
+		bubbleList_data = new ArrayList<BubbleMessage>();
+		adapter = new BubbleAdapter(this, bubbleList_data);
+		bubbleList_view.setAdapter(adapter);
+		bubbleList_view.setSelection(bubbleList_data.size() - 1);
+		//
 		aReceiver = new AdapterRefreshReceiver();
 		filter = new IntentFilter();
-		filter.addAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+		filter.addAction(BroadCastUtil.ACTION_FRESH_CHATROOM_LISTVIEW);
 		registerReceiver(aReceiver, filter);
 	}
 
@@ -161,14 +163,14 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// move these operation into a seperate service
 		// registerReceiver(aReceiver, filter);
 
-		if (messages.size() == 0) {
-			messages = new ArrayList<BubbleMessage>();
+		if (bubbleList_data.size() == 0) {
+			bubbleList_data = new ArrayList<BubbleMessage>();
 			tableHistory = TableHistory.getInstance(this);
-			messages = tableHistory.getBubbleList(chat.getParticipant());
+			bubbleList_data = tableHistory.getBubbleList(chat.getParticipant());
 			// Test.outputMessageBubbleList(messages);
-			adapter = new BubbleAdapter(this, messages);
-			bubbleList.setAdapter(adapter);
-			bubbleList.setSelection(messages.size() - 1);
+			adapter = new BubbleAdapter(this, bubbleList_data);
+			bubbleList_view.setAdapter(adapter);
+			bubbleList_view.setSelection(bubbleList_data.size() - 1);
 		}
 
 	}
@@ -252,10 +254,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 				BubbleMessage bubble = new BubbleMessage(request, request
 						.getFileName(), ValueUtil.getFileSize(request
 						.getFileSize()));
-				messages.add(bubble);
-				Intent intent2 = new Intent();
-				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent2);
+				bubbleList_data.add(bubble);
+				BroadCastUtil.sendBroadCastChatroom(ChatRoomActivity.this);
 			}
 		});
 	}
@@ -303,14 +303,14 @@ public class ChatRoomActivity extends FragmentActivity implements
 					String viewTime = TimeUtil.getViewTime(nowTimeStr);
 					bubbleMessage = new BubbleMessage(viewTime,
 							MessageType.TIME, false);
-					messages.add(bubbleMessage);
+					bubbleList_data.add(bubbleMessage);
 				}
 
 				// add content bubble
 				bubbleMessage = new BubbleMessage(message.getBody(),
 						MessageType.TEXT, false);
 
-				messages.add(bubbleMessage);
+				bubbleList_data.add(bubbleMessage);
 
 				RowChatting chattingRow = new RowChatting(toJID, fromJID, "1",
 						message.getBody(), nowTimeStr);
@@ -325,13 +325,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 					sendNotify();
 				}
 
-				Intent intent2 = new Intent();
-				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent2);
-
-				Intent intent1 = new Intent();
-				intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
-				sendBroadcast(intent1);
+				BroadCastUtil.sendBroadCastChatroom(ChatRoomActivity.this);
+				BroadCastUtil.sendBroadCastChatting(ChatRoomActivity.this);
 
 			}
 		});
@@ -364,11 +359,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
 						MessageType.TIME, true);
-				messages.add(bubbleMessageTime);
+				bubbleList_data.add(bubbleMessageTime);
 			}
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
-			messages.add(bubbleMessageText);
+			bubbleList_data.add(bubbleMessageText);
 			// restore to DB
 			String fromJID = conn.getUser();
 			String toJID = chat.getParticipant();
@@ -387,9 +382,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			sendMessage(messageText);
 
 			// send a broadcast to renew the UI
-			Intent intent = new Intent();
-			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-			sendBroadcast(intent);
+			BroadCastUtil.sendBroadCastChatroom(ChatRoomActivity.this);
 			//
 			input.setText(null);
 		}
@@ -618,7 +611,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		public void onReceive(Context context, Intent intent) {
 			L.i("BroadcastReceiver AdapterRefreshReceiver ChatRoomActivity");
 			adapter.notifyDataSetChanged();
-			bubbleList.setSelection(messages.size() - 1);
+			bubbleList_view.setSelection(bubbleList_data.size() - 1);
 		}
 	}
 
@@ -677,13 +670,15 @@ public class ChatRoomActivity extends FragmentActivity implements
 				File f = new File(result);
 				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
 						ValueUtil.getFileSize(f), MessageType.FILE, true);
-				messages.add(bubbleFile);
+				bubbleList_data.add(bubbleFile);
 				adapter.notifyDataSetChanged();
 
-				FileSenderAsyncTask task = new FileSenderAsyncTask(messages.size() - 1);
-				
-				if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,f);
+				FileSenderAsyncTask task = new FileSenderAsyncTask(
+						bubbleList_data.size() - 1, bubbleList_data,
+						ChatRoomActivity.this, u_JID);
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, f);
 				} else {
 					task.execute(f);
 				}
@@ -709,14 +704,17 @@ public class ChatRoomActivity extends FragmentActivity implements
 						public void onClick(DialogInterface dialog, int which) {
 							// The 'which' argument contains the index position
 							// of the selected item
-							FileTransferRequest request = messages
-									.get(position).getRequest();
+							FileTransferRequest request = bubbleList_data.get(
+									position).getRequest();
 							switch (which) {
 							case 0:
-								FileReceiveAsyncTask task = new FileReceiveAsyncTask(position);
-																		
-								if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
-									task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+								FileReceiveAsyncTask task = new FileReceiveAsyncTask(
+										position, bubbleList_data,
+										ChatRoomActivity.this);
+								if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+									task.executeOnExecutor(
+											AsyncTask.THREAD_POOL_EXECUTOR,
+											request);
 								} else {
 									task.execute(request);
 								}
@@ -728,7 +726,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 						}
 					});
-
 			return builder.create();
 		}
 
@@ -737,208 +734,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 	public void showReceiveChocieFragment(int position) {
 		ReceiveFragment f1 = new ReceiveFragment(position);
 		f1.show(ChatRoomActivity.this.getSupportFragmentManager(), "tag");
-	}
-
-	public class FileReceiveAsyncTask extends
-			AsyncTask<FileTransferRequest, Integer, Long> {
-
-		private int position;
-
-		public FileReceiveAsyncTask(int position) {
-			this.position = position;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			publishProgress(0);
-			super.onPreExecute();
-		}
-
-		@Override
-		protected Long doInBackground(FileTransferRequest... request) {
-			// TODO Auto-generated method stub
-			Long result = 0L;
-			IncomingFileTransfer transfer = request[0].accept();
-			File mf = Environment.getExternalStorageDirectory();
-			File file = new File(mf.getAbsoluteFile() + "/"
-					+ transfer.getFileName());
-			try {
-				transfer.recieveFile(file);				
-				while (!transfer.isDone()) {
-					try {
-						Thread.sleep(1000L);
-					} catch (Exception e) {
-						Log.e("", e.getMessage());
-					}
-					int progressVal = (int) (100 * transfer.getProgress());
-					publishProgress(progressVal);
-					Intent intent = new Intent();
-					intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-					sendBroadcast(intent);
-				}
-				if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.cancelled))
-					publishProgress(-1);
-				if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error))
-					publishProgress(-2);
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-			} catch (Exception e) {
-				Log.e("", e.getMessage());
-			}
-
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// TODO Auto-generated method stub
-			L.i("onProgressUpdate");
-			switch (values[0]) {
-			case -1:
-				messages.get(position).setFileStage("Cancelled");
-				break;
-			case -2:
-				messages.get(position).setFileStage("Error");
-				break;
-			case 100:
-				messages.get(position).setFileStage("Finished");
-				break;
-			case 0:
-				messages.get(position).setFileStage("Negotiating");
-				break;
-			}
-
-			messages.get(position).setFileProgressVal(values[0]);
-
-		}
-
-	}
-
-	public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
-
-		private int position;
-		public FileSenderAsyncTask(int position){
-			this.position = position;
-		}
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			publishProgress(0);
-			super.onPreExecute();
-
-		}
-
-		@Override
-		protected Long doInBackground(File... params) {
-			// TODO Auto-generated method stub
-
-			final File file = params[0];
-			ServiceDiscoveryManager sdm = ServiceDiscoveryManager
-					.getInstanceFor(smack.getConnection());
-			if (sdm == null)
-				sdm = new ServiceDiscoveryManager(smack.getConnection());
-			sdm.addFeature("http://jabber.org/protocol/disco#info");
-			sdm.addFeature("jabber:iq:privacy");
-
-			FileTransferManager manager = new FileTransferManager(
-					smack.getConnection());
-
-			// Create the outgoing file transfer
-			final OutgoingFileTransfer transfer = manager
-					.createOutgoingFileTransfer(smack.getFullyJID(u_JID));
-
-			// TODO Auto-generated method stub
-			try {
-				transfer.sendFile(file, "come on buddy,get it");
-			} catch (XMPPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			while (!transfer.isDone()) {
-
-				if (transfer
-						.getStatus()
-						.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)) {
-					System.out.println("ERROR!!! " + transfer.getError());
-				} else {
-					progressVal = (int) (100 * transfer.getProgress());
-					publishProgress(progressVal);
-					Intent intent = new Intent();
-					intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-					sendBroadcast(intent);
-				}
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if (transfer
-					.getStatus()
-					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.refused)) {
-				publishProgress(-1);
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-				return -1l;
-			} else if (transfer
-					.getStatus()
-					.equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error)) {
-				publishProgress(-2);
-
-				Intent intent = new Intent();
-				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-				sendBroadcast(intent);
-				return -2l;
-
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
-			if (result == null)
-				publishProgress(100);
-			Intent intent = new Intent();
-			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
-			sendBroadcast(intent);
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// TODO Auto-generated method stub
-			L.i("onProgressUpdate");
-			switch (values[0]) {
-			case -1:
-				messages.get(position).setFileStage("Rejected");
-				break;
-			case -2:
-				messages.get(position).setFileStage("Error");
-				break;
-			case 100:
-				messages.get(position).setFileStage("Finished");
-				break;
-			case 0:
-				messages.get(position).setFileStage("Negotiating");
-				break;
-			}
-
-			messages.get(position).setFileProgressVal(values[0]);
-
-		}
-
 	}
 
 }

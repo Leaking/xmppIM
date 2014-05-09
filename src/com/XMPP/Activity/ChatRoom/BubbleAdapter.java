@@ -44,13 +44,12 @@ public class BubbleAdapter extends BaseAdapter {
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 	private String currentClickFileName;
 	private FileTransferRequest currentClickFileRequest;
+
 	public BubbleAdapter(Context context, ArrayList<BubbleMessage> messages) {
 		super();
 		this.mContext = context;
 		this.mMessages = messages;
 	}
-
-
 
 	@Override
 	public int getCount() {
@@ -113,11 +112,11 @@ public class BubbleAdapter extends BaseAdapter {
 		holder.filesize.setText(positonMessage.getFilesize());
 		holder.fileStage.setText(positonMessage.getFileStage());
 		int val = positonMessage.getFileProgressVal();
-		if(val > 0 && val < 100 ){
+		if (val > 0 && val < 100) {
 			holder.progressBar.setVisibility(View.VISIBLE);
 			holder.progressBar.setProgress(val);
 			holder.fileStage.setText(val + "%");
-		}else{
+		} else {
 			holder.progressBar.setVisibility(View.GONE);
 		}
 
@@ -129,14 +128,20 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			final int currentPosition = position;
 			currentClickFileRequest = positonMessage.getRequest();
-			convertView.setOnClickListener(new OnClickListener() {		
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					currentClickFileName = currentClickFileRequest.getFileName();
-					((ChatRoomActivity)mContext).showReceiveChocieFragment(currentPosition);
-				}
-			});
+			if (!(val > 0 && val < 100)) {				
+				convertView.setOnClickListener(new OnClickListener() {				
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						currentClickFileName = currentClickFileRequest
+								.getFileName();
+						((ChatRoomActivity) mContext)
+								.showReceiveChocieFragment(currentPosition);
+					}
+				});
+			}else{
+				convertView.setOnClickListener(null);
+			}
 			holder.fileArea.setBackgroundResource(R.drawable.bubble_left);
 			lp.gravity = Gravity.LEFT;
 
@@ -229,7 +234,5 @@ public class BubbleAdapter extends BaseAdapter {
 		// Unimplemented, because we aren't using Sqlite.
 		return position;
 	}
-	
-	
 
 }

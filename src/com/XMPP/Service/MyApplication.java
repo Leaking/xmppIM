@@ -13,11 +13,11 @@ public class MyApplication extends Application {
 	}
 	private static boolean appVisible = true;
 
-	public static boolean isActivityVisible() {
+	public boolean isActivityVisible() {
 		return appVisible;
 	}
 
-	public static void appAppear() {
+	public void appAppear() {
 		appVisible = true;
 	}
 
