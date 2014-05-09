@@ -11,20 +11,30 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smackx.ServiceDiscoveryManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -115,8 +125,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 	//
 	private int progressVal = 0;
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
-	private boolean fileSenderLocked = false;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -215,7 +225,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 		plus.setOnClickListener(plus_appear_listener);
 
 		//
-		receiveMessage();
+		listenMessage();
+		listenFile();
 	}
 
 	public void sendMessage(final Message message) {
@@ -233,7 +244,23 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}).start();
 	}
 
-	public void receiveMessage() {
+	public void listenFile() {
+		FileTransferManager manager = new FileTransferManager(
+				smack.getConnection());
+		manager.addFileTransferListener(new FileTransferListener() {
+			public void fileTransferRequest(FileTransferRequest request) {
+				BubbleMessage bubble = new BubbleMessage(request, request
+						.getFileName(), ValueUtil.getFileSize(request
+						.getFileSize()));
+				messages.add(bubble);
+				Intent intent2 = new Intent();
+				intent2.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent2);
+			}
+		});
+	}
+
+	public void listenMessage() {
 
 		// TODO Auto-generated method stub
 		chat = conn.getChatManager().createChat(u_JID, new MessageListener() {
@@ -488,11 +515,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (fileSenderLocked) {
-					T.mToast(ChatRoomActivity.this,
-							"A file Sending,wait a minute");
-					return;
-				}
 				Intent intent = new Intent(ChatRoomActivity.this,
 						FileSenderActivity.class);
 				intent.putExtra("JID", u_JID);
@@ -658,7 +680,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 				messages.add(bubbleFile);
 				adapter.notifyDataSetChanged();
 
-				new FileSenderAsyncTask().execute(f, null, null);
+				FileSenderAsyncTask task = new FileSenderAsyncTask(messages.size() - 1);
+				
+				if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,f);
+				} else {
+					task.execute(f);
+				}
 			}
 			if (resultCode == RESULT_CANCELED) {
 				// Write code if there's no result
@@ -666,12 +694,143 @@ public class ChatRoomActivity extends FragmentActivity implements
 		}
 	}
 
-	public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
+	class ReceiveFragment extends DialogFragment {
+		Integer position;
+
+		public ReceiveFragment(Integer position) {
+			this.position = position;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setItems(new String[] { "Receive", "Reject" },
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// The 'which' argument contains the index position
+							// of the selected item
+							FileTransferRequest request = messages
+									.get(position).getRequest();
+							switch (which) {
+							case 0:
+								FileReceiveAsyncTask task = new FileReceiveAsyncTask(position);
+																		
+								if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+									task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+								} else {
+									task.execute(request);
+								}
+								break;
+							case 1:
+								request.reject();
+								break;
+							}
+
+						}
+					});
+
+			return builder.create();
+		}
+
+	}
+
+	public void showReceiveChocieFragment(int position) {
+		ReceiveFragment f1 = new ReceiveFragment(position);
+		f1.show(ChatRoomActivity.this.getSupportFragmentManager(), "tag");
+	}
+
+	public class FileReceiveAsyncTask extends
+			AsyncTask<FileTransferRequest, Integer, Long> {
+
+		private int position;
+
+		public FileReceiveAsyncTask(int position) {
+			this.position = position;
+		}
 
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			fileSenderLocked = true;
+			publishProgress(0);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Long doInBackground(FileTransferRequest... request) {
+			// TODO Auto-generated method stub
+			Long result = 0L;
+			IncomingFileTransfer transfer = request[0].accept();
+			File mf = Environment.getExternalStorageDirectory();
+			File file = new File(mf.getAbsoluteFile() + "/"
+					+ transfer.getFileName());
+			try {
+				transfer.recieveFile(file);				
+				while (!transfer.isDone()) {
+					try {
+						Thread.sleep(1000L);
+					} catch (Exception e) {
+						Log.e("", e.getMessage());
+					}
+					int progressVal = (int) (100 * transfer.getProgress());
+					publishProgress(progressVal);
+					Intent intent = new Intent();
+					intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+					sendBroadcast(intent);
+				}
+				if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.cancelled))
+					publishProgress(-1);
+				if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.error))
+					publishProgress(-2);
+				Intent intent = new Intent();
+				intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
+				sendBroadcast(intent);
+			} catch (Exception e) {
+				Log.e("", e.getMessage());
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			L.i("onProgressUpdate");
+			switch (values[0]) {
+			case -1:
+				messages.get(position).setFileStage("Cancelled");
+				break;
+			case -2:
+				messages.get(position).setFileStage("Error");
+				break;
+			case 100:
+				messages.get(position).setFileStage("Finished");
+				break;
+			case 0:
+				messages.get(position).setFileStage("Negotiating");
+				break;
+			}
+
+			messages.get(position).setFileProgressVal(values[0]);
+
+		}
+
+	}
+
+	public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
+
+		private int position;
+		public FileSenderAsyncTask(int position){
+			this.position = position;
+		}
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
 			publishProgress(0);
 			super.onPreExecute();
 
@@ -755,7 +914,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 			Intent intent = new Intent();
 			intent.setAction(ChatRoomActivity.ACTION_FRESH_CHATROOM_LISTVIEW);
 			sendBroadcast(intent);
-			fileSenderLocked = false;
 		}
 
 		@Override
@@ -764,21 +922,20 @@ public class ChatRoomActivity extends FragmentActivity implements
 			L.i("onProgressUpdate");
 			switch (values[0]) {
 			case -1:
-				messages.get(messages.size() - 1).setFileStage("Rejected");
+				messages.get(position).setFileStage("Rejected");
 				break;
 			case -2:
-				messages.get(messages.size() - 1).setFileStage("Error");
+				messages.get(position).setFileStage("Error");
 				break;
 			case 100:
-				messages.get(messages.size() - 1).setFileStage("Finished");
+				messages.get(position).setFileStage("Finished");
 				break;
 			case 0:
-				messages.get(messages.size() - 1).setFileStage("Negotiating");
+				messages.get(position).setFileStage("Negotiating");
 				break;
 			}
 
-			messages.get(messages.size() - 1)
-					.setFileProgressVal(values[0]);
+			messages.get(position).setFileProgressVal(values[0]);
 
 		}
 

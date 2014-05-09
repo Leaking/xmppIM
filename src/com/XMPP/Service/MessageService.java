@@ -72,7 +72,7 @@ public class MessageService extends Service {
 			public void run() {
 				fetchOfflineMessage();
 				listenIncomeMessage();
-				fileListen();
+				//fileListen();
 			}
 		}).start();
 		return super.onStartCommand(intent, flags, startId);

@@ -36,6 +36,18 @@ public class ValueUtil {
 				return fileSize / 1024 + "MB";
 		}
 	}
+	
+	public static String getFileSize(long fileLength){
+		if (fileLength < 1024)
+			return fileLength + "B";
+		else {
+			long fileSize = fileLength / 1024;
+			if (fileSize < 1024)
+				return fileSize + "KB";
+			else
+				return fileSize / 1024 + "MB";
+		}
+	}
 	public static String deleteSth(String string,String sth){
 		if(string.indexOf("/") > 0)
 			return string.substring(0, string.indexOf("/"));

@@ -3,10 +3,18 @@ package com.XMPP.Activity.ChatRoom;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout.LayoutParams;
@@ -14,9 +22,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.XMPP.R;
+
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
+import com.XMPP.util.T;
 import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
@@ -32,7 +42,8 @@ public class BubbleAdapter extends BaseAdapter {
 	private final static int ITEM_VIEW_TYPE = 3;
 	private int progressVal;
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
-
+	private String currentClickFileName;
+	private FileTransferRequest currentClickFileRequest;
 	public BubbleAdapter(Context context, ArrayList<BubbleMessage> messages) {
 		super();
 		this.mContext = context;
@@ -109,9 +120,6 @@ public class BubbleAdapter extends BaseAdapter {
 		}else{
 			holder.progressBar.setVisibility(View.GONE);
 		}
-		
-		
-	
 
 		LayoutParams lp = (LayoutParams) holder.fileArea.getLayoutParams();
 
@@ -119,6 +127,16 @@ public class BubbleAdapter extends BaseAdapter {
 			holder.fileArea.setBackgroundResource(R.drawable.bubble_right);
 			lp.gravity = Gravity.RIGHT;
 		} else {
+			final int currentPosition = position;
+			currentClickFileRequest = positonMessage.getRequest();
+			convertView.setOnClickListener(new OnClickListener() {		
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					currentClickFileName = currentClickFileRequest.getFileName();
+					((ChatRoomActivity)mContext).showReceiveChocieFragment(currentPosition);
+				}
+			});
 			holder.fileArea.setBackgroundResource(R.drawable.bubble_left);
 			lp.gravity = Gravity.LEFT;
 
@@ -211,5 +229,7 @@ public class BubbleAdapter extends BaseAdapter {
 		// Unimplemented, because we aren't using Sqlite.
 		return position;
 	}
+	
+	
 
 }

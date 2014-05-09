@@ -1,5 +1,8 @@
 package com.XMPP.Model;
 
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+
+import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 
 /**
@@ -17,40 +20,37 @@ public class BubbleMessage {
 	int pictureID;
 	String status;
 
+	//send and revceive file
 	String filename;
 	String filesize;
 	String fileStage;
 	int fileProgressVal;
+	//receive file
+	FileTransferRequest request;
 	
 	
-	public String getFileStage() {
-		return fileStage;
-	}
-	public void setFileStage(String fileStage) {
-		this.fileStage = fileStage;
-	}
-	public int getFileProgressVal() {
-		return fileProgressVal;
-	}
-	public void setFileProgressVal(int fileProgressVal) {
-		this.fileProgressVal = fileProgressVal;
-	}
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-	public String getFilesize() {
-		return filesize;
-	}
-	public void setFilesize(String filesize) {
-		this.filesize = filesize;
-	}
+
 
 	public BubbleMessage(){
 		
 	}
+	// receive file 
+	public BubbleMessage(FileTransferRequest request,String filename,String filesize){
+		this.filename = filename;
+		this.filesize = filesize;
+		this.request = request;
+		this.type = MessageType.FILE;
+		this.fileProgressVal = 0;
+		this.isMine = false;
+	}
+	// send file
+	public BubbleMessage(String filename,String filesize ,MessageType type , boolean isMine){
+		this.filename =filename;
+		this.filesize = filesize;
+		this.type = type;
+		this.isMine = isMine;
+	}
+	// message
 	public BubbleMessage(String message ,MessageType type , boolean isMine) {
 		super();
 		this.type = type;
@@ -64,12 +64,7 @@ public class BubbleMessage {
 		this.isMine = isMine;
 	}
 
-	public BubbleMessage(String filename,String filesize ,MessageType type , boolean isMine){
-		this.filename =filename;
-		this.filesize = filesize;
-		this.type = type;
-		this.isMine = isMine;
-	}
+
 	public boolean isMine() {
 		return isMine;
 	}
@@ -115,6 +110,35 @@ public class BubbleMessage {
 		String string = " Time : "  + this.type + " Content "  + this.getMessage();
 		return string;
 	}
-	
+	public FileTransferRequest getRequest() {
+		return request;
+	}
+	public void setRequest(FileTransferRequest request) {
+		this.request = request;
+	}
+	public String getFileStage() {
+		return fileStage;
+	}
+	public void setFileStage(String fileStage) {
+		this.fileStage = fileStage;
+	}
+	public int getFileProgressVal() {
+		return fileProgressVal;
+	}
+	public void setFileProgressVal(int fileProgressVal) {
+		this.fileProgressVal = fileProgressVal;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(String filesize) {
+		this.filesize = filesize;
+	}
 
 }
