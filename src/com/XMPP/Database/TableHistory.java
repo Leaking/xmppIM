@@ -2,6 +2,8 @@ package com.XMPP.Database;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
@@ -17,6 +19,25 @@ import android.database.sqlite.SQLiteDatabase;
 public class TableHistory {
 	private SQLiteDatabase db;
 
+	
+	// TABLE_HISTORY
+	public static final String TABLE_HISTORY = "table_history";
+	public static final String COLUMN_TYPE_TIME = "messageTime TEXT,";
+	public static final String COLUMN_TYPE_CONTENT = "messageContent TEXT,";
+	public static final String COLUMN_TYPE_TYPE = "messageType TEXT,";
+	public static final String COLUMN_TYPE_FROM_JID = "fromJID TEXT,";
+	public static final String COLUMN_TYPE_TO_JID = "toJID TEXT)";	
+	public static final String COLUMN_TIME = "messageTime";
+	public static final String COLUMN_CONTENT = "messageContent";
+	public static final String COLUMN_TYPE = "messageType";
+	public static final String COLUMN_FROM_JID = "fromJID";
+	public static final String COLUMN_TO_JID = "toJID";
+	
+	public static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
+			+ TABLE_HISTORY + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,  "
+			+ COLUMN_TYPE_TIME + COLUMN_TYPE_CONTENT + COLUMN_TYPE_TYPE + COLUMN_TYPE_FROM_JID
+			+ COLUMN_TYPE_TO_JID;
+	
 	private TableHistory(Context context) {
 		this.db = XMPPSQLiteOpenHelper.getInstance(context);
 	}
@@ -27,7 +48,7 @@ public class TableHistory {
 
 	public void insert(RowHistory row) {
 		db.execSQL(
-				"insert into " + XMPPSQLiteOpenHelper.TABLE_HISTORY
+				"insert into " + TABLE_HISTORY
 						+ " values(null,?,?,?,?,?)",
 				new String[] { row.getMessageTime(), row.getMessageContent(),
 						row.getMessageType(), row.getFromJID(), row.getToJID() });
@@ -38,64 +59,87 @@ public class TableHistory {
 		String currentUserJID = SmackImpl.getInstance().getConnection().getUser();
 		currentUserJID = ValueUtil.deleteSth(currentUserJID, Constants.DELETE_STH);
 		ArrayList<RowHistory> rows = new ArrayList<RowHistory>();
-		String sql = "select *from " + XMPPSQLiteOpenHelper.TABLE_HISTORY
-				+ " where " + "(" + XMPPSQLiteOpenHelper.COLUMN_FROM_JID
-				+ " = '" + currentUserJID + "' and " + XMPPSQLiteOpenHelper.COLUMN_TO_JID
+		String sql = "select *from " + TABLE_HISTORY
+				+ " where " + "(" + COLUMN_FROM_JID
+				+ " = '" + currentUserJID + "' and " + COLUMN_TO_JID
 				+ " = '" + jid + "') " + "or ("
-				+ XMPPSQLiteOpenHelper.COLUMN_FROM_JID + " = '" + jid
-				+ "' and " + XMPPSQLiteOpenHelper.COLUMN_TO_JID + " = '" + currentUserJID
+				+ COLUMN_FROM_JID + " = '" + jid
+				+ "' and " + COLUMN_TO_JID + " = '" + currentUserJID
 				+ "') ";
 		L.i("sql " + sql);
 		Cursor cursor = db.rawQuery(sql, null);
 		while (cursor.moveToNext()) {
 			L.i("sql result");
 			String time = cursor.getString(cursor
-					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TIME));
+					.getColumnIndex(COLUMN_TIME));
 			String content = cursor.getString(cursor
-					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_CONTENT));
+					.getColumnIndex(COLUMN_CONTENT));
 			String type = cursor.getString(cursor
-					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TYPE));
+					.getColumnIndex(COLUMN_TYPE));
 			String fromJID = cursor.getString(cursor
-					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_FROM_JID));
+					.getColumnIndex(COLUMN_FROM_JID));
 			String toJID = cursor.getString(cursor
-					.getColumnIndex(XMPPSQLiteOpenHelper.COLUMN_TO_JID));
+					.getColumnIndex(COLUMN_TO_JID));
 			RowHistory row = new RowHistory(time, content, type, fromJID, toJID);
 			rows.add(row);
 		}
 		return rows;
 	}
 
-	public ArrayList<BubbleMessage> getBubbleList(String JID) {
+	public ArrayList<BubbleMessage> getBubbleList(String u_JID) {
 		ArrayList<BubbleMessage> bubbleList = new ArrayList<BubbleMessage>();
-		ArrayList<RowHistory> historyList = select(JID);
+		ArrayList<RowHistory> historyList = select(u_JID);
 		String rightUser = SmackImpl.getInstance().getConnection().getUser();
 		rightUser = ValueUtil.deleteSth(rightUser, Constants.DELETE_STH);
 		boolean isMine = false;
 		for (int i = 0; i < historyList.size(); i++) {
 			RowHistory history = historyList.get(i);
-			if (history.getMessageType().equals(Constants.MESSAGE_TYPE_TEXT)) {
-				
-				if (rightUser.equals(history.getFromJID()))
-					isMine = true;
-				else
-					isMine = false;
-				String viewTime = TimeUtil.getViewTime(history.getMessageTime());
-				if(i == 0){
+			if (rightUser.equals(history.getFromJID()))
+				isMine = true;
+			else
+				isMine = false;
+			String viewTime = TimeUtil.getViewTime(history.getMessageTime());
+			if(i == 0){
+				BubbleMessage bubbleMessageTime = new BubbleMessage(
+						viewTime, MessageType.TIME, isMine);
+				bubbleList.add(bubbleMessageTime);
+			}
+			if(i != 0){
+				boolean longBefore = TimeUtil.isLongBefore(historyList.get(i - 1).getMessageTime(), history.getMessageTime());
+				if(longBefore){
 					BubbleMessage bubbleMessageTime = new BubbleMessage(
 							viewTime, MessageType.TIME, isMine);
 					bubbleList.add(bubbleMessageTime);
-				}
-				if(i != 0){
-					boolean longBefore = TimeUtil.isLongBefore(historyList.get(i - 1).getMessageTime(), history.getMessageTime());
-					if(longBefore){
-						BubbleMessage bubbleMessageTime = new BubbleMessage(
-								viewTime, MessageType.TIME, isMine);
-						bubbleList.add(bubbleMessageTime);
-					}	
-				}			
+				}	
+			}
+			if (history.getMessageType().equals(Constants.MESSAGE_TYPE_TEXT)) {							
 				BubbleMessage bubbleMessageText = new BubbleMessage(
 						history.getMessageContent(), MessageType.TEXT, isMine);
 				bubbleList.add(bubbleMessageText);
+			}else if(history.getMessageType().equals(Constants.MESSAGE_TYPE_FILE)){
+				// content = "filename@filesize@filestage"
+				String filename;
+				String filesize;
+				String filestage;
+				String content = history.getMessageContent();
+				int first_at = content.indexOf("@");
+				int second_at = content.lastIndexOf("@");
+				
+				MessageType type = MessageType.FILE;
+				filename = content.substring(0, first_at);
+				filesize = content.substring(first_at + 1, second_at);
+				filestage = content.substring(second_at + 1);
+				
+				if(isMine){
+					BubbleMessage bubbleMessageFile = new BubbleMessage(filename, filesize);
+					bubbleMessageFile.setFileStage(filestage);
+					bubbleList.add(bubbleMessageFile);
+				}else{
+					FileTransferRequest request = SmackImpl.getInstance().getRequestList(u_JID, filename);
+					BubbleMessage bubbleMessageFile = new BubbleMessage(request,filename,filesize);
+					bubbleMessageFile.setFileStage(filestage);
+					bubbleList.add(bubbleMessageFile);
+				}
 			}
 		}
 

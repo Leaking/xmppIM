@@ -12,6 +12,7 @@ import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.packet.VCard;
 
 import com.XMPP.Database.RowContacts;
@@ -27,7 +28,8 @@ public class SmackImpl implements Smack {
 
 	private String username;
 	private String password;
-	private static final HashMap<String ,String> jid_resource_map = new HashMap<String, String>();
+	private HashMap<String, ArrayList<FileTransferRequest>> requestMap = new HashMap<String, ArrayList<FileTransferRequest>>();
+	private static final HashMap<String, String> jid_resource_map = new HashMap<String, String>();
 
 	private SmackImpl() {
 
@@ -200,7 +202,7 @@ public class SmackImpl implements Smack {
 		String jid = conn.getUser();
 		L.i("jID:" + jid);
 		ArrayList<RowContacts> rows = new ArrayList<RowContacts>();
-		
+
 		Roster roster = conn.getRoster();
 		Iterator<RosterGroup> iter = roster.getGroups().iterator();
 		// go through each group
@@ -230,9 +232,10 @@ public class SmackImpl implements Smack {
 						nickname, online, photo, signature);
 				rows.add(row);
 			}
-			if(intoFlag == 0){
+			if (intoFlag == 0) {
 				System.out.println("empty group " + group);
-				RowContacts row = new RowContacts(jid,group,null,null,null,null,null);
+				RowContacts row = new RowContacts(jid, group, null, null, null,
+						null, null);
 				rows.add(row);
 			}
 
@@ -266,7 +269,7 @@ public class SmackImpl implements Smack {
 	}
 
 	@Override
-	public void acceptFriend(String requestJID,String groupName) {
+	public void acceptFriend(String requestJID, String groupName) {
 		// TODO Auto-generated method stub
 		Presence newp = new Presence(Presence.Type.subscribed);
 		newp.setMode(Presence.Mode.available);
@@ -277,11 +280,11 @@ public class SmackImpl implements Smack {
 
 		Presence subscription = new Presence(Presence.Type.subscribe);
 		subscription.setTo(requestJID);
-		conn.sendPacket(subscription);		
-		addEntry(requestJID,groupName);
-		
+		conn.sendPacket(subscription);
+		addEntry(requestJID, groupName);
+
 	}
-	
+
 	@Override
 	public void addGroup(String groupname) {
 		// TODO Auto-generated method stub
@@ -293,20 +296,17 @@ public class SmackImpl implements Smack {
 	public void addEntry(String jid, String groupname) {
 		// TODO Auto-generated method stub
 
+		// TODO Auto-generated method stub
+		XMPPConnection conn = ConnectionHandler.getConnection();
+		String nickname = getNickname(jid);
+		try {
+			conn.getRoster().createEntry(jid, nickname,
+					new String[] { groupname });
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-				// TODO Auto-generated method stub
-				XMPPConnection conn = ConnectionHandler.getConnection();
-				String nickname = getNickname(jid);
-				try {
-					conn.getRoster().createEntry(jid, nickname,
-							new String[] { groupname });
-				} catch (XMPPException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-
-		
 	}
 
 	@Override
@@ -320,7 +320,6 @@ public class SmackImpl implements Smack {
 		conn.sendPacket(newp);
 	}
 
-
 	@Override
 	public void subscribe(String jid) {
 		// TODO Auto-generated method stub
@@ -331,7 +330,7 @@ public class SmackImpl implements Smack {
 		newp.setTo(jid);
 		XMPPConnection conn = ConnectionHandler.getConnection();
 		conn.sendPacket(newp);
-//		addEntry(jid,"friend");
+		// addEntry(jid,"friend");
 	}
 
 	@Override
@@ -362,8 +361,9 @@ public class SmackImpl implements Smack {
 		String string = this.getConnection().getUser();
 		return ValueUtil.deleteSth(string, Constants.DELETE_STH);
 	}
+
 	@Override
-	public void removeEntry(String jid){
+	public void removeEntry(String jid) {
 		RosterEntry entry = this.getConnection().getRoster().getEntry(jid);
 		try {
 			this.getConnection().getRoster().removeEntry(entry);
@@ -377,21 +377,48 @@ public class SmackImpl implements Smack {
 	public RosterEntry getEntry(String u_jid) {
 		// TODO Auto-generated method stub
 		return this.getConnection().getRoster().getEntry(u_jid);
-		
+
 	}
 
 	@Override
 	public void markResource(String fullyJID) {
 		// TODO Auto-generated method stub
-		String bareJID = fullyJID.substring(0,fullyJID.lastIndexOf("/"));
+		String bareJID = fullyJID.substring(0, fullyJID.lastIndexOf("/"));
 		this.jid_resource_map.put(bareJID, fullyJID);
 	}
 
 	@Override
-	public String getFullyJID(String bareJID){
+	public String getFullyJID(String bareJID) {
 		return jid_resource_map.get(bareJID);
 	}
-	
-	
+
+	@Override
+	public FileTransferRequest getRequestList(String u_jid, String filename) {
+		// TODO Auto-generated method stub
+		u_jid = SmackImpl.getInstance().getFullyJID(u_jid);
+		ArrayList<FileTransferRequest> list = requestMap.get(u_jid);
+		Test.outputRequestMap(requestMap);
+		for (int i = 0; i < list.size(); i++) {
+
+			if (list.get(i).getFileName().equals(filename))
+				return list.get(i);
+		}
+		return null;
+
+	}
+
+	@Override
+	public void insertRequest(FileTransferRequest request) {
+		// TODO Auto-generated method stub
+		// the following line get the fully JID
+		String u_jid = request.getRequestor();
+		if (requestMap.containsKey(u_jid)) {
+			requestMap.get(u_jid).add(request);
+		} else {
+			ArrayList<FileTransferRequest> requestList = new ArrayList<FileTransferRequest>();
+			requestList.add(request);
+			requestMap.put(u_jid, requestList);
+		}
+	}
 
 }

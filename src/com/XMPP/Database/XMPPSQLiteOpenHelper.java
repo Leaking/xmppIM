@@ -21,31 +21,8 @@ public class XMPPSQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_GROUPS_PHOTO = "photo TEXT,";
 	public static final String COLUMN_GROUPS_SIGNATURE = "signature TEXT)";
 
-	// TABLE_HISTORY
-	public static final String TABLE_HISTORY = "table_history";
-	public static final String COLUMN_TYPE_TIME = "messageTime TEXT,";
-	public static final String COLUMN_TYPE_CONTENT = "messageContent TEXT,";
-	public static final String COLUMN_TYPE_TYPE = "messageType TEXT,";
-	public static final String COLUMN_TYPE_FROM_JID = "fromJID TEXT,";
-	public static final String COLUMN_TYPE_TO_JID = "toJID TEXT)";	
-	public static final String COLUMN_TIME = "messageTime";
-	public static final String COLUMN_CONTENT = "messageContent";
-	public static final String COLUMN_TYPE = "messageType";
-	public static final String COLUMN_FROM_JID = "fromJID";
-	public static final String COLUMN_TO_JID = "toJID";
-	
-	//  TABLE_CHATTING
-	public static final String TABLE_CHATTING = "table_chatting";
-	public static final String COLUMN_TYPE_I_JID = "I_JID TEXT,";
-	public static final String COLUMN_TYPE_U_JID = "U_JID TEXT,";
-	public static final String COLUMN_TYPE_UNREADNUM = "unReadNum TEXT,";
-	public static final String COLUMN_TYPE_LASTMSG = "lastMSG TEXT,";
-	public static final String COLUMN_TYPE_LASTTIME = "lastTime TEXT)";
-	public static final String COLUMN_I_JID = "I_JID";
-	public static final String COLUMN_U_JID = "U_JID";
-	public static final String COLUMN_UNREADNUM = "unReadNum";
-	public static final String COLUMN_LASTMSG = "lastMSG";
-	public static final String COLUMN_LASTTIME = "lastTime";
+
+
 
 	private static final String TABLE_MESSAGE = "table_message";
 
@@ -66,22 +43,15 @@ public class XMPPSQLiteOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_GROUPS_NICKNAME + COLUMN_GROUPS_IFONLINE
 			+ COLUMN_GROUPS_PHOTO + COLUMN_GROUPS_SIGNATURE;
 
-	private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
-			+ TABLE_HISTORY + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,  "
-			+ COLUMN_TYPE_TIME + COLUMN_TYPE_CONTENT + COLUMN_TYPE_TYPE + COLUMN_TYPE_FROM_JID
-			+ COLUMN_TYPE_TO_JID;
-	
-	private static final String CREATE_TABLE_CHATTING = "CREATE TABLE "
-			+ TABLE_CHATTING + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,  "
-			+ COLUMN_TYPE_I_JID + COLUMN_TYPE_U_JID + COLUMN_TYPE_UNREADNUM + COLUMN_TYPE_LASTMSG
-			+ COLUMN_TYPE_LASTTIME;
+
+
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_TABLE_CONTACTS);
-		db.execSQL(CREATE_TABLE_HISTORY);
-		db.execSQL(CREATE_TABLE_CHATTING);
+		db.execSQL(TableHistory.CREATE_TABLE_HISTORY);
+		db.execSQL(TableChatting.CREATE_TABLE_CHATTING);
 	}
 
 	@Override

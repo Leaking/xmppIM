@@ -128,7 +128,7 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			final int currentPosition = position;
 			currentClickFileRequest = positonMessage.getRequest();
-			if (!(val > 0 && val < 100)) {				
+			if (!(val > 0 && val <= 100)) {				
 				convertView.setOnClickListener(new OnClickListener() {				
 					@Override
 					public void onClick(View v) {

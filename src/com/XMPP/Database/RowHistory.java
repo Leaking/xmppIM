@@ -1,6 +1,12 @@
 package com.XMPP.Database;
 
 public class RowHistory {
+	
+
+	
+	
+	
+	
 	private String messageTime;
 	private String messageContent;
 	private String messageType;

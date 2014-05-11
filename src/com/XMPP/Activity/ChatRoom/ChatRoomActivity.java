@@ -228,7 +228,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		//
 		listenMessage();
-		listenFile();
+		//listenFile();
 	}
 
 	public void sendMessage(final Message message) {
@@ -251,6 +251,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 				smack.getConnection());
 		manager.addFileTransferListener(new FileTransferListener() {
 			public void fileTransferRequest(FileTransferRequest request) {
+				L.i("file request from " + request.getRequestor());
 				BubbleMessage bubble = new BubbleMessage(request, request
 						.getFileName(), ValueUtil.getFileSize(request
 						.getFileSize()));
@@ -669,10 +670,21 @@ public class ChatRoomActivity extends FragmentActivity implements
 				String result = data.getStringExtra("result");
 				File f = new File(result);
 				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
-						ValueUtil.getFileSize(f), MessageType.FILE, true);
+						ValueUtil.getFileSize(f));
 				bubbleList_data.add(bubbleFile);
 				adapter.notifyDataSetChanged();
-
+				
+				//insert into DB
+				String messageType = Constants.MESSAGE_TYPE_FILE;
+				String messageContent = f.getName()+"@"+ValueUtil.getFileSize(f)+"@"+AsyncTaskContants.STR_NEGOTIATING;
+				String messageTime = TimeUtil.getCurrentTime2String();
+				String fromJID = smack.getConnection().getUser();
+				fromJID = ValueUtil.deleteSth(fromJID,
+						Constants.DELETE_STH);
+				RowHistory row = new RowHistory(messageTime, messageContent, messageType, fromJID, u_JID);
+				restoreMessage(row);
+				
+				//
 				FileSenderAsyncTask task = new FileSenderAsyncTask(
 						bubbleList_data.size() - 1, bubbleList_data,
 						ChatRoomActivity.this, u_JID);

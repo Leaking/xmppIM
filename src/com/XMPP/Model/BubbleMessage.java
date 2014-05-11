@@ -45,11 +45,13 @@ public class BubbleMessage {
 		this.isMine = false;
 	}
 	// send file
-	public BubbleMessage(String filename,String filesize ,MessageType type , boolean isMine){
+	public BubbleMessage(String filename,String filesize){
 		this.filename =filename;
 		this.filesize = filesize;
-		this.type = type;
-		this.isMine = isMine;
+		this.type = MessageType.FILE;
+		this.fileStage = "Negotiating";
+		this.fileProgressVal = 0;
+		this.isMine = true;
 	}
 	// message
 	public BubbleMessage(String message ,MessageType type , boolean isMine) {

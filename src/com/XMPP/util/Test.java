@@ -1,6 +1,11 @@
 package com.XMPP.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
 import com.XMPP.Database.RowContacts;
 import com.XMPP.Model.BubbleMessage;
@@ -9,6 +14,22 @@ import com.XMPP.Model.ViewXMPPGroup;
 import com.XMPP.smack.Smack;
 
 public class Test {
+	
+	public static void outputRequestMap(HashMap<String, ArrayList<FileTransferRequest>> requestMap){
+		L.i("TEST : output the request Map");
+		Set<String> keySet = (Set<String>) requestMap.keySet();
+		Iterator<String> iter = keySet.iterator();
+		
+		while(iter.hasNext()){
+			String u_jid = iter.next();
+			L.i("request from " + u_jid);
+			ArrayList<FileTransferRequest> list = requestMap.get(u_jid);
+			for(int i = 0; i < list .size(); i++){
+				L.i("file name " + list.get(i).getFileName());
+			}
+			
+		}
+	}
 	public static void output2levelString(String[][] _2levelString){
 		L.i("TEST : output 2 Level String");
 		int i = 0;

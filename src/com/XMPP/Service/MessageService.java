@@ -30,12 +30,15 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.XMPP.R;
+import com.XMPP.Activity.ChatRoom.AsyncTaskContants;
 import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.MainviewActivity;
+import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
 import com.XMPP.Database.TableChatting;
 import com.XMPP.Database.TableHistory;
+import com.XMPP.Model.BubbleMessage;
 import com.XMPP.smack.ConnectionHandler;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -62,17 +65,15 @@ public class MessageService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		L.i("come into message service onStartCommand  1 ");
 		smack = SmackImpl.getInstance();
 		tableHistory = TableHistory.getInstance(this);
 		tableChatting = TableChatting.getInstance(this);
-		L.i("come into message service onStartCommand 2");
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				fetchOfflineMessage();
 				listenIncomeMessage();
-				//fileListen();
+				fileListen();
 			}
 		}).start();
 		return super.onStartCommand(intent, flags, startId);
@@ -204,23 +205,39 @@ public class MessageService extends Service {
 
 	public void fileListen(){
 		final FileTransferManager manager = new FileTransferManager(smack.getConnection());
-
 	      // Create the listener
 	      manager.addFileTransferListener(new FileTransferListener() {
 	            public void fileTransferRequest(FileTransferRequest request) {
 	                  // Check to see if the request should be accepted
-	                L.i("listern a file request");  
-	            	if(1 == 1) {
-	                        // Accept it
-	            
-	                        IncomingFileTransfer transfer = request.accept();
-	                        L.i("file from  " + request.getRequestor());
-	                        L.i("file name " + transfer.getFileName());
-							//transfer.recieveFile(new File("shakespeare_complete_works.txt"));
-	                  } else {
-	                        // Reject it
-	                        request.reject();
-	                  }
+	               
+	            	L.i("listern a file request");  
+	                //0,save the reqeust into the requestMap
+	                smack.insertRequest(request);
+	            	//1,insert sth into chatting table 
+	                String fromJID = request.getRequestor();
+					fromJID = ValueUtil.deleteSth(fromJID,
+							Constants.DELETE_STH);
+					String toJID = smack.getConnection().getUser();
+					toJID = ValueUtil.deleteSth(toJID,
+							Constants.DELETE_STH);
+
+					String messageType = Constants.MESSAGE_TYPE_FILE;
+					String messageContent = request.getFileName()+"@"+request.getFileSize()+"@"+AsyncTaskContants.STR_NEGOTIATING;
+					String messageTime = TimeUtil.getCurrentTime2String();
+					RowHistory row = new RowHistory(messageTime, messageContent, messageType, fromJID, toJID);
+					tableHistory.insert(row);
+
+					//2,insert sth into history table
+					RowChatting chattingRow = new RowChatting(toJID,
+							fromJID, "1", "文件", messageTime);
+					tableChatting.insert_update(chattingRow);
+					
+	                //3,send broadcast to fresh chatting listview and chatroom listview
+	                
+					BroadCastUtil.sendBroadCastChatroom(MessageService.this);
+					BroadCastUtil.sendBroadCastChatting(MessageService.this);
+					
+					
 	            }
 	      });
 	}

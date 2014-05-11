@@ -8,6 +8,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
 import com.XMPP.Database.RowContacts;
 
@@ -95,4 +96,10 @@ public interface Smack extends Serializable {
 	public void markResource(String fullyJID);
 
 	public String getFullyJID(String bareJID);
+
+
+	public FileTransferRequest getRequestList(String u_jid,String filename);
+	
+	public void insertRequest(FileTransferRequest request);
+	
 }
