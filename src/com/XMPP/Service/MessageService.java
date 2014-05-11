@@ -182,7 +182,7 @@ public class MessageService extends Service {
 							RowChatting chattingRow = new RowChatting(toJID,
 									fromJID, "1", messageContent, messageTime);
 							tableChatting.insert_update(chattingRow);
-
+							
 							
 							if (!((MyApplication) getApplication())
 									.isActivityVisible()) {
@@ -212,7 +212,7 @@ public class MessageService extends Service {
 	               
 	            	L.i("listern a file request");  
 	                //0,save the reqeust into the requestMap
-	                smack.insertRequest(request);
+	                smack.addRequest(request);
 	            	//1,insert sth into chatting table 
 	                String fromJID = request.getRequestor();
 					fromJID = ValueUtil.deleteSth(fromJID,

@@ -3,6 +3,7 @@ package com.XMPP.smack;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.RosterEntry;
@@ -11,6 +12,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
 import com.XMPP.Database.RowContacts;
+import com.XMPP.Model.BubbleMessage;
 
 public interface Smack extends Serializable {
 	
@@ -100,6 +102,9 @@ public interface Smack extends Serializable {
 
 	public FileTransferRequest getRequestList(String u_jid,String filename);
 	
-	public void insertRequest(FileTransferRequest request);
+	public void addRequest(FileTransferRequest request);
 	
+	public void addBubbleList(String jid,ArrayList<BubbleMessage> bubbleList);
+	public HashMap<String,ArrayList<BubbleMessage>> getBubbleMap();
+	public ArrayList<BubbleMessage> getBubbleList(String jid);
 }

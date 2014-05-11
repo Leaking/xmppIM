@@ -16,6 +16,8 @@ import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.packet.VCard;
 
 import com.XMPP.Database.RowContacts;
+import com.XMPP.Database.TableHistory;
+import com.XMPP.Model.BubbleMessage;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.Test;
@@ -28,6 +30,7 @@ public class SmackImpl implements Smack {
 
 	private String username;
 	private String password;
+	private HashMap<String, ArrayList<BubbleMessage>> bubbleMap = new HashMap<String, ArrayList<BubbleMessage>>();
 	private HashMap<String, ArrayList<FileTransferRequest>> requestMap = new HashMap<String, ArrayList<FileTransferRequest>>();
 	private static final HashMap<String, String> jid_resource_map = new HashMap<String, String>();
 
@@ -389,14 +392,15 @@ public class SmackImpl implements Smack {
 
 	@Override
 	public String getFullyJID(String bareJID) {
+		if(bareJID.contains("/"))
+			return bareJID;
 		return jid_resource_map.get(bareJID);
 	}
 
 	@Override
 	public FileTransferRequest getRequestList(String u_jid, String filename) {
 		// TODO Auto-generated method stub
-		//u_jid = SmackImpl.getInstance().getFullyJID(u_jid);
-		L.i("u_jid " + u_jid);
+
 		ArrayList<FileTransferRequest> list = requestMap.get(u_jid);
 		Test.outputRequestMap(requestMap);
 		for (int i = 0; i < list.size(); i++) {
@@ -408,8 +412,56 @@ public class SmackImpl implements Smack {
 
 	}
 
+
+
 	@Override
-	public void insertRequest(FileTransferRequest request) {
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		return super.equals(o);
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
+	@Override
+	public void addBubbleList(String jid,ArrayList<BubbleMessage> bubbleList) {
+		// TODO Auto-generated method stub
+		bubbleMap.put(jid, bubbleList);
+	}
+	@Override
+	public HashMap<String, ArrayList<BubbleMessage>> getBubbleMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<BubbleMessage> getBubbleList(String jid) {
+		// TODO Auto-generated method stub
+		return bubbleMap.get(jid);
+	}
+	@Override
+	public void addRequest(FileTransferRequest request) {
 		// TODO Auto-generated method stub
 		// the following line get the fully JID
 		String u_jid = request.getRequestor();

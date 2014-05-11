@@ -135,10 +135,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_chatroom);
 		init();
 		bubbleList_view = (ListView) findViewById(R.id.bubbleList);
-		bubbleList_data = new ArrayList<BubbleMessage>();
-		adapter = new BubbleAdapter(this, bubbleList_data);
-		bubbleList_view.setAdapter(adapter);
-		bubbleList_view.setSelection(bubbleList_data.size() - 1);
+
+//		bubbleList_data = new ArrayList<BubbleMessage>();
+//		adapter = new BubbleAdapter(this, u_JID);
+//		bubbleList_view.setAdapter(adapter);
+//		bubbleList_view.setSelection(bubbleList_data.size() - 1);
 		//
 		aReceiver = new AdapterRefreshReceiver();
 		filter = new IntentFilter();
@@ -163,15 +164,23 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// move these operation into a seperate service
 		// registerReceiver(aReceiver, filter);
 
-		if (bubbleList_data.size() == 0) {
-			bubbleList_data = new ArrayList<BubbleMessage>();
-			tableHistory = TableHistory.getInstance(this);
-			bubbleList_data = tableHistory.getBubbleList(chat.getParticipant());
-			// Test.outputMessageBubbleList(messages);
-			adapter = new BubbleAdapter(this, bubbleList_data);
+		
+			
+			if(smack.getBubbleList(u_JID) == null){
+				bubbleList_data = new ArrayList<BubbleMessage>();
+				tableHistory = TableHistory.getInstance(this);
+				bubbleList_data = tableHistory.getBubbleList(chat.getParticipant());
+				smack.addBubbleList(u_JID, bubbleList_data);
+			}else{
+				bubbleList_data = smack.getBubbleList(u_JID);
+			}
+
+			
+			
+			adapter = new BubbleAdapter(this, u_JID);
 			bubbleList_view.setAdapter(adapter);
 			bubbleList_view.setSelection(bubbleList_data.size() - 1);
-		}
+		
 
 	}
 
@@ -264,6 +273,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 	public void listenMessage() {
 
 		// TODO Auto-generated method stub
+		L.i("u_JID " + u_JID);
+		L.i("smack.getFullyJID(u_JID) " + smack.getFullyJID(u_JID));
+
 		chat = conn.getChatManager().createChat(smack.getFullyJID(u_JID), new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
@@ -304,14 +316,16 @@ public class ChatRoomActivity extends FragmentActivity implements
 					String viewTime = TimeUtil.getViewTime(nowTimeStr);
 					bubbleMessage = new BubbleMessage(viewTime,
 							MessageType.TIME, false);
-					bubbleList_data.add(bubbleMessage);
+					smack.getBubbleList(u_JID).add(bubbleMessage);
+					//bubbleList_data.add(bubbleMessage);
 				}
 
 				// add content bubble
 				bubbleMessage = new BubbleMessage(message.getBody(),
 						MessageType.TEXT, false);
 
-				bubbleList_data.add(bubbleMessage);
+				smack.getBubbleList(u_JID).add(bubbleMessage);
+				//bubbleList_data.add(bubbleMessage);
 
 				RowChatting chattingRow = new RowChatting(toJID, fromJID, "1",
 						message.getBody(), nowTimeStr);
@@ -360,11 +374,13 @@ public class ChatRoomActivity extends FragmentActivity implements
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
 						MessageType.TIME, true);
-				bubbleList_data.add(bubbleMessageTime);
+				smack.getBubbleList(u_JID).add(bubbleMessageTime);
+				//bubbleList_data.add(bubbleMessageTime);
 			}
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
-			bubbleList_data.add(bubbleMessageText);
+			smack.getBubbleList(u_JID).add(bubbleMessageText);
+			//bubbleList_data.add(bubbleMessageText);
 			// restore to DB
 			String fromJID = conn.getUser();
 			String toJID = chat.getParticipant();
@@ -671,7 +687,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 				File f = new File(result);
 				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
 						ValueUtil.getFileSize(f));
-				bubbleList_data.add(bubbleFile);
+				//bubbleList_data.add(bubbleFile);
+				smack.getBubbleList(u_JID).add(bubbleFile);
 				adapter.notifyDataSetChanged();
 				
 				//insert into DB
@@ -686,7 +703,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 				
 				//
 				FileSenderAsyncTask task = new FileSenderAsyncTask(
-						bubbleList_data.size() - 1, bubbleList_data,
+						smack.getBubbleList(u_JID).size() - 1,
 						ChatRoomActivity.this, u_JID);
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

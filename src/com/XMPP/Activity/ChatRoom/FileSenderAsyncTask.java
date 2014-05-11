@@ -27,17 +27,17 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 
 	//position the bubble display the stage of the file sending
 	private int position;
-	// bubble list
-	private ArrayList<BubbleMessage> messages;
-	// who send the broadcast
+//
 	private Context context;
 	//who the user talking to
 	private String u_JID;
+	
+	private Smack smack;
 
-	public FileSenderAsyncTask(int position, ArrayList<BubbleMessage> messages,
+	public FileSenderAsyncTask(int position,
 			Context context,String u_JID) {
 		this.position = position;
-		this.messages = messages;
+		this.smack = SmackImpl.getInstance();
 		this.context = context;
 		this.u_JID = u_JID;
 	}
@@ -127,18 +127,18 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 		L.i("onProgressUpdate");
 		switch (values[0]) {
 		case AsyncTaskContants.REJECTED:
-			messages.get(position).setFileStage(AsyncTaskContants.STR_REJECTED);
+			smack.getBubbleList(u_JID).get(position).setFileStage(AsyncTaskContants.STR_REJECTED);
 			break;
 		case AsyncTaskContants.ERROR:
-			messages.get(position).setFileStage(AsyncTaskContants.STR_ERROR);
+			smack.getBubbleList(u_JID).get(position).setFileStage(AsyncTaskContants.STR_ERROR);
 			break;
 		case AsyncTaskContants.FINISH:
-			messages.get(position).setFileStage(AsyncTaskContants.STR_FINISH);
+			smack.getBubbleList(u_JID).get(position).setFileStage(AsyncTaskContants.STR_FINISH);
 			break;
 		case AsyncTaskContants.NEGOTIATING:
-			messages.get(position).setFileStage(AsyncTaskContants.STR_NEGOTIATING);
+			smack.getBubbleList(u_JID).get(position).setFileStage(AsyncTaskContants.STR_NEGOTIATING);
 			break;
 		}
-		messages.get(position).setFileProgressVal(values[0]);
+		smack.getBubbleList(u_JID).get(position).setFileProgressVal(values[0]);
 	}
 }

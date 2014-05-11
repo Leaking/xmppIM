@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.XMPP.R;
 
 import com.XMPP.Model.BubbleMessage;
+import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
 import com.XMPP.util.T;
@@ -45,10 +46,10 @@ public class BubbleAdapter extends BaseAdapter {
 	private String currentClickFileName;
 	private FileTransferRequest currentClickFileRequest;
 
-	public BubbleAdapter(Context context, ArrayList<BubbleMessage> messages) {
+	public BubbleAdapter(Context context, String jid) {
 		super();
 		this.mContext = context;
-		this.mMessages = messages;
+		this.mMessages = SmackImpl.getInstance().getBubbleList(jid);
 	}
 
 	@Override
