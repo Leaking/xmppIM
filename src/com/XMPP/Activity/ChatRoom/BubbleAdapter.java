@@ -112,11 +112,12 @@ public class BubbleAdapter extends BaseAdapter {
 		holder.filename.setText(positonMessage.getFilename());
 		holder.filesize.setText(positonMessage.getFilesize());
 		holder.fileStage.setText(positonMessage.getFileStage());
-		int val = positonMessage.getFileProgressVal();
+		final int val = positonMessage.getFileProgressVal();
 		if (val > 0 && val < 100) {
 			holder.progressBar.setVisibility(View.VISIBLE);
 			holder.progressBar.setProgress(val);
 			holder.fileStage.setText(val + "%");
+			positonMessage.setFileStage(val + "%");
 		} else {
 			holder.progressBar.setVisibility(View.GONE);
 		}
@@ -129,18 +130,20 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			final int currentPosition = position;
 			currentClickFileRequest = positonMessage.getRequest();
-			if (!(val > 0 && val <= 100)) {				
-				convertView.setOnClickListener(new OnClickListener() {				
+
+			if (positonMessage.getFileStage().equals(
+					AsyncTaskContants.STR_NEGOTIATING)) {
+				convertView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						currentClickFileName = currentClickFileRequest
-								.getFileName();
+						L.i("valvalva" + val);
+
 						((ChatRoomActivity) mContext)
 								.showReceiveChocieFragment(currentPosition);
 					}
 				});
-			}else{
+			} else {
 				convertView.setOnClickListener(null);
 			}
 			holder.fileArea.setBackgroundResource(R.drawable.bubble_left);

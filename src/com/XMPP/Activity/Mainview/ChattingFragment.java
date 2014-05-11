@@ -24,6 +24,7 @@ import com.XMPP.R;
 import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.TableChatting;
+import com.XMPP.Model.ViewRoster;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
@@ -136,6 +137,7 @@ public class ChattingFragment extends Fragment implements OnItemClickListener {
 		// TODO Auto-generated method stub
 		String u_jid = listData.get(position).getU_JID();
 		Intent intent = new Intent(ChattingFragment.this.getActivity(),ChatRoomActivity.class);
+		intent.putExtra("online",smack.isOnline(u_jid));
 		intent.putExtra("JID",u_jid);
 		ChattingFragment.this.getActivity().startActivity(intent);		
 	}

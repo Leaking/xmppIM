@@ -82,10 +82,12 @@ public class ChatRoomActivity extends FragmentActivity implements
 		EmojiconGridFragment.OnEmojiconClickedListener,
 		EmojiconsFragment.OnEmojiconBackspaceClickedListener {
 	RosterEntry entry;
-	String u_JID;
+	public String u_JID;
 	XMPPConnection conn;
 	Smack smack;
 	Chat chat;
+	//
+	String online;
 	//
 	TextView room;
 	ImageView face;
@@ -136,11 +138,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		init();
 		bubbleList_view = (ListView) findViewById(R.id.bubbleList);
 
-//		bubbleList_data = new ArrayList<BubbleMessage>();
-//		adapter = new BubbleAdapter(this, u_JID);
-//		bubbleList_view.setAdapter(adapter);
-//		bubbleList_view.setSelection(bubbleList_data.size() - 1);
-		//
+
 		aReceiver = new AdapterRefreshReceiver();
 		filter = new IntentFilter();
 		filter.addAction(BroadCastUtil.ACTION_FRESH_CHATROOM_LISTVIEW);
@@ -164,23 +162,18 @@ public class ChatRoomActivity extends FragmentActivity implements
 		// move these operation into a seperate service
 		// registerReceiver(aReceiver, filter);
 
-		
-			
-			if(smack.getBubbleList(u_JID) == null){
-				bubbleList_data = new ArrayList<BubbleMessage>();
-				tableHistory = TableHistory.getInstance(this);
-				bubbleList_data = tableHistory.getBubbleList(chat.getParticipant());
-				smack.addBubbleList(u_JID, bubbleList_data);
-			}else{
-				bubbleList_data = smack.getBubbleList(u_JID);
-			}
+		if (smack.getBubbleList(u_JID) == null) {
+			bubbleList_data = new ArrayList<BubbleMessage>();
+			tableHistory = TableHistory.getInstance(this);
+			bubbleList_data = tableHistory.getBubbleList(chat.getParticipant());
+			smack.addBubbleList(u_JID, bubbleList_data);
+		} else {
+			bubbleList_data = smack.getBubbleList(u_JID);
+		}
 
-			
-			
-			adapter = new BubbleAdapter(this, u_JID);
-			bubbleList_view.setAdapter(adapter);
-			bubbleList_view.setSelection(bubbleList_data.size() - 1);
-		
+		adapter = new BubbleAdapter(this, u_JID);
+		bubbleList_view.setAdapter(adapter);
+		bubbleList_view.setSelection(bubbleList_data.size() - 1);
 
 	}
 
@@ -189,11 +182,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 		conn = ConnectionHandler.getConnection();
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
+			online = extras.getString("online");
 			u_JID = extras.getString("JID");
 			entry = smack.getEntry(u_JID);
 		}
-		L.i("entry getuser " + smack.getEntry(u_JID).getUser());
-		L.i("entry getName " + smack.getEntry(u_JID).getName());
 
 		room = (TextView) findViewById(R.id.room_Friend);
 		room.setText(smack.getNickname(u_JID));
@@ -236,8 +228,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 		plus.setOnClickListener(plus_appear_listener);
 
 		//
-		listenMessage();
-		//listenFile();
+		if(online.equals(Constants.ONLINE))
+			listenMessage(smack.getFullyJID(u_JID));
+		else
+			listenMessage(u_JID);
 	}
 
 	public void sendMessage(final Message message) {
@@ -270,26 +264,26 @@ public class ChatRoomActivity extends FragmentActivity implements
 		});
 	}
 
-	public void listenMessage() {
+	public void listenMessage(String jid) {
 
 		// TODO Auto-generated method stub
-		L.i("u_JID " + u_JID);
-		L.i("smack.getFullyJID(u_JID) " + smack.getFullyJID(u_JID));
+		// chat = conn.getChatManager().createChat(smack.getFullyJID(u_JID),
+		chat = conn.getChatManager().createChat(jid,
 
-		chat = conn.getChatManager().createChat(smack.getFullyJID(u_JID), new MessageListener() {
+		new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();
 
 				L.i("receive,,,,");
 
-				// store the data
 				/**
 				 * here ,chat.getParticipant() == ,,,,,,@,,, in the other hand
 				 * in the chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
 				 * in order to fix this difference, i delete a "/Smack" in the
 				 * chatlistener.
 				 */
+				// 0 initial the data
 				String toJID = conn.getUser();
 				toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
 				String fromJID = chat.getParticipant();
@@ -303,30 +297,32 @@ public class ChatRoomActivity extends FragmentActivity implements
 				last_uJID = smack.getNickname(last_uJID);
 				last_Msg = message.getBody();
 
-				// get the string of time to show
-				if (pastTimeStr == null)
+				// 1 add time bubble
+				if(pastTimeStr == null){
+					String viewTime = TimeUtil.getCurrentViewTime();
+					BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
+							MessageType.TIME, true);
+					smack.getBubbleList(u_JID).add(bubbleMessageTime);
 					pastTimeStr = strDate;
-				else {
+					nowTimeStr = strDate;
+				}else{
 					pastTimeStr = nowTimeStr;
-				}
-				nowTimeStr = strDate;
-
-				// add time bubble
-				if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
-					String viewTime = TimeUtil.getViewTime(nowTimeStr);
-					bubbleMessage = new BubbleMessage(viewTime,
-							MessageType.TIME, false);
-					smack.getBubbleList(u_JID).add(bubbleMessage);
-					//bubbleList_data.add(bubbleMessage);
+					nowTimeStr = strDate;
+					if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
+						String viewTime = TimeUtil.getCurrentViewTime();
+						BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
+								MessageType.TIME, true);
+						smack.getBubbleList(u_JID).add(bubbleMessageTime);
+					}	
 				}
 
-				// add content bubble
+				// 2 add content bubble
 				bubbleMessage = new BubbleMessage(message.getBody(),
 						MessageType.TEXT, false);
 
 				smack.getBubbleList(u_JID).add(bubbleMessage);
-				//bubbleList_data.add(bubbleMessage);
 
+				// 3 retore into DB
 				RowChatting chattingRow = new RowChatting(toJID, fromJID, "1",
 						message.getBody(), nowTimeStr);
 				tableChatting = TableChatting
@@ -340,6 +336,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 					sendNotify();
 				}
 
+				// 4 broadcast
 				BroadCastUtil.sendBroadCastChatroom(ChatRoomActivity.this);
 				BroadCastUtil.sendBroadCastChatting(ChatRoomActivity.this);
 
@@ -363,24 +360,31 @@ public class ChatRoomActivity extends FragmentActivity implements
 			}
 			// get the string of time
 			String strDate = TimeUtil.getCurrentTime2String();
-			if (pastTimeStr == null)
-				pastTimeStr = strDate;
-			else {
-				pastTimeStr = nowTimeStr;
-			}
-			nowTimeStr = strDate;
-			// add a bubble
-			if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
+			if(pastTimeStr == null){
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
 						MessageType.TIME, true);
 				smack.getBubbleList(u_JID).add(bubbleMessageTime);
-				//bubbleList_data.add(bubbleMessageTime);
+				pastTimeStr = strDate;
+				nowTimeStr = strDate;
+			}else{
+				pastTimeStr = nowTimeStr;
+				nowTimeStr = strDate;
+				if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
+					String viewTime = TimeUtil.getCurrentViewTime();
+					BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
+							MessageType.TIME, true);
+					smack.getBubbleList(u_JID).add(bubbleMessageTime);
+				}	
 			}
+			
+
+			// add a bubble
+
 			BubbleMessage bubbleMessageText = new BubbleMessage(inputContent,
 					MessageType.TEXT, true);
 			smack.getBubbleList(u_JID).add(bubbleMessageText);
-			//bubbleList_data.add(bubbleMessageText);
+			// bubbleList_data.add(bubbleMessageText);
 			// restore to DB
 			String fromJID = conn.getUser();
 			String toJID = chat.getParticipant();
@@ -626,7 +630,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 	class AdapterRefreshReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			L.i("BroadcastReceiver AdapterRefreshReceiver ChatRoomActivity");
 			adapter.notifyDataSetChanged();
 			bubbleList_view.setSelection(bubbleList_data.size() - 1);
 		}
@@ -687,23 +690,25 @@ public class ChatRoomActivity extends FragmentActivity implements
 				File f = new File(result);
 				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
 						ValueUtil.getFileSize(f));
-				//bubbleList_data.add(bubbleFile);
+				// bubbleList_data.add(bubbleFile);
 				smack.getBubbleList(u_JID).add(bubbleFile);
 				adapter.notifyDataSetChanged();
-				
-				//insert into DB
+
+				// insert into DB
 				String messageType = Constants.MESSAGE_TYPE_FILE;
-				String messageContent = f.getName()+"@"+ValueUtil.getFileSize(f)+"@"+AsyncTaskContants.STR_NEGOTIATING;
+				String messageContent = f.getName() + "@"
+						+ ValueUtil.getFileSize(f) + "@"
+						+ AsyncTaskContants.STR_NEGOTIATING;
 				String messageTime = TimeUtil.getCurrentTime2String();
 				String fromJID = smack.getConnection().getUser();
-				fromJID = ValueUtil.deleteSth(fromJID,
-						Constants.DELETE_STH);
-				RowHistory row = new RowHistory(messageTime, messageContent, messageType, fromJID, u_JID);
+				fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+				RowHistory row = new RowHistory(messageTime, messageContent,
+						messageType, fromJID, u_JID);
 				restoreMessage(row);
-				
+
 				//
-				FileSenderAsyncTask task = new FileSenderAsyncTask(
-						smack.getBubbleList(u_JID).size() - 1,
+				FileSenderAsyncTask task = new FileSenderAsyncTask(smack
+						.getBubbleList(u_JID).size() - 1,
 						ChatRoomActivity.this, u_JID);
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -733,13 +738,14 @@ public class ChatRoomActivity extends FragmentActivity implements
 						public void onClick(DialogInterface dialog, int which) {
 							// The 'which' argument contains the index position
 							// of the selected item
-							FileTransferRequest request = bubbleList_data.get(
-									position).getRequest();
+							FileTransferRequest request = smack
+									.getBubbleList(u_JID).get(position)
+									.getRequest();
+
 							switch (which) {
 							case 0:
 								FileReceiveAsyncTask task = new FileReceiveAsyncTask(
-										position, bubbleList_data,
-										ChatRoomActivity.this);
+										position, u_JID, ChatRoomActivity.this);
 								if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 									task.executeOnExecutor(
 											AsyncTask.THREAD_POOL_EXECUTOR,

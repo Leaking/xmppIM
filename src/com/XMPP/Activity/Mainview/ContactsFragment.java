@@ -840,6 +840,8 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(ContactsFragment.this.getActivity(),ChatRoomActivity.class);
+		
+		intent.putExtra("online",viewRoster.getEntry(groupPosition, childPosition).getOnline());
 		intent.putExtra("JID",viewRoster.getEntry(groupPosition, childPosition).getFriend_jID());
 	
 		ContactsFragment.this.getActivity().startActivity(intent);		

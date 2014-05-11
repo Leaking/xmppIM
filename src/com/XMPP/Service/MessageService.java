@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
+import android.renderscript.Sampler.Value;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -45,6 +46,7 @@ import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.CircleImage;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
+import com.XMPP.util.MessageType;
 import com.XMPP.util.TimeUtil;
 import com.XMPP.util.ValueUtil;
 
@@ -119,8 +121,7 @@ public class MessageService extends Service {
 				
 				RowHistory historyRow = new RowHistory(msgTime,
 						message.getBody(), messageType, fromJID, toJID);
-				tableHistory.insert(historyRow);	
-				
+				tableHistory.insert(historyRow);					
 				
 				RowChatting chattingRow = new RowChatting(toJID,
 						fromJID, "1", messageContent, msgTime);
@@ -183,14 +184,20 @@ public class MessageService extends Service {
 									fromJID, "1", messageContent, messageTime);
 							tableChatting.insert_update(chattingRow);
 							
+						
+							
+							BubbleMessage bubbleMessage = new BubbleMessage(message.getBody(),
+									MessageType.TEXT, false);
+
+							smack.getBubbleList(fromJID).add(bubbleMessage);
+							
 							
 							if (!((MyApplication) getApplication())
 									.isActivityVisible()) {
 								sendNotify();
 							}else{
-								Intent intent1 = new Intent();
-								intent1.setAction(ChattingFragment.ACTION_FRESH_CHATTING_LISTVIEW);
-								sendBroadcast(intent1);
+								BroadCastUtil.sendBroadCastChatting(MessageService.this);
+								BroadCastUtil.sendBroadCastChatroom(MessageService.this);
 							}
 
 						}
@@ -210,7 +217,6 @@ public class MessageService extends Service {
 	            public void fileTransferRequest(FileTransferRequest request) {
 	                  // Check to see if the request should be accepted
 	               
-	            	L.i("listern a file request");  
 	                //0,save the reqeust into the requestMap
 	                smack.addRequest(request);
 	            	//1,insert sth into chatting table 
@@ -232,7 +238,11 @@ public class MessageService extends Service {
 							fromJID, "1", "文件", messageTime);
 					tableChatting.insert_update(chattingRow);
 					
-	                //3,send broadcast to fresh chatting listview and chatroom listview
+					//3,
+					BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
+					smack.getBubbleList(fromJID).add(bubble);
+					
+	                //4,send broadcast to fresh chatting listview and chatroom listview
 	                
 					BroadCastUtil.sendBroadCastChatroom(MessageService.this);
 					BroadCastUtil.sendBroadCastChatting(MessageService.this);

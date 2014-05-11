@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
+import com.XMPP.Activity.ChatRoom.AsyncTaskContants;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
@@ -130,17 +131,14 @@ public class TableHistory {
 				filesize = content.substring(first_at + 1, second_at);
 				filestage = content.substring(second_at + 1);
 				
-				if(isMine){
-					BubbleMessage bubbleMessageFile = new BubbleMessage(filename, filesize);
-					bubbleMessageFile.setFileStage(filestage);
-					bubbleList.add(bubbleMessageFile);
-				}else{
-					L.i("u_jid request "+u_JID);
-					FileTransferRequest request = SmackImpl.getInstance().getRequestList(u_JID, filename);
-					BubbleMessage bubbleMessageFile = new BubbleMessage(request,filename,filesize);
-					bubbleMessageFile.setFileStage(filestage);
-					bubbleList.add(bubbleMessageFile);
-				}
+
+				
+				BubbleMessage bubbleMessageFile = new BubbleMessage(filename, filesize);
+				bubbleMessageFile.setFileStage(AsyncTaskContants.STR_FINISH);
+				bubbleMessageFile.setFileProgressVal(101);
+				bubbleMessageFile.setMine(isMine);
+				bubbleList.add(bubbleMessageFile);
+				
 			}
 		}
 

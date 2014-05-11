@@ -236,7 +236,6 @@ public class SmackImpl implements Smack {
 				rows.add(row);
 			}
 			if (intoFlag == 0) {
-				System.out.println("empty group " + group);
 				RowContacts row = new RowContacts(jid, group, null, null, null,
 						null, null);
 				rows.add(row);
@@ -392,9 +391,9 @@ public class SmackImpl implements Smack {
 
 	@Override
 	public String getFullyJID(String bareJID) {
-		if(bareJID.contains("/"))
-			return bareJID;
-		return jid_resource_map.get(bareJID);
+
+		return jid_resource_map.get(bareJID) == null ? bareJID
+				: jid_resource_map.get(bareJID);
 	}
 
 	@Override
@@ -411,8 +410,6 @@ public class SmackImpl implements Smack {
 		return null;
 
 	}
-
-
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
@@ -445,10 +442,11 @@ public class SmackImpl implements Smack {
 	}
 
 	@Override
-	public void addBubbleList(String jid,ArrayList<BubbleMessage> bubbleList) {
+	public void addBubbleList(String jid, ArrayList<BubbleMessage> bubbleList) {
 		// TODO Auto-generated method stub
 		bubbleMap.put(jid, bubbleList);
 	}
+
 	@Override
 	public HashMap<String, ArrayList<BubbleMessage>> getBubbleMap() {
 		// TODO Auto-generated method stub
@@ -460,6 +458,7 @@ public class SmackImpl implements Smack {
 		// TODO Auto-generated method stub
 		return bubbleMap.get(jid);
 	}
+
 	@Override
 	public void addRequest(FileTransferRequest request) {
 		// TODO Auto-generated method stub

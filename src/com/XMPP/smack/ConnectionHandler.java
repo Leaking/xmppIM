@@ -43,10 +43,11 @@ public class ConnectionHandler {
 	public static XMPPConnection getConnection() {
 		return conn;
 	}
-
+	
 	private static void openConnection(String ip, int port) {
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
 				port,"Smack");
+				
 		connConfig.setReconnectionAllowed(true);
 		connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
