@@ -264,7 +264,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	public void listenMessage() {
 
 		// TODO Auto-generated method stub
-		chat = conn.getChatManager().createChat(u_JID, new MessageListener() {
+		chat = conn.getChatManager().createChat(smack.getFullyJID(u_JID), new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
 				BubbleMessage bubbleMessage = new BubbleMessage();

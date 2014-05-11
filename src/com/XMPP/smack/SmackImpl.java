@@ -395,7 +395,8 @@ public class SmackImpl implements Smack {
 	@Override
 	public FileTransferRequest getRequestList(String u_jid, String filename) {
 		// TODO Auto-generated method stub
-		u_jid = SmackImpl.getInstance().getFullyJID(u_jid);
+		//u_jid = SmackImpl.getInstance().getFullyJID(u_jid);
+		L.i("u_jid " + u_jid);
 		ArrayList<FileTransferRequest> list = requestMap.get(u_jid);
 		Test.outputRequestMap(requestMap);
 		for (int i = 0; i < list.size(); i++) {

@@ -135,6 +135,7 @@ public class TableHistory {
 					bubbleMessageFile.setFileStage(filestage);
 					bubbleList.add(bubbleMessageFile);
 				}else{
+					L.i("u_jid request "+u_JID);
 					FileTransferRequest request = SmackImpl.getInstance().getRequestList(u_JID, filename);
 					BubbleMessage bubbleMessageFile = new BubbleMessage(request,filename,filesize);
 					bubbleMessageFile.setFileStage(filestage);
