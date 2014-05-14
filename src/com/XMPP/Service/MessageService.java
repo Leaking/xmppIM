@@ -220,6 +220,7 @@ public class MessageService extends Service {
 	                //0,save the reqeust into the requestMap
 	                smack.addRequest(request);
 	            	//1,insert sth into chatting table 
+	               
 	                String fromJID = request.getRequestor();
 					fromJID = ValueUtil.deleteSth(fromJID,
 							Constants.DELETE_STH);
@@ -241,6 +242,7 @@ public class MessageService extends Service {
 					//3,
 					BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
 					smack.getBubbleList(fromJID).add(bubble);
+					
 					
 	                //4,send broadcast to fresh chatting listview and chatroom listview
 	                

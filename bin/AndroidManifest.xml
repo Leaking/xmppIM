@@ -60,7 +60,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.XMPP.Activity.Plus.FileSenderActivity"
+            android:name="com.XMPP.Activity.ChatRoom.FileSenderActivity"
             android:label="@string/title_activity_file_sender" >
         </activity>
     </application>

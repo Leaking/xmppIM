@@ -12,7 +12,8 @@ public class Constants {
 	
 	
 	//server ip and ip
-	public final static String SERVER_IP = "192.168.1.8";
+	public final static String SERVER_IP = "192.168.1.8" +
+			"";
 	public final static int SERVER_PORT = 5222;
 
 	//
@@ -48,6 +49,7 @@ public class Constants {
 	public final static String MESSAGE_TYPE_TIME = "TIME";
 	public final static String MESSAGE_TYPE_TEXT = "TEXT";
 	public final static String MESSAGE_TYPE_FILE = "FILE";
+	public final static String MESSAGE_TYPE_SOUND = "SOUND";
 	
 	//
 	public final static String DELETE_STH = "/Smack";

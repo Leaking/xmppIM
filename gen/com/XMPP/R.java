@@ -1067,22 +1067,22 @@ containing a value of this type.
         public static final int Footer_contactsIcon=0x7f0c0015;
         public static final int Footer_setting=0x7f0c0016;
         public static final int Footer_settingIcon=0x7f0c0017;
-        public static final int Login_SignUpButton=0x7f0c0054;
-        public static final int Login_divider=0x7f0c0050;
-        public static final int Login_input_field=0x7f0c0052;
-        public static final int Login_input_wrapper=0x7f0c0051;
-        public static final int Login_loginButton=0x7f0c0053;
-        public static final int Login_logo=0x7f0c004f;
+        public static final int Login_SignUpButton=0x7f0c0055;
+        public static final int Login_divider=0x7f0c0051;
+        public static final int Login_input_field=0x7f0c0053;
+        public static final int Login_input_wrapper=0x7f0c0052;
+        public static final int Login_loginButton=0x7f0c0054;
+        public static final int Login_logo=0x7f0c0050;
         public static final int MainviewFooter=0x7f0c0011;
-        public static final int action_settings=0x7f0c005e;
+        public static final int action_settings=0x7f0c005f;
         public static final int addFriend=0x7f0c0048;
-        public static final int addGroup=0x7f0c005a;
+        public static final int addGroup=0x7f0c005b;
         public static final int bottom_write_bar=0x7f0c0003;
         public static final int bubbleList=0x7f0c0002;
         public static final int buttomLogin=0x7f0c0020;
         public static final int buttomSignUp=0x7f0c0021;
         public static final int buttonLogin=0x7f0c001f;
-        public static final int cancel=0x7f0c005b;
+        public static final int cancel=0x7f0c005c;
         public static final int chattingItemPhoto=0x7f0c002a;
         public static final int chatting_List=0x7f0c0046;
         public static final int contactExpandableList=0x7f0c0049;
@@ -1099,7 +1099,7 @@ containing a value of this type.
         public static final int emojis_tab_3_cars=0x7f0c0036;
         public static final int emojis_tab_4_punctuation=0x7f0c0037;
         public static final int face=0x7f0c0004;
-        public static final int ffff=0x7f0c005c;
+        public static final int ffff=0x7f0c005d;
         public static final int fileArea=0x7f0c0022;
         public static final int fileIcon=0x7f0c0023;
         public static final int fileStage=0x7f0c0026;
@@ -1113,7 +1113,7 @@ containing a value of this type.
         public static final int folder_icon=0x7f0c0042;
         public static final int folder_path=0x7f0c0043;
         public static final int forget=0x7f0c000f;
-        public static final int group=0x7f0c0058;
+        public static final int group=0x7f0c0059;
         public static final int groupItemPhoto=0x7f0c0039;
         public static final int header_chatting_text=0x7f0c0045;
         public static final int header_contacts_text=0x7f0c0047;
@@ -1136,15 +1136,16 @@ containing a value of this type.
         public static final int mainview_pager=0x7f0c0010;
         public static final int message_picture=0x7f0c0028;
         public static final int message_text=0x7f0c0029;
-        public static final int newGroupName=0x7f0c0059;
-        public static final int new_group_name=0x7f0c0056;
-        public static final int nickname=0x7f0c0057;
+        public static final int newGroupName=0x7f0c005a;
+        public static final int new_group_name=0x7f0c0057;
+        public static final int nickname=0x7f0c0058;
         public static final int notify=0x7f0c002b;
         public static final int pager=0x7f0c0018;
         public static final int password=0x7f0c000d;
         public static final int plus=0x7f0c0005;
+        public static final int progress=0x7f0c004f;
         public static final int progressFile=0x7f0c0027;
-        public static final int reject=0x7f0c005d;
+        public static final int reject=0x7f0c005e;
         public static final int room_Friend=0x7f0c0001;
         public static final int root=0x7f0c0000;
         public static final int send=0x7f0c0007;
@@ -1152,7 +1153,7 @@ containing a value of this type.
         public static final int setting_list=0x7f0c004b;
         public static final int signature=0x7f0c003a;
         public static final int submitLogin=0x7f0c000e;
-        public static final int swipeToLearnMore=0x7f0c0055;
+        public static final int swipeToLearnMore=0x7f0c0056;
         public static final int time=0x7f0c002e;
         public static final int username=0x7f0c000c;
     }
@@ -1180,10 +1181,11 @@ containing a value of this type.
         public static final int fragment_setting=0x7f030014;
         public static final int fragment_setting_item=0x7f030015;
         public static final int learnmore_a_fragment=0x7f030016;
-        public static final int login_fragment=0x7f030017;
-        public static final int setgroupname=0x7f030018;
-        public static final int subscribe=0x7f030019;
-        public static final int subscribed=0x7f03001a;
+        public static final int loading=0x7f030017;
+        public static final int login_fragment=0x7f030018;
+        public static final int setgroupname=0x7f030019;
+        public static final int subscribe=0x7f03001a;
+        public static final int subscribed=0x7f03001b;
     }
     public static final class menu {
         public static final int chat_room=0x7f0b0000;

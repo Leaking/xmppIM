@@ -37,7 +37,6 @@ public class ContactsService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		smack = SmackImpl.getInstance();
-		L.i("come into friend service onStartCommand");
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -70,9 +69,6 @@ public class ContactsService extends Service {
 
 				if (paramPacket instanceof Presence) {
 					Presence presence = (Presence) paramPacket;
-					String email = presence.getFrom();
-
-					Roster roster = connection.getRoster();
 					String jid = null;
 					// request to add friend
 
@@ -147,7 +143,8 @@ public class ContactsService extends Service {
 				smack.markResource(presence.getFrom()); 
 				Intent sendIntent = new Intent(
 						ContactsFragment.UPDATE_LIST_ACTION);
-				sendBroadcast(sendIntent);
+				if(smack.getConnection().isAuthenticated())
+					sendBroadcast(sendIntent);
 			}
 
 			public void entriesUpdated(Collection<String> presence) {

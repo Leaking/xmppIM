@@ -87,8 +87,7 @@ public class ReconnectService extends Service {
 			// sooner or later ,the username and password needs to be saved in
 			// the sys
 			smack.disconnect();
-			String server = Constants.SERVER_IP;
-			int port = Constants.SERVER_PORT;
+
 
 			// TODO Auto-generated method stub
 			smack = SmackImpl.getInstance();;

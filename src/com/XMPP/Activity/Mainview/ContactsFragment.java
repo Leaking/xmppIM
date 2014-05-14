@@ -112,7 +112,6 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(UPDATE_LIST_ACTION);
 		getActivity().registerReceiver(aReceiver, filter);
-
 		return view;
 	}
 

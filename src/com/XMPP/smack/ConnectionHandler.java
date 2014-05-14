@@ -52,8 +52,7 @@ public class ConnectionHandler {
 		connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
-		connConfig.setSendPresence(false);
-		L.i("rebuild   rebuild reu");
+		connConfig.setSendPresence(false);		
 		configureConnection();
 		conn = new XMPPConnection(connConfig);
 		reconnect();
@@ -66,7 +65,7 @@ public class ConnectionHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		;
+		
 	}
 
 	public static XMPPConnection connect(String ip, int port) {

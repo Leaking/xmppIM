@@ -10,12 +10,9 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smackx.ServiceDiscoveryManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
-import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
-import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,12 +26,10 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +46,6 @@ import android.widget.TextView;
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.MainviewActivity;
-import com.XMPP.Activity.Plus.FileSenderActivity;
 import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.Database.RowChatting;
 import com.XMPP.Database.RowHistory;
@@ -94,6 +88,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	ImageView plus;
 	EditText input;
 	ImageView send;
+	ImageView microPhone;
 	LinearLayout rootLayout;
 	//
 	LinearLayout plusLayout;
@@ -126,6 +121,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 	String last_uJID;
 	String last_Msg;
 
+	SoundRecorder recorder;
+
 	//
 	private int progressVal = 0;
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
@@ -137,7 +134,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_chatroom);
 		init();
 		bubbleList_view = (ListView) findViewById(R.id.bubbleList);
-
 
 		aReceiver = new AdapterRefreshReceiver();
 		filter = new IntentFilter();
@@ -194,7 +190,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 		input = (EditText) findViewById(R.id.input);
 		send = (ImageView) findViewById(R.id.send);
 		rootLayout = (LinearLayout) findViewById(R.id.root);
-		send.setOnClickListener(new Send_Listener());
 
 		plusLayout = getPlusLayout();
 		faceLayout = getFaceView();
@@ -210,9 +205,12 @@ public class ChatRoomActivity extends FragmentActivity implements
 		plus.setBackground(icon_plus);
 
 		IconicFontDrawable icon_send = new IconicFontDrawable(this);
-		icon_send.setIcon(FontAwesomeIcon.PLAY);
+		icon_send.setIcon(EntypoIcon.MIC);
 		icon_send.setIconColor(Constants.COLOR_COMMON_BLUE);
 		send.setBackground(icon_send);
+
+		setMicphoneButton();
+		// setSendButton();
 
 		face_appear_listener = new Face_appear_Listener();
 		face_disappear_listener = new Face_disappear_Listener();
@@ -221,17 +219,36 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		// input.setOnFocusChangeListener(new EditTextFocusChangeListener());
 		input.setOnTouchListener(new EditOnTouchListener());
-		input.addTextChangedListener(new ChatTextChangeListener());
+		input.addTextChangedListener(new ChatTextChangeListener(
+				ChatRoomActivity.this));
 		face.setOnTouchListener(new IconOnTouchListener(icon_face, face));
 		plus.setOnTouchListener(new IconOnTouchListener(icon_plus, plus));
 		face.setOnClickListener(face_appear_listener);
 		plus.setOnClickListener(plus_appear_listener);
 
 		//
-		if(online.equals(Constants.ONLINE))
+		if (online.equals(Constants.ONLINE))
 			listenMessage(smack.getFullyJID(u_JID));
 		else
 			listenMessage(u_JID);
+	}
+
+	public void setMicphoneButton() {
+		IconicFontDrawable icon_send = new IconicFontDrawable(this);
+		icon_send.setIcon(EntypoIcon.MIC);
+		icon_send.setIconColor(Constants.COLOR_COMMON_BLUE);
+		send.setBackground(icon_send);
+		recorder = new SoundRecorder(this);
+		recorder.regist(send);
+	}
+
+	public void setSendButton() {
+		recorder.unRegist(send);
+		IconicFontDrawable icon_send = new IconicFontDrawable(this);
+		icon_send.setIcon(EntypoIcon.PLAY);
+		icon_send.setIconColor(Constants.COLOR_COMMON_BLUE);
+		send.setBackground(icon_send);
+		send.setOnClickListener(new Send_Listener());
 	}
 
 	public void sendMessage(final Message message) {
@@ -250,6 +267,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 	}
 
 	public void listenFile() {
+		
 		FileTransferManager manager = new FileTransferManager(
 				smack.getConnection());
 		manager.addFileTransferListener(new FileTransferListener() {
@@ -273,7 +291,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 		new MessageListener() {
 
 			public void processMessage(Chat chat, Message message) {
-				BubbleMessage bubbleMessage = new BubbleMessage();
 
 				L.i("receive,,,,");
 
@@ -298,26 +315,26 @@ public class ChatRoomActivity extends FragmentActivity implements
 				last_Msg = message.getBody();
 
 				// 1 add time bubble
-				if(pastTimeStr == null){
+				if (pastTimeStr == null) {
 					String viewTime = TimeUtil.getCurrentViewTime();
-					BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
-							MessageType.TIME, true);
+					BubbleMessage bubbleMessageTime = new BubbleMessage(
+							viewTime, MessageType.TIME, true);
 					smack.getBubbleList(u_JID).add(bubbleMessageTime);
 					pastTimeStr = strDate;
 					nowTimeStr = strDate;
-				}else{
+				} else {
 					pastTimeStr = nowTimeStr;
 					nowTimeStr = strDate;
 					if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
 						String viewTime = TimeUtil.getCurrentViewTime();
-						BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
-								MessageType.TIME, true);
+						BubbleMessage bubbleMessageTime = new BubbleMessage(
+								viewTime, MessageType.TIME, true);
 						smack.getBubbleList(u_JID).add(bubbleMessageTime);
-					}	
+					}
 				}
 
 				// 2 add content bubble
-				bubbleMessage = new BubbleMessage(message.getBody(),
+				BubbleMessage bubbleMessage = new BubbleMessage(message.getBody(),
 						MessageType.TEXT, false);
 
 				smack.getBubbleList(u_JID).add(bubbleMessage);
@@ -360,24 +377,23 @@ public class ChatRoomActivity extends FragmentActivity implements
 			}
 			// get the string of time
 			String strDate = TimeUtil.getCurrentTime2String();
-			if(pastTimeStr == null){
+			if (pastTimeStr == null) {
 				String viewTime = TimeUtil.getCurrentViewTime();
 				BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
 						MessageType.TIME, true);
 				smack.getBubbleList(u_JID).add(bubbleMessageTime);
 				pastTimeStr = strDate;
 				nowTimeStr = strDate;
-			}else{
+			} else {
 				pastTimeStr = nowTimeStr;
 				nowTimeStr = strDate;
 				if (TimeUtil.isLongBefore(pastTimeStr, nowTimeStr)) {
 					String viewTime = TimeUtil.getCurrentViewTime();
-					BubbleMessage bubbleMessageTime = new BubbleMessage(viewTime,
-							MessageType.TIME, true);
+					BubbleMessage bubbleMessageTime = new BubbleMessage(
+							viewTime, MessageType.TIME, true);
 					smack.getBubbleList(u_JID).add(bubbleMessageTime);
-				}	
+				}
 			}
-			
 
 			// add a bubble
 
@@ -386,7 +402,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 			smack.getBubbleList(u_JID).add(bubbleMessageText);
 			// bubbleList_data.add(bubbleMessageText);
 			// restore to DB
+			conn = smack.getConnection();
 			String fromJID = conn.getUser();
+			L.i("fromJID  reconnect : " + fromJID);
 			String toJID = chat.getParticipant();
 			toJID = ValueUtil.deleteSth(toJID, Constants.DELETE_STH);
 			fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
@@ -679,6 +697,61 @@ public class ChatRoomActivity extends FragmentActivity implements
 		mNotificationManager.notify(1, mBuilder.build());
 	}
 
+	public void sendSound(File file) {
+		sendFile(file);
+//		// 0 add into the bubble list
+//		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), false);
+//		smack.getBubbleList(u_JID).add(bubbleSound);
+//		adapter.notifyDataSetChanged();
+//
+//		// 1, insert into DB
+//		String messageType = Constants.MESSAGE_TYPE_SOUND;
+//		String messageContent = file.getPath();
+//		String messageTime = TimeUtil.getCurrentTime2String();
+//		String fromJID = smack.getConnection().getUser();
+//		fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+//		RowHistory row = new RowHistory(messageTime, messageContent,
+//				messageType, fromJID, u_JID);
+//		restoreMessage(row);
+//		
+//		// 2, send 
+//		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
+//				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
+//		} else {
+//			task.execute(file);
+//		}
+	}
+
+	public void sendFile(File f) {
+		BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
+				ValueUtil.getFileSize(f));
+		smack.getBubbleList(u_JID).add(bubbleFile);
+		adapter.notifyDataSetChanged();
+
+		// insert into DB
+		String messageType = Constants.MESSAGE_TYPE_FILE;
+		String messageContent = f.getName() + "@" + ValueUtil.getFileSize(f)
+				+ "@" + AsyncTaskContants.STR_NEGOTIATING;
+		String messageTime = TimeUtil.getCurrentTime2String();
+		String fromJID = smack.getConnection().getUser();
+		fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+		RowHistory row = new RowHistory(messageTime, messageContent,
+				messageType, fromJID, u_JID);
+		restoreMessage(row);
+
+		//
+		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
+				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, f);
+		} else {
+			task.execute(f);
+		}
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -688,34 +761,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 			if (resultCode == RESULT_OK) {
 				String result = data.getStringExtra("result");
 				File f = new File(result);
-				BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
-						ValueUtil.getFileSize(f));
-				// bubbleList_data.add(bubbleFile);
-				smack.getBubbleList(u_JID).add(bubbleFile);
-				adapter.notifyDataSetChanged();
-
-				// insert into DB
-				String messageType = Constants.MESSAGE_TYPE_FILE;
-				String messageContent = f.getName() + "@"
-						+ ValueUtil.getFileSize(f) + "@"
-						+ AsyncTaskContants.STR_NEGOTIATING;
-				String messageTime = TimeUtil.getCurrentTime2String();
-				String fromJID = smack.getConnection().getUser();
-				fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
-				RowHistory row = new RowHistory(messageTime, messageContent,
-						messageType, fromJID, u_JID);
-				restoreMessage(row);
-
-				//
-				FileSenderAsyncTask task = new FileSenderAsyncTask(smack
-						.getBubbleList(u_JID).size() - 1,
-						ChatRoomActivity.this, u_JID);
-
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, f);
-				} else {
-					task.execute(f);
-				}
+				sendFile(f);
 			}
 			if (resultCode == RESULT_CANCELED) {
 				// Write code if there's no result

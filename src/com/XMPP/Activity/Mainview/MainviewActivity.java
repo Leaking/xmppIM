@@ -131,7 +131,6 @@ public class MainviewActivity extends FragmentActivity implements
 
 			} else if (upOrDown == LIGHT_DOWN) {
 				footerChatDrawable.setIconColor(LIGHT_DOWN_COLOR);
-
 			}
 			break;
 		}

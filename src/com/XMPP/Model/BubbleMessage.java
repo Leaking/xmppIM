@@ -28,12 +28,9 @@ public class BubbleMessage {
 	//receive file
 	FileTransferRequest request;
 	
+	// sound file
+	String path;
 	
-
-
-	public BubbleMessage(){
-		
-	}
 	// receive file 
 	public BubbleMessage(FileTransferRequest request,String filename,String filesize){
 		this.filename = filename;
@@ -60,6 +57,12 @@ public class BubbleMessage {
 		this.message = message;
 		this.isMine = isMine;
 	}
+	
+//	// sound file
+//	public BubbleMessage(String path,boolean isMine){
+//		this.path = path;
+//		this.isMine = isMine;
+//	}
 	public BubbleMessage(int pictureID,boolean isMine){
 		super();
 		this.type = MessageType.PICTURE;

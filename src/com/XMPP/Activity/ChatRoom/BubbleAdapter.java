@@ -84,11 +84,38 @@ public class BubbleAdapter extends BaseAdapter {
 		case 2:
 			convertView = getFileMessage(position, convertView, parent);
 			return convertView;
-
+//		case 3:
+//			convertView = getSoundMessage(position, convertView, parent);
+//			return convertView;
 		}
 
 		return convertView;
 	}
+
+//	public View getSoundMessage(int position, View convertView, ViewGroup parent) {
+//		ViewHolder holder;
+//		if (convertView == null) {
+//			holder = new ViewHolder();
+//			convertView = LayoutInflater.from(mContext).inflate(
+//					R.layout.bubble_sound, parent, false);
+//			holder.fileStage = (TextView) convertView
+//					.findViewById(R.id.soundText);
+//			holder.progressBar = (ProgressBar) convertView
+//					.findViewById(R.id.progressSound);
+//			convertView.setTag(holder);
+//		} else {
+//			holder = (ViewHolder) convertView.getTag();
+//		}
+//		holder.fileStage.setText(positonMessage.getFileStage());
+//		final int val = positonMessage.getFileProgressVal();
+//		if (val > 0 && val < 100) {
+//			holder.progressBar.setProgress(val);
+//			holder.fileStage.setText(val + "%");
+//			positonMessage.setFileStage(val + "%");
+//		}
+//
+//		return convertView;
+//	}
 
 	public View getFileMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -121,6 +148,7 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			holder.progressBar.setVisibility(View.GONE);
 		}
+		
 
 		LayoutParams lp = (LayoutParams) holder.fileArea.getLayoutParams();
 
@@ -137,8 +165,6 @@ public class BubbleAdapter extends BaseAdapter {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						L.i("valvalva" + val);
-
 						((ChatRoomActivity) mContext)
 								.showReceiveChocieFragment(currentPosition);
 					}
@@ -191,7 +217,7 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
+		
 		holder.message.setText(positonMessage.getMessage());
 		holder.message.setTextSize(mContext.getResources().getDimension(
 				R.dimen.bubbleTTextsizeText));
@@ -219,6 +245,8 @@ public class BubbleAdapter extends BaseAdapter {
 			return 1;
 		if (positonMessage.getType() == MessageType.FILE)
 			return 2;
+//		if (positonMessage.getType() == MessageType.SOUND)
+//			return 3;
 		return 1;
 	}
 
@@ -231,6 +259,7 @@ public class BubbleAdapter extends BaseAdapter {
 		TextView filesize;
 		TextView fileStage;
 		ProgressBar progressBar;
+
 	}
 
 	@Override

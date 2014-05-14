@@ -1,17 +1,19 @@
 package com.XMPP.Activity.ChatRoom;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.XMPP.util.L;
-
 public class ChatTextChangeListener implements TextWatcher{
 
+	Context mContext;
+	public ChatTextChangeListener(Context context){
+		this.mContext = context;
+	}
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
 		// TODO Auto-generated method stub
-		L.i("typing before");
 
 	}
 
@@ -20,13 +22,19 @@ public class ChatTextChangeListener implements TextWatcher{
 		// TODO Auto-generated method stub
 		// send a meesage to friend that you are typing
 		// u can set a time span to limit the notify frequence;
-		L.i("typing,typing typing");
+		
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
 		// TODO Auto-generated method stub
-		L.i("typing end");
+		if(s.length() == 0){
+			//relpace the icon 
+			((ChatRoomActivity)mContext).setMicphoneButton();
+			
+		}else{			
+			((ChatRoomActivity)mContext).setSendButton();			
+		}
 	}
 
 }
