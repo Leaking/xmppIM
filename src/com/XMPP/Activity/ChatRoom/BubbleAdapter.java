@@ -5,29 +5,27 @@ import java.util.HashMap;
 
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.XMPP.R;
-
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.smack.SmackImpl;
+import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 import com.XMPP.util.MessageType;
-import com.XMPP.util.T;
+import com.atermenji.android.iconicdroid.IconicFontDrawable;
+import com.atermenji.android.iconicdroid.icon.EntypoIcon;
+import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
 import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
@@ -40,7 +38,7 @@ public class BubbleAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<BubbleMessage> mMessages;
 	private BubbleMessage positonMessage;
-	private final static int ITEM_VIEW_TYPE = 3;
+	private final static int ITEM_VIEW_TYPE = 4;
 	private int progressVal;
 	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 	private String currentClickFileName;
@@ -84,38 +82,65 @@ public class BubbleAdapter extends BaseAdapter {
 		case 2:
 			convertView = getFileMessage(position, convertView, parent);
 			return convertView;
-//		case 3:
-//			convertView = getSoundMessage(position, convertView, parent);
-//			return convertView;
+		case 3:
+			convertView = getSoundMessage(position, convertView, parent);
+			return convertView;
 		}
 
 		return convertView;
 	}
 
-//	public View getSoundMessage(int position, View convertView, ViewGroup parent) {
-//		ViewHolder holder;
-//		if (convertView == null) {
-//			holder = new ViewHolder();
-//			convertView = LayoutInflater.from(mContext).inflate(
-//					R.layout.bubble_sound, parent, false);
-//			holder.fileStage = (TextView) convertView
-//					.findViewById(R.id.soundText);
-//			holder.progressBar = (ProgressBar) convertView
-//					.findViewById(R.id.progressSound);
-//			convertView.setTag(holder);
-//		} else {
-//			holder = (ViewHolder) convertView.getTag();
-//		}
-//		holder.fileStage.setText(positonMessage.getFileStage());
-//		final int val = positonMessage.getFileProgressVal();
-//		if (val > 0 && val < 100) {
-//			holder.progressBar.setProgress(val);
-//			holder.fileStage.setText(val + "%");
-//			positonMessage.setFileStage(val + "%");
-//		}
-//
-//		return convertView;
-//	}
+	public View getSoundMessage(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.bubble_sound, parent, false);
+			holder.itemArea = (View) convertView.findViewById(R.id.soundArea);
+			holder.image = (ImageView) convertView.findViewById(R.id.soundIcon);
+			holder.fileStage = (TextView) convertView
+					.findViewById(R.id.soundStage);
+			holder.progressBar = (ProgressBar) convertView
+					.findViewById(R.id.soundProgress);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		IconicFontDrawable icon_sound = new IconicFontDrawable(this.mContext);
+		icon_sound.setIcon(EntypoIcon.TRIANGLE_LEFT);
+		icon_sound.setIconColor(Constants.COLOR_COMMON_BLUE);
+		holder.image.setBackground(icon_sound);
+
+		holder.fileStage.setText(positonMessage.getFileStage());
+
+		convertView.setOnClickListener(new OnClickListener() {
+			String path = positonMessage.getPath();
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new SoundPlayer(path).click();
+			}
+		});
+
+		final int val = positonMessage.getFileProgressVal();
+		if (val > 0 && val < 100) {
+			holder.progressBar.setProgress(val);
+			holder.fileStage.setText(val + "%");
+			positonMessage.setFileStage(val + "%");
+		}
+
+		LayoutParams lp = (LayoutParams) holder.itemArea.getLayoutParams();
+
+		if (positonMessage.isMine()) {
+			holder.itemArea.setBackgroundResource(R.drawable.bubble_right);
+			lp.gravity = Gravity.RIGHT;
+		} else {
+			holder.itemArea.setBackgroundResource(R.drawable.bubble_left);
+			lp.gravity = Gravity.LEFT;
+		}
+
+		return convertView;
+	}
 
 	public View getFileMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -123,7 +148,7 @@ public class BubbleAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.bubble_file, parent, false);
-			holder.fileArea = (View) convertView.findViewById(R.id.fileArea);
+			holder.itemArea = (View) convertView.findViewById(R.id.fileArea);
 			holder.filename = (TextView) convertView
 					.findViewById(R.id.filename);
 			holder.filesize = (TextView) convertView
@@ -140,6 +165,15 @@ public class BubbleAdapter extends BaseAdapter {
 		holder.filesize.setText(positonMessage.getFilesize());
 		holder.fileStage.setText(positonMessage.getFileStage());
 		final int val = positonMessage.getFileProgressVal();
+
+		convertView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new SoundPlayer(positonMessage.getPath()).click();
+			}
+		});
+
 		if (val > 0 && val < 100) {
 			holder.progressBar.setVisibility(View.VISIBLE);
 			holder.progressBar.setProgress(val);
@@ -148,12 +182,11 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			holder.progressBar.setVisibility(View.GONE);
 		}
-		
 
-		LayoutParams lp = (LayoutParams) holder.fileArea.getLayoutParams();
+		LayoutParams lp = (LayoutParams) holder.itemArea.getLayoutParams();
 
 		if (positonMessage.isMine()) {
-			holder.fileArea.setBackgroundResource(R.drawable.bubble_right);
+			holder.itemArea.setBackgroundResource(R.drawable.bubble_right);
 			lp.gravity = Gravity.RIGHT;
 		} else {
 			final int currentPosition = position;
@@ -172,19 +205,18 @@ public class BubbleAdapter extends BaseAdapter {
 			} else {
 				convertView.setOnClickListener(null);
 			}
-			holder.fileArea.setBackgroundResource(R.drawable.bubble_left);
+			holder.itemArea.setBackgroundResource(R.drawable.bubble_left);
 			lp.gravity = Gravity.LEFT;
 
 		}
-		holder.fileArea.setLayoutParams(lp);
+		holder.itemArea.setLayoutParams(lp);
 		return convertView;
 
 	}
 
 	public View getTimeMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		if (convertView == null
-				|| ((ViewHolder) convertView.getTag()).time == null) {
+		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.bubble_text, parent, false);
@@ -206,8 +238,7 @@ public class BubbleAdapter extends BaseAdapter {
 
 	public View getTextMessage(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		if (convertView == null
-				|| ((ViewHolder) convertView.getTag()).message == null) {
+		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.bubble_text, parent, false);
@@ -217,7 +248,7 @@ public class BubbleAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		holder.message.setText(positonMessage.getMessage());
 		holder.message.setTextSize(mContext.getResources().getDimension(
 				R.dimen.bubbleTTextsizeText));
@@ -245,8 +276,8 @@ public class BubbleAdapter extends BaseAdapter {
 			return 1;
 		if (positonMessage.getType() == MessageType.FILE)
 			return 2;
-//		if (positonMessage.getType() == MessageType.SOUND)
-//			return 3;
+		if (positonMessage.getType() == MessageType.SOUND)
+			return 3;
 		return 1;
 	}
 
@@ -254,11 +285,13 @@ public class BubbleAdapter extends BaseAdapter {
 		EmojiconTextView message;
 		EmojiconTextView time;
 
-		View fileArea;
+		View itemArea;
 		TextView filename;
 		TextView filesize;
 		TextView fileStage;
 		ProgressBar progressBar;
+
+		ImageView image;
 
 	}
 

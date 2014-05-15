@@ -704,33 +704,35 @@ public class ChatRoomActivity extends FragmentActivity implements
 	}
 
 	public void sendSound(File file) {
-		sendFile(file);
+		//sendFile(file);
 		// 0 add into the bubble list
-//		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), false);
-//		smack.getBubbleList(u_JID).add(bubbleSound);
-//		adapter.notifyDataSetChanged();
-//
-//		// 1, insert into DB
-//		String messageType = Constants.MESSAGE_TYPE_SOUND;
-//		String messageContent = file.getPath();
-//		String messageTime = TimeUtil.getCurrentTime2String();
-//		String fromJID = smack.getConnection().getUser();
-//		fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
-//		RowHistory row = new RowHistory(messageTime, messageContent,
-//				messageType, fromJID, u_JID);
-//		restoreMessage(row);
-//		
-//		// 2, send 
-//		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
-//				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
-//		} else {
-//			task.execute(file);
-//		}
+		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), true);
+		smack.getBubbleList(u_JID).add(bubbleSound);
+		adapter.notifyDataSetChanged();
+		
+		// 1, insert into DB
+		String messageType = Constants.MESSAGE_TYPE_SOUND;
+		String messageContent = file.getPath();
+		String messageTime = TimeUtil.getCurrentTime2String();
+		String fromJID = smack.getConnection().getUser();
+		fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
+		RowHistory row = new RowHistory(messageTime, messageContent,
+				messageType, fromJID, u_JID);
+		restoreMessage(row);
+		
+		// 2, send 
+		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
+				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
+		} else {
+			task.execute(file);
+		}
 	}
 
 	public void sendFile(File f) {
+		
+		// add a bubble;
 		BubbleMessage bubbleFile = new BubbleMessage(f.getName(),
 				ValueUtil.getFileSize(f));
 		smack.getBubbleList(u_JID).add(bubbleFile);
@@ -747,7 +749,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 				messageType, fromJID, u_JID);
 		restoreMessage(row);
 
-		//
+		// send 
 		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
 				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
 

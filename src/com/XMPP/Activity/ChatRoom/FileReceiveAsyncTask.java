@@ -54,15 +54,15 @@ public class FileReceiveAsyncTask extends
 	protected Long doInBackground(FileTransferRequest... request) {
 		// TODO Auto-generated method stub
 		IncomingFileTransfer transfer = request[0].accept();
-		L.i("receive doInBackground");
 
+		
 		File mf = Environment.getExternalStorageDirectory();
 		File file = new File(mf.getAbsoluteFile() + "/"
 				+ transfer.getFileName());
-		L.i("receive doInBackground" + file.getPath());
-		L.i("receive doInBackground" + request[0].getRequestor());
+
 
 		try {
+			
 			transfer.recieveFile(file);
 			while (!transfer.isDone()) {
 				try {

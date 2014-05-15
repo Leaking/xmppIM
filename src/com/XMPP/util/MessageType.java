@@ -4,6 +4,7 @@ public enum MessageType {
 	STATUS,
 	TIME,
 	TEXT,
+	SOUND,
 	PICTURE,
 	FILE,
 	LOCATION
