@@ -838,11 +838,16 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		// TODO Auto-generated method stub
+		if(smack.isConnect() == false){
+			T.mToast(ContactsFragment.this.getActivity(), "You are offline");
+			return false;
+		}
+		
 		Intent intent = new Intent(ContactsFragment.this.getActivity(),ChatRoomActivity.class);
 		
 		intent.putExtra("online",viewRoster.getEntry(groupPosition, childPosition).getOnline());
 		intent.putExtra("JID",viewRoster.getEntry(groupPosition, childPosition).getFriend_jID());
-	
+		
 		ContactsFragment.this.getActivity().startActivity(intent);		
 		return false;
 	}

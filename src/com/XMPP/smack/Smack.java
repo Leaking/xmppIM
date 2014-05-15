@@ -17,6 +17,11 @@ import com.XMPP.Model.BubbleMessage;
 public interface Smack extends Serializable {
 	
 	public String getUsername();
+	public void setUsername(String username);
+	public String getPassword();
+	public void setPassword(String password);
+	public boolean isConnect();
+	public void setConnect(boolean isConnect);
 	
 	public String getJID();
 	public XMPPConnection getConnection();

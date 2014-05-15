@@ -58,11 +58,11 @@ public class BubbleMessage {
 		this.isMine = isMine;
 	}
 	
-//	// sound file
-//	public BubbleMessage(String path,boolean isMine){
-//		this.path = path;
-//		this.isMine = isMine;
-//	}
+	// sound file
+	public BubbleMessage(String path,boolean isMine){
+		this.path = path;
+		this.isMine = isMine;
+	}
 	public BubbleMessage(int pictureID,boolean isMine){
 		super();
 		this.type = MessageType.PICTURE;

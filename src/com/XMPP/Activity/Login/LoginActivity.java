@@ -3,12 +3,15 @@ package com.XMPP.Activity.Login;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
+import android.view.LayoutInflater.Filter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.XMPP.R;
 import com.XMPP.Activity.Mainview.MainviewActivity;
+import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.Service.ContactsService;
 import com.XMPP.Service.MessageService;
 import com.XMPP.Service.ReconnectService;
@@ -40,6 +44,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 	private LoadingDialog loading;
 	private MTimerTask mTask;
 	private final static Long DELAY_CONNECT = 10 * 1000L;  // n second;
+	ReconnectReceiver mReceiver;
+	IntentFilter filter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,15 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 		submitLogin = (TextView) findViewById(R.id.submitLogin);
 		forget = (TextView) findViewById(R.id.forget);
 		submitLogin.setOnClickListener(this);
+		
+		
+		
+		mReceiver = new ReconnectReceiver();
+		filter = new IntentFilter();
+		filter.addAction(BroadCastUtil.ACTION_RECONNECT_RECONNECT);
+		registerReceiver(mReceiver, filter);
+		
+		
 	}
 
 	public void startAllServices() {
@@ -67,7 +82,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 		this.startService(reconnect_intent);
 
 	}
-
+	
 	class MTimerTask extends TimerTask {
 
 		@Override
@@ -95,7 +110,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 					.toString();
 			password = ((EditText) findViewById(R.id.password)).getText()
 					.toString();
-			loading = new LoadingDialog(LoginActivity.this);
+			smack.setPassword(password);
+			smack.setUsername(username);
+			loading = new LoadingDialog(LoginActivity.this,"logging");
 			loading.show(LoginActivity.this.getSupportFragmentManager(), "tag");
 			loading.setCancelable(false);
 
@@ -119,7 +136,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 					// placed in the login onclick
 
 					smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
-
 					final int login_result = smack.login(username, password);
 					L.i("user if authenticated "
 							+ ConnectionHandler.getConnection()
@@ -127,6 +143,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							mTimer.cancel();
 							switch (login_result) {
 							case Constants.LOGIN_SUCCESS:
 								loading.dismiss();
@@ -134,10 +151,10 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 								Intent intent = new Intent(LoginActivity.this,
 										MainviewActivity.class);
 								LoginActivity.this.startActivity(intent);
+								smack.setConnect(true);
 								break;
 							case Constants.LOGIN_CONNECT_FAIL:
-								loading.dismiss();
-
+								loading.dismiss();	
 								Toast.makeText(
 										getApplicationContext(),
 										getResources().getString(
@@ -146,17 +163,14 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 								break;
 							case Constants.LOGIN_USERNAME_PSW_ERROR:
 								loading.dismiss();
-
 								Toast.makeText(
 										getApplicationContext(),
 										getResources().getString(
 												R.string.name_psw_wrong),
 										Toast.LENGTH_SHORT).show();
 							}
-
 						}
 					});
-
 				}
 			}).start();
 			break;
@@ -165,13 +179,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 			break;
 		}
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
 	}
 
 	@Override
@@ -185,4 +192,14 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
 	}
 
+	class ReconnectReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Intent contacts_intent = new Intent(LoginActivity.this, ContactsService.class);
+			LoginActivity.this.startService(contacts_intent);
+
+			Intent message_intent = new Intent(LoginActivity.this, MessageService.class);
+			LoginActivity.this.startService(message_intent);
+		}
+	}
 }

@@ -26,10 +26,10 @@ import com.XMPP.util.ValueUtil;
 public class SmackImpl implements Smack {
 
 	private static volatile SmackImpl INSTANCE = null;
-	// initial in the login(,,) method
 
 	private String username;
 	private String password;
+	private boolean isConnect;
 	private HashMap<String, ArrayList<BubbleMessage>> bubbleMap = new HashMap<String, ArrayList<BubbleMessage>>();
 	private HashMap<String, ArrayList<FileTransferRequest>> requestMap = new HashMap<String, ArrayList<FileTransferRequest>>();
 	private static final HashMap<String, String> jid_resource_map = new HashMap<String, String>();
@@ -139,11 +139,7 @@ public class SmackImpl implements Smack {
 		return collection;
 	}
 
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return this.username;
-	}
+
 
 	@Override
 	public ArrayList<RosterGroup> getGroups() {
@@ -472,5 +468,38 @@ public class SmackImpl implements Smack {
 			requestMap.put(u_jid, requestList);
 		}
 	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.username;
+	}
+	
+	@Override
+	public void setUsername(String username) {
+		// TODO Auto-generated method stub
+		this.username = username;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.password;
+	}
+
+	@Override
+	public void setPassword(String password) {
+		// TODO Auto-generated method stub
+		this.password = password;
+	}
+	@Override
+	public boolean isConnect() {
+		return isConnect;
+	}
+	@Override
+	public void setConnect(boolean isConnect) {
+		this.isConnect = isConnect;
+	}
+
 
 }

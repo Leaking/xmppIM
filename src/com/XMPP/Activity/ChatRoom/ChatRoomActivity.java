@@ -110,7 +110,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 	//
 
 	// time
-	private static final String format = "MM-dd HH:mm";
 	private String pastTimeStr;
 	private String nowTimeStr;
 	// DB
@@ -124,8 +123,6 @@ public class ChatRoomActivity extends FragmentActivity implements
 	SoundRecorder recorder;
 
 	//
-	private int progressVal = 0;
-	private HashMap<Integer, Integer> position_progressVal_map = new HashMap<Integer, Integer>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -166,11 +163,9 @@ public class ChatRoomActivity extends FragmentActivity implements
 		} else {
 			bubbleList_data = smack.getBubbleList(u_JID);
 		}
-
 		adapter = new BubbleAdapter(this, u_JID);
 		bubbleList_view.setAdapter(adapter);
 		bubbleList_view.setSelection(bubbleList_data.size() - 1);
-
 	}
 
 	public void init() {
@@ -257,6 +252,10 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
+					if (online.equals(Constants.ONLINE))
+						listenMessage(smack.getFullyJID(u_JID));
+					else
+						listenMessage(u_JID);
 					chat.sendMessage(message);
 				} catch (XMPPException e) {
 					// TODO Auto-generated catch block
@@ -286,6 +285,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		// TODO Auto-generated method stub
 		// chat = conn.getChatManager().createChat(smack.getFullyJID(u_JID),
+		
 		chat = conn.getChatManager().createChat(jid,
 
 		new MessageListener() {
@@ -293,7 +293,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 			public void processMessage(Chat chat, Message message) {
 
 				L.i("receive,,,,");
-
+				if(message.getBody() == null || message.getBody().length() == 0)
+					return;
 				/**
 				 * here ,chat.getParticipant() == ,,,,,,@,,, in the other hand
 				 * in the chatlistener,chat.getParticipant() == ,,,,,@,,,/Smack
@@ -367,6 +368,11 @@ public class ChatRoomActivity extends FragmentActivity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			// check the input content
+			if(smack.isConnect() == false){
+				T.mToast(ChatRoomActivity.this, "you are offline");
+				return;
+			}
+				
 			String inputContent = input.getText().toString();
 			if (inputContent == null || inputContent.length() == 0) {
 				T.mToast(ChatRoomActivity.this,
@@ -699,7 +705,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 	public void sendSound(File file) {
 		sendFile(file);
-//		// 0 add into the bubble list
+		// 0 add into the bubble list
 //		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), false);
 //		smack.getBubbleList(u_JID).add(bubbleSound);
 //		adapter.notifyDataSetChanged();

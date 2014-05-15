@@ -8,22 +8,25 @@ import org.jivesoftware.smack.ConnectionListener;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
+import android.support.v4.app.FragmentActivity;
 
-import com.XMPP.R;
+import com.XMPP.Activity.Login.LoginActivity;
+import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
+import com.XMPP.util.LoadingDialog;
+import com.XMPP.util.T;
 
 public class ReconnectService extends Service {
 
 	private Smack smack;
 	private Timer rTask;
 	private long delayTime = 2000;
-	private int repeatMaxConnectTimes = 7;
-	private int repeat = 0;
 
+
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -39,7 +42,7 @@ public class ReconnectService extends Service {
 	}
 
 	class mConnectionListern implements ConnectionListener {
-
+		LoadingDialog loading;
 		@Override
 		public void connectionClosed() {
 			// TODO Auto-generated method stub
@@ -54,7 +57,7 @@ public class ReconnectService extends Service {
 		public void connectionClosedOnError(Exception arg0) {
 			// TODO Auto-generated method stub
 			L.i("---------connectionClosedOnError----------");
-
+			smack.setConnect(false);
 			rTask = new Timer();
 			rTask.schedule(new ReconnectTask(), delayTime);
 		}
@@ -80,7 +83,7 @@ public class ReconnectService extends Service {
 	}
 
 	class ReconnectTask extends TimerTask {
-
+		
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
@@ -88,29 +91,20 @@ public class ReconnectService extends Service {
 			// the sys
 			smack.disconnect();
 
-
 			// TODO Auto-generated method stub
 			smack = SmackImpl.getInstance();;
 			smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
-			L.i("here---re--connect------authenticated "
-					+ smack.getConnection().isAuthenticated());
-			String username = "test2";
-			String password = "123456";
+			String username = smack.getUsername();
+			String password = smack.getPassword();
 			L.i("try to connect again");
-			++repeat;
-			if (repeat >= repeatMaxConnectTimes) {
-				System.out.println(" reconnect fail ");
-				/**
-				 * talk the user to open the wifi or check if the server works.
-				 */
-				return;
 
-			}
 			int result = smack.login(username, password);
 			if (result == Constants.LOGIN_SUCCESS) {
-				repeat = 0;
+				
+				BroadCastUtil.sendBroadCastReconnect(ReconnectService.this);
 				smack.turnOnlineToAll();
 				smack.addConnectionListener(new mConnectionListern());	
+				smack.setConnect(true);
 				L.i("reconnect successfully");
 			} else {
 				rTask.schedule(new ReconnectTask(), delayTime);
