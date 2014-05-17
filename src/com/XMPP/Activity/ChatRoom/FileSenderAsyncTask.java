@@ -16,6 +16,7 @@ import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
+import com.XMPP.util.Constants;
 import com.XMPP.util.L;
 
 /**
@@ -73,8 +74,7 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 
 		// TODO Auto-generated method stub
 		try {
-			transfer.sendFile(file, "come on buddy,get it");
-			
+			transfer.sendFile(file, Constants.FILETYPE_FILE);			
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

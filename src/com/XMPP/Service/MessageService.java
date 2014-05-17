@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.renderscript.Sampler.Value;
 import android.support.v4.app.NotificationCompat;
@@ -32,6 +34,9 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.XMPP.R;
 import com.XMPP.Activity.ChatRoom.AsyncTaskContants;
+import com.XMPP.Activity.ChatRoom.ChatRoomActivity;
+import com.XMPP.Activity.ChatRoom.FileReceiveAsyncTask;
+import com.XMPP.Activity.ChatRoom.SoundReceiveAsyncTask;
 import com.XMPP.Activity.Mainview.ChattingFragment;
 import com.XMPP.Activity.Mainview.MainviewActivity;
 import com.XMPP.BroadCast.BroadCastUtil;
@@ -239,9 +244,22 @@ public class MessageService extends Service {
 							fromJID, "1", "文件", messageTime);
 					tableChatting.insert_update(chattingRow);
 					
-					//3,
-					BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
-					smack.getBubbleList(fromJID).add(bubble);
+					//3,add a bubble
+					if(request.getDescription().equals(Constants.FILETYPE_FILE)){
+						BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
+						smack.getBubbleList(fromJID).add(bubble);
+					}
+					if(request.getDescription().equals(Constants.FILETYPE_SOUND)){
+						SoundReceiveAsyncTask task = new SoundReceiveAsyncTask(MessageService.this,fromJID);
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+							task.executeOnExecutor(
+									AsyncTask.THREAD_POOL_EXECUTOR,
+									request);
+						} else {
+							task.execute(request);
+						}
+					}
+					
 					
 					
 	                //4,send broadcast to fresh chatting listview and chatroom listview
