@@ -34,13 +34,15 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 	private String u_JID;
 	
 	private Smack smack;
+	private String fileType;
 
 	public FileSenderAsyncTask(int position,
-			Context context,String u_JID) {
+			Context context,String u_JID,String fileType) {
 		this.position = position;
 		this.smack = SmackImpl.getInstance();
 		this.context = context;
 		this.u_JID = u_JID;
+		this.fileType = fileType;
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 
 		// TODO Auto-generated method stub
 		try {
-			transfer.sendFile(file, Constants.FILETYPE_FILE);			
+			transfer.sendFile(file, this.fileType);			
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

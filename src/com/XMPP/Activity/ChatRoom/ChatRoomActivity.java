@@ -722,7 +722,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		
 		// 2, send 
 		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
-				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
+				u_JID).size() - 1, ChatRoomActivity.this, u_JID,Constants.FILETYPE_SOUND);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
 		} else {
@@ -751,7 +751,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 		// send 
 		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
-				u_JID).size() - 1, ChatRoomActivity.this, u_JID);
+				u_JID).size() - 1, ChatRoomActivity.this, u_JID,Constants.FILETYPE_FILE);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, f);

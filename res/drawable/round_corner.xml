@@ -4,22 +4,21 @@
 
     <gradient
         android:angle="270"
-        android:endColor="#76D37B"
-        android:startColor="#B5E7B8" />
+        android:endColor="@color/setting_gradient_start"
+        android:startColor="@color/setting_gradient_end" />
 
-    <!--
-       <stroke android:width="1dip"   
-       android:color="@color/blue"   
-       />
+    <stroke
+        android:width="1dip"
+        android:color="@color/commom_gray" />
     -->
     <!--
        <solid android:color="#FFeaeaea"  
        />
     -->
     <corners
-        android:bottomLeftRadius="4dip"
-        android:bottomRightRadius="4dip"
-        android:topLeftRadius="4dip"
-        android:topRightRadius="4dip" />
+        android:bottomLeftRadius = "@dimen/roundangle"
+        android:bottomRightRadius = "@dimen/roundangle"
+        android:topLeftRadius= "@dimen/roundangle"
+        android:topRightRadius= "@dimen/roundangle" />
 
 </shape>

@@ -26,6 +26,8 @@
 	<color name="sendMeduimColor">#5D6CA5</color>
 	<color name="sendDarkColor">#515F9F</color>
 	
+	<color name="setting_gradient_start">#ffffef</color>
+	<color name="setting_gradient_end">#fffffe</color>
 	
     
     <!-- not used still -->

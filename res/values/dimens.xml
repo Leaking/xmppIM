@@ -36,4 +36,8 @@
     <dimen name="fileListItemVericalPadding">5dp</dimen>
     <dimen name="fileListItemHorizonPadding">8dp</dimen>
     
+    <!-- round corner dip -->
+    <dimen name="roundangle">10dp</dimen>
+    <dimen name="itemHeight">50dp</dimen>
+    
 </resources>

@@ -241,9 +241,10 @@ public class MessageService extends Service {
 
 					//2,insert sth into history table
 					RowChatting chattingRow = new RowChatting(toJID,
-							fromJID, "1", "文件", messageTime);
+							fromJID, "1", "file", messageTime);
 					tableChatting.insert_update(chattingRow);
 					
+					L.i("receive file type " + request.getDescription());
 					//3,add a bubble
 					if(request.getDescription().equals(Constants.FILETYPE_FILE)){
 						BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
