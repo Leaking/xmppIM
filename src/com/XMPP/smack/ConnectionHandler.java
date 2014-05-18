@@ -44,12 +44,12 @@ public class ConnectionHandler {
 		return conn;
 	}
 	
-	private static void openConnection(String ip, int port) {
+	private static void openConnection(String ip, int port, String service) {
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
-				port,"Smack");
+				port,service);
 				
-		connConfig.setReconnectionAllowed(true);
-		connConfig.setSecurityMode(SecurityMode.disabled); // SecurityMode.required/disabled
+		connConfig.setReconnectionAllowed(true);		
+		connConfig.setSecurityMode(SecurityMode.required); 
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
 		connConfig.setSendPresence(false);		
@@ -68,9 +68,9 @@ public class ConnectionHandler {
 		
 	}
 
-	public static XMPPConnection connect(String ip, int port) {
+	public static XMPPConnection connect(String ip, int port, String service) {
 		if (conn == null || conn.isConnected() == false) {
-			openConnection(ip, port);
+			openConnection(ip, port, service);
 		}
 		return conn;
 	}

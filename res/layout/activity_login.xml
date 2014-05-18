@@ -51,7 +51,7 @@
                     android:fontFamily="sans-serif"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
-                    android:text="test2" />
+                    android:text="chenhuazhaoao@gmail.com" />
 
                 <EditText
                     android:id="@+id/password"
@@ -62,7 +62,7 @@
                     android:fontFamily="sans-serif"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:text="123456" />
+                    android:text="3982895898" />
 
                 <TextView
                     android:id="@+id/submitLogin"

@@ -53,9 +53,9 @@ public class SmackImpl implements Smack {
 		return INSTANCE;
 	}
 
-	public void connect(String server, int port) {
+	public void connect(String server, int port, String service) {
 
-		ConnectionHandler.connect(server, port);
+		ConnectionHandler.connect(server, port,service);
 		XMPPConnection conn = ConnectionHandler.getConnection();
 		if (conn.isConnected()) {
 			L.i("connect successfully");

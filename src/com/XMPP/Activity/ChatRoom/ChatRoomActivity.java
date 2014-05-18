@@ -292,7 +292,8 @@ public class ChatRoomActivity extends FragmentActivity implements
 
 			public void processMessage(Chat chat, Message message) {
 
-				L.i("receive,,,,");
+				L.i("receive123 inside,,,,");
+				L.i("msg  " + message.getBody());
 				if(message.getBody() == null || message.getBody().length() == 0)
 					return;
 				/**

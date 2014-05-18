@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 
-import com.XMPP.Activity.Login.LoginActivity;
+import com.XMPP.Activity.Launcher.LoginActivity;
 import com.XMPP.BroadCast.BroadCastUtil;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
@@ -93,7 +93,7 @@ public class ReconnectService extends Service {
 
 			// TODO Auto-generated method stub
 			smack = SmackImpl.getInstance();;
-			smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT);
+			smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT,Constants.SERVICE);
 			String username = smack.getUsername();
 			String password = smack.getPassword();
 			L.i("try to connect again");

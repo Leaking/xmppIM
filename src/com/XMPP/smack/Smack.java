@@ -29,7 +29,7 @@ public interface Smack extends Serializable {
 	/**
 	 * connect to the server
 	 */
-	public void connect(String server, int port);
+	public void connect(String server, int port, String service);
 	/**
 	 * login method
 	 * @param username:username of the user who try to login

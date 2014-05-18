@@ -25,7 +25,6 @@ public class ViewRoster {
 				groupNames_list.add(groupName);
 				ViewXMPPGroup group = new ViewXMPPGroup();
 				group.setGroupName(groupName);
-				// online,,,,,,,,,,,,,,,
 				if (rows.get(i).getFriend_jID() == null) {
 
 					group.setOnlineSum(0);

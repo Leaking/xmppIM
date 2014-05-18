@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import com.XMPP.Activity.Login.LoginActivity;
+import com.XMPP.Activity.Launcher.LoginActivity;
 import com.XMPP.util.L;
 import com.XMPP.util.LoadingDialog;
 import com.XMPP.util.RecordingDialog;

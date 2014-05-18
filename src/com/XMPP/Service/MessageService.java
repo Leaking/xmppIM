@@ -169,6 +169,12 @@ public class MessageService extends Service {
 						 */
 						@Override
 						public void processMessage(Chat chat, Message message) {
+							L.i("receive123 outside ");
+						
+							if(message.getBody() == null){
+								return ;
+							}
+							L.i("receive123 body " + message.getBody());
 							String fromJID = chat.getParticipant();
 							last_uJID = fromJID;
 							fromJID = ValueUtil.deleteSth(fromJID,
