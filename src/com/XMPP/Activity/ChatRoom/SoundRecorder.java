@@ -13,7 +13,11 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
+import com.XMPP.Activity.Login.LoginActivity;
 import com.XMPP.util.L;
+import com.XMPP.util.LoadingDialog;
+import com.XMPP.util.RecordingDialog;
+import com.XMPP.util.T;
 
 public class SoundRecorder {
 	private static final String LOG_TAG = "SoundRecorder";
@@ -27,8 +31,8 @@ public class SoundRecorder {
 	int endMinute;
 	int startSecond;
 	int endSecond;
-	
-	
+	RecordingDialog recording;
+
 	public SoundRecorder(Context context) {
 		mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
 		mContext = context;
@@ -85,23 +89,28 @@ public class SoundRecorder {
 		endSecond = Calendar.getInstance().getTime().getSeconds();
 		int diffMinute = endMinute - startMinute;
 		int diffSecond;
-		if(startSecond > endSecond){
+		if (startSecond > endSecond) {
 			diffSecond = endSecond + 60 - startSecond;
 			diffMinute -= 1;
-		}else{
+		} else {
 			diffSecond = endSecond - startSecond;
 		}
 		mRecorder.stop();
 		mRecorder.release();
 		mRecorder = null;
-		
+
+		if (diffSecond < 3) {
+			T.mToast(mContext, "The record is too short");
+			mCancel = true;
+		}
 		File file = new File(mFileName);
 		if (mCancel) {
 			// delete the file
 			file.delete();
 		} else {
 			// send the file
-			((ChatRoomActivity) mContext).sendSound(file,diffMinute,diffSecond);
+			((ChatRoomActivity) mContext).sendSound(file, diffMinute,
+					diffSecond);
 		}
 
 	}
@@ -112,11 +121,18 @@ public class SoundRecorder {
 		public boolean onTouch(View v, MotionEvent event) {
 			// TODO Auto-generated method stub
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+				recording = new RecordingDialog(SoundRecorder.this.mContext);
+				recording.show(
+						((ChatRoomActivity) (SoundRecorder.this.mContext))
+								.getSupportFragmentManager(), "tag");
+				recording.setCancelable(false);
 				mCancel = false;
 				onRecord(mStartRecording);
 				mStartRecording = !mStartRecording;
 			}
 			if (event.getAction() == MotionEvent.ACTION_UP) {
+				recording.dismiss();
 				onRecord(mStartRecording);
 				mStartRecording = !mStartRecording;
 			}

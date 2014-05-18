@@ -1083,9 +1083,9 @@ containing a value of this type.
         public static final int MainviewFooter=0x7f0c0011;
         public static final int about_arrow=0x7f0c006f;
         public static final int about_text=0x7f0c006e;
-        public static final int action_settings=0x7f0c0088;
+        public static final int action_settings=0x7f0c008a;
         public static final int addFriend=0x7f0c0050;
-        public static final int addGroup=0x7f0c0084;
+        public static final int addGroup=0x7f0c0086;
         public static final int alertString=0x7f0c0078;
         public static final int bottom_write_bar=0x7f0c0003;
         public static final int bubbleList=0x7f0c0002;
@@ -1096,7 +1096,7 @@ containing a value of this type.
         public static final int buttomLogin=0x7f0c0020;
         public static final int buttomSignUp=0x7f0c0021;
         public static final int buttonLogin=0x7f0c001f;
-        public static final int cancel=0x7f0c0085;
+        public static final int cancel=0x7f0c0087;
         public static final int chattingItemPhoto=0x7f0c0032;
         public static final int chatting_List=0x7f0c004e;
         public static final int contactExpandableList=0x7f0c0051;
@@ -1115,7 +1115,7 @@ containing a value of this type.
         public static final int exit_arrow=0x7f0c0075;
         public static final int exit_text=0x7f0c0074;
         public static final int face=0x7f0c0004;
-        public static final int ffff=0x7f0c0086;
+        public static final int ffff=0x7f0c0088;
         public static final int fileArea=0x7f0c0022;
         public static final int fileIcon=0x7f0c0023;
         public static final int fileStage=0x7f0c0026;
@@ -1133,7 +1133,7 @@ containing a value of this type.
         public static final int font_arrow=0x7f0c0061;
         public static final int font_text=0x7f0c0060;
         public static final int forget=0x7f0c000f;
-        public static final int group=0x7f0c0082;
+        public static final int group=0x7f0c0084;
         public static final int groupItemPhoto=0x7f0c0041;
         public static final int header_chatting_text=0x7f0c004d;
         public static final int header_contacts_text=0x7f0c004f;
@@ -1157,9 +1157,9 @@ containing a value of this type.
         public static final int message_arrow=0x7f0c0069;
         public static final int message_picture=0x7f0c0028;
         public static final int message_text=0x7f0c0031;
-        public static final int newGroupName=0x7f0c0083;
-        public static final int new_group_name=0x7f0c0080;
-        public static final int nickname=0x7f0c0081;
+        public static final int newGroupName=0x7f0c0085;
+        public static final int new_group_name=0x7f0c0082;
+        public static final int nickname=0x7f0c0083;
         public static final int notify=0x7f0c0033;
         public static final int pager=0x7f0c0018;
         public static final int password=0x7f0c000d;
@@ -1168,7 +1168,9 @@ containing a value of this type.
         public static final int profile_text=0x7f0c0054;
         public static final int progress=0x7f0c0077;
         public static final int progressFile=0x7f0c0027;
-        public static final int reject=0x7f0c0087;
+        public static final int recordStr=0x7f0c0081;
+        public static final int recordView=0x7f0c0080;
+        public static final int reject=0x7f0c0089;
         public static final int relative_1=0x7f0c0053;
         public static final int relative_10=0x7f0c006d;
         public static final int relative_11=0x7f0c0070;
@@ -1232,9 +1234,10 @@ containing a value of this type.
         public static final int learnmore_a_fragment=0x7f030017;
         public static final int loading=0x7f030018;
         public static final int login_fragment=0x7f030019;
-        public static final int setgroupname=0x7f03001a;
-        public static final int subscribe=0x7f03001b;
-        public static final int subscribed=0x7f03001c;
+        public static final int recording=0x7f03001a;
+        public static final int setgroupname=0x7f03001b;
+        public static final int subscribe=0x7f03001c;
+        public static final int subscribed=0x7f03001d;
     }
     public static final class menu {
         public static final int chat_room=0x7f0b0000;

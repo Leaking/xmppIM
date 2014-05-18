@@ -45,9 +45,9 @@ public class SoundPlayer {
 				e.printStackTrace();
 			}
 		}
-		SmackImpl.getInstance().getBubbleList(u_jid).get(position)
-				.setFileProgressVal(100);
-		BroadCastUtil.sendBroadCastChatroom(mcontext);
+//		SmackImpl.getInstance().getBubbleList(u_jid).get(position)
+//				.setFileProgressVal(100);
+//		BroadCastUtil.sendBroadCastChatroom(mcontext);
 	}
 
 	private void startPlaying() {

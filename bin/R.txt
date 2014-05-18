@@ -1036,9 +1036,9 @@ int id Login_logo 0x7f0c0079
 int id MainviewFooter 0x7f0c0011
 int id about_arrow 0x7f0c006f
 int id about_text 0x7f0c006e
-int id action_settings 0x7f0c0088
+int id action_settings 0x7f0c008a
 int id addFriend 0x7f0c0050
-int id addGroup 0x7f0c0084
+int id addGroup 0x7f0c0086
 int id alertString 0x7f0c0078
 int id bottom_write_bar 0x7f0c0003
 int id bubbleList 0x7f0c0002
@@ -1049,7 +1049,7 @@ int id bubblelist_theme_text 0x7f0c005a
 int id buttomLogin 0x7f0c0020
 int id buttomSignUp 0x7f0c0021
 int id buttonLogin 0x7f0c001f
-int id cancel 0x7f0c0085
+int id cancel 0x7f0c0087
 int id chattingItemPhoto 0x7f0c0032
 int id chatting_List 0x7f0c004e
 int id contactExpandableList 0x7f0c0051
@@ -1068,7 +1068,7 @@ int id emojis_tab_4_punctuation 0x7f0c003f
 int id exit_arrow 0x7f0c0075
 int id exit_text 0x7f0c0074
 int id face 0x7f0c0004
-int id ffff 0x7f0c0086
+int id ffff 0x7f0c0088
 int id fileArea 0x7f0c0022
 int id fileIcon 0x7f0c0023
 int id fileStage 0x7f0c0026
@@ -1086,7 +1086,7 @@ int id folder_path 0x7f0c004b
 int id font_arrow 0x7f0c0061
 int id font_text 0x7f0c0060
 int id forget 0x7f0c000f
-int id group 0x7f0c0082
+int id group 0x7f0c0084
 int id groupItemPhoto 0x7f0c0041
 int id header_chatting_text 0x7f0c004d
 int id header_contacts_text 0x7f0c004f
@@ -1110,9 +1110,9 @@ int id mainview_pager 0x7f0c0010
 int id message_arrow 0x7f0c0069
 int id message_picture 0x7f0c0028
 int id message_text 0x7f0c0031
-int id newGroupName 0x7f0c0083
-int id new_group_name 0x7f0c0080
-int id nickname 0x7f0c0081
+int id newGroupName 0x7f0c0085
+int id new_group_name 0x7f0c0082
+int id nickname 0x7f0c0083
 int id notify 0x7f0c0033
 int id pager 0x7f0c0018
 int id password 0x7f0c000d
@@ -1121,7 +1121,9 @@ int id profile_arrow 0x7f0c0055
 int id profile_text 0x7f0c0054
 int id progress 0x7f0c0077
 int id progressFile 0x7f0c0027
-int id reject 0x7f0c0087
+int id recordStr 0x7f0c0081
+int id recordView 0x7f0c0080
+int id reject 0x7f0c0089
 int id relative_1 0x7f0c0053
 int id relative_10 0x7f0c006d
 int id relative_11 0x7f0c0070
@@ -1183,9 +1185,10 @@ int layout fragment_setting 0x7f030016
 int layout learnmore_a_fragment 0x7f030017
 int layout loading 0x7f030018
 int layout login_fragment 0x7f030019
-int layout setgroupname 0x7f03001a
-int layout subscribe 0x7f03001b
-int layout subscribed 0x7f03001c
+int layout recording 0x7f03001a
+int layout setgroupname 0x7f03001b
+int layout subscribe 0x7f03001c
+int layout subscribed 0x7f03001d
 int menu chat_room 0x7f0b0000
 int menu chatting 0x7f0b0001
 int menu file_sender 0x7f0b0002

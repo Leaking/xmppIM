@@ -224,7 +224,7 @@ public class SmackImpl implements Smack {
 				friend_jID = rE.getUser();
 				nickname = getNickname(rE.getUser());
 				online = isOnline(rE.getUser());
-				//
+			
 				photo = null;
 				signature = null;
 				RowContacts row = new RowContacts(jid, group, friend_jID,
@@ -238,8 +238,6 @@ public class SmackImpl implements Smack {
 			}
 
 		}
-		// TEST
-		L.i("--------END GET ROWS--------");
 		Test.outputContactsRows(rows);
 		return rows;
 	}
