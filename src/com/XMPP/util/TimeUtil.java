@@ -61,10 +61,7 @@ public class TimeUtil {
 			datePast = new SimpleDateFormat(format).parse(pastStr);
 			long nowMill = dateNow.getTime();
 			long pastMill = datePast.getTime();
-			L.i("time long NOW   " + nowMill);
-			L.i("time long PAST  " + pastMill);
 			long a = nowMill - pastMill;
-			L.i("difffference    " + a);
 			if(nowMill - pastMill == 0 || nowMill - pastMill <= longBefore){
 				return false;
 			}

@@ -30,13 +30,8 @@ public class BubbleMessage {
 	
 	// sound file
 	String path;
-	
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
+	int sumSecond;
+
 	// receive file 
 	public BubbleMessage(FileTransferRequest request,String filename,String filesize){
 		this.filename = filename;
@@ -65,8 +60,9 @@ public class BubbleMessage {
 	}
 	
 	// sound file
-	public BubbleMessage(String path,boolean isMine){
+	public BubbleMessage(String path,int sumSecond,boolean isMine){
 		this.path = path;
+		this.sumSecond = sumSecond;
 		this.isMine = isMine;
 		this.type = MessageType.SOUND;
 	}
@@ -77,7 +73,18 @@ public class BubbleMessage {
 		this.isMine = isMine;
 	}
 
-
+	public int getSumSecond() {
+		return sumSecond;
+	}
+	public void setSumSecond(int sumSecond) {
+		this.sumSecond = sumSecond;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
 	public boolean isMine() {
 		return isMine;
 	}

@@ -250,8 +250,13 @@ public class MessageService extends Service {
 						BubbleMessage bubble = new BubbleMessage(request, request.getFileName(), ValueUtil.getFileSize(request.getFileSize()));
 						smack.getBubbleList(fromJID).add(bubble);
 					}
-					if(request.getDescription().equals(Constants.FILETYPE_SOUND)){
-						SoundReceiveAsyncTask task = new SoundReceiveAsyncTask(MessageService.this,fromJID);
+					if(request.getDescription().contains(Constants.FILETYPE_SOUND)){
+						
+						int first_at = request.getDescription().indexOf("@");
+						String timeStr = request.getDescription().substring(first_at  +1);
+						int timeVal = Integer.parseInt(timeStr);
+						L.i("time sound service " + timeVal);
+						SoundReceiveAsyncTask task = new SoundReceiveAsyncTask(MessageService.this,timeVal,fromJID);
 						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 							task.executeOnExecutor(
 									AsyncTask.THREAD_POOL_EXECUTOR,

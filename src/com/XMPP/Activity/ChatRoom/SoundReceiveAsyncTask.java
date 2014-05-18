@@ -21,7 +21,9 @@ public class SoundReceiveAsyncTask extends
 
 	Context context;
 	String fromJID;
-	public SoundReceiveAsyncTask(Context context, String fromJID){
+	int sumSeconds;
+	public SoundReceiveAsyncTask(Context context, int sumSecond,String fromJID){
+		this.sumSeconds = sumSecond;
 		this.context = context;
 		this.fromJID = fromJID;
 	}
@@ -49,7 +51,7 @@ public class SoundReceiveAsyncTask extends
 				}
 			}
 			if(transfer.getStatus().equals(org.jivesoftware.smackx.filetransfer.FileTransfer.Status.complete)){
-				BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), false);
+				BubbleMessage bubbleSound = new BubbleMessage(file.getPath(),sumSeconds, false);
 				SmackImpl.getInstance().getBubbleList(fromJID).add(bubbleSound);
 				BroadCastUtil.sendBroadCastChatroom(context);
 				BroadCastUtil.sendBroadCastChatting(context);

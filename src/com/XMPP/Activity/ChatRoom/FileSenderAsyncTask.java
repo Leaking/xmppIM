@@ -76,7 +76,8 @@ public class FileSenderAsyncTask extends AsyncTask<File, Integer, Long> {
 
 		// TODO Auto-generated method stub
 		try {
-			transfer.sendFile(file, this.fileType);			
+			transfer.sendFile(file, this.fileType);		
+			
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

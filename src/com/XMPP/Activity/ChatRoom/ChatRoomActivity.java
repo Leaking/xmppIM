@@ -703,16 +703,19 @@ public class ChatRoomActivity extends FragmentActivity implements
 		mNotificationManager.notify(1, mBuilder.build());
 	}
 
-	public void sendSound(File file) {
+	public void sendSound(File file, int minute, int second) {
 		//sendFile(file);
+		
+		int sumSecond = 60 * minute + second;
+		// format    path@sumSeconds
 		// 0 add into the bubble list
-		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(), true);
+		BubbleMessage bubbleSound = new BubbleMessage(file.getPath(),sumSecond,true);
 		smack.getBubbleList(u_JID).add(bubbleSound);
 		adapter.notifyDataSetChanged();
 		
 		// 1, insert into DB
 		String messageType = Constants.MESSAGE_TYPE_SOUND;
-		String messageContent = file.getPath();
+		String messageContent = file.getPath() + "@" + sumSecond;
 		String messageTime = TimeUtil.getCurrentTime2String();
 		String fromJID = smack.getConnection().getUser();
 		fromJID = ValueUtil.deleteSth(fromJID, Constants.DELETE_STH);
@@ -722,7 +725,7 @@ public class ChatRoomActivity extends FragmentActivity implements
 		
 		// 2, send 
 		FileSenderAsyncTask task = new FileSenderAsyncTask(smack.getBubbleList(
-				u_JID).size() - 1, ChatRoomActivity.this, u_JID,Constants.FILETYPE_SOUND);
+				u_JID).size() - 1, ChatRoomActivity.this, u_JID,Constants.FILETYPE_SOUND + "@"+ sumSecond);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
 		} else {

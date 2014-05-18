@@ -23,7 +23,12 @@ public class SoundRecorder {
 	private MediaRecorder mRecorder = null;
 	boolean mCancel = false;
 	boolean mStartRecording = true;
-
+	int startMinute;
+	int endMinute;
+	int startSecond;
+	int endSecond;
+	
+	
 	public SoundRecorder(Context context) {
 		mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
 		mContext = context;
@@ -57,8 +62,8 @@ public class SoundRecorder {
 	}
 
 	private void startRecording() {
-
-		L.i("come here to start???");
+		startMinute = Calendar.getInstance().getTime().getMinutes();
+		startSecond = Calendar.getInstance().getTime().getSeconds();
 		mFileName = getLocation();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -76,18 +81,27 @@ public class SoundRecorder {
 	}
 
 	private void stopRecording() {
-		
+		endMinute = Calendar.getInstance().getTime().getMinutes();
+		endSecond = Calendar.getInstance().getTime().getSeconds();
+		int diffMinute = endMinute - startMinute;
+		int diffSecond;
+		if(startSecond > endSecond){
+			diffSecond = endSecond + 60 - startSecond;
+			diffMinute -= 1;
+		}else{
+			diffSecond = endSecond - startSecond;
+		}
 		mRecorder.stop();
 		mRecorder.release();
 		mRecorder = null;
-
+		
 		File file = new File(mFileName);
 		if (mCancel) {
 			// delete the file
 			file.delete();
 		} else {
 			// send the file
-			((ChatRoomActivity) mContext).sendSound(file);
+			((ChatRoomActivity) mContext).sendSound(file,diffMinute,diffSecond);
 		}
 
 	}
@@ -98,18 +112,15 @@ public class SoundRecorder {
 		public boolean onTouch(View v, MotionEvent event) {
 			// TODO Auto-generated method stub
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				System.out.println("ACTION_DOWN  ");
 				mCancel = false;
 				onRecord(mStartRecording);
 				mStartRecording = !mStartRecording;
 			}
 			if (event.getAction() == MotionEvent.ACTION_UP) {
-				System.out.println("ACTION_UP  ");
 				onRecord(mStartRecording);
 				mStartRecording = !mStartRecording;
 			}
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
-				System.out.println("ACTION_MOVE  ");
 				int size = event.getHistorySize();
 				if (size > 0) {
 					float pastY = event.getHistoricalY(0);
