@@ -13,9 +13,9 @@ public class Constants {
 	// server ip and ip
 //	public final static String SERVER_IP = "192.168.1.8";
 //	public final static String SERVICE = "Smack";
-	public final static String SERVER_IP = "talk.google.com";
-	public final static String SERVICE = "gmail.com";
-	public final static int SERVER_PORT = 5222;
+	public static String SERVER_IP = "talk.google.com";
+	public static String SERVICE = "gmail.com";
+	public static int SERVER_PORT = 5222;
 
 	//
 	public final static String ONLINE = "online";
