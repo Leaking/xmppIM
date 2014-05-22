@@ -628,7 +628,7 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 											
 											Intent intent = new Intent();
 											intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
-											ChildLongClickFragment.this
+											ContactsFragment.this
 													.getActivity()
 													.sendBroadcast(intent);
 											ChildLongClickFragment.this

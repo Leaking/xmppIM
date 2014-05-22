@@ -112,4 +112,6 @@ public interface Smack extends Serializable {
 	public void addBubbleList(String jid,ArrayList<BubbleMessage> bubbleList);
 	public HashMap<String,ArrayList<BubbleMessage>> getBubbleMap();
 	public ArrayList<BubbleMessage> getBubbleList(String jid);
+	public void setServerMode(String mode);
+	public String getServerMode();
 }

@@ -103,7 +103,6 @@ public class MessageService extends Service {
 		// get offline message timestamp
 		Date date;
 		date = inf.getStamp();
-		L.i("offline message time " + date.toString());
 		return TimeUtil.getCertainTime2String(date);
 	}
 		
@@ -115,8 +114,6 @@ public class MessageService extends Service {
 
 			while (it.hasNext()) {
 				Message message = it.next();
-				L.i("offline message from " + message.getFrom());
-				L.i("offline message body " + message.getBody());
 									
 				String msgTime = getOffLineMsgTime(message);
 				String fromJID = ValueUtil.deleteSth(message.getFrom(), "");

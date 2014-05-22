@@ -9,8 +9,10 @@
     <string name="OpenfireIpHint">Openfire Server IP</string>
     <string name="login">Login</string>
     <string name="SignUp">Sign up</string>
-    <string name="supportIntro">This software support Google Talk and Openfire
+    <string name="supportIntro">This app support Google Talk and Openfire
         ,You should choose one of them to connect.</string>
+    <string name="signUpIntro">Currently,This app only support siging up to the Openfire </string>
+
     <string name="swipeToLearnMore">swipe to learn more ></string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -38,5 +40,6 @@
     <string name="title_activity_file_sender">FileSenderActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_server_setting">ServerSettingActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>

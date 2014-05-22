@@ -16,6 +16,9 @@ public class Constants {
 	public static String SERVER_IP = "talk.google.com";
 	public static String SERVICE = "gmail.com";
 	public static int SERVER_PORT = 5222;
+	public static String MODE_GTALK = "goolge talk";
+	public static String MODE_OPENFIRE = "Openfire";
+
 
 	//
 	public final static String ONLINE = "online";

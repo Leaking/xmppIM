@@ -72,6 +72,10 @@
             android:name="com.XMPP.ServerSettingActivity"
             android:label="@string/title_activity_server_setting" >
         </activity>
+        <activity
+            android:name="com.XMPP.Activity.Launcher.SignInActivity"
+            android:label="@string/title_activity_sign_in" >
+        </activity>
     </application>
 
 </manifest>

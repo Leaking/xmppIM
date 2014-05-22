@@ -26,6 +26,7 @@ import com.XMPP.Service.ContactsService;
 import com.XMPP.Service.MessageService;
 import com.XMPP.Service.ReconnectService;
 import com.XMPP.smack.ConnectionHandler;
+import com.XMPP.smack.GoogleTalkUtil;
 import com.XMPP.smack.Smack;
 import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
@@ -148,6 +149,10 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 							case Constants.LOGIN_SUCCESS:
 								loading.dismiss();
 								startAllServices();
+								if(smack.getServerMode().equals(Constants.MODE_GTALK)){
+									GoogleTalkUtil gTalkUtil = new GoogleTalkUtil();
+									gTalkUtil.setUpGroup();					
+								}
 								Intent intent = new Intent(LoginActivity.this,
 										MainviewActivity.class);
 								//T.mToast(LoginActivity.this, "successfully");

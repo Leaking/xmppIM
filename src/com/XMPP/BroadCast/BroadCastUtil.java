@@ -10,6 +10,7 @@ public class BroadCastUtil {
 
 	public static final String ACTION_FRESH_CHATROOM_LISTVIEW = "fresh_chatrome_listview";
 	public static final String ACTION_FRESH_CHATTING_LISTVIEW = "fresh_chatting_listview";
+	
 	public static final String ACTION_RECONNECT_RECONNECT = "reconnect_successfully";
 	public static void sendBroadCastChatroom(Context context){
 		Intent intent = new Intent();

@@ -38,6 +38,7 @@
     
     <!-- round corner dip -->
     <dimen name="roundangle">10dp</dimen>
+    <dimen name="roundangle_big">15dp</dimen>
     <dimen name="itemHeight">50dp</dimen>
     
 </resources>

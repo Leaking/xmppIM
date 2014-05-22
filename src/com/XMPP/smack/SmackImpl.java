@@ -27,6 +27,7 @@ public class SmackImpl implements Smack {
 
 	private static volatile SmackImpl INSTANCE = null;
 
+	private String server_mode = Constants.MODE_OPENFIRE;
 	private String username;
 	private String password;
 	private boolean isConnect;
@@ -37,7 +38,12 @@ public class SmackImpl implements Smack {
 	private SmackImpl() {
 
 	}
-
+	public void setServerMode(String mode){
+		this.server_mode = mode;
+	}
+	public String getServerMode(){
+		return this.server_mode;
+	}
 	// thread safe and performance promote
 	public static SmackImpl getInstance() {
 		if (INSTANCE == null) {

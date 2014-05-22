@@ -24,6 +24,7 @@ public class StartFragment extends Fragment{
 		signUpButton = (Button) rootView.findViewById(R.id.Login_SignUpButton);
 		loginListener = new LoginListener(this.getActivity());
 		regist(loginButton);
+		regist(signUpButton);
 
 		return rootView;
 	}
