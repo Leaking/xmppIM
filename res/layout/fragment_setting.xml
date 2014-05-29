@@ -51,7 +51,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="分享" />
+                    android:text="Profile" />
 
                 <ImageView
                     android:id="@+id/profile_arrow"
@@ -80,7 +80,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Background Theme" />
 
                 <ImageView
                     android:id="@+id/theme_arrow"
@@ -109,7 +109,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="分享" />
+                    android:text="Chatroom Background" />
 
                 <ImageView
                     android:id="@+id/bubblelist_theme_arrow"
@@ -136,7 +136,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Bubble Theme" />
 
                 <ImageView
                     android:id="@+id/bubble_arrow"
@@ -164,7 +164,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Font" />
 
                 <ImageView
                     android:id="@+id/font_arrow"
@@ -193,7 +193,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="分享" />
+                    android:text="File Path" />
 
                 <ImageView
                     android:id="@+id/file_arrow"
@@ -220,7 +220,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Sound Path" />
 
                 <ImageView
                     android:id="@+id/sound_arrow"
@@ -247,7 +247,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Message Switch" />
 
                 <ImageView
                     android:id="@+id/message_arrow"
@@ -275,7 +275,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Warn" />
 
                 <ImageView
                     android:id="@+id/warm_arrow"
@@ -304,7 +304,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="About" />
 
                 <ImageView
                     android:id="@+id/about_arrow"
@@ -332,7 +332,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Log Out" />
 
                 <ImageView
                     android:id="@+id/logout_arrow"
@@ -361,7 +361,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="sdfsdf" />
+                    android:text="Exit" />
 
                 <ImageView
                     android:id="@+id/exit_arrow"

@@ -24,10 +24,11 @@ public class SettingItemOnTouchListener implements OnTouchListener {
 		// TODO Auto-generated method stub
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			view.setBackgroundResource(pressResID);
+			return true;
 		} else {
 			view.setBackgroundResource(defaultResID);
 		}
-		return true;
+		return false;
 	}
 
 }

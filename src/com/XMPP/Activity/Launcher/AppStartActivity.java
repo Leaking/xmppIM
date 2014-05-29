@@ -182,8 +182,10 @@ public class AppStartActivity extends FragmentActivity implements
 				return new More_NetWorkSettingFragment();
 			} else if (position == 2)
 				return new LearnMoreFragment_B();
-			else
+			else if(position == 3)
 				return new LearnMoreFragment_C();
+			else 
+				return new LearnMoreFragment_D();
 		}
 
 		@Override

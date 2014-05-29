@@ -1,19 +1,21 @@
 package com.XMPP.Activity.Mainview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.XMPP.R;
 import com.XMPP.Model.SettingItemOnTouchListener;
 import com.XMPP.smack.Smack;
+import com.XMPP.util.L;
 
 public class SettingFragment extends Fragment {
 	Smack smack;
+
 	int[] ResId = { R.id.relative_1, R.id.relative_2, R.id.relative_3,
 			R.id.relative_4, R.id.relative_5, R.id.relative_6, R.id.relative_7,
 			R.id.relative_8, R.id.relative_9, R.id.relative_10,
@@ -28,6 +30,7 @@ public class SettingFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_setting, container,
 				false);
 		init(view);
+		//setExitButton(view);
 
 		return view;
 	}
@@ -66,6 +69,23 @@ public class SettingFragment extends Fragment {
 			}
 		}
 
+		//setExitButton(view);
 	}
 
+//	public void setExitButton(View view){
+//		View exitView = view.findViewById(R.id.exit_text);
+//		exitView.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				L.i("click exit");
+//				Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(startMain);
+//                System.exit(0);//ÍË³ö³ÌÐò
+//			}
+//		});
+//	}
 }

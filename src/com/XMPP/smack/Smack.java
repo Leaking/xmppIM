@@ -108,7 +108,7 @@ public interface Smack extends Serializable {
 	public FileTransferRequest getRequestList(String u_jid,String filename);
 	
 	public void addRequest(FileTransferRequest request);
-	
+	public String regist(String account, String password);
 	public void addBubbleList(String jid,ArrayList<BubbleMessage> bubbleList);
 	public HashMap<String,ArrayList<BubbleMessage>> getBubbleMap();
 	public ArrayList<BubbleMessage> getBubbleList(String jid);

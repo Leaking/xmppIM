@@ -15,7 +15,7 @@ public class ValueUtil {
 			return entryName;
 		else {
 			name = entryName.substring(0, entryName.indexOf("@"));
-			return entryName;
+			return name;
 		}
 	}
 

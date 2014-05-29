@@ -6,17 +6,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.PacketCollector;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.AndFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketIDFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.Registration;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.packet.VCard;
 
 import com.XMPP.Database.RowContacts;
-import com.XMPP.Database.TableHistory;
 import com.XMPP.Model.BubbleMessage;
 import com.XMPP.util.Constants;
 import com.XMPP.util.L;
@@ -184,7 +191,11 @@ public class SmackImpl implements Smack {
 	@Override
 	public String getNickname(String jid) {
 		String nickname = jid;
+		if(this.getServerMode().equals(Constants.MODE_GTALK)){
+			return getEntry(jid).getName();
+		}
 		VCard vcard = new VCard();
+		
 		try {
 
 			vcard.load(ConnectionHandler.getConnection(), jid);
@@ -505,5 +516,44 @@ public class SmackImpl implements Smack {
 		this.isConnect = isConnect;
 	}
 
-
+	@Override
+	public String regist(String account, String password) {
+		// TODO Auto-generated method stub
+		if (getConnection() == null)  
+            return "0";  
+        Registration reg = new Registration();  
+        reg.setType(IQ.Type.SET);  
+        reg.setTo(getConnection().getServiceName());  
+        // 注意这里createAccount注册时，参数是UserName，不是jid，是"@"前面的部分。  
+        reg.setUsername(account);  
+        reg.setPassword(password);  
+        // 这边addAttribute不能为空，否则出错。所以做个标志是android手机创建的吧！！！！！  
+        reg.addAttribute("android", "geolo_createUser_android");  
+        PacketFilter filter = new AndFilter(new PacketIDFilter(  
+                reg.getPacketID()), new PacketTypeFilter(IQ.class));  
+        PacketCollector collector = getConnection().createPacketCollector(  
+                filter);  
+        getConnection().sendPacket(reg);  
+        IQ result = (IQ) collector.nextResult(SmackConfiguration  
+                .getPacketReplyTimeout());  
+        // Stop queuing results停止请求results（是否成功的结果）  
+        collector.cancel();  
+        if (result == null) {  
+        	//T.mToast(context, content)
+           // Log.e("regist", "No response from server.");  
+            return "0";  
+        } else if (result.getType() == IQ.Type.RESULT) {  
+           // Log.v("regist", "regist success.");  
+            return "1";  
+        } else { // if (result.getType() == IQ.Type.ERROR)  
+            if (result.getError().toString().equalsIgnoreCase("conflict(409)")) {  
+               // Log.e("regist", "IQ.Type.ERROR: "  
+                       // + result.getError().toString());  
+                return "2";  
+            } else {  
+                //Log.e("regist", "IQ.Type.ERROR: "  
+                return "3";  
+            }  
+        }  
+	}
 }

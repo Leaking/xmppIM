@@ -71,7 +71,8 @@ public class More_NetWorkSettingFragment extends Fragment {
 				fadeAway(ipText);
 				Constants.SERVER_IP = GTALK_SERVER;
 				Constants.SERVICE = GTALK_SERVICE;
-				
+				smack.setServerMode(Constants.MODE_GTALK);
+
 			}
 		});
 
@@ -85,7 +86,7 @@ public class More_NetWorkSettingFragment extends Fragment {
 				gTalkImage.setBackground(null);
 				showUp(ipText);
 				Constants.SERVICE = OPENFIRE_SERVICE;
-
+				smack.setServerMode(Constants.MODE_OPENFIRE);
 			}
 		});
 		ipText.addTextChangedListener(new TextWatcher() {

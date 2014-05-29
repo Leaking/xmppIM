@@ -11,8 +11,10 @@
     <string name="SignUp">Sign up</string>
     <string name="supportIntro">This app support Google Talk and Openfire
         ,You should choose one of them to connect.</string>
+    <string name="xmppIntro">This app is based on XMPP protocol,which is a communications protocol for message-oriented middleware based on XML</string>
+    <string name="chatIntro">You can send text and emotion to your friend</string>
+   	<string name="sendFileIntro">You can send and receive file and voice</string>
     <string name="signUpIntro">Currently,This app only support siging up to the Openfire </string>
-
     <string name="swipeToLearnMore">swipe to learn more ></string>
     <string name="email">Email</string>
     <string name="password">Password</string>

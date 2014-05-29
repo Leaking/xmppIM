@@ -422,8 +422,11 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					smack.subscribed(requestJID);
 					smack.addEntry(requestJID, groupName);
 					// smack.subscribe(requestJID);
-					expandAdapter = new mBaseExpandableListAdapter();
-					expandableListView.setAdapter(expandAdapter);
+					
+					Intent intent = new Intent();
+					intent.setAction(ContactsFragment.UPDATE_LIST_ACTION);
+					SubscribedFragment.this.getActivity()
+							.sendBroadcast(intent);
 					SubscribedFragment.this.dismiss();
 				}
 			}).start();

@@ -1,7 +1,7 @@
 package com.XMPP.Activity.Launcher;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -10,17 +10,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.XMPP.R;
+import com.XMPP.smack.Smack;
+import com.XMPP.smack.SmackImpl;
 import com.XMPP.util.Constants;
+import com.XMPP.util.L;
+import com.XMPP.util.LoadingDialog;
+import com.XMPP.util.T;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 
-public class SignUpActivity extends Activity implements OnClickListener {
+public class SignUpActivity extends FragmentActivity implements OnClickListener {
 
 	EditText username;
 	EditText password;
 	EditText repeat_psw;
 	Button cancelBtn;
 	Button okBtn;
+	Smack smack;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,18 +35,19 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_sign_up);
 		initUI();
 		setWidget();
+		smack = SmackImpl.getInstance();
 		okBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 	}
-	
-	
-	public void setWidget(){
+
+	public void setWidget() {
 		username = (EditText) findViewById(R.id.username_edit);
 		password = (EditText) findViewById(R.id.password_edit);
 		repeat_psw = (EditText) findViewById(R.id.re_password_edit);
 		cancelBtn = (Button) findViewById(R.id.cancel_signUp);
 		okBtn = (Button) findViewById(R.id.sure_signUp);
 	}
+
 	public void initUI() {
 		ImageView image_user = (ImageView) findViewById(R.id.user_icon);
 		ImageView image_psw = (ImageView) findViewById(R.id.psw_icon);
@@ -62,12 +70,65 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		image_re_psw.setBackground(iconDraw_re_psw);
 	}
 
-
-	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
+		if (v.getId() == R.id.sure_signUp) {
+			final String usernameStr = username.getText().toString();
+			final String passwordStr = password.getText().toString();
+			String repeatPswStr = repeat_psw.getText().toString();
+			if (usernameStr.length() == 0 || passwordStr.length() == 0
+					|| repeatPswStr.length() == 0) {
+				T.mToast(this, "please iput essential info");
+			}
+			if (passwordStr.equals(repeatPswStr) == false) {
+				T.mToast(this, "please check the password");
+			} else {
+				final LoadingDialog loading = new LoadingDialog(
+						SignUpActivity.this, "sign in,,");
+				loading.show(SignUpActivity.this.getSupportFragmentManager(),
+						"tag");
+				loading.setCancelable(false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						L.i(Constants.SERVICE + " sign in "
+								+ Constants.SERVER_IP + " "
+								+ Constants.SERVER_PORT);
+						smack.connect(Constants.SERVER_IP,
+								Constants.SERVER_PORT, Constants.SERVICE);
+
+						final String result = smack.regist(usernameStr, passwordStr);
+						L.i("sign in " + result);
+						runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								loading.dismiss();
+								if(result.equals("0"))
+									T.mToast(SignUpActivity.this, "Error");
+								if(result.equals("1"))
+									T.mToast(SignUpActivity.this,
+											"Sign in successfully");
+								if(result.equals("2"))
+									T.mToast(SignUpActivity.this, "This user exists");
+								if(result.equals("3"))
+									T.mToast(SignUpActivity.this, "Error");
+							}
+						});
+						
+									
+					}
+				}).start();
+
+			}
+
+		} else {
+			finish();
+		}
 	}
 
 }

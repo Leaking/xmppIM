@@ -44,7 +44,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 	private Timer mTimer;
 	private LoadingDialog loading;
 	private MTimerTask mTask;
-	private final static Long DELAY_CONNECT = 20 * 1000L;  // n second;
+	private final static Long DELAY_CONNECT = 40 * 1000L;  // n second;
 	ReconnectReceiver mReceiver;
 	IntentFilter filter;
 
