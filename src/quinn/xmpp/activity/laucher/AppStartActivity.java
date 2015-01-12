@@ -27,7 +27,7 @@ import com.XMPP.R.color;
 public class AppStartActivity extends FragmentActivity implements
 		OnPageChangeListener {
 
-	// viewPager�а��page������.testtest
+	// viewPager�а��page������.testtest 222
 	private static final int NUM_PAGES = 5;
 	// viewPager
 	private ViewPager mPager;
