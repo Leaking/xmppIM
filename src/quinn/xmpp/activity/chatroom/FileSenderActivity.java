@@ -4,11 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import quinn.xmpp.R;
 import quinn.xmpp.smack.Smack;
 import quinn.xmpp.smack.SmackImpl;
 import quinn.xmpp.utils.Constants;
-import quinn.xmpp.utils.T;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;

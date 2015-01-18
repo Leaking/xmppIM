@@ -1,7 +1,5 @@
 package quinn.xmpp.model;
 
-import com.XMPP.R;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;

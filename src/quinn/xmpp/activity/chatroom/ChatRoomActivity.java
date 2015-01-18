@@ -2,7 +2,6 @@ package quinn.xmpp.activity.chatroom;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -14,6 +13,7 @@ import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
+import quinn.xmpp.R;
 import quinn.xmpp.activity.mainview.ChattingFragment;
 import quinn.xmpp.activity.mainview.MainviewActivity;
 import quinn.xmpp.broadcast.BroadCastUtil;
@@ -34,7 +34,6 @@ import quinn.xmpp.utils.SystemUtil;
 import quinn.xmpp.utils.T;
 import quinn.xmpp.utils.TimeUtil;
 import quinn.xmpp.utils.ValueUtil;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -64,7 +63,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;

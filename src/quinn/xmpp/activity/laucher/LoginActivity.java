@@ -3,6 +3,7 @@ package quinn.xmpp.activity.laucher;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import quinn.xmpp.R;
 import quinn.xmpp.activity.mainview.MainviewActivity;
 import quinn.xmpp.broadcast.BroadCastUtil;
 import quinn.xmpp.service.ContactsService;
@@ -16,7 +17,6 @@ import quinn.xmpp.utils.Constants;
 import quinn.xmpp.utils.L;
 import quinn.xmpp.utils.LoadingDialog;
 import quinn.xmpp.utils.T;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,15 +25,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater.Filter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.XMPP.R;
 
 public class LoginActivity extends FragmentActivity implements OnClickListener {
 

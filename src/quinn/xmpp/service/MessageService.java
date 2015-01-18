@@ -1,6 +1,5 @@
 package quinn.xmpp.service;
 
-import java.io.File;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -15,12 +14,10 @@ import org.jivesoftware.smackx.OfflineMessageManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
-import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 import org.jivesoftware.smackx.packet.DelayInformation;
 
+import quinn.xmpp.R;
 import quinn.xmpp.activity.chatroom.AsyncTaskContants;
-import quinn.xmpp.activity.chatroom.ChatRoomActivity;
-import quinn.xmpp.activity.chatroom.FileReceiveAsyncTask;
 import quinn.xmpp.activity.chatroom.SoundReceiveAsyncTask;
 import quinn.xmpp.activity.mainview.ChattingFragment;
 import quinn.xmpp.activity.mainview.MainviewActivity;
@@ -39,7 +36,6 @@ import quinn.xmpp.utils.L;
 import quinn.xmpp.utils.MessageType;
 import quinn.xmpp.utils.TimeUtil;
 import quinn.xmpp.utils.ValueUtil;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -50,11 +46,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
-import android.renderscript.Sampler.Value;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-
-import com.XMPP.R;
 
 public class MessageService extends Service {
 

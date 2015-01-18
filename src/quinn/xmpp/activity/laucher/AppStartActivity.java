@@ -3,10 +3,12 @@ package quinn.xmpp.activity.laucher;
 import java.util.ArrayList;
 import java.util.List;
 
+import quinn.xmpp.R;
+import quinn.xmpp.R.color;
+import quinn.xmpp.activity.common.BaseActivity;
 import quinn.xmpp.utils.StatusBarUtil;
-
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -21,10 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.XMPP.R;
-import com.XMPP.R.color;
-
-public class AppStartActivity extends FragmentActivity implements
+public class AppStartActivity extends BaseActivity implements
 		OnPageChangeListener {
 
 	// viewPager�а��page������.testtest 222

@@ -1,5 +1,6 @@
 package quinn.xmpp.activity.laucher;
 
+import quinn.xmpp.R;
 import quinn.xmpp.smack.Smack;
 import quinn.xmpp.smack.SmackImpl;
 import quinn.xmpp.utils.Constants;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 

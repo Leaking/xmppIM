@@ -10,13 +10,13 @@ import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
+import quinn.xmpp.R;
 import quinn.xmpp.activity.chatroom.ChatRoomActivity;
 import quinn.xmpp.database.RowContacts;
 import quinn.xmpp.database.TableChatting;
 import quinn.xmpp.model.ViewEntry;
 import quinn.xmpp.model.ViewRoster;
 import quinn.xmpp.model.ViewXMPPGroup;
-import quinn.xmpp.service.ContactsService;
 import quinn.xmpp.smack.ConnectionHandler;
 import quinn.xmpp.smack.Smack;
 import quinn.xmpp.smack.SmackImpl;
@@ -25,7 +25,6 @@ import quinn.xmpp.utils.Constants;
 import quinn.xmpp.utils.L;
 import quinn.xmpp.utils.T;
 import quinn.xmpp.utils.ValueUtil;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -36,7 +35,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -60,7 +58,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
@@ -242,11 +239,11 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 			if (!isExpanded) {
 				iconicFontDrawable.setIcon(EntypoIcon.CHEVRON_THIN_RIGHT);
 				iconicFontDrawable.setIconColor(getResources().getColor(
-						com.XMPP.R.color.group_arrow_closed));
+						R.color.group_arrow_closed));
 			} else {
 				iconicFontDrawable.setIcon(EntypoIcon.CHEVRON_THIN_DOWN);
 				iconicFontDrawable.setIconColor(getResources().getColor(
-						com.XMPP.R.color.group_arrow_open));
+						R.color.group_arrow_open));
 			}
 			arrowImage.setBackground(iconicFontDrawable);
 
@@ -354,14 +351,14 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable.setIcon(IconicIcon.PLUS);
 			iconicFontDrawable.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_blue));
+					R.color.pocket_blue));
 			addGroup.setBackground(iconicFontDrawable);
 
 			IconicFontDrawable iconicFontDrawable_2 = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_red));
+					R.color.pocket_red));
 			reject.setBackground(iconicFontDrawable_2);
 
 			list = (ListView) view.findViewById(R.id.group);
@@ -459,14 +456,14 @@ public class ContactsFragment extends Fragment implements OnClickListener,
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable.setIcon(IconicIcon.PLUS);
 			iconicFontDrawable.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_blue));
+					R.color.pocket_blue));
 			addGroup.setBackground(iconicFontDrawable);
 
 			IconicFontDrawable iconicFontDrawable_2 = new IconicFontDrawable(
 					ContactsFragment.this.getActivity());
 			iconicFontDrawable_2.setIcon(IconicIcon.CANCEL);
 			iconicFontDrawable_2.setIconColor(getResources().getColor(
-					com.XMPP.R.color.pocket_red));
+					R.color.pocket_red));
 			reject.setBackground(iconicFontDrawable_2);
 
 			list = (ListView) view.findViewById(R.id.group);

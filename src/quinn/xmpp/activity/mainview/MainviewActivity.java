@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterGroup;
 
+import quinn.xmpp.R;
 import quinn.xmpp.database.XMPPSQLiteOpenHelper;
 import quinn.xmpp.service.MyApplication;
 import quinn.xmpp.utils.L;
-
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -24,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 

@@ -1,7 +1,6 @@
 package quinn.xmpp.activity.laucher;
 
-import com.XMPP.R;
-
+import quinn.xmpp.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;

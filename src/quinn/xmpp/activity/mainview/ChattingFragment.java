@@ -2,15 +2,14 @@ package quinn.xmpp.activity.mainview;
 
 import java.util.ArrayList;
 
+import quinn.xmpp.R;
 import quinn.xmpp.activity.chatroom.ChatRoomActivity;
 import quinn.xmpp.database.RowChatting;
 import quinn.xmpp.database.TableChatting;
-import quinn.xmpp.model.ViewRoster;
 import quinn.xmpp.smack.Smack;
 import quinn.xmpp.smack.SmackImpl;
 import quinn.xmpp.utils.CircleImage;
 import quinn.xmpp.utils.L;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,8 +27,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.XMPP.R;
 
 public class ChattingFragment extends Fragment implements OnItemClickListener {
 

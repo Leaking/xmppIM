@@ -1,18 +1,15 @@
 package quinn.xmpp.utils;
 
-import android.app.Activity;
+import quinn.xmpp.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebView.FindListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.XMPP.R;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 
