@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    
+    <color name="actionbar_background_top">#6E6E6E</color>
+    <color name="actionbar_background_bottom">#181818</color>
+    <color name="actionbar_background_end">#282828</color>
+    <color name="actionbar_background_start">#515252</color>
+    <color name="window_color">#F9F9F9</color>
+    
+    
     <color name="commom_gray">#eeeeef</color>
     <color name="commom_light_gray">#eeeee1</color>
     <color name="common_red">#ffee4256</color>

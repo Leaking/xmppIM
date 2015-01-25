@@ -1,209 +1,73 @@
 package quinn.xmpp.activity.laucher;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import quinn.xmpp.R;
-import quinn.xmpp.activity.mainview.MainviewActivity;
-import quinn.xmpp.broadcast.BroadCastUtil;
-import quinn.xmpp.service.ContactsService;
-import quinn.xmpp.service.MessageService;
-import quinn.xmpp.service.ReconnectService;
-import quinn.xmpp.smack.ConnectionHandler;
-import quinn.xmpp.smack.GoogleTalkUtil;
-import quinn.xmpp.smack.Smack;
-import quinn.xmpp.smack.SmackImpl;
-import quinn.xmpp.utils.Constants;
-import quinn.xmpp.utils.L;
-import quinn.xmpp.utils.LoadingDialog;
-import quinn.xmpp.utils.T;
-import android.content.BroadcastReceiver;
+import quinn.xmpp.activity.common.BaseActivity;
+import quinn.xmpp.widget.CleanableEditText;
+import quinn.xmpp.widget.ClearableAutoCompleteTextView;
+import quinn.xmpp.widget.TextWatcherAdapter;
+import quinn.xmpp.widget.TextWatcherCallBack;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-public class LoginActivity extends FragmentActivity implements OnClickListener {
+/**
+ * µÇÂ½½çÃæ
+ * 
+ * @author Quinn
+ * @date 2015-1-24
+ */
+public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 
-	private String username;
-	private String password;
-	private TextView submitLogin;
-	private TextView forget;
-	private Smack smack;
-	private Timer mTimer;
-	private LoadingDialog loading;
-	private MTimerTask mTask;
-	private final static Long DELAY_CONNECT = 40 * 1000L;  // n second;
-	ReconnectReceiver mReceiver;
-	IntentFilter filter;
+	private ClearableAutoCompleteTextView account;
+	private CleanableEditText password;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_login);
-		init();
-	}
-
-	public void init() {
-		smack = SmackImpl.getInstance();
-		submitLogin = (TextView) findViewById(R.id.submitLogin);
-		forget = (TextView) findViewById(R.id.forget);
-		submitLogin.setOnClickListener(this);
-		
-		
-		
-		mReceiver = new ReconnectReceiver();
-		filter = new IntentFilter();
-		filter.addAction(BroadCastUtil.ACTION_RECONNECT_RECONNECT);
-		registerReceiver(mReceiver, filter);
-		
-		
-	}
-
-	public void startAllServices() {
-		Intent contacts_intent = new Intent(this, ContactsService.class);
-		this.startService(contacts_intent);
-
-		Intent message_intent = new Intent(this, MessageService.class);
-		this.startService(message_intent);
-
-		Intent reconnect_intent = new Intent(this, ReconnectService.class);
-		this.startService(reconnect_intent);
-
-	}
-	
-	class MTimerTask extends TimerTask {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			handleProgress.sendEmptyMessage(0);
-		}
-
-	}
-
-	Handler handleProgress = new Handler() {
-		public void handleMessage(Message msg) {
-			loading.dismiss();
-			mTask = null;
-			T.mToast(LoginActivity.this, "Internet doesn't  works");
-		};
-	};
-
-	@Override
-	public void onClick(View v) {
+	protected void onCreate(Bundle bundle) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.submitLogin:
-			username = ((EditText) findViewById(R.id.username)).getText()
-					.toString();
-			password = ((EditText) findViewById(R.id.password)).getText()
-					.toString();
-			smack.setPassword(password);
-			smack.setUsername(username);
-			loading = new LoadingDialog(LoginActivity.this,"logging");
-			loading.show(LoginActivity.this.getSupportFragmentManager(), "tag");
-			loading.setCancelable(false);
+		super.onCreate(bundle);
+		setContentView(R.layout.activity_login);
+		account = (ClearableAutoCompleteTextView) findViewById(R.id.et_account);
+		password = (CleanableEditText) findViewById(R.id.et_password);
 
-			if (mTask != null) {
-				mTask.cancel();
-				mTask = null;
+	}
 
-			}
-			if (mTimer != null) {
-				mTimer.cancel();
-				mTimer = null;
-			}
-			mTimer = new Timer();
-			mTask = new MTimerTask();
-			mTimer.schedule(mTask, DELAY_CONNECT);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					// this thread isn't suit to placed here ,it should be
-					// placed in the login onclick
-
-					smack.connect(Constants.SERVER_IP, Constants.SERVER_PORT,Constants.SERVICE);
-					final int login_result = smack.login(username, password);
-					L.i("user if authenticated "
-							+ ConnectionHandler.getConnection()
-									.isAuthenticated());
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							mTimer.cancel();
-							switch (login_result) {
-							case Constants.LOGIN_SUCCESS:
-								loading.dismiss();
-								startAllServices();
-								if(smack.getServerMode().equals(Constants.MODE_GTALK)){
-									GoogleTalkUtil gTalkUtil = new GoogleTalkUtil();
-									gTalkUtil.setUpGroup();					
-								}
-								Intent intent = new Intent(LoginActivity.this,
-										MainviewActivity.class);
-								//T.mToast(LoginActivity.this, "successfully");
-								LoginActivity.this.startActivity(intent);
-								smack.setConnect(true);
-								break;
-							case Constants.LOGIN_CONNECT_FAIL:
-								loading.dismiss();	
-								Toast.makeText(
-										getApplicationContext(),
-										getResources().getString(
-												R.string.connect_fail),
-										Toast.LENGTH_SHORT).show();
-								break;
-							case Constants.LOGIN_USERNAME_PSW_ERROR:
-								loading.dismiss();
-								Toast.makeText(
-										getApplicationContext(),
-										getResources().getString(
-												R.string.name_psw_wrong),
-										Toast.LENGTH_SHORT).show();
-							}
-						}
-					});
-				}
-			}).start();
-			break;
-
-		case R.id.forget:
-			break;
-		}
+	private void updateEnablement() {
 
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		// TODO Auto-generated method stub
+		return super.onCreateView(name, context, attrs);
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.login, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
-	class ReconnectReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Intent contacts_intent = new Intent(LoginActivity.this, ContactsService.class);
-			LoginActivity.this.startService(contacts_intent);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
 
-			Intent message_intent = new Intent(LoginActivity.this, MessageService.class);
-			LoginActivity.this.startService(message_intent);
+		default:
+			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void handleMoreTextChanged() {
+		updateEnablement();
 	}
 }
