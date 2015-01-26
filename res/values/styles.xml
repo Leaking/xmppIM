@@ -3,12 +3,14 @@
     <style name="Global">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="Login_Button">
-        <item name="android:textSize">16.0dip</item>
-        <item name="android:layout_width">250.5dip</item>
-        <item name="android:layout_height">50.5dip</item>
+    <style name="LargeButton" parent="Global">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dip</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:background">@drawable/largebtn_background</item>
     </style>
 
     <style name="LoginEditText" parent="Global">
@@ -16,9 +18,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:autoText">false</item>
         <item name="android:capitalize">none</item>
-        <item name="android:drawablePadding">5dip</item>        <item name="android:scrollHorizontally">true</item>
+        <item name="android:drawablePadding">5dip</item>
+        <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

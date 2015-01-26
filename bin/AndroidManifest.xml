@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="quinn.xmpp"
+    package="com.quinn.xmpp"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -15,27 +15,21 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name="quinn.xmpp.service.MyApplication"
+        android:name="com.quinn.xmpp.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.zChat" >
+       
         <activity
-            android:name="quinn.xmpp.activity.laucher.AppStartActivity"
-            android:label="@string/appTitle" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.laucher.LoginActivity"
+            android:name="com.quinn.xmpp.ui.launch.LoginActivity"
             android:label="@string/title_activity_login" >
             <intent-filter android:label="@string/app_name" >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="quinn.xmpp.activity.mainview.MainviewActivity"
-            android:label="@string/title_activity_firends_list" >
-        </activity>
+        
 
         <service
             android:name="quinn.xmpp.service.ContactsService"
@@ -50,31 +44,6 @@
             android:enabled="true" >
         </service>
 
-        <activity
-            android:name="com.XMPP.Activity.Chatting.ChattingActivity"
-            android:label="@string/title_activity_chatting" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.chatroom.ChatRoomActivity"
-            android:label="@string/title_activity_chat_room"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.chatroom.FileSenderActivity"
-            android:label="@string/title_activity_file_sender" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.laucher.SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
-        </activity>
-        <activity
-            android:name="com.XMPP.ServerSettingActivity"
-            android:label="@string/title_activity_server_setting" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.laucher.SignInActivity"
-            android:label="@string/title_activity_sign_in" >
-        </activity>
     </application>
 
 </manifest>

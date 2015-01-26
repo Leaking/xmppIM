@@ -7,6 +7,7 @@
     <string name="title_activity_login">Login</string>
     <string name="login_hint_account">account</string>
     <string name="login_hint_password">password</string>
+    <string name="button_text_login">Login</string>
         
     
     

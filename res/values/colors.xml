@@ -7,6 +7,14 @@
     <color name="actionbar_background_end">#282828</color>
     <color name="actionbar_background_start">#515252</color>
     <color name="window_color">#F9F9F9</color>
+    <color name="buttom_normal">#515252</color>
+    <color name="buttom_pressed">#282828</color>
+    <color name="buttom_unable">#77515252</color>
+    <color name="color_white">#ffffff</color>
+    
+    
+    
+    
     
     
     <color name="commom_gray">#eeeeef</color>

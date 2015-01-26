@@ -9,7 +9,7 @@
     android:paddingTop="5dp"
     tools:context=".LoginActivity" >
 
-    <quinn.xmpp.widget.ClearableAutoCompleteTextView
+    <com.quinn.xmpp.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_account"
         style="@style/LoginEditText"
         android:drawableLeft="@drawable/ic_person"
@@ -18,7 +18,7 @@
         android:imeOptions="actionNext"
         android:nextFocusDown="@+id/et_password" />
 
-    <quinn.xmpp.widget.CleanableEditText
+    <com.quinn.xmpp.widget.CleanableEditText
         android:id="@+id/et_password"
         style="@style/LoginEditText"
         android:drawableLeft="@drawable/ic_secure"
@@ -26,5 +26,12 @@
         android:hint="@string/login_hint_password"
         android:imeOptions="actionDone"
         android:inputType="textPassword" />
+    
+    <Button 
+        android:id="@+id/bt_login"
+        android:text="@string/button_text_login"
+        style="@style/LargeButton"
+        android:layout_marginTop="2dip"
+        />
 
 </LinearLayout>

@@ -25,7 +25,7 @@
 
         <LinearLayout
             android:id="@+id/server_google"
-            style="@style/Login_Button"
+            
             android:layout_marginBottom="10dp"
             android:background="@color/common_red"
             android:orientation="horizontal"
@@ -58,7 +58,6 @@
 
         <LinearLayout
             android:id="@+id/server_openfire"
-            style="@style/Login_Button"
             android:layout_marginBottom="10dp"
             android:background="@color/common_red"
             android:orientation="horizontal"
@@ -88,7 +87,7 @@
 
         <EditText
             android:id="@+id/server_ip"
-            style="@style/Login_Button"
+          
             android:text="192.168.191.1"
              />
     </LinearLayout>
