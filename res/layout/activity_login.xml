@@ -9,7 +9,7 @@
     android:paddingTop="5dp"
     tools:context=".LoginActivity" >
 
-    <com.quinn.xmpp.widget.ClearableAutoCompleteTextView
+    <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_account"
         style="@style/LoginEditText"
         android:drawableLeft="@drawable/ic_person"
@@ -18,7 +18,7 @@
         android:imeOptions="actionNext"
         android:nextFocusDown="@+id/et_password" />
 
-    <com.quinn.xmpp.widget.CleanableEditText
+    <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
         style="@style/LoginEditText"
         android:drawableLeft="@drawable/ic_secure"

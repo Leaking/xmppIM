@@ -35,45 +35,43 @@ import org.jivesoftware.smackx.search.UserSearch;
 
 import android.util.Log;
 
-
+/**
+ * 
+ * @author Quinn
+ * @date 2015-1-28
+ */
 public class ConnectionManager {
 	private static XMPPConnection conn = null;
 	
-	public static XMPPConnection getConnection() {
-		return conn;
+	
+	static {
+		//initXmppProviders();
 	}
 	
-	private static void openConnection(String ip, int port, String service) {
+	public static XMPPConnection connect(String ip, int port, String service) {
+		if (conn != null && conn.isConnected() == true) {
+			return conn;
+		}
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
-				port,service);
-				
+				port, service);		
 		connConfig.setReconnectionAllowed(true);		
 		connConfig.setSecurityMode(SecurityMode.required); 
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
-		connConfig.setSendPresence(false);		
-		configureConnection();
+		connConfig.setSendPresence(false);	
+		initXmppProviders();
 		conn = new XMPPConnection(connConfig);
-		reconnect();
-	}
-
-	public static void reconnect() {
 		try {
 			conn.connect();
 		} catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public static XMPPConnection connect(String ip, int port, String service) {
-		if (conn == null || conn.isConnected() == false) {
-			openConnection(ip, port, service);
-		}
 		return conn;
 	}
 
-	public static void configureConnection() {
+	
+	public static void initXmppProviders() {
 
 		ProviderManager pm = ProviderManager.getInstance();
 		// Private Data Storage

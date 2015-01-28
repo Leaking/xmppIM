@@ -16,9 +16,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.quinn.xmpp.R;
-import com.quinn.xmpp.widget.CleanableEditText;
-import com.quinn.xmpp.widget.ClearableAutoCompleteTextView;
-import com.quinn.xmpp.widget.TextWatcherCallBack;
+import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.widget.CleanableEditText;
+import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
+import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
 
 /**
  * 登陆界面
@@ -31,6 +32,8 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 	private ClearableAutoCompleteTextView accountView;
 	private CleanableEditText passwordText;
 	private Button login;
+	private String account;
+	private String password;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -40,10 +43,9 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 		passwordText = (CleanableEditText) findViewById(R.id.et_password);
 		login = (Button) findViewById(R.id.bt_login);
 		accountView.setCallBack(this);
-		passwordText.setCallBack(this);
+		passwordText.setCallBack(this);		
 		updateEnablement();	
 		passwordText.setOnKeyListener(new OnKeyListener() {
-
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
@@ -79,7 +81,11 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 	}
 
 	public void handleLogin(){
-		
+		account = accountView.getText().toString();
+		password = accountView.getText().toString();
+		//不要再主线程访问网络
+//		boolean isConnect = smack.connect("192.168.1.104", 5222, "Smack");
+//		System.out.println("isConnect = " + isConnect);
 	}
 	
 	@Override

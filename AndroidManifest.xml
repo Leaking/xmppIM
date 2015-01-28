@@ -30,7 +30,6 @@
             </intent-filter>
         </activity>
         
-
         <service
             android:name="quinn.xmpp.service.ContactsService"
             android:enabled="true" >
