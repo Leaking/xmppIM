@@ -3,6 +3,7 @@
 
     <string name="app_name">XMPP</string>
     <string name="action_settings">设置</string>
+    <string name="action_new_account">注册</string>
     <string name="title_activity_login">登陆</string>
     <string name="login_hint_account">account</string>
     <string name="login_hint_password">password</string>

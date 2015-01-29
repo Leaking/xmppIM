@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:slideswitch="http://schemas.android.com/apk/res/com.quinn.xmpp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.quinn.xmpp.ui.launch.NetWorkSettingActivity" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_gray"
+        android:paddingTop="@dimen/common_actionbar_marginBottom" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/serverIP"
+                style="@style/SettingItem" >
+
+                <TextView
+                    style="@style/SettingItemLeftTxt"
+                    android:drawableLeft="@drawable/ic_web_site"
+                    android:text="@string/setting_leftTxt_openfireIP" />
+
+                <TextView
+                    style="@style/SettingItemRightTxt"
+                    android:text="192.168.1.101"
+                    android:textColor="@color/grayTxt" />
+            </RelativeLayout>
+
+            <include layout="@layout/horizon_line" 
+                android:paddingLeft="100dip"
+                android:paddingRight="20dip"
+                />
+
+            <RelativeLayout style="@style/SettingItem" >
+
+                <TextView
+                    style="@style/SettingItemLeftTxt"
+                    android:drawableLeft="@drawable/ic_web_site"
+                    android:text="@string/setting_leftTxt_openfireIP" />
+
+                <com.leaking.slideswitch.SlideSwitch
+                    android:id="@+id/switchAutoUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    slideswitch:baseColor="@color/pocket_red"
+                    slideswitch:isOpen="true"
+                    slideswitch:moveColor="@color/color_white"
+                    slideswitch:slideHeight="25dip"
+                    slideswitch:slideWidth="70dip"
+                    slideswitch:stillColor="@color/color_gray" >
+                </com.leaking.slideswitch.SlideSwitch>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

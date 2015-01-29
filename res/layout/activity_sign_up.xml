@@ -1,128 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.quinn.xmpp.ui.launch.SignUpActivity" >
 
-    <LinearLayout
-        android:layout_width="250.5dip"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical" >
+    <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
+        android:id="@+id/et_account"
+        style="@style/LoginEditText"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawableStart="@drawable/ic_person"
+        android:hint="@string/signUp_account"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_password" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_corner_top"
-            android:padding="8dp" >
+    <com.quinn.xmpp.ui.widget.CleanableEditText
+        android:id="@+id/et_password"
+        style="@style/LoginEditText"
+        android:layout_below="@id/et_account"
+        android:drawableLeft="@drawable/ic_secure"
+        android:drawableStart="@drawable/ic_secure"
+        android:hint="@string/signUp_Psw"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:nextFocusDown="@+id/et_repeatPassword" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/signUpIntro" />
-        </LinearLayout>
+    <com.quinn.xmpp.ui.widget.CleanableEditText
+        android:id="@+id/et_repeatPassword"
+        style="@style/LoginEditText"
+        android:layout_below="@id/et_account"
+        android:drawableLeft="@drawable/ic_secure"
+        android:drawableStart="@drawable/ic_secure"
+        android:hint="@string/signUp_repeatPsw"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword" />
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" >
+    <Button
+        android:id="@+id/bt_SignUp"
+        style="@style/LargeButton"
+        android:layout_below="@id/et_repeatPassword"
+        android:layout_marginTop="4dip"
+        android:enabled="false"
+        android:text="@string/button_text_signUp" />
 
-            <EditText
-                android:id="@+id/username_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:hint="Username"
-                android:paddingLeft="30dp"
-                android:paddingRight="10dp"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </EditText>
-
-            <ImageView
-                android:id="@+id/user_icon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left|center_vertical"
-                android:layout_margin="10dp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" >
-
-            <EditText
-                android:id="@+id/password_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:hint="Password"
-                android:paddingLeft="30dp"
-                android:paddingRight="10dp"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </EditText>
-
-            <ImageView
-                android:id="@+id/psw_icon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left|center_vertical"
-                android:layout_margin="10dp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" >
-
-            <EditText
-                android:id="@+id/re_password_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:hint="repeat Passwrod"
-                android:paddingLeft="30dp"
-                android:paddingRight="10dp"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </EditText>
-
-            <ImageView
-                android:id="@+id/re_psw_icon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left|center_vertical"
-                android:layout_margin="10dp" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/cancel_signUp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/round_corner_buttom_left"
-                android:text="back" />
-
-            <Button
-                android:id="@+id/sure_signUp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_corner_buttom_right"
-                android:text="ok"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

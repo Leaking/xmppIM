@@ -1,12 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="5dp"
+    android:paddingTop="@dimen/common_actionbar_marginBottom"
     tools:context=".LoginActivity" >
 
     <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
@@ -20,6 +18,7 @@
 
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
+        android:layout_below="@id/et_account"
         style="@style/LoginEditText"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
@@ -29,9 +28,15 @@
     
     <Button 
         android:id="@+id/bt_login"
+                android:layout_below="@id/et_password"
+        
         android:text="@string/button_text_login"
         style="@style/LargeButton"
-        android:layout_marginTop="2dip"
+        android:layout_marginTop="4dip"
         />
 
-</LinearLayout>
+    
+
+    
+    
+</RelativeLayout>

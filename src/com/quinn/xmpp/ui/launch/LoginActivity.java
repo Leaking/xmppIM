@@ -3,6 +3,7 @@ package com.quinn.xmpp.ui.launch;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -99,8 +100,18 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-
+		int id = item.getItemId();
+		switch (id) {
+		case R.id.action_settings:{
+			Intent intent = NetWorkSettingActivity.createIntent();
+			startActivity(intent);
+			return true;
+		}
+		case R.id.action_newAccount:{
+			Intent intent = SignUpActivity.createIntent();
+			startActivity(intent);
+			return true;
+		}
 		default:
 			return super.onOptionsItemSelected(item);
 		}

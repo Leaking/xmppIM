@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,21 +15,32 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name="com.quinn.xmpp.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.zChat" >
-       
         <activity
-            android:name="com.quinn.xmpp.ui.launch.LoginActivity"
+            android:name=".ui.launch.LoginActivity"
             android:label="@string/title_activity_login" >
-            <intent-filter android:label="@string/app_name" >
+
+            <!-- android:label="@string/app_name" -->
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name=".ui.launch.NetWorkSettingActivity"
+            android:label="@string/title_activity_net_work_setting"
+            android:parentActivityName=".ui.launch.LoginActivity" >
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.launch.setting.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name="quinn.xmpp.service.ContactsService"
@@ -44,6 +55,16 @@
             android:enabled="true" >
         </service>
 
+        <activity
+            android:name="com.quinn.xmpp.ui.launch.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".ui.launch.LoginActivity" >
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.launch.SignUp.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

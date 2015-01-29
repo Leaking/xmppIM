@@ -59,6 +59,7 @@ public class ConnectionManager {
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
 		connConfig.setSendPresence(false);	
+	
 		initXmppProviders();
 		conn = new XMPPConnection(connConfig);
 		try {

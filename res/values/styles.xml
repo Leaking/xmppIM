@@ -23,4 +23,29 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="SettingItemTxtParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SettingItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:background">@color/color_white</item>
+    </style>
+
+    <style name="SettingItemLeftTxt" parent="SettingItemTxtParent">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">4dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SettingItemRightTxt" parent="SettingItemTxtParent">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
 </resources>

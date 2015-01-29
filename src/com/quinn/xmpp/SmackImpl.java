@@ -1,15 +1,7 @@
 package com.quinn.xmpp;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
 
 /**
