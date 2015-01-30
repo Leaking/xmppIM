@@ -1,31 +1,51 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="Global">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="LargeButton" parent="Global">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dip</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:background">@drawable/largebtn_background</item>
     </style>
 
-    
-
-    <style name="Login_Button">
-        <item name="android:textSize">16.0dip</item>
-        <item name="android:layout_width">250.5dip</item>
-        <item name="android:layout_height">50.5dip</item>        
+    <style name="LoginEditText" parent="Global">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dip</item>
+        <item name="android:autoText">false</item>
+        <item name="android:capitalize">none</item>
+        <item name="android:drawablePadding">5dip</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
     </style>
-    
-  
-    
-    
+
+    <style name="SettingItemTxtParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SettingItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:background">@color/color_white</item>
+    </style>
+
+    <style name="SettingItemLeftTxt" parent="SettingItemTxtParent">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">4dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SettingItemRightTxt" parent="SettingItemTxtParent">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
 </resources>

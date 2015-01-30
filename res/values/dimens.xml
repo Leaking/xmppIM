@@ -1,44 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="startActivityButtonViewHeight">50dp</dimen>
-    <dimen name="startActivityButtonViewMarginButtom">-50dp</dimen>
+   
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_mainview_header">50dp</dimen>
-    <dimen name="activity_mainview_footer">70dp</dimen>
-    <dimen name="activity_mainview_footer_iconHeight">30dp</dimen>
-    <dimen name="activity_mainview_footer_iconWidth">30dp</dimen>
+
+    <dimen name="common_actionbar_marginBottom"> 14dip</dimen>
    
     
-    <dimen name="groupTitleHeight">60dp</dimen>
-    <dimen name="groupTitleLeftFrameWidth">50dp</dimen>
-    <dimen name="groupTitleRightPadding">20dp</dimen>
 
     
-    <!-- about the contactsFragment listview childitem -->
-    <dimen name="groupItemHeight">50dp</dimen>
-    <dimen name="groupItemPhotoSize">40dp</dimen>
-    <dimen name="groupItemPadding">5dp</dimen>
+
     
-    
-    <dimen name="bubbleTTextsizeText">10sp</dimen>
-    <dimen name="bubbleTTextsizeTime">8sp</dimen>
-    
-    <!-- about the chattingFragment listview item -->
-    <dimen name="chattingItemHeight">70dp</dimen>
-    <dimen name="chattingItemPhotoSize">50dp</dimen>
-    <dimen name="chattingItemPadding">5dp</dimen>
-    
-    
-    <!-- file list -->
-    <dimen name="fileListItemHeight">30dp</dimen>
-    <dimen name="fileListItemVericalPadding">5dp</dimen>
-    <dimen name="fileListItemHorizonPadding">8dp</dimen>
-    
-    <!-- round corner dip -->
-    <dimen name="roundangle">10dp</dimen>
-    <dimen name="roundangle_big">15dp</dimen>
-    <dimen name="itemHeight">50dp</dimen>
+
     
 </resources>

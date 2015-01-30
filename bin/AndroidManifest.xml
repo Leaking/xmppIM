@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.XMPP"
+    package="com.quinn.xmpp"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="16"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,14 +15,16 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name="quinn.xmpp.service.MyApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.zChat" >
         <activity
-            android:name="quinn.xmpp.activity.laucher.AppStartActivity"
-            android:label="@string/appTitle" >
+            android:name=".ui.launch.LoginActivity"
+            android:label="@string/title_activity_login" >
+
+            <!-- android:label="@string/app_name" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,12 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="quinn.xmpp.activity.laucher.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.mainview.MainviewActivity"
-            android:label="@string/title_activity_firends_list" >
+            android:name=".ui.launch.NetWorkSettingActivity"
+            android:label="@string/title_activity_net_work_setting"
+            android:parentActivityName=".ui.launch.LoginActivity" >
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.launch.setting.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <service
@@ -52,29 +56,14 @@
         </service>
 
         <activity
-            android:name="com.XMPP.Activity.Chatting.ChattingActivity"
-            android:label="@string/title_activity_chatting" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.chatroom.ChatRoomActivity"
-            android:label="@string/title_activity_chat_room"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.chatroom.FileSenderActivity"
-            android:label="@string/title_activity_file_sender" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.laucher.SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
-        </activity>
-        <activity
-            android:name="com.XMPP.ServerSettingActivity"
-            android:label="@string/title_activity_server_setting" >
-        </activity>
-        <activity
-            android:name="quinn.xmpp.activity.laucher.SignInActivity"
-            android:label="@string/title_activity_sign_in" >
+            android:name="com.quinn.xmpp.ui.launch.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".ui.launch.LoginActivity" >
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.launch.SignUp.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -2,91 +2,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="@dimen/common_actionbar_marginBottom"
     tools:context=".LoginActivity" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical" >
+    <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
+        android:id="@+id/et_account"
+        style="@style/LoginEditText"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawableStart="@drawable/ic_person"
+        android:hint="@string/login_hint_account"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_password" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="center"
-            android:src="@drawable/login_logo" />
+    <com.quinn.xmpp.ui.widget.CleanableEditText
+        android:id="@+id/et_password"
+        android:layout_below="@id/et_account"
+        style="@style/LoginEditText"
+        android:drawableLeft="@drawable/ic_secure"
+        android:drawableStart="@drawable/ic_secure"
+        android:hint="@string/login_hint_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword" />
+    
+    <Button 
+        android:id="@+id/bt_login"
+                android:layout_below="@id/et_password"
+        
+        android:text="@string/button_text_login"
+        style="@style/LargeButton"
+        android:layout_marginTop="4dip"
+        />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="44.5dip"
-            android:layout_marginTop="45.0dip"
-            android:scaleType="center"
-            android:src="@drawable/text_divide" />
+    
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@+id/username"
-                    android:layout_width="250dip"
-                    android:layout_height="50dip"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="14.0dip"
-                    android:fontFamily="sans-serif"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:text="chchenhuazhao@gmail.com" />
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="250dip"
-                    android:layout_height="50dip"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="14.0dip"
-                    android:fontFamily="sans-serif"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:text="3982895898" />
-
-                <TextView
-                    android:id="@+id/submitLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="14.0dip"
-                    android:clickable="true"
-                    android:text="@string/login"
-                    android:textColor="@color/textview_color"
-                    android:textSize="16.0dip" />
-
-                <TextView
-                    android:id="@+id/forget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20.0dip"
-                    android:clickable="true"
-                    android:text="@string/forget"
-                    android:textColor="@color/textview_color"
-                    android:textSize="16.0dip" />
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
-
+    
+    
 </RelativeLayout>

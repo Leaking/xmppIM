@@ -3,45 +3,17 @@
 
     <string name="app_name">XMPP</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_net_work_setting">NetWorkSetting</string>
+    <string name="title_activity_sign_up">Sign up</string>
+    <string name="login_hint_account">account</string>
+    <string name="login_hint_password">password</string>
+    <string name="signUp_account">account</string>
+    <string name="signUp_Psw">password</string>
+    <string name="signUp_repeatPsw">repeat password</string>
+    <string name="button_text_login">Login</string>
+    <string name="button_text_signUp">Sign Up</string>
+    <string name="setting_leftTxt_openfireIP">Openfire IP</string>
     <string name="hello_world">Hello world!</string>
-    <string name="Google_Talk">Google Talk</string>
-    <string name="Openfire">Openfire</string>
-    <string name="OpenfireIpHint">Openfire Server IP</string>
-    <string name="login">Login</string>
-    <string name="SignUp">Sign up</string>
-    <string name="supportIntro">This app support Google Talk and Openfire
-        ,You should choose one of them to connect.</string>
-    <string name="xmppIntro">This app is based on XMPP protocol,which is a communications protocol for message-oriented middleware based on XML</string>
-    <string name="chatIntro">You can send text and emotion to your friend</string>
-   	<string name="sendFileIntro">You can send and receive file and voice</string>
-    <string name="signUpIntro">Currently,This app only support siging up to the Openfire </string>
-    <string name="swipeToLearnMore">swipe to learn more ></string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="forget">Forget your passwrod?</string>
-    <string name="appTitle">XMPP</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_firends_list">FirendsListActivity</string>
-    <string name="connect_fail">connect fail</string>
-    <string name="name_psw_wrong">user or password is wrong</string>
-    <string name="chatting">Message</string>
-    <string name="contacts">Contacts</string>
-    <string name="setting">Setting</string>
-    <string name="select_a_file">Select A File</string>
-    <string name="send_the_file">send </string>
-    <string name="title_activity_chatting">ChattingActivity</string>
-    <string name="ifAccept">Accept ?</string>
-    <string name="accept">if accept, choose a group</string>
-    <string name="create_a_Group_Exit">create a group or reject</string>
-    <string name="addFriend_Group">Add A Friend or Group</string>
-    <string name="addFriend">add a friend</string>
-    <string name="addGroup">create a group or exit</string>
-    <string name="setGroupName">Set Group Name</string>
-    <string name="hint_Input_GroupName">Input GroupName></string>
-    <string name="title_activity_chat_room">ChatRoomActivity</string>
-    <string name="title_activity_file_sender">FileSenderActivity</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
-    <string name="title_activity_server_setting">ServerSettingActivity</string>
-    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>
