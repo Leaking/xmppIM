@@ -14,6 +14,7 @@
         android:drawableStart="@drawable/ic_person"
         android:hint="@string/login_hint_account"
         android:imeOptions="actionNext"
+        android:text="quinn"
         android:nextFocusDown="@+id/et_password" />
 
     <com.quinn.xmpp.ui.widget.CleanableEditText
@@ -24,6 +25,7 @@
         android:drawableStart="@drawable/ic_secure"
         android:hint="@string/login_hint_password"
         android:imeOptions="actionDone"
+        android:text="123456"
         android:inputType="textPassword" />
     
     <Button 

@@ -54,7 +54,7 @@
                     slideswitch:moveColor="@color/color_white"
                     slideswitch:slideHeight="25dip"
                     slideswitch:slideWidth="70dip"
-                    slideswitch:stillColor="@color/color_gray" >
+                    slideswitch:stillColor="@color/actionbar_background_end" >
                 </com.leaking.slideswitch.SlideSwitch>
             </RelativeLayout>
         </LinearLayout>

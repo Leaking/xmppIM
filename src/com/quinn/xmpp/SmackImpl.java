@@ -1,7 +1,9 @@
 package com.quinn.xmpp;
 
+
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
 
 
 /**
@@ -10,8 +12,6 @@ import org.jivesoftware.smack.XMPPException;
  * @date 2015-1-28
  */
 public class SmackImpl implements Smack {
-
-	private static volatile SmackImpl INSTANCE = null;
 
 	private String username;
 	private String password;
@@ -23,12 +23,15 @@ public class SmackImpl implements Smack {
 	@Override
 	public boolean connect(String ip, int port, String service) {
 		xmppConn = ConnectionManager.connect(ip, port, service);
+		//login("quinn", "123456");
 		return xmppConn.isConnected();
 	}
 	@Override
-	public boolean login(String account, String passoword) {
+	public boolean login(String account, String password) {
 		try {
-			xmppConn.login(account, passoword);
+			xmppConn.login(account, password);	
+			Presence presence = new Presence(Presence.Type.available);
+			xmppConn.sendPacket(presence);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}

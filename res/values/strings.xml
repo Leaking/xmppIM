@@ -15,5 +15,6 @@
     <string name="button_text_signUp">Sign Up</string>
     <string name="setting_leftTxt_openfireIP">Openfire IP</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

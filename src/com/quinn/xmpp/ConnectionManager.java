@@ -49,23 +49,22 @@ public class ConnectionManager {
 	}
 	
 	public static XMPPConnection connect(String ip, int port, String service) {
-		if (conn != null && conn.isConnected() == true) {
-			return conn;
-		}
+//		if (conn != null && conn.isConnected() == true) {
+//			return conn;
+//		}
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
-				port, service);		
+				port,service);
+		
 		connConfig.setReconnectionAllowed(true);		
 		connConfig.setSecurityMode(SecurityMode.required); 
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
-		connConfig.setSendPresence(false);	
-	
+		connConfig.setSendPresence(false);			
 		initXmppProviders();
 		conn = new XMPPConnection(connConfig);
 		try {
 			conn.connect();
 		} catch (XMPPException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return conn;

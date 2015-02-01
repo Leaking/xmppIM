@@ -2,7 +2,6 @@ package com.quinn.xmpp.ui.widget;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
 
 public class TextWatcherAdapter implements TextWatcher {
 

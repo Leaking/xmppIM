@@ -6,8 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.quinn.xmpp.R;
 import com.quinn.xmpp.Intents.Builder;
+import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.widget.CleanableEditText;
 import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
