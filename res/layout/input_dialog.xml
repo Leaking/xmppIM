@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/actionbar_background"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/common_actionbar_marginBottom"
+         >
+
+        <TextView
+            android:id="@+id/popupDialogTitle"
+            style="@style/PopupDialogTitleTextView"
+            android:layout_marginLeft="15dip" />
+    </RelativeLayout>
+
+    <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
+        android:id="@+id/et_dialogContent"
+        style="@style/GlobleSingleLineEditText"
+        android:drawableLeft="@drawable/ic_web_site"
+        android:drawableStart="@drawable/ic_person"
+        android:hint="@string/edit_hint_address" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/inputDialogCancel"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_rectbutton_background"
+            android:text="@string/dialog_cancel" />
+
+        <Button
+            android:id="@+id/inputDialogConfirm"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_rectbutton_background"
+            android:text="@string/dialog_ok" />
+    </LinearLayout>
+
+</LinearLayout>

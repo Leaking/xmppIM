@@ -26,6 +26,7 @@
                     android:text="@string/setting_leftTxt_openfireIP" />
 
                 <TextView
+                    android:id="@+id/serverIP_tv"
                     style="@style/SettingItemRightTxt"
                     android:text="192.168.1.101"
                     android:textColor="@color/grayTxt" />

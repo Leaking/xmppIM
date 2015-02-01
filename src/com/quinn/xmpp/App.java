@@ -9,6 +9,7 @@ import android.app.Application;
  */
 public class App extends Application{
 	
+	private String serverAddr;
 	private boolean ifAppear;
 	private Smack smack;
 	
@@ -29,6 +30,14 @@ public class App extends Application{
 	// if the app in to foreground
 	public boolean ifAppear(){
 		return ifAppear;
+	}
+
+	public String getServerAddr() {
+		return serverAddr;
+	}
+
+	public void setServerAddr(String serverAddr) {
+		this.serverAddr = serverAddr;
 	}
 	
 	

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.quinn.xmpp.Smack;
 import com.quinn.xmpp.bean.User;
 
-public class LoginTask extends AsyncTask<User, Integer, Boolean>{
+public class LoginTask extends AsyncTask<String, Integer, Boolean>{
 
 	private Smack smack;
 	
@@ -14,11 +14,11 @@ public class LoginTask extends AsyncTask<User, Integer, Boolean>{
 	}
 	
 	@Override
-	protected Boolean doInBackground(User... users) {
+	protected Boolean doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		boolean isConnect = smack.connect("192.168.191.3", 5222, "Smack");
+		boolean isConnect = smack.connect(params[0], 5222, "Smack");
 		if(isConnect)
-			return smack.login(users[0].getAccount(), users[0].getPassword());
+			return smack.login(params[1], params[2]);
 		else
 			return isConnect;
 	}

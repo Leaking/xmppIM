@@ -13,10 +13,7 @@ import org.jivesoftware.smack.packet.Presence;
  */
 public class SmackImpl implements Smack {
 
-	private String username;
-	private String password;
-	private boolean isConnect;
-	private ConnectionManager connManager;
+
 	private XMPPConnection xmppConn;
 
 	
@@ -40,7 +37,6 @@ public class SmackImpl implements Smack {
 
 	
 
-	
 
 	
 }

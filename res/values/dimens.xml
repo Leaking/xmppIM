@@ -6,8 +6,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="common_actionbar_marginBottom"> 14dip</dimen>
-   
-    
+   	<dimen name="dialogFragment_width">300dip</dimen>
+    <dimen name="dialogFragment_heigth">120dip</dimen>
 
     
 

@@ -7,6 +7,11 @@
     <string name="title_activity_net_work_setting">NetWorkSetting</string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="login_hint_account">account</string>
+    <string name="edit_hint_address">Input your server IP</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
+    <string name="action_new_account">Sign Up</string>
+    
     <string name="login_hint_password">password</string>
     <string name="signUp_account">account</string>
     <string name="signUp_Psw">password</string>

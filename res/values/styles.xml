@@ -13,7 +13,7 @@
         <item name="android:background">@drawable/largebtn_background</item>
     </style>
 
-    <style name="LoginEditText" parent="Global">
+    <style name="GlobleSingleLineEditText" parent="Global">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dip</item>
         <item name="android:autoText">false</item>
@@ -46,6 +46,27 @@
     <style name="SettingItemRightTxt" parent="SettingItemTxtParent">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="TextViewStyleBase">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="SpinnerDialogTextView" parent="TextViewStyleBase">
+        <item name="android:layout_marginLeft">30dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="PopupDialogTitleTextView" parent="TextViewStyleBase">
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="PopupDialogChoiceBotton" parent="TextViewStyleBase">
+        
+        
     </style>
 
 </resources>

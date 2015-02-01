@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,26 +21,27 @@ import com.quinn.xmpp.MainActivity;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.bean.User;
 import com.quinn.xmpp.core.launch.LoginTask;
+import com.quinn.xmpp.persisitence.Preference;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.widget.CleanableEditText;
 import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
-import com.quinn.xmpp.ui.widget.LoadingDialog;
+import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
 
 /**
- * µÇÂ½½çÃæ
+ * ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author Quinn
  * @date 2015-1-24
  */
-public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
+public class LoginActivity extends BaseActivity implements TextWatcherCallBack, OnClickListener {
 
 	private ClearableAutoCompleteTextView accountView;
 	private CleanableEditText passwordView;
 	private Button login;
 	private String account;
 	private String password;
-	private LoadingDialog loadingDialog;
+	private SpinnerDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -48,9 +50,10 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 		accountView = (ClearableAutoCompleteTextView) findViewById(R.id.et_account);
 		passwordView = (CleanableEditText) findViewById(R.id.et_password);
 		login = (Button) findViewById(R.id.bt_login);
-		loadingDialog = new LoadingDialog(this, "µÇÂ½ÖÐ");
+		loadingDialog = new SpinnerDialog(this, "Login,,,");
 		accountView.setCallBack(this);
 		passwordView.setCallBack(this);		
+		app.setServerAddr(Preference.getString(this, Preference.Key.SERVER_IP));
 		updateEnablement();	
 		passwordView.setOnKeyListener(new OnKeyListener() {
             @Override
@@ -76,6 +79,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
                 return false;
             }
         });	
+		login.setOnClickListener(this);
 	}
 
     private boolean loginEnabled() {
@@ -90,34 +94,18 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 	public void handleLogin(){
 		account = accountView.getText().toString();
 		password = passwordView.getText().toString();
-		User user = new User(account, password);
-		
-//		new Thread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				boolean isConnect = smack.connect("192.168.191.3", 5222, "Smack");
-//				boolean isLogin = smack.login(account, password);
-//				System.out.println("if login = " + isLogin);
-//
-//			}
-//		}).start();
-			
 		loadingDialog.show(
 				this.getSupportFragmentManager(), "tag");
-		loadingDialog.setCancelable(false);
 		new LoginTask(smack){
 
 			@Override
 			protected void onPostExecute(Boolean result) {
 				// TODO Auto-generated method stub
 				loadingDialog.dismissAllowingStateLoss();
-				System.out.println("result = " + result );
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				LoginActivity.this.startActivity(intent);
 			}
-		}.execute(user);
+		}.execute(app.getServerAddr(),account,password);
 	}
 	
 	@Override
@@ -151,6 +139,15 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack {
 	@Override
 	public void handleMoreTextChanged() {
 		updateEnablement();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		handleLogin();
 	}
 	
 }

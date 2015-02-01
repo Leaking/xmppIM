@@ -11,7 +11,7 @@
 
     <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_account"
-        style="@style/LoginEditText"
+        style="@style/GlobleSingleLineEditText"
         android:drawableLeft="@drawable/ic_person"
         android:drawableStart="@drawable/ic_person"
         android:hint="@string/signUp_account"
@@ -20,7 +20,7 @@
 
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
-        style="@style/LoginEditText"
+        style="@style/GlobleSingleLineEditText"
         android:layout_below="@id/et_account"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
@@ -31,7 +31,7 @@
 
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_repeatPassword"
-        style="@style/LoginEditText"
+        style="@style/GlobleSingleLineEditText"
         android:layout_below="@id/et_account"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
