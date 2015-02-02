@@ -23,7 +23,7 @@
         android:id="@+id/et_dialogContent"
         style="@style/GlobleSingleLineEditText"
         android:drawableLeft="@drawable/ic_web_site"
-        android:drawableStart="@drawable/ic_person"
+        android:drawableStart="@drawable/ic_web_site"
         android:hint="@string/edit_hint_address" />
 
     <LinearLayout

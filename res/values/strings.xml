@@ -11,6 +11,13 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
     <string name="action_new_account">Sign Up</string>
+    <string name="loading_alert_content_log_in">log in，，，</string>
+    <string name="loading_alert_content_sign_up">sign up，，，</string>
+    <string name="loading_alert_content_connect_to_server">connect to server</string>
+    <string name="toast_content_connect_fail">connect fail</string>
+    <string name="toast_content_repeat_password">you input 2 different password</string>
+    <string name="toast_content_signup_fail">sign up fail</string>
+    <string name="toast_content_signup_successfully">Sign up successfully</string>
     
     <string name="login_hint_password">password</string>
     <string name="signUp_account">account</string>

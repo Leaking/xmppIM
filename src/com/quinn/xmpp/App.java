@@ -1,5 +1,8 @@
 package com.quinn.xmpp;
 
+import com.quinn.xmpp.smack.Smack;
+import com.quinn.xmpp.smack.SmackImpl;
+
 import android.app.Application;
 
 /**
@@ -19,12 +22,12 @@ public class App extends Application{
 	
 	//the App disappear into background
 	public void appDisappear(){
-		
+		ifAppear = true;
 	}
 	
 	//the App appear onto foreground
 	public void appAppear(){
-		
+		ifAppear = false;
 	}
 	
 	// if the app in to foreground

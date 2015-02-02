@@ -1087,22 +1087,29 @@ containing a value of this type.
         public static final int action_new_account=0x7f060009;
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int button_text_login=0x7f06000e;
-        public static final int button_text_signUp=0x7f06000f;
+        public static final int button_text_login=0x7f060015;
+        public static final int button_text_signUp=0x7f060016;
         public static final int dialog_cancel=0x7f060007;
         public static final int dialog_ok=0x7f060008;
         public static final int edit_hint_address=0x7f060006;
-        public static final int hello_world=0x7f060011;
+        public static final int hello_world=0x7f060018;
+        public static final int loading_alert_content_connect_to_server=0x7f06000c;
+        public static final int loading_alert_content_log_in=0x7f06000a;
+        public static final int loading_alert_content_sign_up=0x7f06000b;
         public static final int login_hint_account=0x7f060005;
-        public static final int login_hint_password=0x7f06000a;
-        public static final int setting_leftTxt_openfireIP=0x7f060010;
-        public static final int signUp_Psw=0x7f06000c;
-        public static final int signUp_account=0x7f06000b;
-        public static final int signUp_repeatPsw=0x7f06000d;
+        public static final int login_hint_password=0x7f060011;
+        public static final int setting_leftTxt_openfireIP=0x7f060017;
+        public static final int signUp_Psw=0x7f060013;
+        public static final int signUp_account=0x7f060012;
+        public static final int signUp_repeatPsw=0x7f060014;
         public static final int title_activity_login=0x7f060002;
-        public static final int title_activity_main=0x7f060012;
+        public static final int title_activity_main=0x7f060019;
         public static final int title_activity_net_work_setting=0x7f060003;
         public static final int title_activity_sign_up=0x7f060004;
+        public static final int toast_content_connect_fail=0x7f06000d;
+        public static final int toast_content_repeat_password=0x7f06000e;
+        public static final int toast_content_signup_fail=0x7f06000f;
+        public static final int toast_content_signup_successfully=0x7f060010;
     }
     public static final class style {
         /** 

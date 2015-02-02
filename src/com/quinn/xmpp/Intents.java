@@ -8,12 +8,24 @@ public class Intents {
 
 	public static final String INTENT_PREFIX = "com.quinn.xmpp.";
 	public static final String INTENT_EXTRA_PREFIX = INTENT_PREFIX + "extra.";
+	
+	public static final String EXTRA_RESULT = INTENT_PREFIX + "START_FOR_RESULT";
+	public static final String EXTRA_RESULT_ACCOUNT = INTENT_PREFIX + "ACCOUNT";
+	public static final String EXTRA_RESULT_PASSWORD = INTENT_PREFIX + "PASSWORD";
 
+	
+	public static final int RESULT_CODE_SUCCESS = 100;
+	
+	
 	public static class Builder {
 		
 		
 		private final Intent intent;
 
+		public Builder(){
+			intent = new Intent();
+		}
+		
 		public Builder(String actionSuffix) {
 			intent = new Intent(INTENT_PREFIX + actionSuffix);
 		}

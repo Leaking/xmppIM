@@ -21,7 +21,6 @@
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
         style="@style/GlobleSingleLineEditText"
-        android:layout_below="@id/et_account"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
         android:hint="@string/signUp_Psw"
@@ -32,7 +31,6 @@
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_repeatPassword"
         style="@style/GlobleSingleLineEditText"
-        android:layout_below="@id/et_account"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
         android:hint="@string/signUp_repeatPsw"
@@ -42,7 +40,6 @@
     <Button
         android:id="@+id/bt_SignUp"
         style="@style/LargeButton"
-        android:layout_below="@id/et_repeatPassword"
         android:layout_marginTop="4dip"
         android:enabled="false"
         android:text="@string/button_text_signUp" />

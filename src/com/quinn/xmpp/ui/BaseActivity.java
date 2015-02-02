@@ -1,10 +1,11 @@
 package com.quinn.xmpp.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.quinn.xmpp.App;
-import com.quinn.xmpp.Smack;
+import com.quinn.xmpp.smack.Smack;
 
 
 /**
@@ -14,6 +15,7 @@ import com.quinn.xmpp.Smack;
  */
 public class BaseActivity extends FragmentActivity{
 	
+	protected Context context;
 	protected App app;
 	protected Smack smack;
 	

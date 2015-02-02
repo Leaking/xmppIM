@@ -16,29 +16,38 @@ import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
-import com.quinn.xmpp.MainActivity;
+import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.R;
-import com.quinn.xmpp.bean.User;
+import com.quinn.xmpp.core.launch.ConnectTask;
 import com.quinn.xmpp.core.launch.LoginTask;
 import com.quinn.xmpp.persisitence.Preference;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.ToastUtils;
+import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.CleanableEditText;
 import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
 import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
 
 /**
- * ��½����
+ * login activity
  * 
  * @author Quinn
  * @date 2015-1-24
  */
 public class LoginActivity extends BaseActivity implements TextWatcherCallBack, OnClickListener {
 
-	private ClearableAutoCompleteTextView accountView;
-	private CleanableEditText passwordView;
-	private Button login;
+	@InjectView(R.id.et_account)
+	ClearableAutoCompleteTextView accountView;
+	@InjectView(R.id.et_password)
+	CleanableEditText passwordView;
+	@InjectView(R.id.bt_login)
+	Button login;
+	
 	private String account;
 	private String password;
 	private SpinnerDialog loadingDialog;
@@ -47,10 +56,8 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_login);
-		accountView = (ClearableAutoCompleteTextView) findViewById(R.id.et_account);
-		passwordView = (CleanableEditText) findViewById(R.id.et_password);
-		login = (Button) findViewById(R.id.bt_login);
-		loadingDialog = new SpinnerDialog(this, "Login,,,");
+		ButterKnife.inject(this);
+		loadingDialog = new SpinnerDialog(this, getResources().getString(R.string.loading_alert_content_connect_to_server));
 		accountView.setCallBack(this);
 		passwordView.setCallBack(this);		
 		app.setServerAddr(Preference.getString(this, Preference.Key.SERVER_IP));
@@ -91,21 +98,41 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		login.setEnabled(loginEnabled());
 	}
 
-	public void handleLogin(){
-		account = accountView.getText().toString();
-		password = passwordView.getText().toString();
+	@OnClick(R.id.bt_login)
+	void handleLogin(){		
 		loadingDialog.show(
 				this.getSupportFragmentManager(), "tag");
-		new LoginTask(smack){
+		new ConnectTask(smack){
 
 			@Override
 			protected void onPostExecute(Boolean result) {
-				// TODO Auto-generated method stub
+				if(result){
+					loadingDialog.updateContent(getResources().getString(R.string.loading_alert_content_log_in));
+					loginAfterConnect();
+				}else{
+					ToastUtils.ToastMessage(LoginActivity.this, R.string.toast_content_connect_fail);
+					loadingDialog.dismissAllowingStateLoss();
+				}
+			}
+			
+		}.execute(app.getServerAddr());
+		
+
+	}
+	
+	
+	public void loginAfterConnect(){
+		account = accountView.getText().toString();
+		password = passwordView.getText().toString();
+		new LoginTask(smack){
+			@Override
+			protected void onPostExecute(Boolean result) {
 				loadingDialog.dismissAllowingStateLoss();
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				LoginActivity.this.startActivity(intent);
 			}
-		}.execute(app.getServerAddr(),account,password);
+		}.execute(account,password);
+		
 	}
 	
 	@Override
@@ -128,7 +155,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		}
 		case R.id.action_newAccount:{
 			Intent intent = SignUpActivity.createIntent();
-			startActivity(intent);
+			startActivityForResult(intent,Intents.RESULT_CODE_SUCCESS);
 			return true;
 		}
 		default:
@@ -141,13 +168,24 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		updateEnablement();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 */
+
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		handleLogin();
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		if(resultCode == RESULT_OK && requestCode == Intents.RESULT_CODE_SUCCESS){
+			Bundle bundle = data.getExtras();
+			accountView.setText(bundle.getString(Intents.EXTRA_RESULT_ACCOUNT));
+			passwordView.setText(bundle.getString(Intents.EXTRA_RESULT_PASSWORD));
+			ToastUtils.ToastMessage(this, R.string.toast_content_signup_successfully);
+		}
+	
+	}
+	
+	
+	
 	
 }

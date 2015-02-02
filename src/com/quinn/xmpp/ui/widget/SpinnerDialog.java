@@ -54,5 +54,14 @@ public class SpinnerDialog extends DialogFragment {
 				R.dimen.dialogFragment_heigth);
 		getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 	}
+	
+	/**
+	 * 更新弹出窗口的内容
+	 * @param alertString
+	 */
+	public void updateContent(String alertString){
+		TextView tv = (TextView) this.getDialog().findViewById(R.id.alertString);
+		tv.setText(alertString);
+	}
 
 }

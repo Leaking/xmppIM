@@ -66,7 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.quinn.xmpp.ui.main.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
     </application>

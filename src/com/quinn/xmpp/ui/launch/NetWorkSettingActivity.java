@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
@@ -15,19 +17,26 @@ import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.widget.InputDialog;
 import com.quinn.xmpp.ui.widget.InputDialog.MDialogCallback;
 
+/**
+ * 
+ * @author Quinn
+ * @date 2015-1-30
+ */
 public class NetWorkSettingActivity extends BaseActivity implements MDialogCallback{
 
 	private InputDialog inputDialog;
-	private View ipView;
-	private TextView tv_ip;
+	@InjectView(R.id.serverIP)
+	View ipView;
+	@InjectView(R.id.serverIP_tv)
+	TextView tv_ip;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_net_work_setting);
-		ipView = findViewById(R.id.serverIP);
-		tv_ip = (TextView) findViewById(R.id.serverIP_tv);
-		inputDialog = new InputDialog(this, "IP DDD");
+		ButterKnife.inject(this);
+		tv_ip.setText(Preference.getString(this, Preference.Key.SERVER_IP));
+		inputDialog = new InputDialog(this, "ip address");
 		ipView.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -63,14 +72,12 @@ public class NetWorkSettingActivity extends BaseActivity implements MDialogCallb
 
 	@Override
 	public void cancel() {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public void confirm(String content) {
-		// TODO Auto-generated method stub
 		Preference.putString(this, Preference.Key.SERVER_IP, content);
 		tv_ip.setText(content);
 		app.setServerAddr(content);
