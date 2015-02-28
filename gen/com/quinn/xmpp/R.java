@@ -34,6 +34,10 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int emojiconSize=0x7f010006;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int iconSrc=0x7f010007;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -115,6 +119,7 @@ containing a value of this type.
         public static final int common_actionbar_marginBottom=0x7f0a0002;
         public static final int dialogFragment_heigth=0x7f0a0004;
         public static final int dialogFragment_width=0x7f0a0003;
+        public static final int main_footer_height=0x7f0a0005;
     }
     public static final class drawable {
         public static final int action_new_account=0x7f020000;
@@ -967,88 +972,97 @@ containing a value of this type.
         public static final int emoji_3297=0x7f02034f;
         public static final int emoji_3299=0x7f020350;
         public static final int ic_action_alarms=0x7f020351;
-        public static final int ic_clear=0x7f020352;
-        public static final int ic_launcher=0x7f020353;
-        public static final int ic_person=0x7f020354;
-        public static final int ic_secure=0x7f020355;
-        public static final int ic_web_site=0x7f020356;
-        public static final int largebtn_background=0x7f020357;
-        public static final int largebtn_background_normal=0x7f020358;
-        public static final int largebtn_background_pressed=0x7f020359;
-        public static final int largebtn_background_unable=0x7f02035a;
-        public static final int login_logo=0x7f02035b;
-        public static final int orca_attach_camera_normal=0x7f02035c;
-        public static final int orca_attach_camera_pressed=0x7f02035d;
-        public static final int orca_attach_location_normal=0x7f02035e;
-        public static final int orca_attach_location_pressed=0x7f02035f;
-        public static final int orca_attach_photo_normal=0x7f020360;
-        public static final int orca_attach_photo_pressed=0x7f020361;
-        public static final int orca_attachments_arrow=0x7f020362;
-        public static final int orca_attachments_arrow_reversed=0x7f020363;
-        public static final int orca_composer_attach_camera_button=0x7f020364;
-        public static final int orca_composer_attach_location_button=0x7f020365;
-        public static final int orca_composer_attach_photo_button=0x7f020366;
-        public static final int orca_composer_divider_horizontal=0x7f020367;
-        public static final int orca_composer_divider_vertical=0x7f020368;
-        public static final int orca_composer_popup_active_normal=0x7f020369;
-        public static final int orca_composer_popup_active_pressed=0x7f02036a;
-        public static final int orca_composer_popup_button=0x7f02036b;
-        public static final int orca_composer_popup_button_active=0x7f02036c;
-        public static final int orca_composer_popup_normal=0x7f02036d;
-        public static final int orca_composer_popup_pressed=0x7f02036e;
-        public static final int orca_composer_tab=0x7f02036f;
-        public static final int orca_composer_tab_active=0x7f020370;
-        public static final int orca_composer_tab_dark=0x7f020371;
-        public static final int orca_composer_tab_pressed=0x7f020372;
-        public static final int orca_composer_top_divider=0x7f020373;
-        public static final int orca_emoji_backspace_back_normal=0x7f020374;
-        public static final int orca_emoji_backspace_front_button=0x7f020375;
-        public static final int orca_emoji_backspace_front_normal=0x7f020376;
-        public static final int orca_emoji_backspace_front_pressed=0x7f020377;
-        public static final int orca_emoji_category_cars=0x7f020378;
-        public static final int orca_emoji_category_nature=0x7f020379;
-        public static final int orca_emoji_category_objects=0x7f02037a;
-        public static final int orca_emoji_category_people=0x7f02037b;
-        public static final int orca_emoji_category_punctuation=0x7f02037c;
-        public static final int orca_emoji_more_back_normal=0x7f02037d;
-        public static final int orca_emoji_more_front_button=0x7f02037e;
-        public static final int orca_emoji_more_front_normal=0x7f02037f;
-        public static final int orca_emoji_more_front_pressed=0x7f020380;
-        public static final int orca_emoji_tab_background=0x7f020381;
-        public static final int orca_emoji_tab_dark_background=0x7f020382;
-        public static final int spinner=0x7f020383;
-        public static final int spinner_outer=0x7f020384;
-        public static final int text_divide=0x7f020385;
+        public static final int ic_action_cc_bcc=0x7f020352;
+        public static final int ic_action_chat=0x7f020353;
+        public static final int ic_action_send_now=0x7f020354;
+        public static final int ic_action_settings=0x7f020355;
+        public static final int ic_action_slideshow=0x7f020356;
+        public static final int ic_clear=0x7f020357;
+        public static final int ic_launcher=0x7f020358;
+        public static final int ic_person=0x7f020359;
+        public static final int ic_secure=0x7f02035a;
+        public static final int ic_web_site=0x7f02035b;
+        public static final int largebtn_background=0x7f02035c;
+        public static final int largebtn_background_normal=0x7f02035d;
+        public static final int largebtn_background_pressed=0x7f02035e;
+        public static final int largebtn_background_unable=0x7f02035f;
+        public static final int login_logo=0x7f020360;
+        public static final int orca_attach_camera_normal=0x7f020361;
+        public static final int orca_attach_camera_pressed=0x7f020362;
+        public static final int orca_attach_location_normal=0x7f020363;
+        public static final int orca_attach_location_pressed=0x7f020364;
+        public static final int orca_attach_photo_normal=0x7f020365;
+        public static final int orca_attach_photo_pressed=0x7f020366;
+        public static final int orca_attachments_arrow=0x7f020367;
+        public static final int orca_attachments_arrow_reversed=0x7f020368;
+        public static final int orca_composer_attach_camera_button=0x7f020369;
+        public static final int orca_composer_attach_location_button=0x7f02036a;
+        public static final int orca_composer_attach_photo_button=0x7f02036b;
+        public static final int orca_composer_divider_horizontal=0x7f02036c;
+        public static final int orca_composer_divider_vertical=0x7f02036d;
+        public static final int orca_composer_popup_active_normal=0x7f02036e;
+        public static final int orca_composer_popup_active_pressed=0x7f02036f;
+        public static final int orca_composer_popup_button=0x7f020370;
+        public static final int orca_composer_popup_button_active=0x7f020371;
+        public static final int orca_composer_popup_normal=0x7f020372;
+        public static final int orca_composer_popup_pressed=0x7f020373;
+        public static final int orca_composer_tab=0x7f020374;
+        public static final int orca_composer_tab_active=0x7f020375;
+        public static final int orca_composer_tab_dark=0x7f020376;
+        public static final int orca_composer_tab_pressed=0x7f020377;
+        public static final int orca_composer_top_divider=0x7f020378;
+        public static final int orca_emoji_backspace_back_normal=0x7f020379;
+        public static final int orca_emoji_backspace_front_button=0x7f02037a;
+        public static final int orca_emoji_backspace_front_normal=0x7f02037b;
+        public static final int orca_emoji_backspace_front_pressed=0x7f02037c;
+        public static final int orca_emoji_category_cars=0x7f02037d;
+        public static final int orca_emoji_category_nature=0x7f02037e;
+        public static final int orca_emoji_category_objects=0x7f02037f;
+        public static final int orca_emoji_category_people=0x7f020380;
+        public static final int orca_emoji_category_punctuation=0x7f020381;
+        public static final int orca_emoji_more_back_normal=0x7f020382;
+        public static final int orca_emoji_more_front_button=0x7f020383;
+        public static final int orca_emoji_more_front_normal=0x7f020384;
+        public static final int orca_emoji_more_front_pressed=0x7f020385;
+        public static final int orca_emoji_tab_background=0x7f020386;
+        public static final int orca_emoji_tab_dark_background=0x7f020387;
+        public static final int spinner=0x7f020388;
+        public static final int spinner_outer=0x7f020389;
+        public static final int text_divide=0x7f02038a;
     }
     public static final class id {
-        public static final int Emoji_GridView=0x7f0c0008;
-        public static final int action_newAccount=0x7f0c001b;
-        public static final int action_settings=0x7f0c001a;
-        public static final int alertString=0x7f0c0019;
-        public static final int bt_SignUp=0x7f0c0007;
+        public static final int Emoji_GridView=0x7f0c000c;
+        public static final int action_newAccount=0x7f0c001f;
+        public static final int action_settings=0x7f0c001e;
+        public static final int alertString=0x7f0c001d;
+        public static final int bt_SignUp=0x7f0c000b;
         public static final int bt_login=0x7f0c0002;
-        public static final int emojicon_icon=0x7f0c0009;
-        public static final int emojicons=0x7f0c0012;
-        public static final int emojis_backspace=0x7f0c0011;
-        public static final int emojis_pager=0x7f0c000b;
-        public static final int emojis_tab=0x7f0c000a;
-        public static final int emojis_tab_0_people=0x7f0c000c;
-        public static final int emojis_tab_1_nature=0x7f0c000d;
-        public static final int emojis_tab_2_objects=0x7f0c000e;
-        public static final int emojis_tab_3_cars=0x7f0c000f;
-        public static final int emojis_tab_4_punctuation=0x7f0c0010;
+        public static final int chattingIcon=0x7f0c0004;
+        public static final int contactsIcon=0x7f0c0005;
+        public static final int emojicon_icon=0x7f0c000d;
+        public static final int emojicons=0x7f0c0016;
+        public static final int emojis_backspace=0x7f0c0015;
+        public static final int emojis_pager=0x7f0c000f;
+        public static final int emojis_tab=0x7f0c000e;
+        public static final int emojis_tab_0_people=0x7f0c0010;
+        public static final int emojis_tab_1_nature=0x7f0c0011;
+        public static final int emojis_tab_2_objects=0x7f0c0012;
+        public static final int emojis_tab_3_cars=0x7f0c0013;
+        public static final int emojis_tab_4_punctuation=0x7f0c0014;
         public static final int et_account=0x7f0c0000;
-        public static final int et_dialogContent=0x7f0c0015;
+        public static final int et_dialogContent=0x7f0c0019;
         public static final int et_password=0x7f0c0001;
-        public static final int et_repeatPassword=0x7f0c0006;
-        public static final int inputDialogCancel=0x7f0c0016;
-        public static final int inputDialogConfirm=0x7f0c0017;
-        public static final int popupDialogTitle=0x7f0c0014;
-        public static final int progress=0x7f0c0018;
-        public static final int root=0x7f0c0013;
-        public static final int serverIP=0x7f0c0003;
-        public static final int serverIP_tv=0x7f0c0004;
-        public static final int switchAutoUpdate=0x7f0c0005;
+        public static final int et_repeatPassword=0x7f0c000a;
+        public static final int inputDialogCancel=0x7f0c001a;
+        public static final int inputDialogConfirm=0x7f0c001b;
+        public static final int popupDialogTitle=0x7f0c0018;
+        public static final int progress=0x7f0c001c;
+        public static final int root=0x7f0c0017;
+        public static final int serverIP=0x7f0c0007;
+        public static final int serverIP_tv=0x7f0c0008;
+        public static final int settingIcon=0x7f0c0006;
+        public static final int switchAutoUpdate=0x7f0c0009;
+        public static final int vPager=0x7f0c0003;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
@@ -1059,9 +1073,12 @@ containing a value of this type.
         public static final int emojicon_item=0x7f030005;
         public static final int emojicons=0x7f030006;
         public static final int face_layout=0x7f030007;
-        public static final int horizon_line=0x7f030008;
-        public static final int input_dialog=0x7f030009;
-        public static final int loading_dialog=0x7f03000a;
+        public static final int fragment_chatting=0x7f030008;
+        public static final int fragment_contacts=0x7f030009;
+        public static final int fragment_setting=0x7f03000a;
+        public static final int horizon_line=0x7f03000b;
+        public static final int input_dialog=0x7f03000c;
+        public static final int loading_dialog=0x7f03000d;
     }
     public static final class menu {
         public static final int chat_room=0x7f0b0000;
@@ -1191,6 +1208,29 @@ containing a value of this type.
           @attr name com.quinn.xmpp:emojiconSize
         */
         public static final int Emojicon_emojiconSize = 0;
+        /** Attributes that can be used with a FooterIcon.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #FooterIcon_iconSrc com.quinn.xmpp:iconSrc}</code></td><td></td></tr>
+           </table>
+           @see #FooterIcon_iconSrc
+         */
+        public static final int[] FooterIcon = {
+            0x7f010007
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#iconSrc}
+          attribute's value can be found in the {@link #FooterIcon} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.quinn.xmpp:iconSrc
+        */
+        public static final int FooterIcon_iconSrc = 0;
         /** Attributes that can be used with a slideswitch.
            <p>Includes the following attributes:</p>
            <table>

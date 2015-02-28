@@ -9,6 +9,7 @@
    	<dimen name="dialogFragment_width">300dip</dimen>
     <dimen name="dialogFragment_heigth">120dip</dimen>
 
+    <dimen name="main_footer_height">55dip</dimen>
     
 
     
