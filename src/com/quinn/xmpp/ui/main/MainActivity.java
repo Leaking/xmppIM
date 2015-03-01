@@ -1,7 +1,5 @@
 package com.quinn.xmpp.ui.main;
 
-import java.util.Random;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -17,28 +15,28 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.main.MainPagerChangeListener.PagerCallback;
+import com.quinn.xmpp.ui.widget.FooterIcon;
 
-public class MainActivity extends BaseActivity implements OnPageChangeListener {
+public class MainActivity extends BaseActivity implements PagerCallback {
 
 	private final static int NUM_ITEMS = 3;
 
 	@InjectView(R.id.vPager)
 	ViewPager viewpager;
 	@InjectView(R.id.chattingIcon)
-	ImageView chattingIcon;
+	FooterIcon chattingIcon;
 	@InjectView(R.id.contactsIcon)
-	ImageView contactsIcon;
+	FooterIcon contactsIcon;
 	@InjectView(R.id.settingIcon)
-	ImageView settingIcon;
+	FooterIcon settingIcon;
 
 	private MyAdapter mAdapter;
 
@@ -49,18 +47,45 @@ public class MainActivity extends BaseActivity implements OnPageChangeListener {
 		ButterKnife.inject(this);
 		mAdapter = new MyAdapter(getSupportFragmentManager());
 		viewpager.setAdapter(mAdapter);
-		viewpager.setOnPageChangeListener(new MainPagerChangeListener());
-		
-		chattingIcon.setImageBitmap(drawColorBitmap(R.drawable.ic_action_chat,
-				Color.GREEN));
-		contactsIcon.setImageBitmap(drawColorBitmap(
-				R.drawable.ic_action_cc_bcc, Color.GREEN));
-		settingIcon.setImageBitmap(drawColorBitmap(
-				R.drawable.ic_action_settings, Color.GREEN));
-		
+
+		viewpager.setOnPageChangeListener(new MainPagerChangeListener(this));
 
 		
-		
+
+		int color = Color.argb(255, 0, 255, 00);
+
+//		final Handler handler = new Handler() {
+//
+//			@Override
+//			public void handleMessage(Message msg) {
+//				// TODO Auto-generated method stub
+//				int alpha = (Integer) msg.obj;
+//				int color = Color.argb(alpha, 0, 255, 00);
+//				settingIcon.setImageBitmap(drawColorBitmap(
+//						R.drawable.ic_action_settings, color));
+//			}
+//
+//		};
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// // TODO Auto-generated method stub
+		// int alpha = 10;
+		// while(true){
+		// try {
+		// Thread.sleep(100);
+		// alpha = (alpha + 10)%255;
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// Message msg = new Message();
+		// msg.obj = alpha;
+		// handler.sendMessage(msg);
+		//
+		// }
+		// }
+		// }).start();
 
 	}
 
@@ -84,6 +109,25 @@ public class MainActivity extends BaseActivity implements OnPageChangeListener {
 	}
 
 	public Bitmap drawColorBitmap(int rsid, int color) {
+
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), rsid);
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		final Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setColor(color);
+
+		canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+
+		canvas.drawBitmap(drawSrcGrayColorBitmap(rsid, Color.YELLOW), 0, 0,
+				paint);
+		bitmap.recycle();
+		return output;
+	}
+
+	public Bitmap drawSrcGrayColorBitmap(int rsid, int color) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), rsid);
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);
@@ -124,23 +168,19 @@ public class MainActivity extends BaseActivity implements OnPageChangeListener {
 	}
 
 	@Override
-	public void onPageScrollStateChanged(int state) {
-		System.out.println("onPageScrollStateChanged state = "  + state);
-		//顺序为1-2-0
-	}
-
-	@Override
-	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		System.out.println("onPageScrolled positio2n = "  + position);
-		System.out.println("onPageScrolled positionOff2set = "  + positionOffset);
-		System.out.println("onPageScrolled positionOffs4etPixels = "  + positionOffsetPixels);
-
-	}
-
-	@Override
-	public void onPageSelected(int position) {
-		System.out.println("onPageSelected position = "  + position);
-
+	public void changePageColor(int index, int alpha) {
+		// TODO Auto-generated method stub
+		switch (index) {
+		case 0:
+			chattingIcon.setIconAlpha(alpha);
+			break;
+		case 1:
+			contactsIcon.setIconAlpha(alpha);
+			break;
+		case 2:
+			settingIcon.setIconAlpha(alpha);
+			break;
+		}
 	}
 
 }

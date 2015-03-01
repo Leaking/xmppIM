@@ -13,9 +13,16 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
  */
 public class MainPagerChangeListener implements OnPageChangeListener{
 
+	
+	public interface PagerCallback{
+		public void changePageColor(int index, int offset);
+	}
+	
+	private PagerCallback callback;
 	private DirectionFinder finder;
 	
-	public MainPagerChangeListener(){
+	public MainPagerChangeListener(MainActivity mainActivity){
+		this.callback  = (PagerCallback)mainActivity;
 		finder = new DirectionFinder();
 	}
 	
@@ -34,18 +41,15 @@ public class MainPagerChangeListener implements OnPageChangeListener{
 	//启动就调用该方法
 	@Override
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		System.out.println("call 2");
+		System.out.println("positionOffset = " + positionOffset);
 
 		int direction = finder.findDirection(positionOffsetPixels);
-		if(direction == DirectionFinder.LEFT_2_RIGHT){
-			System.out.println(" Direction LEFT_2_RIGHT");
-
+		if(positionOffset != 0.0f){
+			callback.changePageColor(position+1,  (int)(positionOffset * 255));
+			callback.changePageColor(position,  (int)((1-positionOffset) * 255));
 		}
-		if(direction == DirectionFinder.RIGHT_2_LEFT){
-		
-			System.out.println(" Direction RIGHT_2_LEFT");
+		System.out.println("heheheh = " + positionOffset);
 
-		}
 		
 		if(direction == DirectionFinder.NONE){
 			
@@ -77,23 +81,21 @@ public class MainPagerChangeListener implements OnPageChangeListener{
 		
 		public void disable(){
 			active = false;
+			lastVal = ORIGIN_VAL;
 		}
 		public void enable(){
 			active = true;
 		}
 		
 		public int findDirection(int currVal){
-			if(active == false)
+			if(active == false || currVal == 0)
 				return NONE;
 			
 			//刚开始滑动
 			int diffVal = currVal - lastVal;
 			if(lastVal == ORIGIN_VAL){
 				lastVal = currVal;
-				if(currVal > 0.5)
-					return LEFT_2_RIGHT;
-				else
-					return RIGHT_2_LEFT;
+				return NONE;
 			}else{
 				lastVal = currVal;
 				return diffVal > 0?LEFT_2_RIGHT:RIGHT_2_LEFT;

@@ -16,25 +16,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_footer_height"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:background="@drawable/tab_bg"
+         >
 
-        <ImageView
+        <com.quinn.xmpp.ui.widget.FooterIcon
             android:id="@+id/chattingIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            FooterIcon:iconSrc="@drawable/ic_action_chat" />
 
-        <ImageView
+        <com.quinn.xmpp.ui.widget.FooterIcon
             android:id="@+id/contactsIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            FooterIcon:iconSrc="@drawable/ic_action_cc_bcc" />
 
-         <ImageView
+        <com.quinn.xmpp.ui.widget.FooterIcon
             android:id="@+id/settingIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            FooterIcon:iconSrc="@drawable/ic_action_settings" />
+
     </LinearLayout>
 
 </LinearLayout>
