@@ -1,6 +1,7 @@
 int anim fade_out 0x7f040000
 int array books 0x7f080000
 int attr baseColor 0x7f010000
+int attr color 0x7f010008
 int attr emojiconSize 0x7f010006
 int attr iconSrc 0x7f010007
 int attr isOpen 0x7f010005
@@ -8,6 +9,8 @@ int attr moveColor 0x7f010002
 int attr slideHeight 0x7f010004
 int attr slideWidth 0x7f010003
 int attr stillColor 0x7f010001
+int attr text 0x7f010009
+int attr textSize 0x7f01000a
 int color actionbar_background_bottom 0x7f090001
 int color actionbar_background_end 0x7f090002
 int color actionbar_background_start 0x7f090003
@@ -1046,8 +1049,11 @@ int style TextViewStyleBase 0x7f070009
 int style Theme_zChat 0x7f07000d
 int[] styleable Emojicon { 0x7f010006 }
 int styleable Emojicon_emojiconSize 0
-int[] styleable FooterIcon { 0x7f010007 }
-int styleable FooterIcon_iconSrc 0
+int[] styleable FooterTextIcon { 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a }
+int styleable FooterTextIcon_color 1
+int styleable FooterTextIcon_iconSrc 0
+int styleable FooterTextIcon_text 2
+int styleable FooterTextIcon_textSize 3
 int[] styleable slideswitch { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 }
 int styleable slideswitch_baseColor 0
 int styleable slideswitch_isOpen 5

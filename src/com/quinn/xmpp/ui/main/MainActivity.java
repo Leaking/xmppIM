@@ -23,7 +23,7 @@ import butterknife.InjectView;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.main.MainPagerChangeListener.PagerCallback;
-import com.quinn.xmpp.ui.widget.FooterIcon;
+import com.quinn.xmpp.ui.widget.FooterTextIcon;
 
 public class MainActivity extends BaseActivity implements PagerCallback {
 
@@ -32,11 +32,11 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 	@InjectView(R.id.vPager)
 	ViewPager viewpager;
 	@InjectView(R.id.chattingIcon)
-	FooterIcon chattingIcon;
+	FooterTextIcon chattingIcon;
 	@InjectView(R.id.contactsIcon)
-	FooterIcon contactsIcon;
+	FooterTextIcon contactsIcon;
 	@InjectView(R.id.settingIcon)
-	FooterIcon settingIcon;
+	FooterTextIcon settingIcon;
 
 	private MyAdapter mAdapter;
 

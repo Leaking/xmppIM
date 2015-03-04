@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="FooterIcon">
+    <declare-styleable name="FooterTextIcon">
         <attr name="iconSrc" format="reference" />
+        <attr name="color" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
     </declare-styleable>
 
 </resources>
+

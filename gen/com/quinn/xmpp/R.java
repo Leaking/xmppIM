@@ -24,6 +24,15 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int baseColor=0x7f010000;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int color=0x7f010008;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -84,6 +93,24 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int stillColor=0x7f010001;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text=0x7f010009;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int textSize=0x7f01000a;
     }
     public static final class color {
         public static final int actionbar_background_bottom=0x7f090001;
@@ -1212,29 +1239,80 @@ containing a value of this type.
           @attr name com.quinn.xmpp:emojiconSize
         */
         public static final int Emojicon_emojiconSize = 0;
-        /** Attributes that can be used with a FooterIcon.
+        /** Attributes that can be used with a FooterTextIcon.
            <p>Includes the following attributes:</p>
            <table>
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #FooterIcon_iconSrc com.quinn.xmpp:iconSrc}</code></td><td></td></tr>
+           <tr><td><code>{@link #FooterTextIcon_color com.quinn.xmpp:color}</code></td><td></td></tr>
+           <tr><td><code>{@link #FooterTextIcon_iconSrc com.quinn.xmpp:iconSrc}</code></td><td></td></tr>
+           <tr><td><code>{@link #FooterTextIcon_text com.quinn.xmpp:text}</code></td><td></td></tr>
+           <tr><td><code>{@link #FooterTextIcon_textSize com.quinn.xmpp:textSize}</code></td><td></td></tr>
            </table>
-           @see #FooterIcon_iconSrc
+           @see #FooterTextIcon_color
+           @see #FooterTextIcon_iconSrc
+           @see #FooterTextIcon_text
+           @see #FooterTextIcon_textSize
          */
-        public static final int[] FooterIcon = {
-            0x7f010007
+        public static final int[] FooterTextIcon = {
+            0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a
         };
         /**
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#color}
+          attribute's value can be found in the {@link #FooterTextIcon} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.quinn.xmpp:color
+        */
+        public static final int FooterTextIcon_color = 1;
+        /**
           <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#iconSrc}
-          attribute's value can be found in the {@link #FooterIcon} array.
+          attribute's value can be found in the {@link #FooterTextIcon} array.
 
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.quinn.xmpp:iconSrc
         */
-        public static final int FooterIcon_iconSrc = 0;
+        public static final int FooterTextIcon_iconSrc = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#text}
+          attribute's value can be found in the {@link #FooterTextIcon} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.quinn.xmpp:text
+        */
+        public static final int FooterTextIcon_text = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#textSize}
+          attribute's value can be found in the {@link #FooterTextIcon} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.quinn.xmpp:textSize
+        */
+        public static final int FooterTextIcon_textSize = 3;
         /** Attributes that can be used with a slideswitch.
            <p>Includes the following attributes:</p>
            <table>

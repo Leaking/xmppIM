@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.quinn.xmpp.R;
@@ -25,28 +26,41 @@ import com.quinn.xmpp.R;
  * @author Quinn
  * @date 2015-2-28
  */
-public class FooterIcon extends View {
+public class FooterTextIcon extends View {
 
 	private final static String DEFAULT_COLOR = "#ff00ff00";
-	private Paint mPaint;
+	
+	//四个属性
+	private String text;
+	private int themeColor;
+	private int textSize;
 	private int iconRid;
-	private Bitmap IconBmp;
-	private Bitmap mBmp;
+	//两个画笔
+	private Paint mPaint;
+	private Paint textPaint;
+	
+	
+	private Bitmap iconBmp;
+	private Bitmap colorIconBmp;
 	private String mColor;
 	private int mAlpha = 0;
 
+	
+	private Rect iconRect;
+	private Rect textRect;
+	
 	private PorterDuffXfermode pdxFer;
 	private Canvas mCanvas;
 
 	/**
 	 * @param context
 	 */
-	public FooterIcon(Context context) {
+	public FooterTextIcon(Context context) {
 		this(context, null);
 		// TODO Auto-generated constructor stub
 	}
 
-	public FooterIcon(Context context, AttributeSet attrs) {
+	public FooterTextIcon(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 
 	}
@@ -56,35 +70,70 @@ public class FooterIcon extends View {
 	 * @param attrs
 	 * @param defStyleAttr
 	 */
-	public FooterIcon(Context context, AttributeSet attrs, int defStyleAttr) {
+	public FooterTextIcon(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 
 		pdxFer = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 		mColor = DEFAULT_COLOR;
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.FooterIcon);
-		iconRid = a.getResourceId(R.styleable.FooterIcon_iconSrc, -1);
-		IconBmp = BitmapFactory.decodeResource(getResources(), iconRid);
+				R.styleable.FooterTextIcon);
+		iconRid = a.getResourceId(R.styleable.FooterTextIcon_iconSrc, -1);
+		text = a.getString(R.styleable.FooterTextIcon_text);
+		textSize = (int) a.getDimension(R.styleable.FooterTextIcon_textSize, TypedValue
+				.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12,
+						getResources().getDisplayMetrics()));
+		themeColor = a.getColor(R.styleable.FooterTextIcon_color, Color.parseColor(DEFAULT_COLOR));
+		
+		
+		iconBmp = BitmapFactory.decodeResource(getResources(), iconRid);
 		a.recycle();
+		
+		
+		
+		textRect = new Rect();
+		textPaint = new Paint();
+		textPaint.setTextSize(textSize);
+		textPaint.setColor(themeColor);
+		textPaint.getTextBounds(text, 0, text.length(), textRect);
+
+		
+		
+	}
+
+	
+	
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		
+		int iconWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
+				- getPaddingRight(), getMeasuredHeight() - getPaddingTop()
+				- getPaddingBottom() - textRect.height());
+
+		int left = getMeasuredWidth() / 2 - iconWidth / 2;
+		int top = getMeasuredHeight() / 2 - (textRect.height() + iconWidth)
+				/ 2;
+		iconRect = new Rect(left, top, left + iconWidth, top + iconWidth);
+		
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// canvas.drawBitmap(IconBmp, 0, 0, null);
-		Bitmap bm = ColorIconGenerator.generate(IconBmp, Color.BLACK);
+		// canvas.drawBitmap(iconBmp, 0, 0, null);
+		Bitmap bm = ColorIconGenerator.generate(iconBmp, Color.BLACK);
 		Rect rect = new Rect(0, 0, bm.getWidth() * 2,
 				bm.getHeight() * 2);
 		canvas.drawBitmap(bm, null, rect, null);
 		
 		drawFooterIcon();
-		canvas.drawBitmap(mBmp, 0, 0, null);
+		canvas.drawBitmap(colorIconBmp, 0, 0, null);
 
 	}
 
 	public void drawFooterIcon() {
-		mBmp = Bitmap.createBitmap(IconBmp.getWidth() * 2,
-				IconBmp.getHeight() * 2, Config.ARGB_8888);
-		mCanvas = new Canvas(mBmp);
+		colorIconBmp = Bitmap.createBitmap(iconBmp.getWidth() * 2,
+				iconBmp.getHeight() * 2, Config.ARGB_8888);
+		mCanvas = new Canvas(colorIconBmp);
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);
@@ -93,14 +142,14 @@ public class FooterIcon extends View {
 		mPaint.setAlpha(mAlpha);
 		// mPaint.setColor(Color.YELLOW);
 
-		mCanvas.drawRect(0, 0, IconBmp.getWidth()*2, IconBmp.getHeight()*2, mPaint);
+		mCanvas.drawRect(0, 0, iconBmp.getWidth()*2, iconBmp.getHeight()*2, mPaint);
 		mPaint.setXfermode(pdxFer);
 		mPaint.setAlpha(255);
 
-		Rect rect = new Rect(0, 0, IconBmp.getWidth() * 2,
-				IconBmp.getHeight() * 2);
+		Rect rect = new Rect(0, 0, iconBmp.getWidth() * 2,
+				iconBmp.getHeight() * 2);
 
-		mCanvas.drawBitmap(ColorIconGenerator.generate(IconBmp, Color.BLACK), null, rect, mPaint);// must be null
+		mCanvas.drawBitmap(ColorIconGenerator.generate(iconBmp, Color.BLACK), null, rect, mPaint);// must be null
 
 	}
 

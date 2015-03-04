@@ -20,21 +20,21 @@
         android:background="@drawable/tab_bg"
          >
 
-        <com.quinn.xmpp.ui.widget.FooterIcon
+        <com.quinn.xmpp.ui.widget.FooterTextIcon
             android:id="@+id/chattingIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             FooterIcon:iconSrc="@drawable/ic_action_chat" />
 
-        <com.quinn.xmpp.ui.widget.FooterIcon
+        <com.quinn.xmpp.ui.widget.FooterTextIcon
             android:id="@+id/contactsIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             FooterIcon:iconSrc="@drawable/ic_action_cc_bcc" />
 
-        <com.quinn.xmpp.ui.widget.FooterIcon
+        <com.quinn.xmpp.ui.widget.FooterTextIcon
             android:id="@+id/settingIcon"
             android:layout_width="0dip"
             android:layout_height="match_parent"
