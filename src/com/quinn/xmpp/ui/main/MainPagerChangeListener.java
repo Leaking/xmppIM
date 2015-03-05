@@ -48,13 +48,9 @@ public class MainPagerChangeListener implements OnPageChangeListener{
 			callback.changePageColor(position+1,  (int)(positionOffset * 255));
 			callback.changePageColor(position,  (int)((1-positionOffset) * 255));
 		}
-		System.out.println("heheheh = " + positionOffset);
 
-		
 		if(direction == DirectionFinder.NONE){
-			
 			System.out.println(" Direction NONE");
-
 		}
 		
 	}

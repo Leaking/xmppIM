@@ -6,6 +6,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_net_work_setting">NetWorkSetting</string>
     <string name="title_activity_sign_up">Sign up</string>
+    <string name="title_activity_main">XMPP</string>
     <string name="login_hint_account">account</string>
     <string name="edit_hint_address">Input your server IP</string>
     <string name="dialog_cancel">Cancel</string>
@@ -18,7 +19,6 @@
     <string name="toast_content_repeat_password">you input 2 different password</string>
     <string name="toast_content_signup_fail">sign up fail</string>
     <string name="toast_content_signup_successfully">Sign up successfully</string>
-    
     <string name="login_hint_password">password</string>
     <string name="signUp_account">account</string>
     <string name="signUp_Psw">password</string>
@@ -27,6 +27,5 @@
     <string name="button_text_signUp">Sign Up</string>
     <string name="setting_leftTxt_openfireIP">Openfire IP</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_main">MainActivity</string>
 
 </resources>

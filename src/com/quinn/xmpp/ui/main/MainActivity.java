@@ -47,45 +47,10 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		ButterKnife.inject(this);
 		mAdapter = new MyAdapter(getSupportFragmentManager());
 		viewpager.setAdapter(mAdapter);
-
 		viewpager.setOnPageChangeListener(new MainPagerChangeListener(this));
-
+		changePageColor(0, 255);
 		
 
-		int color = Color.argb(255, 0, 255, 00);
-
-//		final Handler handler = new Handler() {
-//
-//			@Override
-//			public void handleMessage(Message msg) {
-//				// TODO Auto-generated method stub
-//				int alpha = (Integer) msg.obj;
-//				int color = Color.argb(alpha, 0, 255, 00);
-//				settingIcon.setImageBitmap(drawColorBitmap(
-//						R.drawable.ic_action_settings, color));
-//			}
-//
-//		};
-		// new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		// int alpha = 10;
-		// while(true){
-		// try {
-		// Thread.sleep(100);
-		// alpha = (alpha + 10)%255;
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// Message msg = new Message();
-		// msg.obj = alpha;
-		// handler.sendMessage(msg);
-		//
-		// }
-		// }
-		// }).start();
 
 	}
 

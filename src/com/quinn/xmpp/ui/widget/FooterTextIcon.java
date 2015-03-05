@@ -28,41 +28,37 @@ import com.quinn.xmpp.R;
  */
 public class FooterTextIcon extends View {
 
-	private final static String DEFAULT_COLOR = "#ff00ff00";
 	
+	private final static String DEFAULT_CHOSEN_COLOR = "#ff181818";
+	private final static String BASE_COLOR = "#55888888";
 	//四个属性
 	private String text;
 	private int themeColor;
 	private int textSize;
 	private int iconRid;
 	//两个画笔
-	private Paint mPaint;
+	private Paint bmpPaint;
 	private Paint textPaint;
-	
-	
+	//画图
 	private Bitmap iconBmp;
 	private Bitmap colorIconBmp;
-	private String mColor;
-	private int mAlpha = 0;
-
-	
 	private Rect iconRect;
 	private Rect textRect;
-	
 	private PorterDuffXfermode pdxFer;
 	private Canvas mCanvas;
+	//透明度控制变量
+	private int mAlpha = 0;
+
 
 	/**
 	 * @param context
 	 */
 	public FooterTextIcon(Context context) {
 		this(context, null);
-		// TODO Auto-generated constructor stub
 	}
 
 	public FooterTextIcon(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
-
 	}
 
 	/**
@@ -72,9 +68,7 @@ public class FooterTextIcon extends View {
 	 */
 	public FooterTextIcon(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-
 		pdxFer = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
-		mColor = DEFAULT_COLOR;
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.FooterTextIcon);
 		iconRid = a.getResourceId(R.styleable.FooterTextIcon_iconSrc, -1);
@@ -82,26 +76,19 @@ public class FooterTextIcon extends View {
 		textSize = (int) a.getDimension(R.styleable.FooterTextIcon_textSize, TypedValue
 				.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12,
 						getResources().getDisplayMetrics()));
-		themeColor = a.getColor(R.styleable.FooterTextIcon_color, Color.parseColor(DEFAULT_COLOR));
-		
-		
-		iconBmp = BitmapFactory.decodeResource(getResources(), iconRid);
+		themeColor = a.getColor(R.styleable.FooterTextIcon_color, Color.parseColor(DEFAULT_CHOSEN_COLOR));
 		a.recycle();
-		
-		
-		
+		//从资源文件获取图片
+		iconBmp = BitmapFactory.decodeResource(getResources(), iconRid);
+		//设置文字画笔的相关参数
 		textRect = new Rect();
 		textPaint = new Paint();
 		textPaint.setTextSize(textSize);
 		textPaint.setColor(themeColor);
 		textPaint.getTextBounds(text, 0, text.length(), textRect);
-
-		
 		
 	}
 
-	
-	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -109,50 +96,73 @@ public class FooterTextIcon extends View {
 		int iconWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
 				- getPaddingRight(), getMeasuredHeight() - getPaddingTop()
 				- getPaddingBottom() - textRect.height());
-
 		int left = getMeasuredWidth() / 2 - iconWidth / 2;
 		int top = getMeasuredHeight() / 2 - (textRect.height() + iconWidth)
 				/ 2;
 		iconRect = new Rect(left, top, left + iconWidth, top + iconWidth);
-		
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// canvas.drawBitmap(iconBmp, 0, 0, null);
-		Bitmap bm = ColorIconGenerator.generate(iconBmp, Color.BLACK);
-		Rect rect = new Rect(0, 0, bm.getWidth() * 2,
-				bm.getHeight() * 2);
-		canvas.drawBitmap(bm, null, rect, null);
-		
+		//画底部图片
+		Bitmap bm = ColorIconGenerator.generate(iconBmp, Color.parseColor(BASE_COLOR));	
+		canvas.drawBitmap(bm, null, iconRect, null);
+		//画变色图片
 		drawFooterIcon();
-		canvas.drawBitmap(colorIconBmp, 0, 0, null);
-
+		canvas.drawBitmap(colorIconBmp, null, iconRect, null);
+		//画底部文字
+		textPaint.setColor(Color.parseColor(BASE_COLOR));
+		textPaint.setAlpha(255-mAlpha);
+		int x = getMeasuredWidth() / 2 - textRect.width() / 2;
+		int y = iconRect.bottom + textRect.height();
+		canvas.drawText(text, x, y, textPaint);
+		//画变色文字
+		textPaint.setColor(themeColor);
+		textPaint.setAlpha(mAlpha);
+		int x1 = getMeasuredWidth() / 2 - textRect.width() / 2;
+		int y1 = iconRect.bottom + textRect.height();
+		canvas.drawText(text, x1, y1, textPaint);
+		
 	}
-
+	
+	
 	public void drawFooterIcon() {
-		colorIconBmp = Bitmap.createBitmap(iconBmp.getWidth() * 2,
-				iconBmp.getHeight() * 2, Config.ARGB_8888);
+		colorIconBmp = Bitmap.createBitmap(iconRect.width(),
+				iconRect.height(), Config.ARGB_8888);
 		mCanvas = new Canvas(colorIconBmp);
-		mPaint = new Paint();
-		mPaint.setAntiAlias(true);
-		mPaint.setDither(true);
-
-		mPaint.setColor(Color.parseColor(mColor));
-		mPaint.setAlpha(mAlpha);
-		// mPaint.setColor(Color.YELLOW);
-
-		mCanvas.drawRect(0, 0, iconBmp.getWidth()*2, iconBmp.getHeight()*2, mPaint);
-		mPaint.setXfermode(pdxFer);
-		mPaint.setAlpha(255);
-
-		Rect rect = new Rect(0, 0, iconBmp.getWidth() * 2,
-				iconBmp.getHeight() * 2);
-
-		mCanvas.drawBitmap(ColorIconGenerator.generate(iconBmp, Color.BLACK), null, rect, mPaint);// must be null
+		bmpPaint = new Paint();
+		bmpPaint.setAntiAlias(true);
+		bmpPaint.setDither(true);
+		bmpPaint.setColor(themeColor);
+		bmpPaint.setAlpha(mAlpha);
+		mCanvas.drawRect(0, 0, iconRect.width(), iconRect.height(), bmpPaint);
+		bmpPaint.setXfermode(pdxFer);
+		bmpPaint.setAlpha(255);
+		Rect rect = new Rect(0, 0, iconRect.width(),
+				iconRect.height());
+		
+		mCanvas.drawBitmap(ColorIconGenerator.generate(iconBmp, Color.parseColor(BASE_COLOR)), null, rect, bmpPaint);// must be null
 
 	}
+	
 
+
+	public void setIconAlpha(int alpha) {
+		this.mAlpha = alpha;
+		invalidateView();
+	}
+
+	/**
+	 * 重绘
+	 */
+	private void invalidateView() {
+		if (Looper.getMainLooper() == Looper.myLooper()) {
+			invalidate();
+		} else {
+			postInvalidate();
+		}
+	}
+	
 	private static class ColorIconGenerator {
 		public static Bitmap generate(Bitmap srcBmp, int color) {
 			PorterDuffXfermode pdxFer = new PorterDuffXfermode(
@@ -168,22 +178,6 @@ public class FooterTextIcon extends View {
 			paint.setAlpha(255);
 			canvas.drawBitmap(srcBmp, 0, 0, paint);
 			return destBmp;
-		}
-	}
-
-	public void setIconAlpha(int alpha) {
-		this.mAlpha = alpha;
-		invalidateView();
-	}
-
-	/**
-	 * 重绘
-	 */
-	private void invalidateView() {
-		if (Looper.getMainLooper() == Looper.myLooper()) {
-			invalidate();
-		} else {
-			postInvalidate();
 		}
 	}
 
