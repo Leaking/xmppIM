@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 					loadingDialog.updateContent(getResources().getString(R.string.loading_alert_content_log_in));
 					loginAfterConnect();
 				}else{
-					ToastUtils.ToastMessage(LoginActivity.this, R.string.toast_content_connect_fail);
+					ToastUtils.toast(LoginActivity.this, R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
 			}
@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 			Bundle bundle = data.getExtras();
 			accountView.setText(bundle.getString(Intents.EXTRA_RESULT_ACCOUNT));
 			passwordView.setText(bundle.getString(Intents.EXTRA_RESULT_PASSWORD));
-			ToastUtils.ToastMessage(this, R.string.toast_content_signup_successfully);
+			ToastUtils.toast(this, R.string.toast_content_signup_successfully);
 		}
 	
 	}

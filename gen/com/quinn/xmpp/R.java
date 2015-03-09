@@ -23,16 +23,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int baseColor=0x7f010000;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color=0x7f010008;
+        public static final int color=0x7f010005;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -42,11 +33,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int emojiconSize=0x7f010006;
+        public static final int emojiconSize=0x7f010003;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int iconSrc=0x7f010007;
+        public static final int iconSrc=0x7f010004;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -54,45 +45,18 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int isOpen=0x7f010005;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
+        public static final int isOpen=0x7f010001;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>rect</code></td><td>1</td><td></td></tr>
+<tr><td><code>circle</code></td><td>2</td><td></td></tr>
+</table>
          */
-        public static final int moveColor=0x7f010002;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int slideHeight=0x7f010004;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int slideWidth=0x7f010003;
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int stillColor=0x7f010001;
+        public static final int shape=0x7f010002;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -100,7 +64,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int text=0x7f010009;
+        public static final int text=0x7f010006;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -110,7 +74,16 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int textSize=0x7f01000a;
+        public static final int textSize=0x7f010007;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int themeColor=0x7f010000;
     }
     public static final class color {
         public static final int actionbar_background_bottom=0x7f090001;
@@ -998,102 +971,113 @@ containing a value of this type.
         public static final int emoji_303d=0x7f02034e;
         public static final int emoji_3297=0x7f02034f;
         public static final int emoji_3299=0x7f020350;
-        public static final int ic_action_alarms=0x7f020351;
-        public static final int ic_action_cc_bcc=0x7f020352;
-        public static final int ic_action_chat=0x7f020353;
-        public static final int ic_action_send_now=0x7f020354;
-        public static final int ic_action_settings=0x7f020355;
-        public static final int ic_action_slideshow=0x7f020356;
-        public static final int ic_clear=0x7f020357;
-        public static final int ic_launcher=0x7f020358;
-        public static final int ic_menu_friendslist=0x7f020359;
-        public static final int ic_menu_preferences=0x7f02035a;
-        public static final int ic_menu_start_conversation=0x7f02035b;
-        public static final int ic_person=0x7f02035c;
-        public static final int ic_secure=0x7f02035d;
-        public static final int ic_web_site=0x7f02035e;
-        public static final int largebtn_background=0x7f02035f;
-        public static final int largebtn_background_normal=0x7f020360;
-        public static final int largebtn_background_pressed=0x7f020361;
-        public static final int largebtn_background_unable=0x7f020362;
-        public static final int login_logo=0x7f020363;
-        public static final int orca_attach_camera_normal=0x7f020364;
-        public static final int orca_attach_camera_pressed=0x7f020365;
-        public static final int orca_attach_location_normal=0x7f020366;
-        public static final int orca_attach_location_pressed=0x7f020367;
-        public static final int orca_attach_photo_normal=0x7f020368;
-        public static final int orca_attach_photo_pressed=0x7f020369;
-        public static final int orca_attachments_arrow=0x7f02036a;
-        public static final int orca_attachments_arrow_reversed=0x7f02036b;
-        public static final int orca_composer_attach_camera_button=0x7f02036c;
-        public static final int orca_composer_attach_location_button=0x7f02036d;
-        public static final int orca_composer_attach_photo_button=0x7f02036e;
-        public static final int orca_composer_divider_horizontal=0x7f02036f;
-        public static final int orca_composer_divider_vertical=0x7f020370;
-        public static final int orca_composer_popup_active_normal=0x7f020371;
-        public static final int orca_composer_popup_active_pressed=0x7f020372;
-        public static final int orca_composer_popup_button=0x7f020373;
-        public static final int orca_composer_popup_button_active=0x7f020374;
-        public static final int orca_composer_popup_normal=0x7f020375;
-        public static final int orca_composer_popup_pressed=0x7f020376;
-        public static final int orca_composer_tab=0x7f020377;
-        public static final int orca_composer_tab_active=0x7f020378;
-        public static final int orca_composer_tab_dark=0x7f020379;
-        public static final int orca_composer_tab_pressed=0x7f02037a;
-        public static final int orca_composer_top_divider=0x7f02037b;
-        public static final int orca_emoji_backspace_back_normal=0x7f02037c;
-        public static final int orca_emoji_backspace_front_button=0x7f02037d;
-        public static final int orca_emoji_backspace_front_normal=0x7f02037e;
-        public static final int orca_emoji_backspace_front_pressed=0x7f02037f;
-        public static final int orca_emoji_category_cars=0x7f020380;
-        public static final int orca_emoji_category_nature=0x7f020381;
-        public static final int orca_emoji_category_objects=0x7f020382;
-        public static final int orca_emoji_category_people=0x7f020383;
-        public static final int orca_emoji_category_punctuation=0x7f020384;
-        public static final int orca_emoji_more_back_normal=0x7f020385;
-        public static final int orca_emoji_more_front_button=0x7f020386;
-        public static final int orca_emoji_more_front_normal=0x7f020387;
-        public static final int orca_emoji_more_front_pressed=0x7f020388;
-        public static final int orca_emoji_tab_background=0x7f020389;
-        public static final int orca_emoji_tab_dark_background=0x7f02038a;
-        public static final int spinner=0x7f02038b;
-        public static final int spinner_outer=0x7f02038c;
-        public static final int tab_bg=0x7f02038d;
-        public static final int text_divide=0x7f02038e;
+        public static final int ic_action_add_group=0x7f020351;
+        public static final int ic_action_add_person=0x7f020352;
+        public static final int ic_action_alarms=0x7f020353;
+        public static final int ic_action_cc_bcc=0x7f020354;
+        public static final int ic_action_chat=0x7f020355;
+        public static final int ic_action_clear=0x7f020356;
+        public static final int ic_action_new=0x7f020357;
+        public static final int ic_action_new_account=0x7f020358;
+        public static final int ic_action_send_now=0x7f020359;
+        public static final int ic_action_settings=0x7f02035a;
+        public static final int ic_action_slideshow=0x7f02035b;
+        public static final int ic_launcher=0x7f02035c;
+        public static final int ic_menu_friendslist=0x7f02035d;
+        public static final int ic_menu_preferences=0x7f02035e;
+        public static final int ic_menu_start_conversation=0x7f02035f;
+        public static final int ic_person=0x7f020360;
+        public static final int ic_secure=0x7f020361;
+        public static final int ic_web_site=0x7f020362;
+        public static final int largebtn_background=0x7f020363;
+        public static final int largebtn_background_normal=0x7f020364;
+        public static final int largebtn_background_pressed=0x7f020365;
+        public static final int largebtn_background_unable=0x7f020366;
+        public static final int login_logo=0x7f020367;
+        public static final int orca_attach_camera_normal=0x7f020368;
+        public static final int orca_attach_camera_pressed=0x7f020369;
+        public static final int orca_attach_location_normal=0x7f02036a;
+        public static final int orca_attach_location_pressed=0x7f02036b;
+        public static final int orca_attach_photo_normal=0x7f02036c;
+        public static final int orca_attach_photo_pressed=0x7f02036d;
+        public static final int orca_attachments_arrow=0x7f02036e;
+        public static final int orca_attachments_arrow_reversed=0x7f02036f;
+        public static final int orca_composer_attach_camera_button=0x7f020370;
+        public static final int orca_composer_attach_location_button=0x7f020371;
+        public static final int orca_composer_attach_photo_button=0x7f020372;
+        public static final int orca_composer_divider_horizontal=0x7f020373;
+        public static final int orca_composer_divider_vertical=0x7f020374;
+        public static final int orca_composer_popup_active_normal=0x7f020375;
+        public static final int orca_composer_popup_active_pressed=0x7f020376;
+        public static final int orca_composer_popup_button=0x7f020377;
+        public static final int orca_composer_popup_button_active=0x7f020378;
+        public static final int orca_composer_popup_normal=0x7f020379;
+        public static final int orca_composer_popup_pressed=0x7f02037a;
+        public static final int orca_composer_tab=0x7f02037b;
+        public static final int orca_composer_tab_active=0x7f02037c;
+        public static final int orca_composer_tab_dark=0x7f02037d;
+        public static final int orca_composer_tab_pressed=0x7f02037e;
+        public static final int orca_composer_top_divider=0x7f02037f;
+        public static final int orca_emoji_backspace_back_normal=0x7f020380;
+        public static final int orca_emoji_backspace_front_button=0x7f020381;
+        public static final int orca_emoji_backspace_front_normal=0x7f020382;
+        public static final int orca_emoji_backspace_front_pressed=0x7f020383;
+        public static final int orca_emoji_category_cars=0x7f020384;
+        public static final int orca_emoji_category_nature=0x7f020385;
+        public static final int orca_emoji_category_objects=0x7f020386;
+        public static final int orca_emoji_category_people=0x7f020387;
+        public static final int orca_emoji_category_punctuation=0x7f020388;
+        public static final int orca_emoji_more_back_normal=0x7f020389;
+        public static final int orca_emoji_more_front_button=0x7f02038a;
+        public static final int orca_emoji_more_front_normal=0x7f02038b;
+        public static final int orca_emoji_more_front_pressed=0x7f02038c;
+        public static final int orca_emoji_tab_background=0x7f02038d;
+        public static final int orca_emoji_tab_dark_background=0x7f02038e;
+        public static final int spinner=0x7f02038f;
+        public static final int spinner_outer=0x7f020390;
+        public static final int tab_bg=0x7f020391;
+        public static final int text_divide=0x7f020392;
     }
     public static final class id {
-        public static final int Emoji_GridView=0x7f0c000c;
-        public static final int action_newAccount=0x7f0c001f;
-        public static final int action_settings=0x7f0c001e;
-        public static final int alertString=0x7f0c001d;
-        public static final int bt_SignUp=0x7f0c000b;
-        public static final int bt_login=0x7f0c0002;
-        public static final int chattingIcon=0x7f0c0004;
-        public static final int contactsIcon=0x7f0c0005;
-        public static final int emojicon_icon=0x7f0c000d;
-        public static final int emojicons=0x7f0c0016;
-        public static final int emojis_backspace=0x7f0c0015;
-        public static final int emojis_pager=0x7f0c000f;
-        public static final int emojis_tab=0x7f0c000e;
-        public static final int emojis_tab_0_people=0x7f0c0010;
-        public static final int emojis_tab_1_nature=0x7f0c0011;
-        public static final int emojis_tab_2_objects=0x7f0c0012;
-        public static final int emojis_tab_3_cars=0x7f0c0013;
-        public static final int emojis_tab_4_punctuation=0x7f0c0014;
-        public static final int et_account=0x7f0c0000;
-        public static final int et_dialogContent=0x7f0c0019;
-        public static final int et_password=0x7f0c0001;
-        public static final int et_repeatPassword=0x7f0c000a;
-        public static final int inputDialogCancel=0x7f0c001a;
-        public static final int inputDialogConfirm=0x7f0c001b;
-        public static final int popupDialogTitle=0x7f0c0018;
-        public static final int progress=0x7f0c001c;
-        public static final int root=0x7f0c0017;
-        public static final int serverIP=0x7f0c0007;
-        public static final int serverIP_tv=0x7f0c0008;
-        public static final int settingIcon=0x7f0c0006;
-        public static final int switchAutoUpdate=0x7f0c0009;
-        public static final int vPager=0x7f0c0003;
+        public static final int Emoji_GridView=0x7f0c000e;
+        public static final int action_add_friend=0x7f0c0024;
+        public static final int action_add_group_chat=0x7f0c0023;
+        public static final int action_help_and_feedback=0x7f0c0026;
+        public static final int action_newAccount=0x7f0c0021;
+        public static final int action_scan=0x7f0c0025;
+        public static final int action_search=0x7f0c0022;
+        public static final int action_settings=0x7f0c0020;
+        public static final int alertString=0x7f0c001f;
+        public static final int bt_SignUp=0x7f0c000d;
+        public static final int bt_login=0x7f0c0004;
+        public static final int chattingIcon=0x7f0c0006;
+        public static final int circle=0x7f0c0000;
+        public static final int contactsIcon=0x7f0c0007;
+        public static final int emojicon_icon=0x7f0c000f;
+        public static final int emojicons=0x7f0c0018;
+        public static final int emojis_backspace=0x7f0c0017;
+        public static final int emojis_pager=0x7f0c0011;
+        public static final int emojis_tab=0x7f0c0010;
+        public static final int emojis_tab_0_people=0x7f0c0012;
+        public static final int emojis_tab_1_nature=0x7f0c0013;
+        public static final int emojis_tab_2_objects=0x7f0c0014;
+        public static final int emojis_tab_3_cars=0x7f0c0015;
+        public static final int emojis_tab_4_punctuation=0x7f0c0016;
+        public static final int et_account=0x7f0c0002;
+        public static final int et_dialogContent=0x7f0c001b;
+        public static final int et_password=0x7f0c0003;
+        public static final int et_repeatPassword=0x7f0c000c;
+        public static final int inputDialogCancel=0x7f0c001c;
+        public static final int inputDialogConfirm=0x7f0c001d;
+        public static final int popupDialogTitle=0x7f0c001a;
+        public static final int progress=0x7f0c001e;
+        public static final int rect=0x7f0c0001;
+        public static final int root=0x7f0c0019;
+        public static final int serverIP=0x7f0c0009;
+        public static final int serverIP_tv=0x7f0c000a;
+        public static final int settingIcon=0x7f0c0008;
+        public static final int switchAutoUpdate=0x7f0c000b;
+        public static final int vPager=0x7f0c0005;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
@@ -1140,12 +1124,15 @@ containing a value of this type.
         public static final int dialog_cancel=0x7f060008;
         public static final int dialog_ok=0x7f060009;
         public static final int edit_hint_address=0x7f060007;
-        public static final int hello_world=0x7f060019;
         public static final int loading_alert_content_connect_to_server=0x7f06000d;
         public static final int loading_alert_content_log_in=0x7f06000b;
         public static final int loading_alert_content_sign_up=0x7f06000c;
         public static final int login_hint_account=0x7f060006;
         public static final int login_hint_password=0x7f060012;
+        public static final int menu_item_add_a_friend=0x7f06001a;
+        public static final int menu_item_help_and_feedback=0x7f06001c;
+        public static final int menu_item_new_group_chat=0x7f060019;
+        public static final int menu_item_scan=0x7f06001b;
         public static final int setting_leftTxt_openfireIP=0x7f060018;
         public static final int signUp_Psw=0x7f060014;
         public static final int signUp_account=0x7f060013;
@@ -1197,6 +1184,7 @@ containing a value of this type.
         /**  ActionBar styles 
          */
         public static final int MyActionBar=0x7f07000e;
+        public static final int Overflow=0x7f07000f;
         public static final int PopupDialogChoiceBotton=0x7f07000c;
         public static final int PopupDialogTitleTextView=0x7f07000b;
         public static final int SettingItem=0x7f070006;
@@ -1221,7 +1209,7 @@ containing a value of this type.
            @see #Emojicon_emojiconSize
          */
         public static final int[] Emojicon = {
-            0x7f010006
+            0x7f010003
         };
         /**
           <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#emojiconSize}
@@ -1256,7 +1244,7 @@ containing a value of this type.
            @see #FooterTextIcon_textSize
          */
         public static final int[] FooterTextIcon = {
-            0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007
         };
         /**
           <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#color}
@@ -1319,39 +1307,17 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #slideswitch_baseColor com.quinn.xmpp:baseColor}</code></td><td></td></tr>
            <tr><td><code>{@link #slideswitch_isOpen com.quinn.xmpp:isOpen}</code></td><td></td></tr>
-           <tr><td><code>{@link #slideswitch_moveColor com.quinn.xmpp:moveColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #slideswitch_slideHeight com.quinn.xmpp:slideHeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #slideswitch_slideWidth com.quinn.xmpp:slideWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #slideswitch_stillColor com.quinn.xmpp:stillColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #slideswitch_shape com.quinn.xmpp:shape}</code></td><td></td></tr>
+           <tr><td><code>{@link #slideswitch_themeColor com.quinn.xmpp:themeColor}</code></td><td></td></tr>
            </table>
-           @see #slideswitch_baseColor
            @see #slideswitch_isOpen
-           @see #slideswitch_moveColor
-           @see #slideswitch_slideHeight
-           @see #slideswitch_slideWidth
-           @see #slideswitch_stillColor
+           @see #slideswitch_shape
+           @see #slideswitch_themeColor
          */
         public static final int[] slideswitch = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005
+            0x7f010000, 0x7f010001, 0x7f010002
         };
-        /**
-          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#baseColor}
-          attribute's value can be found in the {@link #slideswitch} array.
-
-
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name com.quinn.xmpp:baseColor
-        */
-        public static final int slideswitch_baseColor = 0;
         /**
           <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#isOpen}
           attribute's value can be found in the {@link #slideswitch} array.
@@ -1365,9 +1331,26 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.quinn.xmpp:isOpen
         */
-        public static final int slideswitch_isOpen = 5;
+        public static final int slideswitch_isOpen = 1;
         /**
-          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#moveColor}
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#shape}
+          attribute's value can be found in the {@link #slideswitch} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>rect</code></td><td>1</td><td></td></tr>
+<tr><td><code>circle</code></td><td>2</td><td></td></tr>
+</table>
+          @attr name com.quinn.xmpp:shape
+        */
+        public static final int slideswitch_shape = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#themeColor}
           attribute's value can be found in the {@link #slideswitch} array.
 
 
@@ -1378,55 +1361,8 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.quinn.xmpp:moveColor
+          @attr name com.quinn.xmpp:themeColor
         */
-        public static final int slideswitch_moveColor = 2;
-        /**
-          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#slideHeight}
-          attribute's value can be found in the {@link #slideswitch} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name com.quinn.xmpp:slideHeight
-        */
-        public static final int slideswitch_slideHeight = 4;
-        /**
-          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#slideWidth}
-          attribute's value can be found in the {@link #slideswitch} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name com.quinn.xmpp:slideWidth
-        */
-        public static final int slideswitch_slideWidth = 3;
-        /**
-          <p>This symbol is the offset where the {@link com.quinn.xmpp.R.attr#stillColor}
-          attribute's value can be found in the {@link #slideswitch} array.
-
-
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name com.quinn.xmpp:stillColor
-        */
-        public static final int slideswitch_stillColor = 1;
+        public static final int slideswitch_themeColor = 0;
     };
 }

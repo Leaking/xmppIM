@@ -40,7 +40,7 @@ public class CleanableEditText extends EditText {
 	}
 
 	public void init() {
-		mDrawable = mContext.getResources().getDrawable(R.drawable.ic_clear);
+		mDrawable = mContext.getResources().getDrawable(R.drawable.ic_action_clear);
 		mCallback = null;
 		TextWatcher textWatcher = new TextWatcherAdapter() {
 			@Override

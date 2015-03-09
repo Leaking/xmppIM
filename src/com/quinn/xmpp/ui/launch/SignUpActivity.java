@@ -102,7 +102,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 		password = passwordView.getText().toString();
 		repeatPassword = repeatPasswordView.getText().toString();
 		if(password.equals(repeatPassword) == false){
-			ToastUtils.ToastMessage(this, R.string.toast_content_repeat_password);
+			ToastUtils.toast(this, R.string.toast_content_repeat_password);
 			return;
 		}
 		loadingDialog.show(
@@ -114,7 +114,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 					loadingDialog.updateContent(getResources().getString(R.string.loading_alert_content_sign_up));
 					SignUpAfterConnect();
 				}else{
-					ToastUtils.ToastMessage(SignUpActivity.this, R.string.toast_content_connect_fail);
+					ToastUtils.toast(SignUpActivity.this, R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
 			}
@@ -136,7 +136,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 					SignUpActivity.this.setResult(RESULT_OK, intent);
 					finish();
 				}else{
-					ToastUtils.ToastMessage(SignUpActivity.this, R.string.toast_content_signup_fail);
+					ToastUtils.toast(SignUpActivity.this, R.string.toast_content_signup_fail);
 				}
 			}
 		}.execute(app.getServerAddr(),account,password);

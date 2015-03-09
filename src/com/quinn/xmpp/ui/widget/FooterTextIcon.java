@@ -119,9 +119,7 @@ public class FooterTextIcon extends View {
 		//画变色文字
 		textPaint.setColor(themeColor);
 		textPaint.setAlpha(mAlpha);
-		int x1 = getMeasuredWidth() / 2 - textRect.width() / 2;
-		int y1 = iconRect.bottom + textRect.height();
-		canvas.drawText(text, x1, y1, textPaint);
+		canvas.drawText(text, x, y, textPaint);
 		
 	}
 	
@@ -140,7 +138,6 @@ public class FooterTextIcon extends View {
 		bmpPaint.setAlpha(255);
 		Rect rect = new Rect(0, 0, iconRect.width(),
 				iconRect.height());
-		
 		mCanvas.drawBitmap(ColorIconGenerator.generate(iconBmp, Color.parseColor(BASE_COLOR)), null, rect, bmpPaint);// must be null
 
 	}

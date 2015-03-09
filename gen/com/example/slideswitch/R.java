@@ -8,15 +8,16 @@ package com.example.slideswitch;
 
 public final class R {
 	public static final class attr {
-		public static final int baseColor = 0x7f010000;
-		public static final int isOpen = 0x7f010005;
-		public static final int moveColor = 0x7f010002;
-		public static final int slideHeight = 0x7f010004;
-		public static final int slideWidth = 0x7f010003;
-		public static final int stillColor = 0x7f010001;
+		public static final int isOpen = 0x7f010001;
+		public static final int shape = 0x7f010002;
+		public static final int themeColor = 0x7f010000;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f020358;
+		public static final int ic_launcher = 0x7f02035c;
+	}
+	public static final class id {
+		public static final int circle = 0x7f0c0000;
+		public static final int rect = 0x7f0c0001;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f060000;
@@ -26,12 +27,9 @@ public final class R {
 		public static final int AppTheme = 0x7f070001;
 	}
 	public static final class styleable {
-		public static final int[] slideswitch = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 };
-		public static final int slideswitch_baseColor = 0;
-		public static final int slideswitch_isOpen = 5;
-		public static final int slideswitch_moveColor = 2;
-		public static final int slideswitch_slideHeight = 4;
-		public static final int slideswitch_slideWidth = 3;
-		public static final int slideswitch_stillColor = 1;
+		public static final int[] slideswitch = { 0x7f010000, 0x7f010001, 0x7f010002 };
+		public static final int slideswitch_isOpen = 1;
+		public static final int slideswitch_shape = 2;
+		public static final int slideswitch_themeColor = 0;
 	}
 }

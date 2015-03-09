@@ -14,15 +14,15 @@ import android.widget.Toast;
 public class ToastUtils {
 	
 	
-	public static void ToastMessage(Context cont, String msg) {
+	public static void toast(Context cont, String msg) {
 		Toast.makeText(cont, msg, Toast.LENGTH_LONG).show();
 	}
 
-	public static void ToastMessage(Context cont, int msg) {
+	public static void toast(Context cont, int msg) {
 		Toast.makeText(cont, msg, Toast.LENGTH_LONG).show();
 	}
 
-	public static void ToastMessage(Context cont, String msg, int time) {
+	public static void toast(Context cont, String msg, int time) {
 		Toast.makeText(cont, msg, time).show();
 	}
 }

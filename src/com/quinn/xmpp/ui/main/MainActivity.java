@@ -1,5 +1,8 @@
 package com.quinn.xmpp.ui.main;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -17,8 +20,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
@@ -49,9 +55,8 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		viewpager.setAdapter(mAdapter);
 		viewpager.setOnPageChangeListener(new MainPagerChangeListener(this));
 		changePageColor(0, 255);
-		
-
-
+		setOverflowButtonAlways();
+		getActionBar().setDisplayShowHomeEnabled(false);
 	}
 
 	@Override
@@ -61,6 +66,49 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		return true;
 	}
 
+	private void setOverflowButtonAlways()
+	{
+//		try
+//		{
+//			ViewConfiguration config = ViewConfiguration.get(this);
+//			Field menuKey = ViewConfiguration.class
+//					.getDeclaredField("sHasPermanentMenuKey");
+//			menuKey.setAccessible(true);
+//			menuKey.setBoolean(config, false);
+//		} catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+	}
+
+	/**
+	 * 设置menu显示icon
+	 */
+	@Override
+	public boolean onMenuOpened(int featureId, Menu menu)
+	{
+
+		if (featureId == Window.FEATURE_ACTION_BAR && menu != null)
+		{
+			if (menu.getClass().getSimpleName().equals("MenuBuilder"))
+			{
+				try
+				{
+					Method m = menu.getClass().getDeclaredMethod(
+							"setOptionalIconsVisible", Boolean.TYPE);
+					m.setAccessible(true);
+					m.invoke(menu, true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return super.onMenuOpened(featureId, menu);
+	}
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -73,39 +121,7 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public Bitmap drawColorBitmap(int rsid, int color) {
 
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), rsid);
-		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-				bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-		final Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setColor(color);
-
-		canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
-		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-
-		canvas.drawBitmap(drawSrcGrayColorBitmap(rsid, Color.YELLOW), 0, 0,
-				paint);
-		bitmap.recycle();
-		return output;
-	}
-
-	public Bitmap drawSrcGrayColorBitmap(int rsid, int color) {
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), rsid);
-		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-				bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-		final Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setColor(color);
-		canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
-		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-		canvas.drawBitmap(bitmap, 0, 0, paint);
-		bitmap.recycle();
-		return output;
-	}
 
 	public static class MyAdapter extends FragmentStatePagerAdapter {
 		public MyAdapter(FragmentManager fm) {
@@ -146,6 +162,26 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 			settingIcon.setIconAlpha(alpha);
 			break;
 		}
+	}
+	
+	@OnClick(R.id.chattingIcon)
+	public void onChattingIcon(){
+		changePageColor(0, 255);
+		viewpager.setCurrentItem(0, true);
+	}
+	
+	@OnClick(R.id.contactsIcon)
+	public void onContactsIcon(){
+		changePageColor(1, 255);
+		viewpager.setCurrentItem(1, true);
+
+	}
+	
+	@OnClick(R.id.settingIcon)
+	public void onSettingIcon(){
+		changePageColor(2, 255);
+		viewpager.setCurrentItem(2, true);
+
 	}
 
 }

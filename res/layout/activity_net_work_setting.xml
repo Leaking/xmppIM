@@ -32,10 +32,10 @@
                     android:textColor="@color/grayTxt" />
             </RelativeLayout>
 
-            <include layout="@layout/horizon_line" 
+            <include
+                layout="@layout/horizon_line"
                 android:paddingLeft="100dip"
-                android:paddingRight="20dip"
-                />
+                android:paddingRight="20dip" />
 
             <RelativeLayout style="@style/SettingItem" >
 
@@ -46,16 +46,13 @@
 
                 <com.leaking.slideswitch.SlideSwitch
                     android:id="@+id/switchAutoUpdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dip"
+                    android:layout_height="30dip"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    slideswitch:baseColor="@color/pocket_red"
                     slideswitch:isOpen="true"
-                    slideswitch:moveColor="@color/color_white"
-                    slideswitch:slideHeight="25dip"
-                    slideswitch:slideWidth="70dip"
-                    slideswitch:stillColor="@color/actionbar_background_end" >
+                    slideswitch:shape="circle"
+                    slideswitch:themeColor="@color/pocket_red" >
                 </com.leaking.slideswitch.SlideSwitch>
             </RelativeLayout>
         </LinearLayout>

@@ -15,6 +15,7 @@ import com.quinn.xmpp.smack.Smack;
  */
 public class BaseActivity extends FragmentActivity{
 	
+	
 	protected Context context;
 	protected App app;
 	protected Smack smack;
@@ -23,6 +24,7 @@ public class BaseActivity extends FragmentActivity{
 	protected void onCreate(Bundle bundle) {
 		// TODO Auto-generated method stub
 		super.onCreate(bundle);
+		
 		if(app == null)
 			app = (App) getApplication();
 		if(smack == null)

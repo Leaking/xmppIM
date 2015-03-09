@@ -5,9 +5,9 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="14"
         android:targetSdkVersion="18" />
-	
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,11 +28,6 @@
             android:name=".ui.launch.NetWorkSettingActivity"
             android:label="@string/title_activity_net_work_setting"
             android:parentActivityName=".ui.launch.LoginActivity" >
-            <intent-filter>
-                <action android:name="com.quinn.xmpp.launch.setting.View" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <service
