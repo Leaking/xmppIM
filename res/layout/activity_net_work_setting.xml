@@ -65,7 +65,7 @@
                     android:layout_centerVertical="true"
                     slideswitch:isOpen="true"
                     slideswitch:shape="circle"
-                    slideswitch:themeColor="@color/pocket_red" >
+                    slideswitch:themeColor="@color/theme_color" >
                 </com.leaking.slideswitch.SlideSwitch>
             </RelativeLayout>
         </LinearLayout>

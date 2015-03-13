@@ -1,7 +1,3 @@
-/**
- * 2015-2-28
- * 2015-2-28
- */
 package com.quinn.xmpp.ui.main;
 
 import com.quinn.xmpp.R;
@@ -11,26 +7,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 /**
+ * 
+ * 
  * @author Quinn
- * @date 2015-2-28
+ * @date 2015-1-24
  */
-public class SettingFragment extends Fragment {
+public class DrawerFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.fragment_setting, container,
+		View view = inflater.inflate(R.layout.fragment_draw, container,
 				false);
-
 		return view;
 	}
 

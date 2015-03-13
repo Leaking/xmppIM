@@ -17,7 +17,9 @@ public class App extends Application{
 	private Smack smack;
 	
 	public Smack getSmack(){
-		return smack == null ? new SmackImpl(): smack;
+		if(smack == null)
+			smack = new SmackImpl();
+		return smack;			
 	}
 	
 	//the App disappear into background

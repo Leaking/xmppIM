@@ -1,5 +1,10 @@
 package com.quinn.xmpp.smack;
 
+import java.util.ArrayList;
+
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
+
 
 /**
  * 
@@ -11,4 +16,10 @@ public interface Smack{
 	public boolean connect(String ip, int port,String service);
 	public boolean login(String account, String passoword);
 	public boolean signUp(String account, String password);
+	public ArrayList<RosterEntry> getAllRosterEntry();
+	
+	/**
+	 * get all
+	 */
+	public ArrayList<RosterGroup> getAllRosterGroup();
 }

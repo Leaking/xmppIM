@@ -2,12 +2,12 @@ package com.quinn.xmpp.ui.main;
 
 import java.lang.reflect.Method;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,17 +17,22 @@ import android.view.MenuItem;
 import android.view.Window;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.main.MainPagerChangeListener.PagerCallback;
-import com.quinn.xmpp.ui.widget.FooterTextIcon;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
 
-public class MainActivity extends BaseActivity implements PagerCallback {
+/**
+ * login activity
+ * 
+ * @author Quinn
+ * @date 2015-1-24
+ */
+public class MainActivity extends BaseActivity {
 
-	private final static int NUM_ITEMS = 3;
+	private final static int NUM_ITEMS = 2;
 
 	@InjectView(R.id.vPager)
 	ViewPager viewpager;
@@ -35,7 +40,7 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 	@InjectView(R.id.sliding_tabs)
 	SlidingTabLayout slidingTabLayout;
 
-	private String titles[] = new String[] { "chatting", "contacts", "setting" };
+	private String titles[] = new String[] { "chatting", "contacts" };
 
 	private MyAdapter mAdapter;
 
@@ -46,9 +51,6 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		ButterKnife.inject(this);
 		mAdapter = new MyAdapter(getSupportFragmentManager(), titles);
 		viewpager.setAdapter(mAdapter);
-		viewpager.setOnPageChangeListener(new MainPagerChangeListener(this));
-		changePageColor(0, 255);
-		setOverflowButtonAlways();
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle("XMPP");
 		setSupportActionBar(toolbar);
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 						return Color.WHITE;
 					}
 				});
+		System.out.println("all roster = " + smack.getAllRosterEntry());
 	}
 
 	@Override
@@ -78,19 +81,7 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 		return true;
 	}
 
-	private void setOverflowButtonAlways() {
-		// try
-		// {
-		// ViewConfiguration config = ViewConfiguration.get(this);
-		// Field menuKey = ViewConfiguration.class
-		// .getDeclaredField("sHasPermanentMenuKey");
-		// menuKey.setAccessible(true);
-		// menuKey.setBoolean(config, false);
-		// } catch (Exception e)
-		// {
-		// e.printStackTrace();
-		// }
-	}
+
 
 	/**
 	 * 设置menu显示icon
@@ -150,17 +141,17 @@ public class MainActivity extends BaseActivity implements PagerCallback {
 				return new ChattingFragment();
 			case 1:
 				return new ContactsFragment();
-			case 2:
-				return new SettingFragment();
 			default:
-				return new SettingFragment();
+				return new ContactsFragment();
 			}
 		}
 	}
 
-	@Override
-	public void changePageColor(int index, int alpha) {
 
+
+	public static Intent createIntent() {
+		Builder builder = new Builder("main.Main.View");
+		return builder.toIntent();
 	}
 
 }

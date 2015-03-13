@@ -109,7 +109,6 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 	void handleLogin() {
 		loadingDialog.show(this.getSupportFragmentManager(), "tag");
 		new ConnectTask(smack) {
-
 			@Override
 			protected void onPostExecute(Boolean result) {
 				if (result) {

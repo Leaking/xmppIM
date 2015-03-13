@@ -2,6 +2,7 @@ package com.quinn.xmpp;
 
 import java.io.Serializable;
 
+import android.content.ComponentName;
 import android.content.Intent;
 
 public class Intents {
@@ -12,7 +13,7 @@ public class Intents {
 	public static final String EXTRA_RESULT = INTENT_PREFIX + "START_FOR_RESULT";
 	public static final String EXTRA_RESULT_ACCOUNT = INTENT_PREFIX + "ACCOUNT";
 	public static final String EXTRA_RESULT_PASSWORD = INTENT_PREFIX + "PASSWORD";
-
+	
 	
 	public static final int RESULT_CODE_SUCCESS = 100;
 	

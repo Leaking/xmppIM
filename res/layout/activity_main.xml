@@ -43,19 +43,11 @@
                 android:background="@color/color_white" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/drawer_view"
+        <fragment
+            android:name="com.quinn.xmpp.ui.main.DrawerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/pocket_red"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hello_world" />
-        </LinearLayout>
+            android:layout_gravity="start"/>
     </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>
