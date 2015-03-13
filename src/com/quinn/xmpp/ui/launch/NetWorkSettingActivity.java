@@ -2,6 +2,7 @@ package com.quinn.xmpp.ui.launch;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,8 @@ import com.quinn.xmpp.ui.widget.InputDialog.MDialogCallback;
  * @author Quinn
  * @date 2015-1-30
  */
-public class NetWorkSettingActivity extends BaseActivity implements MDialogCallback{
+public class NetWorkSettingActivity extends BaseActivity implements
+		MDialogCallback {
 
 	private InputDialog inputDialog;
 	@InjectView(R.id.serverIP)
@@ -35,14 +37,22 @@ public class NetWorkSettingActivity extends BaseActivity implements MDialogCallb
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_net_work_setting);
 		ButterKnife.inject(this);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle("Network");
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
 		tv_ip.setText(Preference.getString(this, Preference.Key.SERVER_IP));
 		inputDialog = new InputDialog(this, "ip address");
 		ipView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				inputDialog.show(
-						NetWorkSettingActivity.this.getSupportFragmentManager(), "tag");
+						NetWorkSettingActivity.this.getSupportFragmentManager(),
+						"tag");
 			}
 		});
 	}
@@ -62,19 +72,16 @@ public class NetWorkSettingActivity extends BaseActivity implements MDialogCallb
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
-	public static Intent createIntent(){
+
+	public static Intent createIntent() {
 		Builder builder = new Builder("launch.setting.View");
 		return builder.toIntent();
 	}
 
-
 	@Override
 	public void cancel() {
-		
-	}
 
+	}
 
 	@Override
 	public void confirm(String content) {

@@ -5,6 +5,7 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -30,10 +31,8 @@ import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
 import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
 
-public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
+public class SignUpActivity extends BaseActivity implements TextWatcherCallBack {
 
-	
-	
 	@InjectView(R.id.et_account)
 	ClearableAutoCompleteTextView accountView;
 	@InjectView(R.id.et_password)
@@ -42,107 +41,115 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 	CleanableEditText repeatPasswordView;
 	@InjectView(R.id.bt_SignUp)
 	Button signUp;
-	
+
 	private SpinnerDialog loadingDialog;
 	private String account;
 	private String password;
 	private String repeatPassword;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
 		ButterKnife.inject(this);
-		loadingDialog = new SpinnerDialog(this, getResources().getString(R.string.loading_alert_content_connect_to_server));
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle("Sign up");
+		setSupportActionBar(toolbar);
+		//以下三行代码使activity有向上返回的按钮
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		loadingDialog = new SpinnerDialog(this, getResources().getString(
+				R.string.loading_alert_content_connect_to_server));
 		accountView.setCallBack(this);
 		passwordView.setCallBack(this);
 		repeatPasswordView.setCallBack(this);
 		updateEnablement();
 		repeatPasswordView.setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signUpEnabled()) {
-                	handleSignUp();
-                    return true;
-                } else
-                    return false;
-            }
-        });
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event != null && ACTION_DOWN == event.getAction()
+						&& keyCode == KEYCODE_ENTER && signUpEnabled()) {
+					handleSignUp();
+					return true;
+				} else
+					return false;
+			}
+		});
 
-		repeatPasswordView.setOnEditorActionListener(new OnEditorActionListener() {
+		repeatPasswordView
+				.setOnEditorActionListener(new OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                    KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signUpEnabled()) {
-                	handleSignUp();
-                    return true;
-                }
-                return false;
-            }
-        });	
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == IME_ACTION_DONE && signUpEnabled()) {
+							handleSignUp();
+							return true;
+						}
+						return false;
+					}
+				});
 	}
 
-	
 	private void updateEnablement() {
 		signUp.setEnabled(signUpEnabled());
 	}
-	
-    private boolean signUpEnabled() {
-        return !TextUtils.isEmpty(accountView.getText())
-                && !TextUtils.isEmpty(passwordView.getText())
-                	&& !TextUtils.isEmpty(repeatPasswordView.getText());
-    }
-	
-    @OnClick(R.id.bt_SignUp)
-	void handleSignUp(){
-    	account = accountView.getText().toString();
+
+	private boolean signUpEnabled() {
+		return !TextUtils.isEmpty(accountView.getText())
+				&& !TextUtils.isEmpty(passwordView.getText())
+				&& !TextUtils.isEmpty(repeatPasswordView.getText());
+	}
+
+	@OnClick(R.id.bt_SignUp)
+	void handleSignUp() {
+		account = accountView.getText().toString();
 		password = passwordView.getText().toString();
 		repeatPassword = repeatPasswordView.getText().toString();
-		if(password.equals(repeatPassword) == false){
+		if (password.equals(repeatPassword) == false) {
 			ToastUtils.toast(this, R.string.toast_content_repeat_password);
 			return;
 		}
-		loadingDialog.show(
-				this.getSupportFragmentManager(), "tag");
-		new ConnectTask(smack){
+		loadingDialog.show(this.getSupportFragmentManager(), "tag");
+		new ConnectTask(smack) {
 			@Override
 			protected void onPostExecute(Boolean result) {
-				if(result){
-					loadingDialog.updateContent(getResources().getString(R.string.loading_alert_content_sign_up));
+				if (result) {
+					loadingDialog.updateContent(getResources().getString(
+							R.string.loading_alert_content_sign_up));
 					SignUpAfterConnect();
-				}else{
-					ToastUtils.toast(SignUpActivity.this, R.string.toast_content_connect_fail);
+				} else {
+					ToastUtils.toast(SignUpActivity.this,
+							R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
 			}
-			
+
 		}.execute(app.getServerAddr());
-		
+
 	}
-    
-    public void SignUpAfterConnect(){
-    	new SignUpTask(smack){
+
+	public void SignUpAfterConnect() {
+		new SignUpTask(smack) {
 			@Override
 			protected void onPostExecute(Boolean result) {
 				loadingDialog.dismissAllowingStateLoss();
-				if(result){
+				if (result) {
 					Builder buidler = new Builder();
-					buidler.add(Intents.EXTRA_RESULT_ACCOUNT, account)
-					.add(Intents.EXTRA_RESULT_PASSWORD, password);
+					buidler.add(Intents.EXTRA_RESULT_ACCOUNT, account).add(
+							Intents.EXTRA_RESULT_PASSWORD, password);
 					Intent intent = buidler.toIntent();
 					SignUpActivity.this.setResult(RESULT_OK, intent);
 					finish();
-				}else{
-					ToastUtils.toast(SignUpActivity.this, R.string.toast_content_signup_fail);
+				} else {
+					ToastUtils.toast(SignUpActivity.this,
+							R.string.toast_content_signup_fail);
 				}
 			}
-		}.execute(app.getServerAddr(),account,password);
-    }
-    
-	
+		}.execute(app.getServerAddr(), account, password);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -161,12 +168,8 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
-	
-	
-	
-	public static Intent createIntent(){
+
+	public static Intent createIntent() {
 		Builder builder = new Builder("launch.SignUp.View");
 		return builder.toIntent();
 	}
@@ -175,7 +178,5 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack{
 	public void handleMoreTextChanged() {
 		updateEnablement();
 	}
-	
-	
-	
+
 }

@@ -3,6 +3,7 @@ package com.quinn.xmpp.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import com.quinn.xmpp.App;
 import com.quinn.xmpp.smack.Smack;
@@ -13,7 +14,7 @@ import com.quinn.xmpp.smack.Smack;
  * @author Quinn
  * @date 2015-1-27
  */
-public class BaseActivity extends FragmentActivity{
+public class BaseActivity extends ActionBarActivity{
 	
 	
 	protected Context context;

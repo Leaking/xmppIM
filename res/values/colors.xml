@@ -1,40 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
+    <color name="theme_color">#37474f</color>
     <color name="actionbar_background_top">#6E6E6E</color>
     <color name="actionbar_background_bottom">#181818</color>
     <color name="actionbar_background_end">#282828</color>
     <color name="actionbar_background_start">#515252</color>
-    
     <color name="window_color">#F9F9F9</color>
-    
     <color name="buttom_normal">#515252</color>
     <color name="buttom_pressed">#282828</color>
     <color name="buttom_unable">#77515252</color>
-    
     <color name="color_white">#ffffff</color>
     <color name="color_gray">#f3f3f3</color>
-	
     <color name="grayTxt">#a3a3a3</color>
     <color name="grayLine">#f3f3f3</color>
-    
-    
-    
-   
-
-    
-
     <color name="pocket_green">#ff83edb8</color>
     <color name="pocket_blue">#ff32bcb6</color>
     <color name="pocket_red">#ffee4256</color>
     <color name="pocket_gold">#ffee4256</color>
-    
-    
 
-    
-   
-	
-    
-  
 </resources>

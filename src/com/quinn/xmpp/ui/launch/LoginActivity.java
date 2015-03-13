@@ -5,6 +5,7 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -39,7 +40,8 @@ import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
  * @author Quinn
  * @date 2015-1-24
  */
-public class LoginActivity extends BaseActivity implements TextWatcherCallBack, OnClickListener {
+public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
+		OnClickListener {
 
 	@InjectView(R.id.et_account)
 	ClearableAutoCompleteTextView accountView;
@@ -47,7 +49,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 	CleanableEditText passwordView;
 	@InjectView(R.id.bt_login)
 	Button login;
-	
+
 	private String account;
 	private String password;
 	private SpinnerDialog loadingDialog;
@@ -57,84 +59,89 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_login);
 		ButterKnife.inject(this);
-		loadingDialog = new SpinnerDialog(this, getResources().getString(R.string.loading_alert_content_connect_to_server));
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle("Login");
+		setSupportActionBar(toolbar);
+
+		loadingDialog = new SpinnerDialog(this, getResources().getString(
+				R.string.loading_alert_content_connect_to_server));
 		accountView.setCallBack(this);
-		passwordView.setCallBack(this);		
+		passwordView.setCallBack(this);
 		app.setServerAddr(Preference.getString(this, Preference.Key.SERVER_IP));
-		updateEnablement();	
+		updateEnablement();
 		passwordView.setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && loginEnabled()) {
-                    handleLogin();
-                    return true;
-                } else
-                    return false;
-            }
-        });
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event != null && ACTION_DOWN == event.getAction()
+						&& keyCode == KEYCODE_ENTER && loginEnabled()) {
+					handleLogin();
+					return true;
+				} else
+					return false;
+			}
+		});
 
 		passwordView.setOnEditorActionListener(new OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                    KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && loginEnabled()) {
-                    handleLogin();
-                    return true;
-                }
-                return false;
-            }
-        });	
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == IME_ACTION_DONE && loginEnabled()) {
+					handleLogin();
+					return true;
+				}
+				return false;
+			}
+		});
 		login.setOnClickListener(this);
 	}
 
-    private boolean loginEnabled() {
-        return !TextUtils.isEmpty(accountView.getText())
-                && !TextUtils.isEmpty(passwordView.getText());
-    }
-    
+	private boolean loginEnabled() {
+		return !TextUtils.isEmpty(accountView.getText())
+				&& !TextUtils.isEmpty(passwordView.getText());
+	}
+
 	private void updateEnablement() {
 		login.setEnabled(loginEnabled());
 	}
 
 	@OnClick(R.id.bt_login)
-	void handleLogin(){		
-		loadingDialog.show(
-				this.getSupportFragmentManager(), "tag");
-		new ConnectTask(smack){
+	void handleLogin() {
+		loadingDialog.show(this.getSupportFragmentManager(), "tag");
+		new ConnectTask(smack) {
 
 			@Override
 			protected void onPostExecute(Boolean result) {
-				if(result){
-					loadingDialog.updateContent(getResources().getString(R.string.loading_alert_content_log_in));
+				if (result) {
+					loadingDialog.updateContent(getResources().getString(
+							R.string.loading_alert_content_log_in));
 					loginAfterConnect();
-				}else{
-					ToastUtils.toast(LoginActivity.this, R.string.toast_content_connect_fail);
+				} else {
+					ToastUtils.toast(LoginActivity.this,
+							R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
 			}
-			
+
 		}.execute(app.getServerAddr());
-		
 
 	}
-	
-	
-	public void loginAfterConnect(){
+
+	public void loginAfterConnect() {
 		account = accountView.getText().toString();
 		password = passwordView.getText().toString();
-		new LoginTask(smack){
+		new LoginTask(smack) {
 			@Override
 			protected void onPostExecute(Boolean result) {
 				loadingDialog.dismissAllowingStateLoss();
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				Intent intent = new Intent(LoginActivity.this,
+						MainActivity.class);
 				LoginActivity.this.startActivity(intent);
 			}
-		}.execute(account,password);
-		
+		}.execute(account, password);
+
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -148,14 +155,14 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		// Handle presses on the action bar items
 		int id = item.getItemId();
 		switch (id) {
-		case R.id.action_settings:{
+		case R.id.action_settings: {
 			Intent intent = NetWorkSettingActivity.createIntent();
 			startActivity(intent);
 			return true;
 		}
-		case R.id.action_newAccount:{
+		case R.id.action_newAccount: {
 			Intent intent = SignUpActivity.createIntent();
-			startActivityForResult(intent,Intents.RESULT_CODE_SUCCESS);
+			startActivityForResult(intent, Intents.RESULT_CODE_SUCCESS);
 			return true;
 		}
 		default:
@@ -168,24 +175,22 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack, 
 		updateEnablement();
 	}
 
-
 	@Override
 	public void onClick(View v) {
 		handleLogin();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
-		if(resultCode == RESULT_OK && requestCode == Intents.RESULT_CODE_SUCCESS){
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK
+				&& requestCode == Intents.RESULT_CODE_SUCCESS) {
 			Bundle bundle = data.getExtras();
 			accountView.setText(bundle.getString(Intents.EXTRA_RESULT_ACCOUNT));
-			passwordView.setText(bundle.getString(Intents.EXTRA_RESULT_PASSWORD));
+			passwordView.setText(bundle
+					.getString(Intents.EXTRA_RESULT_PASSWORD));
 			ToastUtils.toast(this, R.string.toast_content_signup_successfully);
 		}
-	
+
 	}
-	
-	
-	
-	
+
 }

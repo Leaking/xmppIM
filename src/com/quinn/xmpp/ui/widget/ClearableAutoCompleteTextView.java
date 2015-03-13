@@ -8,10 +8,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import com.quinn.xmpp.R;
 
-public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
+public class ClearableAutoCompleteTextView extends EditText {
 
 	private TextWatcherCallBack mCallback;
 	private Drawable mDrawable;

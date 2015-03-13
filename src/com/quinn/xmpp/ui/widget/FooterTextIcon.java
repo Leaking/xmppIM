@@ -76,7 +76,7 @@ public class FooterTextIcon extends View {
 		textSize = (int) a.getDimension(R.styleable.FooterTextIcon_textSize, TypedValue
 				.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12,
 						getResources().getDisplayMetrics()));
-		themeColor = a.getColor(R.styleable.FooterTextIcon_color, Color.parseColor(DEFAULT_CHOSEN_COLOR));
+		themeColor = a.getColor(R.styleable.FooterTextIcon_iconColor, Color.parseColor(DEFAULT_CHOSEN_COLOR));
 		a.recycle();
 		//从资源文件获取图片
 		iconBmp = BitmapFactory.decodeResource(getResources(), iconRid);

@@ -1,16 +1,16 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item 
+    <item
         android:id="@+id/action_newAccount"
-        android:showAsAction="always|withText"
         android:icon="@drawable/action_new_account"
-        android:title="@string/action_new_account"
-        />
-    
+        app:showAsAction="always|withText"
+        android:title="@string/action_new_account"/>
     <item
         android:id="@+id/action_settings"
-        android:showAsAction="always|withText"
         android:icon="@drawable/action_settings"
+        app:showAsAction="always|withText"
         android:title="@string/action_settings"/>
 
 </menu>

@@ -1,11 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.quinn.xmpp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="@dimen/common_actionbar_marginBottom"
+    android:orientation="vertical"
+
     tools:context=".LoginActivity" >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_color"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_account"
@@ -14,30 +25,23 @@
         android:drawableStart="@drawable/ic_person"
         android:hint="@string/login_hint_account"
         android:imeOptions="actionNext"
-        android:text="quinn"
-        android:nextFocusDown="@+id/et_password" />
+        android:nextFocusDown="@+id/et_password"
+        android:text="quinn" />
 
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
-        android:layout_below="@id/et_account"
         style="@style/GlobleSingleLineEditText"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
         android:hint="@string/login_hint_password"
         android:imeOptions="actionDone"
-        android:text="123456"
-        android:inputType="textPassword" />
-    
-    <Button 
+        android:inputType="textPassword"
+        android:text="123456" />
+
+    <Button
         android:id="@+id/bt_login"
-        android:layout_below="@id/et_password"
-        android:text="@string/button_text_login"
         style="@style/LargeButton"
         android:layout_marginTop="4dip"
-        />
+        android:text="@string/button_text_login" />
 
-    
-
-    
-    
-</RelativeLayout>
+</LinearLayout>
