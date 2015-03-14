@@ -2,8 +2,7 @@
 <resources>
 
    
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+
 
     <dimen name="common_actionbar_marginBottom"> 14dip</dimen>
    	<dimen name="dialogFragment_width">300dip</dimen>
@@ -12,6 +11,8 @@
     <dimen name="main_footer_height">55dip</dimen>
     
 
+    
+    <dimen name="portrait_size">30dip</dimen>
     
 
     

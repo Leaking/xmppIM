@@ -1636,11 +1636,10 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f08002b;
-        public static final int activity_vertical_margin=0x7f08002c;
-        public static final int common_actionbar_marginBottom=0x7f08002d;
-        public static final int dialogFragment_heigth=0x7f08002f;
-        public static final int dialogFragment_width=0x7f08002e;
+        public static final int activity_horizontal_margin=0x7f080030;
+        public static final int common_actionbar_marginBottom=0x7f08002b;
+        public static final int dialogFragment_heigth=0x7f08002d;
+        public static final int dialogFragment_width=0x7f08002c;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1675,7 +1674,8 @@ containing a value of this type.
         public static final int dialog_fixed_width_minor=0x7f08000d;
         public static final int disabled_alpha_material_dark=0x7f080001;
         public static final int disabled_alpha_material_light=0x7f080000;
-        public static final int main_footer_height=0x7f080030;
+        public static final int main_footer_height=0x7f08002e;
+        public static final int portrait_size=0x7f08002f;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2647,8 +2647,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Emoji_GridView=0x7f0a004d;
-        public static final int action_add_friend=0x7f0a0063;
-        public static final int action_add_group_chat=0x7f0a0062;
+        public static final int action_add_friend=0x7f0a0065;
+        public static final int action_add_group_chat=0x7f0a0064;
         public static final int action_bar=0x7f0a0033;
         public static final int action_bar_activity_content=0x7f0a0003;
         public static final int action_bar_container=0x7f0a0032;
@@ -2657,18 +2657,18 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f0a0021;
         public static final int action_bar_title=0x7f0a0020;
         public static final int action_context_bar=0x7f0a0034;
-        public static final int action_help_and_feedback=0x7f0a0065;
+        public static final int action_help_and_feedback=0x7f0a0067;
         public static final int action_menu_divider=0x7f0a0005;
         public static final int action_menu_presenter=0x7f0a0006;
         public static final int action_mode_bar=0x7f0a0030;
         public static final int action_mode_bar_stub=0x7f0a002f;
         public static final int action_mode_close_button=0x7f0a0022;
-        public static final int action_newAccount=0x7f0a0060;
-        public static final int action_scan=0x7f0a0064;
-        public static final int action_search=0x7f0a0061;
-        public static final int action_settings=0x7f0a005f;
+        public static final int action_newAccount=0x7f0a0062;
+        public static final int action_scan=0x7f0a0066;
+        public static final int action_search=0x7f0a0063;
+        public static final int action_settings=0x7f0a0061;
         public static final int activity_chooser_view_content=0x7f0a0023;
-        public static final int alertString=0x7f0a005e;
+        public static final int alertString=0x7f0a0060;
         public static final int always=0x7f0a0014;
         public static final int beginning=0x7f0a001b;
         public static final int bt_SignUp=0x7f0a004c;
@@ -2711,10 +2711,12 @@ containing a value of this type.
         public static final int list_item=0x7f0a0027;
         public static final int middle=0x7f0a001d;
         public static final int never=0x7f0a0017;
+        public static final int nickname=0x7f0a005e;
         public static final int none=0x7f0a000f;
         public static final int normal=0x7f0a000b;
         public static final int popupDialogTitle=0x7f0a0059;
-        public static final int progress=0x7f0a005d;
+        public static final int portrait=0x7f0a005d;
+        public static final int progress=0x7f0a005f;
         public static final int progress_circular=0x7f0a0007;
         public static final int progress_horizontal=0x7f0a0008;
         public static final int radio=0x7f0a002d;
@@ -2811,8 +2813,9 @@ containing a value of this type.
         public static final int fragment_draw=0x7f030021;
         public static final int horizon_line=0x7f030022;
         public static final int input_dialog=0x7f030023;
-        public static final int loading_dialog=0x7f030024;
-        public static final int support_simple_spinner_dropdown_item=0x7f030025;
+        public static final int item_contact=0x7f030024;
+        public static final int loading_dialog=0x7f030025;
+        public static final int support_simple_spinner_dropdown_item=0x7f030026;
     }
     public static final class menu {
         public static final int chat_room=0x7f0e0000;
