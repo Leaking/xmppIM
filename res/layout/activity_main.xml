@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <fragment
-            android:name="com.quinn.xmpp.ui.main.DrawerFragment"
+            android:name="com.quinn.xmpp.ui.drawer.DrawerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"/>

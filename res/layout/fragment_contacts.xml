@@ -1,15 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.quinn.xmpp.ui.main.MainActivity" >
 
-    
-   	<TextView 
-   	          	    android:layout_width="wrap_content"
-      	    android:layout_height="wrap_content"
-   	    android:text="contacts"
-   	    />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideOverlay" />
 
-</LinearLayout>
+</RelativeLayout>

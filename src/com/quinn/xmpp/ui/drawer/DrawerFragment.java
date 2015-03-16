@@ -1,4 +1,4 @@
-package com.quinn.xmpp.ui.main;
+package com.quinn.xmpp.ui.drawer;
 
 import com.quinn.xmpp.R;
 

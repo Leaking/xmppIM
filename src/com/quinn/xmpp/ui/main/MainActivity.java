@@ -21,7 +21,9 @@ import butterknife.InjectView;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.main.MainPagerChangeListener.PagerCallback;
+import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
 
 /**
@@ -40,7 +42,7 @@ public class MainActivity extends BaseActivity {
 	@InjectView(R.id.sliding_tabs)
 	SlidingTabLayout slidingTabLayout;
 
-	private String titles[] = new String[] { "chatting", "contacts" };
+	private String titles[] = new String[] { "Messages", "contacts" };
 
 	private MyAdapter mAdapter;
 
@@ -71,7 +73,7 @@ public class MainActivity extends BaseActivity {
 						return Color.WHITE;
 					}
 				});
-		System.out.println("all roster = " + smack.getAllRosterEntry());
+		//System.out.println("all roster = " + smack.getAllRosterEntry());
 	}
 
 	@Override
@@ -138,7 +140,7 @@ public class MainActivity extends BaseActivity {
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return new ChattingFragment();
+				return new MessagesFragment();
 			case 1:
 				return new ContactsFragment();
 			default:

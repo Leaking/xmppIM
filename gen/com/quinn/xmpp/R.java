@@ -2647,8 +2647,9 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Emoji_GridView=0x7f0a004d;
-        public static final int action_add_friend=0x7f0a0065;
-        public static final int action_add_group_chat=0x7f0a0064;
+        public static final int MessageFromWho=0x7f0a005f;
+        public static final int action_add_friend=0x7f0a0069;
+        public static final int action_add_group_chat=0x7f0a0068;
         public static final int action_bar=0x7f0a0033;
         public static final int action_bar_activity_content=0x7f0a0003;
         public static final int action_bar_container=0x7f0a0032;
@@ -2657,18 +2658,18 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f0a0021;
         public static final int action_bar_title=0x7f0a0020;
         public static final int action_context_bar=0x7f0a0034;
-        public static final int action_help_and_feedback=0x7f0a0067;
+        public static final int action_help_and_feedback=0x7f0a006b;
         public static final int action_menu_divider=0x7f0a0005;
         public static final int action_menu_presenter=0x7f0a0006;
         public static final int action_mode_bar=0x7f0a0030;
         public static final int action_mode_bar_stub=0x7f0a002f;
         public static final int action_mode_close_button=0x7f0a0022;
-        public static final int action_newAccount=0x7f0a0062;
-        public static final int action_scan=0x7f0a0066;
-        public static final int action_search=0x7f0a0063;
-        public static final int action_settings=0x7f0a0061;
+        public static final int action_newAccount=0x7f0a0066;
+        public static final int action_scan=0x7f0a006a;
+        public static final int action_search=0x7f0a0067;
+        public static final int action_settings=0x7f0a0065;
         public static final int activity_chooser_view_content=0x7f0a0023;
-        public static final int alertString=0x7f0a0060;
+        public static final int alertString=0x7f0a0064;
         public static final int always=0x7f0a0014;
         public static final int beginning=0x7f0a001b;
         public static final int bt_SignUp=0x7f0a004c;
@@ -2676,6 +2677,7 @@ containing a value of this type.
         public static final int checkbox=0x7f0a002b;
         public static final int circle=0x7f0a001e;
         public static final int collapseActionView=0x7f0a0015;
+        public static final int contacts_recycle_view=0x7f0a0058;
         public static final int decor_content_parent=0x7f0a0031;
         public static final int default_activity_button=0x7f0a0026;
         public static final int dialog=0x7f0a0019;
@@ -2695,7 +2697,7 @@ containing a value of this type.
         public static final int emojis_tab_4_punctuation=0x7f0a0055;
         public static final int end=0x7f0a001c;
         public static final int et_account=0x7f0a0042;
-        public static final int et_dialogContent=0x7f0a005a;
+        public static final int et_dialogContent=0x7f0a005b;
         public static final int et_password=0x7f0a0043;
         public static final int et_repeatPassword=0x7f0a004b;
         public static final int expand_activities_button=0x7f0a0024;
@@ -2705,23 +2707,24 @@ containing a value of this type.
         public static final int icon=0x7f0a0028;
         public static final int ifRoom=0x7f0a0016;
         public static final int image=0x7f0a0025;
-        public static final int inputDialogCancel=0x7f0a005b;
-        public static final int inputDialogConfirm=0x7f0a005c;
+        public static final int inputDialogCancel=0x7f0a005c;
+        public static final int inputDialogConfirm=0x7f0a005d;
         public static final int listMode=0x7f0a000a;
         public static final int list_item=0x7f0a0027;
+        public static final int messageIcon=0x7f0a005e;
         public static final int middle=0x7f0a001d;
+        public static final int name=0x7f0a0062;
         public static final int never=0x7f0a0017;
-        public static final int nickname=0x7f0a005e;
         public static final int none=0x7f0a000f;
         public static final int normal=0x7f0a000b;
-        public static final int popupDialogTitle=0x7f0a0059;
-        public static final int portrait=0x7f0a005d;
-        public static final int progress=0x7f0a005f;
+        public static final int popupDialogTitle=0x7f0a005a;
+        public static final int previewWords=0x7f0a0060;
+        public static final int progress=0x7f0a0063;
         public static final int progress_circular=0x7f0a0007;
         public static final int progress_horizontal=0x7f0a0008;
         public static final int radio=0x7f0a002d;
         public static final int rect=0x7f0a001f;
-        public static final int root=0x7f0a0058;
+        public static final int root=0x7f0a0059;
         public static final int search_badge=0x7f0a0037;
         public static final int search_bar=0x7f0a0036;
         public static final int search_button=0x7f0a0038;
@@ -2743,6 +2746,7 @@ containing a value of this type.
         public static final int submit_area=0x7f0a003e;
         public static final int switchAutoUpdate=0x7f0a004a;
         public static final int tabMode=0x7f0a000c;
+        public static final int timeStamp=0x7f0a0061;
         public static final int title=0x7f0a0029;
         public static final int toolbar=0x7f0a0041;
         public static final int up=0x7f0a0001;
@@ -2808,14 +2812,15 @@ containing a value of this type.
         public static final int emojicon_item=0x7f03001c;
         public static final int emojicons=0x7f03001d;
         public static final int face_layout=0x7f03001e;
-        public static final int fragment_chatting=0x7f03001f;
-        public static final int fragment_contacts=0x7f030020;
-        public static final int fragment_draw=0x7f030021;
+        public static final int fragment_contacts=0x7f03001f;
+        public static final int fragment_draw=0x7f030020;
+        public static final int fragment_messages=0x7f030021;
         public static final int horizon_line=0x7f030022;
         public static final int input_dialog=0x7f030023;
-        public static final int item_contact=0x7f030024;
-        public static final int loading_dialog=0x7f030025;
-        public static final int support_simple_spinner_dropdown_item=0x7f030026;
+        public static final int item_chatting=0x7f030024;
+        public static final int item_contact=0x7f030025;
+        public static final int loading_dialog=0x7f030026;
+        public static final int support_simple_spinner_dropdown_item=0x7f030027;
     }
     public static final class menu {
         public static final int chat_room=0x7f0e0000;

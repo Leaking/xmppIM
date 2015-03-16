@@ -2,7 +2,8 @@
  * 2015-2-28
  * 2015-2-28
  */
-package com.quinn.xmpp.ui.main;
+package com.quinn.xmpp.ui.messages;
+
 
 import com.quinn.xmpp.R;
 
@@ -16,7 +17,7 @@ import android.view.ViewGroup;
  * @author Quinn
  * @date 2015-2-28
  */
-public class ContactsFragment extends Fragment {
+public class MessagesFragment extends Fragment{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,11 +28,12 @@ public class ContactsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		View view = inflater.inflate(R.layout.fragment_contacts, container,
+		// TODO Auto-generated method stub
+		View view = inflater.inflate(R.layout.fragment_messages, container,
 				false);
-
+		
 		return view;
 	}
 
+	
 }
