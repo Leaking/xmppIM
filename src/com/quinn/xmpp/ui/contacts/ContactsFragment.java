@@ -7,6 +7,7 @@ package com.quinn.xmpp.ui.contacts;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +22,7 @@ import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
 
 /**
  * @author Quinn
@@ -36,7 +38,9 @@ public class ContactsFragment extends Fragment {
 	private RecyclerView.LayoutManager mLayoutManager;
 	private MainActivity mActivity;
 	private ArrayList<ContactsDataItem> contactDataItems;
-
+	//
+	private int dividerHeight;
+	private int dividerColor;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +52,8 @@ public class ContactsFragment extends Fragment {
 			contactDataItems.add(new ContactsDataItem(null, "ttttt"));
 		}
 		/* test data */
-
+		dividerHeight = mActivity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider);
+		dividerColor = mActivity.getResources().getColor(R.color.color_gray);
 		mAdapter = new ContactsAdapter(mActivity,contactDataItems);
 	}
 
@@ -70,6 +75,9 @@ public class ContactsFragment extends Fragment {
 		mRecyclerView.setHasFixedSize(true);
 		mLayoutManager = new LinearLayoutManager(getActivity());
 		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+				mActivity.getApplicationContext(),dividerColor,dividerHeight
+	        ));
 		return view;
 	}
 

@@ -301,7 +301,7 @@ int dimen abc_text_size_subhead_material 0x7f080022
 int dimen abc_text_size_subtitle_material_toolbar 0x7f080013
 int dimen abc_text_size_title_material 0x7f080021
 int dimen abc_text_size_title_material_toolbar 0x7f080012
-int dimen activity_horizontal_margin 0x7f080034
+int dimen activity_horizontal_margin 0x7f080035
 int dimen contact_icon_size 0x7f08002d
 int dimen contanct_name_textsize 0x7f080030
 int dimen dialogFragment_heigth 0x7f08002c
@@ -317,6 +317,7 @@ int dimen message_previewWords_textsize 0x7f080032
 int dimen message_timestamp_textsize 0x7f080033
 int dimen message_title_textsize 0x7f080031
 int dimen recyclerView_padding 0x7f08002f
+int dimen recyclerView_small_divider 0x7f080034
 int drawable abc_ab_share_pack_holo_dark 0x7f020000
 int drawable abc_ab_share_pack_holo_light 0x7f020001
 int drawable abc_btn_check_material 0x7f020002
@@ -1280,10 +1281,11 @@ int drawable orca_emoji_more_front_normal 0x7f0203bf
 int drawable orca_emoji_more_front_pressed 0x7f0203c0
 int drawable orca_emoji_tab_background 0x7f0203c1
 int drawable orca_emoji_tab_dark_background 0x7f0203c2
-int drawable spinner 0x7f0203c3
-int drawable spinner_outer 0x7f0203c4
-int drawable tab_bg 0x7f0203c5
-int drawable text_divide 0x7f0203c6
+int drawable recycler_divider 0x7f0203c3
+int drawable spinner 0x7f0203c4
+int drawable spinner_outer 0x7f0203c5
+int drawable tab_bg 0x7f0203c6
+int drawable text_divide 0x7f0203c7
 int id Emoji_GridView 0x7f0a004d
 int id action_add_friend 0x7f0a0069
 int id action_add_group_chat 0x7f0a0068

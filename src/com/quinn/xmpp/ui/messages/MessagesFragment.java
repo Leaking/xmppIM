@@ -14,8 +14,11 @@ import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.contacts.ContactsAdapter;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
+import com.quinn.xmpp.util.DisplayUtils;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,12 +36,18 @@ import android.view.ViewGroup;
 public class MessagesFragment extends Fragment{
 
 	
+	
+	
 	@InjectView(R.id.messages_recycle_view)
 	RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private MainActivity mActivity;
 	private ArrayList<MessagesDataItem> contactDataItems;
+	
+	//
+	private int dividerHeight;
+	private int dividerColor;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -50,7 +59,14 @@ public class MessagesFragment extends Fragment{
 		}
 		/* test data */
 		
+		dividerHeight = mActivity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider);
+		dividerColor = mActivity.getResources().getColor(R.color.color_gray);
+	
 		
+		//??? difference
+//		System.out.println("hehe = 1 " + mActivity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider));
+//		System.out.println("hehe = 2 " + mActivity.getResources().getDimension(R.dimen.recyclerView_small_divider));
+//		System.out.println("hehe = 3 " + DisplayUtils.dip2px(mActivity, 1));
 		mAdapter = new MessagesAdapter(mActivity,contactDataItems);
 
 	}
@@ -71,6 +87,9 @@ public class MessagesFragment extends Fragment{
 		mRecyclerView.setHasFixedSize(true);
 		mLayoutManager = new LinearLayoutManager(getActivity());
 		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+				mActivity.getApplicationContext(),dividerColor,dividerHeight
+	        ));
 		return view;
 	}
 

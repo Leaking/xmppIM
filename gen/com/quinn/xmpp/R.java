@@ -1636,7 +1636,7 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080034;
+        public static final int activity_horizontal_margin=0x7f080035;
         public static final int contact_icon_size=0x7f08002d;
         public static final int contanct_name_textsize=0x7f080030;
         public static final int dialogFragment_heigth=0x7f08002c;
@@ -1680,6 +1680,7 @@ containing a value of this type.
         public static final int message_timestamp_textsize=0x7f080033;
         public static final int message_title_textsize=0x7f080031;
         public static final int recyclerView_padding=0x7f08002f;
+        public static final int recyclerView_small_divider=0x7f080034;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2645,10 +2646,11 @@ containing a value of this type.
         public static final int orca_emoji_more_front_pressed=0x7f0203c0;
         public static final int orca_emoji_tab_background=0x7f0203c1;
         public static final int orca_emoji_tab_dark_background=0x7f0203c2;
-        public static final int spinner=0x7f0203c3;
-        public static final int spinner_outer=0x7f0203c4;
-        public static final int tab_bg=0x7f0203c5;
-        public static final int text_divide=0x7f0203c6;
+        public static final int recycler_divider=0x7f0203c3;
+        public static final int spinner=0x7f0203c4;
+        public static final int spinner_outer=0x7f0203c5;
+        public static final int tab_bg=0x7f0203c6;
+        public static final int text_divide=0x7f0203c7;
     }
     public static final class id {
         public static final int Emoji_GridView=0x7f0a004d;

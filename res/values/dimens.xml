@@ -16,6 +16,6 @@
 	<dimen name="message_title_textsize">20sp</dimen>
 	<dimen name="message_previewWords_textsize">16sp</dimen>
 	<dimen name="message_timestamp_textsize">14dip</dimen>
-	
+	<dimen name="recyclerView_small_divider">0.5dip</dimen>
 	
 </resources>
