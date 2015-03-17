@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="@dimen/recyclerView_padding" >
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="30dip"
-        android:layout_height="30dip"
+        android:layout_width="@dimen/contact_icon_size"
+        android:layout_height="@dimen/contact_icon_size"
         android:layout_marginRight="10dip" />
 
     <TextView

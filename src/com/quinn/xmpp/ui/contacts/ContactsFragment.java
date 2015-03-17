@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.ui.main.MainActivity;
 
 /**
  * @author Quinn
@@ -33,7 +34,7 @@ public class ContactsFragment extends Fragment {
 	RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
-	private ActionBarActivity mActivity;
+	private MainActivity mActivity;
 	private ArrayList<ContactsDataItem> contactDataItems;
 
 	@Override
@@ -48,13 +49,13 @@ public class ContactsFragment extends Fragment {
 		}
 		/* test data */
 
-		mAdapter = new ContactsAdapter(contactDataItems);
+		mAdapter = new ContactsAdapter(mActivity,contactDataItems);
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (ActionBarActivity) activity;
+		mActivity = (MainActivity) activity;
 		setRetainInstance(true);
 	}
 

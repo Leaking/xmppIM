@@ -1636,10 +1636,11 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080030;
-        public static final int common_actionbar_marginBottom=0x7f08002b;
-        public static final int dialogFragment_heigth=0x7f08002d;
-        public static final int dialogFragment_width=0x7f08002c;
+        public static final int activity_horizontal_margin=0x7f080034;
+        public static final int contact_icon_size=0x7f08002d;
+        public static final int contanct_name_textsize=0x7f080030;
+        public static final int dialogFragment_heigth=0x7f08002c;
+        public static final int dialogFragment_width=0x7f08002b;
         /**  The platform's desired fixed height for a dialog along the major axis
          (the screen is in portrait). This may be either a fraction or a dimension.
  The platform's desired fixed height for a dialog along the major axis
@@ -1674,8 +1675,11 @@ containing a value of this type.
         public static final int dialog_fixed_width_minor=0x7f08000d;
         public static final int disabled_alpha_material_dark=0x7f080001;
         public static final int disabled_alpha_material_light=0x7f080000;
-        public static final int main_footer_height=0x7f08002e;
-        public static final int portrait_size=0x7f08002f;
+        public static final int message_icon_size=0x7f08002e;
+        public static final int message_previewWords_textsize=0x7f080032;
+        public static final int message_timestamp_textsize=0x7f080033;
+        public static final int message_title_textsize=0x7f080031;
+        public static final int recyclerView_padding=0x7f08002f;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2589,65 +2593,65 @@ containing a value of this type.
         public static final int ic_action_send_now=0x7f02038c;
         public static final int ic_action_settings=0x7f02038d;
         public static final int ic_action_slideshow=0x7f02038e;
-        public static final int ic_launcher=0x7f02038f;
-        public static final int ic_menu_friendslist=0x7f020390;
-        public static final int ic_menu_preferences=0x7f020391;
-        public static final int ic_menu_start_conversation=0x7f020392;
-        public static final int ic_person=0x7f020393;
-        public static final int ic_secure=0x7f020394;
-        public static final int ic_web_site=0x7f020395;
-        public static final int largebtn_background=0x7f020396;
-        public static final int largebtn_background_normal=0x7f020397;
-        public static final int largebtn_background_pressed=0x7f020398;
-        public static final int largebtn_background_unable=0x7f020399;
-        public static final int login_logo=0x7f02039a;
-        public static final int orca_attach_camera_normal=0x7f02039b;
-        public static final int orca_attach_camera_pressed=0x7f02039c;
-        public static final int orca_attach_location_normal=0x7f02039d;
-        public static final int orca_attach_location_pressed=0x7f02039e;
-        public static final int orca_attach_photo_normal=0x7f02039f;
-        public static final int orca_attach_photo_pressed=0x7f0203a0;
-        public static final int orca_attachments_arrow=0x7f0203a1;
-        public static final int orca_attachments_arrow_reversed=0x7f0203a2;
-        public static final int orca_composer_attach_camera_button=0x7f0203a3;
-        public static final int orca_composer_attach_location_button=0x7f0203a4;
-        public static final int orca_composer_attach_photo_button=0x7f0203a5;
-        public static final int orca_composer_divider_horizontal=0x7f0203a6;
-        public static final int orca_composer_divider_vertical=0x7f0203a7;
-        public static final int orca_composer_popup_active_normal=0x7f0203a8;
-        public static final int orca_composer_popup_active_pressed=0x7f0203a9;
-        public static final int orca_composer_popup_button=0x7f0203aa;
-        public static final int orca_composer_popup_button_active=0x7f0203ab;
-        public static final int orca_composer_popup_normal=0x7f0203ac;
-        public static final int orca_composer_popup_pressed=0x7f0203ad;
-        public static final int orca_composer_tab=0x7f0203ae;
-        public static final int orca_composer_tab_active=0x7f0203af;
-        public static final int orca_composer_tab_dark=0x7f0203b0;
-        public static final int orca_composer_tab_pressed=0x7f0203b1;
-        public static final int orca_composer_top_divider=0x7f0203b2;
-        public static final int orca_emoji_backspace_back_normal=0x7f0203b3;
-        public static final int orca_emoji_backspace_front_button=0x7f0203b4;
-        public static final int orca_emoji_backspace_front_normal=0x7f0203b5;
-        public static final int orca_emoji_backspace_front_pressed=0x7f0203b6;
-        public static final int orca_emoji_category_cars=0x7f0203b7;
-        public static final int orca_emoji_category_nature=0x7f0203b8;
-        public static final int orca_emoji_category_objects=0x7f0203b9;
-        public static final int orca_emoji_category_people=0x7f0203ba;
-        public static final int orca_emoji_category_punctuation=0x7f0203bb;
-        public static final int orca_emoji_more_back_normal=0x7f0203bc;
-        public static final int orca_emoji_more_front_button=0x7f0203bd;
-        public static final int orca_emoji_more_front_normal=0x7f0203be;
-        public static final int orca_emoji_more_front_pressed=0x7f0203bf;
-        public static final int orca_emoji_tab_background=0x7f0203c0;
-        public static final int orca_emoji_tab_dark_background=0x7f0203c1;
-        public static final int spinner=0x7f0203c2;
-        public static final int spinner_outer=0x7f0203c3;
-        public static final int tab_bg=0x7f0203c4;
-        public static final int text_divide=0x7f0203c5;
+        public static final int ic_chziroy=0x7f02038f;
+        public static final int ic_launcher=0x7f020390;
+        public static final int ic_menu_friendslist=0x7f020391;
+        public static final int ic_menu_preferences=0x7f020392;
+        public static final int ic_menu_start_conversation=0x7f020393;
+        public static final int ic_person=0x7f020394;
+        public static final int ic_secure=0x7f020395;
+        public static final int ic_web_site=0x7f020396;
+        public static final int largebtn_background=0x7f020397;
+        public static final int largebtn_background_normal=0x7f020398;
+        public static final int largebtn_background_pressed=0x7f020399;
+        public static final int largebtn_background_unable=0x7f02039a;
+        public static final int login_logo=0x7f02039b;
+        public static final int orca_attach_camera_normal=0x7f02039c;
+        public static final int orca_attach_camera_pressed=0x7f02039d;
+        public static final int orca_attach_location_normal=0x7f02039e;
+        public static final int orca_attach_location_pressed=0x7f02039f;
+        public static final int orca_attach_photo_normal=0x7f0203a0;
+        public static final int orca_attach_photo_pressed=0x7f0203a1;
+        public static final int orca_attachments_arrow=0x7f0203a2;
+        public static final int orca_attachments_arrow_reversed=0x7f0203a3;
+        public static final int orca_composer_attach_camera_button=0x7f0203a4;
+        public static final int orca_composer_attach_location_button=0x7f0203a5;
+        public static final int orca_composer_attach_photo_button=0x7f0203a6;
+        public static final int orca_composer_divider_horizontal=0x7f0203a7;
+        public static final int orca_composer_divider_vertical=0x7f0203a8;
+        public static final int orca_composer_popup_active_normal=0x7f0203a9;
+        public static final int orca_composer_popup_active_pressed=0x7f0203aa;
+        public static final int orca_composer_popup_button=0x7f0203ab;
+        public static final int orca_composer_popup_button_active=0x7f0203ac;
+        public static final int orca_composer_popup_normal=0x7f0203ad;
+        public static final int orca_composer_popup_pressed=0x7f0203ae;
+        public static final int orca_composer_tab=0x7f0203af;
+        public static final int orca_composer_tab_active=0x7f0203b0;
+        public static final int orca_composer_tab_dark=0x7f0203b1;
+        public static final int orca_composer_tab_pressed=0x7f0203b2;
+        public static final int orca_composer_top_divider=0x7f0203b3;
+        public static final int orca_emoji_backspace_back_normal=0x7f0203b4;
+        public static final int orca_emoji_backspace_front_button=0x7f0203b5;
+        public static final int orca_emoji_backspace_front_normal=0x7f0203b6;
+        public static final int orca_emoji_backspace_front_pressed=0x7f0203b7;
+        public static final int orca_emoji_category_cars=0x7f0203b8;
+        public static final int orca_emoji_category_nature=0x7f0203b9;
+        public static final int orca_emoji_category_objects=0x7f0203ba;
+        public static final int orca_emoji_category_people=0x7f0203bb;
+        public static final int orca_emoji_category_punctuation=0x7f0203bc;
+        public static final int orca_emoji_more_back_normal=0x7f0203bd;
+        public static final int orca_emoji_more_front_button=0x7f0203be;
+        public static final int orca_emoji_more_front_normal=0x7f0203bf;
+        public static final int orca_emoji_more_front_pressed=0x7f0203c0;
+        public static final int orca_emoji_tab_background=0x7f0203c1;
+        public static final int orca_emoji_tab_dark_background=0x7f0203c2;
+        public static final int spinner=0x7f0203c3;
+        public static final int spinner_outer=0x7f0203c4;
+        public static final int tab_bg=0x7f0203c5;
+        public static final int text_divide=0x7f0203c6;
     }
     public static final class id {
         public static final int Emoji_GridView=0x7f0a004d;
-        public static final int MessageFromWho=0x7f0a005f;
         public static final int action_add_friend=0x7f0a0069;
         public static final int action_add_group_chat=0x7f0a0068;
         public static final int action_bar=0x7f0a0033;
@@ -2697,7 +2701,7 @@ containing a value of this type.
         public static final int emojis_tab_4_punctuation=0x7f0a0055;
         public static final int end=0x7f0a001c;
         public static final int et_account=0x7f0a0042;
-        public static final int et_dialogContent=0x7f0a005b;
+        public static final int et_dialogContent=0x7f0a005c;
         public static final int et_password=0x7f0a0043;
         public static final int et_repeatPassword=0x7f0a004b;
         public static final int expand_activities_button=0x7f0a0024;
@@ -2707,24 +2711,25 @@ containing a value of this type.
         public static final int icon=0x7f0a0028;
         public static final int ifRoom=0x7f0a0016;
         public static final int image=0x7f0a0025;
-        public static final int inputDialogCancel=0x7f0a005c;
-        public static final int inputDialogConfirm=0x7f0a005d;
+        public static final int inputDialogCancel=0x7f0a005d;
+        public static final int inputDialogConfirm=0x7f0a005e;
         public static final int listMode=0x7f0a000a;
         public static final int list_item=0x7f0a0027;
-        public static final int messageIcon=0x7f0a005e;
+        public static final int messageIcon=0x7f0a0060;
+        public static final int messages_recycle_view=0x7f0a0059;
         public static final int middle=0x7f0a001d;
-        public static final int name=0x7f0a0062;
+        public static final int name=0x7f0a005f;
         public static final int never=0x7f0a0017;
         public static final int none=0x7f0a000f;
         public static final int normal=0x7f0a000b;
-        public static final int popupDialogTitle=0x7f0a005a;
-        public static final int previewWords=0x7f0a0060;
+        public static final int popupDialogTitle=0x7f0a005b;
+        public static final int previewWords=0x7f0a0061;
         public static final int progress=0x7f0a0063;
         public static final int progress_circular=0x7f0a0007;
         public static final int progress_horizontal=0x7f0a0008;
         public static final int radio=0x7f0a002d;
         public static final int rect=0x7f0a001f;
-        public static final int root=0x7f0a0059;
+        public static final int root=0x7f0a005a;
         public static final int search_badge=0x7f0a0037;
         public static final int search_bar=0x7f0a0036;
         public static final int search_button=0x7f0a0038;
@@ -2746,7 +2751,7 @@ containing a value of this type.
         public static final int submit_area=0x7f0a003e;
         public static final int switchAutoUpdate=0x7f0a004a;
         public static final int tabMode=0x7f0a000c;
-        public static final int timeStamp=0x7f0a0061;
+        public static final int timeStamp=0x7f0a0062;
         public static final int title=0x7f0a0029;
         public static final int toolbar=0x7f0a0041;
         public static final int up=0x7f0a0001;
@@ -2817,8 +2822,8 @@ containing a value of this type.
         public static final int fragment_messages=0x7f030021;
         public static final int horizon_line=0x7f030022;
         public static final int input_dialog=0x7f030023;
-        public static final int item_chatting=0x7f030024;
-        public static final int item_contact=0x7f030025;
+        public static final int item_contact=0x7f030024;
+        public static final int item_message=0x7f030025;
         public static final int loading_dialog=0x7f030026;
         public static final int support_simple_spinner_dropdown_item=0x7f030027;
     }
@@ -2948,11 +2953,17 @@ containing a value of this type.
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
+
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
+
 
         
 
@@ -3123,8 +3134,8 @@ containing a value of this type.
         public static final int LargeButton=0x7f0c00ee;
         /**  ActionBar styles 
          */
-        public static final int MyActionBar=0x7f0c00f9;
-        public static final int Overflow=0x7f0c00fa;
+        public static final int MyActionBar=0x7f0c00fc;
+        public static final int Overflow=0x7f0c00fd;
         public static final int Platform_AppCompat=0x7f0c00c9;
         public static final int Platform_AppCompat_Dialog=0x7f0c00cb;
         public static final int Platform_AppCompat_Light=0x7f0c00ca;
@@ -3223,7 +3234,7 @@ containing a value of this type.
         public static final int Theme_AppCompat_NoActionBar=0x7f0c00bd;
         /**  the theme applied to the application or activity 
          */
-        public static final int Theme_zChat=0x7f0c00f8;
+        public static final int Theme_zChat=0x7f0c00fb;
         public static final int ThemeOverlay_AppCompat=0x7f0c00c4;
         /**  Theme overlay that replaces the normal control color, which by default is the same as the
          secondary text color, with the primary text color. 
@@ -3307,6 +3318,9 @@ containing a value of this type.
          */
         public static final int Widget_AppCompat_Toolbar=0x7f0c0034;
         public static final int Widget_AppCompat_Toolbar_Button_Navigation=0x7f0c0035;
+        public static final int msg_previewWords=0x7f0c00f9;
+        public static final int msg_timeStamp=0x7f0c00fa;
+        public static final int msg_title=0x7f0c00f8;
     }
     public static final class styleable {
         /**  ============================================ 

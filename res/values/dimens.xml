@@ -2,18 +2,20 @@
 <resources>
 
    
-
-
-    <dimen name="common_actionbar_marginBottom"> 14dip</dimen>
    	<dimen name="dialogFragment_width">300dip</dimen>
     <dimen name="dialogFragment_heigth">120dip</dimen>
 
-    <dimen name="main_footer_height">55dip</dimen>
     
 
     
-    <dimen name="portrait_size">30dip</dimen>
-    
-
-    
+    <dimen name="contact_icon_size">40dip</dimen>
+    <dimen name="message_icon_size">50dip</dimen>
+    <dimen name="recyclerView_padding">5dip</dimen>
+    <dimen name="contanct_name_textsize">18sp</dimen>
+   	
+	<dimen name="message_title_textsize">20sp</dimen>
+	<dimen name="message_previewWords_textsize">16sp</dimen>
+	<dimen name="message_timestamp_textsize">14dip</dimen>
+	
+	
 </resources>

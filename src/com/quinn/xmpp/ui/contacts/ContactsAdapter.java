@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.ui.main.MainActivity;
 
 /**
  * @author Quinn
@@ -20,8 +21,10 @@ import com.quinn.xmpp.R;
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
 
 	private ArrayList<ContactsDataItem> dataItems;
+	private MainActivity activity;
 	
-	public ContactsAdapter(ArrayList<ContactsDataItem> dataItems){
+	public ContactsAdapter(MainActivity activity, ArrayList<ContactsDataItem> dataItems){
+		this.activity = activity;
 		this.dataItems = dataItems;
 	}
 	
@@ -46,6 +49,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder , int position) {
     	holder.name.setText(dataItems.get(position).getName());
+    	holder.icon.setImageResource(R.drawable.ic_chziroy);
     }
 
 

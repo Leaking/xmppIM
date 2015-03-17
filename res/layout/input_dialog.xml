@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:background="@drawable/actionbar_background"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="@dimen/common_actionbar_marginBottom"
-         >
+        android:gravity="center_vertical" >
 
         <TextView
             android:id="@+id/popupDialogTitle"

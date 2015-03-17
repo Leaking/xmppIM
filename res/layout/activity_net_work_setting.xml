@@ -21,8 +21,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_gray"
-        android:paddingTop="@dimen/common_actionbar_marginBottom" >
+        android:background="@color/color_gray" >
 
         <LinearLayout
             android:layout_width="match_parent"
