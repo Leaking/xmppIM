@@ -7,11 +7,14 @@
 
     
 
+    <dimen name="drawer_header_icon_size">50dip</dimen>
+    <dimen name="drawer_body_icon_size">30dip</dimen>
+    <dimen name="drawer_textsize">16sp</dimen>
     
     <dimen name="contact_icon_size">40dip</dimen>
     <dimen name="message_icon_size">50dip</dimen>
     <dimen name="recyclerView_padding">5dip</dimen>
-    <dimen name="contanct_name_textsize">18sp</dimen>
+    <dimen name="contact_name_textsize">18sp</dimen>
    	
 	<dimen name="message_title_textsize">20sp</dimen>
 	<dimen name="message_previewWords_textsize">16sp</dimen>

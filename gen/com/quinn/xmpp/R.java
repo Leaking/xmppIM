@@ -1636,9 +1636,9 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080035;
-        public static final int contact_icon_size=0x7f08002d;
-        public static final int contanct_name_textsize=0x7f080030;
+        public static final int activity_horizontal_margin=0x7f080038;
+        public static final int contact_icon_size=0x7f080030;
+        public static final int contact_name_textsize=0x7f080033;
         public static final int dialogFragment_heigth=0x7f08002c;
         public static final int dialogFragment_width=0x7f08002b;
         /**  The platform's desired fixed height for a dialog along the major axis
@@ -1675,12 +1675,15 @@ containing a value of this type.
         public static final int dialog_fixed_width_minor=0x7f08000d;
         public static final int disabled_alpha_material_dark=0x7f080001;
         public static final int disabled_alpha_material_light=0x7f080000;
-        public static final int message_icon_size=0x7f08002e;
-        public static final int message_previewWords_textsize=0x7f080032;
-        public static final int message_timestamp_textsize=0x7f080033;
-        public static final int message_title_textsize=0x7f080031;
-        public static final int recyclerView_padding=0x7f08002f;
-        public static final int recyclerView_small_divider=0x7f080034;
+        public static final int drawer_body_icon_size=0x7f08002e;
+        public static final int drawer_header_icon_size=0x7f08002d;
+        public static final int drawer_textsize=0x7f08002f;
+        public static final int message_icon_size=0x7f080031;
+        public static final int message_previewWords_textsize=0x7f080035;
+        public static final int message_timestamp_textsize=0x7f080036;
+        public static final int message_title_textsize=0x7f080034;
+        public static final int recyclerView_padding=0x7f080032;
+        public static final int recyclerView_small_divider=0x7f080037;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2825,9 +2828,11 @@ containing a value of this type.
         public static final int horizon_line=0x7f030022;
         public static final int input_dialog=0x7f030023;
         public static final int item_contact=0x7f030024;
-        public static final int item_message=0x7f030025;
-        public static final int loading_dialog=0x7f030026;
-        public static final int support_simple_spinner_dropdown_item=0x7f030027;
+        public static final int item_drawer_body=0x7f030025;
+        public static final int item_drawer_header=0x7f030026;
+        public static final int item_message=0x7f030027;
+        public static final int loading_dialog=0x7f030028;
+        public static final int support_simple_spinner_dropdown_item=0x7f030029;
     }
     public static final class menu {
         public static final int chat_room=0x7f0e0000;
