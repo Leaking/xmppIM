@@ -3,4 +3,11 @@ xmppIM
 
 an android IM tools based xmpp protocal and asmack
 
-These codes make me think of my school time.Move on , I will improve these ugly code from now on.
+
+
+relate library
+
+[SlideSwitch](https://github.com/Leaking/SlideSwitch)
+[IconLibrary](https://github.com/atermenji/IconicDroid)
+[Emojicon](https://github.com/rockerhieu/emojicon)
+android-support-v7-appcompat  : in you sdk/extras/android/v7/
