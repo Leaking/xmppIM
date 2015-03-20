@@ -3,6 +3,8 @@ package com.quinn.xmpp.ui.drawer;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atermenji.android.iconicdroid.icon.IconicIcon;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseDataItem;
-import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.util.ImageUtils;
 
 /**
  * @author Quinn
@@ -70,8 +73,8 @@ public class DrawerAdapter extends BaseAdapter{
 		} else {
 			viewholder = (ViewHolder) convertView.getTag();
 		}
-		
-		viewholder.functionIconOrUserPortrait.setImageResource(R.drawable.ic_chziroy);
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_chziroy);
+		viewholder.functionIconOrUserPortrait.setImageBitmap(ImageUtils.toRoundBitmap(bitmap, true));
 		viewholder.functionNameOrUsername.setText("Quinn");
 		
 		return convertView;
@@ -91,10 +94,9 @@ public class DrawerAdapter extends BaseAdapter{
 		} else {
 			viewholder = (ViewHolder) convertView.getTag();
 		}
-		
-		viewholder.functionIconOrUserPortrait.setImageResource(R.drawable.ic_chziroy);
-		viewholder.functionNameOrUsername.setText(dataItems.get(position).getFunctionName());
-		
+
+		viewholder.functionNameOrUsername.setText(dataItems.get(position).getFunctionName());	
+		ImageUtils.setIconFont(context, viewholder.functionIconOrUserPortrait, dataItems.get(position).getFunctionIconId(), R.color.color_black);
 		return convertView;
 	}
 	

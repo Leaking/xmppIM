@@ -1,5 +1,6 @@
 package com.quinn.xmpp.ui.drawer;
 
+import com.atermenji.android.iconicdroid.icon.Icon;
 import com.quinn.xmpp.ui.BaseDataItem;
 
 /**
@@ -10,19 +11,31 @@ import com.quinn.xmpp.ui.BaseDataItem;
 public class DrawerDataItem extends BaseDataItem{
 	
 	
-	private int functionIconId;
-	private int functionName;
+	private Icon functionIconId;
+	private String functionName;
 	
-	public int getFunctionIconId() {
+	
+	public DrawerDataItem(Icon functionIconId,String functionName){
+		this.functionIconId = functionIconId;
+		this.functionName = functionName;
+	}
+	
+	/**
+	 * 
+	 */
+	public DrawerDataItem() {
+	}
+
+	public Icon getFunctionIconId() {
 		return functionIconId;
 	}
-	public void setFunctionIconId(int functionIconId) {
+	public void setFunctionIconId(Icon functionIconId) {
 		this.functionIconId = functionIconId;
 	}
-	public int getFunctionName() {
+	public String getFunctionName() {
 		return functionName;
 	}
-	public void setFunctionName(int functionName) {
+	public void setFunctionName(String functionName) {
 		this.functionName = functionName;
 	}
 	

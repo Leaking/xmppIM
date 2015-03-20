@@ -23,6 +23,7 @@ public class Intents {
 		
 		private final Intent intent;
 
+		
 		public Builder(){
 			intent = new Intent();
 		}

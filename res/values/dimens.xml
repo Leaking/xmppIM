@@ -6,8 +6,8 @@
     <dimen name="dialogFragment_heigth">120dip</dimen>
 
     
-
-    <dimen name="drawer_header_icon_size">50dip</dimen>
+	<dimen name="drawer_header_height">130dip</dimen>
+    <dimen name="drawer_header_icon_size">80dip</dimen>
     <dimen name="drawer_body_icon_size">30dip</dimen>
     <dimen name="drawer_textsize">16sp</dimen>
     
