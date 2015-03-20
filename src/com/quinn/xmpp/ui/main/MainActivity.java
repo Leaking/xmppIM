@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle("XMPP");
 		setSupportActionBar(toolbar);
-
+		toolbar.setPopupTheme(R.color.theme_color);
 		DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,

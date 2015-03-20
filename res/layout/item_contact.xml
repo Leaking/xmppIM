@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="@dimen/recyclerView_padding" >
+    android:padding="@dimen/contact_message_item_padding" >
 
     <ImageView
         android:id="@+id/icon"

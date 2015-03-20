@@ -1,13 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.quinn.xmpp.MainActivity" >
 
     <item
         android:id="@+id/action_search"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/action_new_account"
-        android:showAsAction="ifRoom|collapseActionView"
-        android:title="action_search"/>
+        android:title="action_search"
+        app:showAsAction="always|collapseActionView"/>
     <item
         android:id="@+id/action_add_group_chat"
         android:icon="@drawable/action_new_account"
@@ -20,8 +21,5 @@
         android:id="@+id/action_scan"
         android:icon="@drawable/action_new_account"
         android:title="@string/menu_item_scan"/>
-    <item
-        android:id="@+id/action_help_and_feedback"
-        android:icon="@drawable/action_new_account"
-        android:title="@string/menu_item_help_and_feedback"/>
+
 </menu>

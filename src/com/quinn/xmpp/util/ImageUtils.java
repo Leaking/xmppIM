@@ -22,13 +22,18 @@ import com.atermenji.android.iconicdroid.icon.Icon;
  */
 public class ImageUtils {
 
-	public static void setIconFont(Context context, ImageView iv, Icon icon,
-			int rsid) {
-		IconicFontDrawable iconDraw = new IconicFontDrawable(context);
-		iconDraw.setIcon(icon);
-		iconDraw.setIconColor(context.getResources().getColor(rsid));
-		iv.setBackgroundDrawable(iconDraw);
+	
+	
+	
+	
+	public static IconicFontDrawable buildIconFont(Context context,Icon icon, int color){
+		IconicFontDrawable iconFont = new IconicFontDrawable(context);
+		iconFont.setIcon(icon);
+		iconFont.setIconColor(color);
+		return iconFont;
 	}
+	
+
 
 	public static Bitmap toRoundBitmap(Bitmap bitmap, boolean ifonline) {
 

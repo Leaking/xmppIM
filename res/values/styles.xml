@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -31,8 +31,8 @@
     </style>
 
     <style name="GlobleSingleLineEditText" parent="Global">
-        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dip</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:autoText">false</item>
         <item name="android:capitalize">none</item>
         <item name="android:drawablePadding">5dip</item>
@@ -92,7 +92,7 @@
         <item name="android:textSize">@dimen/message_previewWords_textsize</item>
         <item name="android:textColor">@color/color_gray</item>
     </style>
-    
+
     <style name="msg_timeStamp" parent="TextViewStyleBase">
         <item name="android:textSize">@dimen/message_timestamp_textsize</item>
         <item name="android:textColor">@color/color_gray</item>

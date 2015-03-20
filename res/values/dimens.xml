@@ -6,14 +6,15 @@
     <dimen name="dialogFragment_heigth">120dip</dimen>
 
     
-	<dimen name="drawer_header_height">130dip</dimen>
-    <dimen name="drawer_header_icon_size">80dip</dimen>
-    <dimen name="drawer_body_icon_size">30dip</dimen>
+	<dimen name="drawer_header_height">140dip</dimen>
+    <dimen name="drawer_header_icon_size">70dip</dimen>
+    <dimen name="drawer_body_icon_size">25dip</dimen>
     <dimen name="drawer_textsize">16sp</dimen>
+    <dimen name="drawer_item_padding">13dip</dimen>
     
     <dimen name="contact_icon_size">40dip</dimen>
     <dimen name="message_icon_size">50dip</dimen>
-    <dimen name="recyclerView_padding">5dip</dimen>
+    <dimen name="contact_message_item_padding">5dip</dimen>
     <dimen name="contact_name_textsize">18sp</dimen>
    	
 	<dimen name="message_title_textsize">20sp</dimen>

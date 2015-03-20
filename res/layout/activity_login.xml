@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     tools:context=".LoginActivity" >
 
     <android.support.v7.widget.Toolbar
@@ -13,6 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
         android:background="@color/theme_color"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -21,6 +21,9 @@
     <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_account"
         style="@style/GlobleSingleLineEditText"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:drawableLeft="@drawable/ic_person"
         android:drawableStart="@drawable/ic_person"
         android:hint="@string/login_hint_account"
@@ -31,6 +34,9 @@
     <com.quinn.xmpp.ui.widget.CleanableEditText
         android:id="@+id/et_password"
         style="@style/GlobleSingleLineEditText"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:drawableLeft="@drawable/ic_secure"
         android:drawableStart="@drawable/ic_secure"
         android:hint="@string/login_hint_password"
@@ -41,7 +47,8 @@
     <Button
         android:id="@+id/bt_login"
         style="@style/LargeButton"
-        android:layout_marginTop="4dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:text="@string/button_text_login" />
 
 </LinearLayout>

@@ -18,8 +18,8 @@
     android:shape="rectangle" >
     <gradient
         android:angle="270"
-        android:endColor="@color/buttom_pressed"
-        android:startColor="@color/buttom_pressed" />
+        android:endColor="@color/theme_color_pressed"
+        android:startColor="@color/theme_color_pressed" />
     <corners
         android:radius="5dip"
         />

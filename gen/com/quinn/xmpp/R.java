@@ -1449,25 +1449,25 @@ containing a value of this type.
         public static final int abc_config_showMenuShortcutsWhenKeyboardPresent=0x7f060003;
     }
     public static final class color {
-        public static final int abc_background_cache_hint_selector_material_dark=0x7f070043;
-        public static final int abc_background_cache_hint_selector_material_light=0x7f070044;
+        public static final int abc_background_cache_hint_selector_material_dark=0x7f070044;
+        public static final int abc_background_cache_hint_selector_material_light=0x7f070045;
         public static final int abc_input_method_navigation_guard=0x7f070003;
-        public static final int abc_primary_text_disable_only_material_dark=0x7f070045;
-        public static final int abc_primary_text_disable_only_material_light=0x7f070046;
-        public static final int abc_primary_text_material_dark=0x7f070047;
-        public static final int abc_primary_text_material_light=0x7f070048;
-        public static final int abc_search_url_text=0x7f070049;
+        public static final int abc_primary_text_disable_only_material_dark=0x7f070046;
+        public static final int abc_primary_text_disable_only_material_light=0x7f070047;
+        public static final int abc_primary_text_material_dark=0x7f070048;
+        public static final int abc_primary_text_material_light=0x7f070049;
+        public static final int abc_search_url_text=0x7f07004a;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
-        public static final int abc_secondary_text_material_dark=0x7f07004a;
-        public static final int abc_secondary_text_material_light=0x7f07004b;
+        public static final int abc_secondary_text_material_dark=0x7f07004b;
+        public static final int abc_secondary_text_material_light=0x7f07004c;
         public static final int accent_material_dark=0x7f07000f;
         public static final int accent_material_light=0x7f07000e;
-        public static final int actionbar_background_bottom=0x7f070033;
-        public static final int actionbar_background_end=0x7f070034;
-        public static final int actionbar_background_start=0x7f070035;
-        public static final int actionbar_background_top=0x7f070032;
+        public static final int actionbar_background_bottom=0x7f070034;
+        public static final int actionbar_background_end=0x7f070035;
+        public static final int actionbar_background_start=0x7f070036;
+        public static final int actionbar_background_top=0x7f070033;
         public static final int background_floating_material_dark=0x7f070006;
         public static final int background_floating_material_light=0x7f070007;
         public static final int background_material_dark=0x7f070004;
@@ -1482,20 +1482,20 @@ containing a value of this type.
         public static final int bright_foreground_inverse_material_light=0x7f070019;
         public static final int bright_foreground_material_dark=0x7f070014;
         public static final int bright_foreground_material_light=0x7f070015;
-        public static final int buttom_normal=0x7f070037;
-        public static final int buttom_pressed=0x7f070038;
-        public static final int buttom_unable=0x7f070039;
+        public static final int buttom_normal=0x7f070038;
+        public static final int buttom_pressed=0x7f070039;
+        public static final int buttom_unable=0x7f07003a;
         public static final int button_material_dark=0x7f070010;
         public static final int button_material_light=0x7f070011;
-        public static final int color_black=0x7f07003c;
-        public static final int color_gray=0x7f07003b;
-        public static final int color_white=0x7f07003a;
+        public static final int color_black=0x7f07003d;
+        public static final int color_gray=0x7f07003c;
+        public static final int color_white=0x7f07003b;
         public static final int dim_foreground_disabled_material_dark=0x7f07001c;
         public static final int dim_foreground_disabled_material_light=0x7f07001d;
         public static final int dim_foreground_material_dark=0x7f07001a;
         public static final int dim_foreground_material_light=0x7f07001b;
-        public static final int grayLine=0x7f07003e;
-        public static final int grayTxt=0x7f07003d;
+        public static final int grayLine=0x7f07003f;
+        public static final int grayTxt=0x7f07003e;
         /**  TODO: This is 40% alpha on the default accent color. 
          */
         public static final int highlighted_text_material_dark=0x7f070020;
@@ -1511,10 +1511,10 @@ containing a value of this type.
         public static final int material_blue_grey_950=0x7f070030;
         public static final int material_deep_teal_200=0x7f07002c;
         public static final int material_deep_teal_500=0x7f07002d;
-        public static final int pocket_blue=0x7f070040;
-        public static final int pocket_gold=0x7f070042;
-        public static final int pocket_green=0x7f07003f;
-        public static final int pocket_red=0x7f070041;
+        public static final int pocket_blue=0x7f070041;
+        public static final int pocket_gold=0x7f070043;
+        public static final int pocket_green=0x7f070040;
+        public static final int pocket_red=0x7f070042;
         public static final int primary_dark_material_dark=0x7f07000a;
         public static final int primary_dark_material_light=0x7f07000b;
         public static final int primary_material_dark=0x7f070008;
@@ -1536,7 +1536,8 @@ containing a value of this type.
         public static final int switch_thumb_normal_material_dark=0x7f070012;
         public static final int switch_thumb_normal_material_light=0x7f070013;
         public static final int theme_color=0x7f070031;
-        public static final int window_color=0x7f070036;
+        public static final int theme_color_pressed=0x7f070032;
+        public static final int window_color=0x7f070037;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1637,9 +1638,10 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080039;
-        public static final int contact_icon_size=0x7f080031;
-        public static final int contact_name_textsize=0x7f080034;
+        public static final int activity_horizontal_margin=0x7f08003a;
+        public static final int contact_icon_size=0x7f080032;
+        public static final int contact_message_item_padding=0x7f080034;
+        public static final int contact_name_textsize=0x7f080035;
         public static final int dialogFragment_heigth=0x7f08002c;
         public static final int dialogFragment_width=0x7f08002b;
         /**  The platform's desired fixed height for a dialog along the major axis
@@ -1679,13 +1681,13 @@ containing a value of this type.
         public static final int drawer_body_icon_size=0x7f08002f;
         public static final int drawer_header_height=0x7f08002d;
         public static final int drawer_header_icon_size=0x7f08002e;
+        public static final int drawer_item_padding=0x7f080031;
         public static final int drawer_textsize=0x7f080030;
-        public static final int message_icon_size=0x7f080032;
-        public static final int message_previewWords_textsize=0x7f080036;
-        public static final int message_timestamp_textsize=0x7f080037;
-        public static final int message_title_textsize=0x7f080035;
-        public static final int recyclerView_padding=0x7f080033;
-        public static final int recyclerView_small_divider=0x7f080038;
+        public static final int message_icon_size=0x7f080033;
+        public static final int message_previewWords_textsize=0x7f080037;
+        public static final int message_timestamp_textsize=0x7f080038;
+        public static final int message_title_textsize=0x7f080036;
+        public static final int recyclerView_small_divider=0x7f080039;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_holo_dark=0x7f020000;
@@ -2669,7 +2671,6 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f0a0021;
         public static final int action_bar_title=0x7f0a0020;
         public static final int action_context_bar=0x7f0a0034;
-        public static final int action_help_and_feedback=0x7f0a006c;
         public static final int action_menu_divider=0x7f0a0005;
         public static final int action_menu_presenter=0x7f0a0006;
         public static final int action_mode_bar=0x7f0a0030;
@@ -2966,11 +2967,13 @@ containing a value of this type.
 
 
 
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
 
 
 

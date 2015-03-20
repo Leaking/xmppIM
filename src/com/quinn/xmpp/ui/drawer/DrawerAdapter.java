@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseDataItem;
@@ -96,7 +98,8 @@ public class DrawerAdapter extends BaseAdapter{
 		}
 
 		viewholder.functionNameOrUsername.setText(dataItems.get(position).getFunctionName());	
-		ImageUtils.setIconFont(context, viewholder.functionIconOrUserPortrait, dataItems.get(position).getFunctionIconId(), R.color.color_black);
+		IconicFontDrawable iconfont = ImageUtils.buildIconFont(context,  dataItems.get(position).getFunctionIconId(), Color.BLACK);
+		viewholder.functionIconOrUserPortrait.setBackgroundDrawable(iconfont);
 		return convertView;
 	}
 	
