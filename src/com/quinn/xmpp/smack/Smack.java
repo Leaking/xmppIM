@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.XMPPConnection;
 
 
 /**
@@ -17,6 +18,7 @@ public interface Smack{
 	public boolean login(String account, String passoword);
 	public boolean signUp(String account, String password);
 	public ArrayList<RosterEntry> getAllRosterEntry();
+	public XMPPConnection getConnection();
 	
 	/**
 	 * get all

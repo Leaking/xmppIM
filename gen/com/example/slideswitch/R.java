@@ -8,26 +8,26 @@ package com.example.slideswitch;
 
 public final class R {
 	public static final class attr {
-		public static final int isOpen = 0x7f0100ab;
-		public static final int shape = 0x7f0100ac;
-		public static final int themeColor = 0x7f0100aa;
+		public static final int isOpen = 0x7f010001;
+		public static final int shape = 0x7f010002;
+		public static final int themeColor = 0x7f010000;
 	}
 	public static final class drawable {
 		public static final int ic_launcher = 0x7f020390;
 	}
 	public static final class id {
-		public static final int circle = 0x7f0a001e;
-		public static final int rect = 0x7f0a001f;
+		public static final int circle = 0x7f0c0009;
+		public static final int rect = 0x7f0c000a;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f0b0010;
+		public static final int app_name = 0x7f060000;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f0c00eb;
-		public static final int AppTheme = 0x7f0c00ec;
+		public static final int AppBaseTheme = 0x7f070000;
+		public static final int AppTheme = 0x7f070001;
 	}
 	public static final class styleable {
-		public static final int[] slideswitch = { 0x7f0100aa, 0x7f0100ab, 0x7f0100ac };
+		public static final int[] slideswitch = { 0x7f010000, 0x7f010001, 0x7f010002 };
 		public static final int slideswitch_isOpen = 1;
 		public static final int slideswitch_shape = 2;
 		public static final int slideswitch_themeColor = 0;

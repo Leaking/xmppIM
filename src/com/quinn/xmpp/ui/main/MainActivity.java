@@ -73,7 +73,6 @@ public class MainActivity extends BaseActivity {
 						return Color.WHITE;
 					}
 				});
-		//System.out.println("all roster = " + smack.getAllRosterEntry());
 	}
 
 	@Override

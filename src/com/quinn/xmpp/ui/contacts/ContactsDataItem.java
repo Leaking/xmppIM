@@ -1,5 +1,7 @@
 package com.quinn.xmpp.ui.contacts;
 
+import org.jivesoftware.smack.RosterEntry;
+
 /**
  * @author Quinn
  * @date 2015-3-16
@@ -17,6 +19,11 @@ public class ContactsDataItem {
 		this.name = name;
 	}
 	
+	public ContactsDataItem(RosterEntry rosterEntry){
+		this.name = rosterEntry.getUser();
+		this.iconURL = null;
+	}
+	
 	public String getIconURL() {
 		return iconURL;
 	}
@@ -29,6 +36,9 @@ public class ContactsDataItem {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	
 	
 	
 }

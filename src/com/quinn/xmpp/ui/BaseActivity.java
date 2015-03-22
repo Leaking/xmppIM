@@ -18,7 +18,7 @@ public class BaseActivity extends ActionBarActivity {
 	protected Context context;
 	protected App app;
 
-	protected Smack smack;
+	public Smack smack;
 
 	@Override
 	protected void onCreate(Bundle bundle) {

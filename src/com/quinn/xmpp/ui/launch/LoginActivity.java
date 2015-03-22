@@ -107,6 +107,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 
 	@OnClick(R.id.bt_login)
 	void handleLogin() {
+	   
 		loadingDialog.show(this.getSupportFragmentManager(), "tag");
 		new ConnectTask(smack) {
 			@Override
@@ -129,7 +130,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 	public void loginAfterConnect() {
 		account = accountView.getText().toString();
 		password = passwordView.getText().toString();
-		new LoginTask(smack) {
+		new LoginTask(getResources(),smack) {
 			@Override
 			protected void onPostExecute(Boolean result) {
 				loadingDialog.dismissAllowingStateLoss();

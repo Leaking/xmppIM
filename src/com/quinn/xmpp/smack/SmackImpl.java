@@ -92,7 +92,9 @@ public class SmackImpl implements Smack {
 	}
 	
 	
-	
+	public XMPPConnection getConnection(){
+		return xmppConn;
+	}
 
 
 
