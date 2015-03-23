@@ -28,7 +28,10 @@
     <string name="setting_leftTxt_openfireIP">Openfire IP</string>
     <string name="menu_item_new_group_chat">发起群聊</string>
     <string name="menu_item_add_a_friend">添加朋友</string>
-	<string name="menu_item_scan">扫一扫</string>
-	<string name="menu_item_help_and_feedback">帮助和反馈</string>
-	
+    <string name="menu_item_scan">扫一扫</string>
+    <string name="menu_item_help_and_feedback">帮助和反馈</string>
+    <string name="title_activity_person_chat">PersonChatActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_group_chat">GroupChatActivity</string>
+
 </resources>

@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
+import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
 import com.atermenji.android.iconicdroid.icon.Icon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
 import com.atermenji.android.iconicdroid.util.TypefaceManager.IconicTypeface;
@@ -52,11 +53,11 @@ public class DrawerFragment extends Fragment {
 		headerItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_HEADER);
 		drawerDataItems.add(headerItem);
 
-		DrawerDataItem warningItem = new DrawerDataItem(EntypoIcon.WARNING, "提醒");
+		DrawerDataItem warningItem = new DrawerDataItem(EntypoIcon.BELL, "提醒");
 		warningItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_FUNCTION);
 		drawerDataItems.add(warningItem);
 
-		DrawerDataItem themeItem = new DrawerDataItem(EntypoIcon.DRIVE, "主題");
+		DrawerDataItem themeItem = new DrawerDataItem(FontAwesomeIcon.DASHBOARD, "主題");
 		themeItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_FUNCTION);
 		drawerDataItems.add(themeItem);
 		
@@ -64,7 +65,7 @@ public class DrawerFragment extends Fragment {
 		settingItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_FUNCTION);
 		drawerDataItems.add(settingItem);
 		
-		DrawerDataItem aboutItem = new DrawerDataItem(IconicIcon.ARTICLE, "关于");
+		DrawerDataItem aboutItem = new DrawerDataItem(IconicIcon.COMPASS, "关于");
 		aboutItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_FUNCTION);
 		drawerDataItems.add(aboutItem);
 		
@@ -82,7 +83,6 @@ public class DrawerFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_draw, container, false);
 		ButterKnife.inject(this, view);
 		listview.setAdapter(drawerAdapter);
-
 		return view;
 	}
 

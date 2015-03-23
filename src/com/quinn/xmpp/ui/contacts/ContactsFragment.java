@@ -58,11 +58,13 @@ public class ContactsFragment extends Fragment {
 		contactDataItems = new ArrayList<ContactsDataItem>();
 
 		/* test data */
-		for(RosterEntry rosterEntry: mActivity.smack.getAllRosterEntry()){
-			System.out.println("rosterEntry name = " + rosterEntry.getName() );
-			System.out.println("rosterEntry user name  = " + rosterEntry.getUser());
+//		for(RosterEntry rosterEntry: mActivity.smack.getAllRosterEntry()){
+//
+//			contactDataItems.add(new ContactsDataItem(rosterEntry));
+//		}
+		for(int i = 0; i < 10; i++){
 
-			contactDataItems.add(new ContactsDataItem(rosterEntry));
+			contactDataItems.add(new ContactsDataItem("hehe","chenhuazhao"));
 		}
 		/* test data */
 		

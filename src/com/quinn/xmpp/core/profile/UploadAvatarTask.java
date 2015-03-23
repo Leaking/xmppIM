@@ -1,28 +1,22 @@
 package com.quinn.xmpp.core.profile;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.packet.VCard;
 
-import com.quinn.xmpp.R;
-import com.quinn.xmpp.smack.Smack;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.quinn.xmpp.smack.Smack;
 
 /**
  * @author Quinn
  * @date 2015-3-22
  * 
  */
-public class UploadAvatar extends AsyncTask<byte[], Integer, Boolean> {
+public class UploadAvatarTask extends AsyncTask<byte[], Integer, Boolean> {
 
 	private Smack smack;
 	
-	public UploadAvatar(Smack smack){
+	public UploadAvatarTask(Smack smack){
 		this.smack = smack;
 	}
 	

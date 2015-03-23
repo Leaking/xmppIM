@@ -42,24 +42,24 @@ import android.util.Log;
  */
 public class ConnectionManager {
 	private static XMPPConnection conn = null;
-	
-	
+
 	static {
-		//initXmppProviders();
+		// initXmppProviders();
 	}
-	
+
 	public static XMPPConnection connect(String ip, int port, String service) {
-//		if (conn != null && conn.isConnected() == true) {
-//			return conn;
-//		}
+		// if (conn != null && conn.isConnected() == true) {
+		// return conn;
+		// }
 		ConnectionConfiguration connConfig = new ConnectionConfiguration(ip,
-				port,service);
-		
-		connConfig.setReconnectionAllowed(true);		
-		connConfig.setSecurityMode(SecurityMode.required); 
+				port, service);
+
+		connConfig.setReconnectionAllowed(true);
+		connConfig.setDebuggerEnabled(true);
+		connConfig.setSecurityMode(SecurityMode.required);
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
-		connConfig.setSendPresence(false);			
+		connConfig.setSendPresence(false);
 		initXmppProviders();
 		conn = new XMPPConnection(connConfig);
 		try {
@@ -70,7 +70,6 @@ public class ConnectionManager {
 		return conn;
 	}
 
-	
 	public static void initXmppProviders() {
 
 		ProviderManager pm = ProviderManager.getInstance();
@@ -186,23 +185,10 @@ public class ConnectionManager {
 		// FileTransfer
 		pm.addIQProvider("si", "http://jabber.org/protocol/si",
 				new StreamInitiationProvider());
+
 		pm.addIQProvider("query", "http://jabber.org/protocol/bytestreams",
 				new BytestreamsProvider());
-		pm.addIQProvider("open", "http://jabber.org/protocol/ibb",
-				new OpenIQProvider());
-		pm.addIQProvider("close", "http://jabber.org/protocol/ibb",
-				new CloseIQProvider());
-		pm.addExtensionProvider("data", "http://jabber.org/protocol/ibb",
-				new DataPacketProvider());
 
-		pm.addIQProvider("query","http://jabber.org/protocol/bytestreams", new BytestreamsProvider());
-		pm.addIQProvider("query","http://jabber.org/protocol/disco#items", new DiscoverItemsProvider());
-		pm.addIQProvider("query","http://jabber.org/protocol/disco#info", new DiscoverInfoProvider());
-		
-		
-		
-		
-		
 		// Privacy
 		pm.addIQProvider("query", "jabber:iq:privacy", new PrivacyProvider());
 		pm.addIQProvider("command", "http://jabber.org/protocol/commands",

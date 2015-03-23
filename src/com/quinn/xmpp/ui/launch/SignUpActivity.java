@@ -25,11 +25,11 @@ import com.quinn.xmpp.R;
 import com.quinn.xmpp.core.launch.ConnectTask;
 import com.quinn.xmpp.core.launch.SignUpTask;
 import com.quinn.xmpp.ui.BaseActivity;
-import com.quinn.xmpp.ui.ToastUtils;
 import com.quinn.xmpp.ui.widget.CleanableEditText;
 import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
 import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
+import com.quinn.xmpp.util.ToastUtils;
 
 public class SignUpActivity extends BaseActivity implements TextWatcherCallBack {
 
@@ -108,7 +108,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack 
 		password = passwordView.getText().toString();
 		repeatPassword = repeatPasswordView.getText().toString();
 		if (password.equals(repeatPassword) == false) {
-			ToastUtils.toast(this, R.string.toast_content_repeat_password);
+			ToastUtils.showMsg(this, R.string.toast_content_repeat_password);
 			return;
 		}
 		loadingDialog.show(this.getSupportFragmentManager(), "tag");
@@ -120,7 +120,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack 
 							R.string.loading_alert_content_sign_up));
 					SignUpAfterConnect();
 				} else {
-					ToastUtils.toast(SignUpActivity.this,
+					ToastUtils.showMsg(SignUpActivity.this,
 							R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
@@ -143,7 +143,7 @@ public class SignUpActivity extends BaseActivity implements TextWatcherCallBack 
 					SignUpActivity.this.setResult(RESULT_OK, intent);
 					finish();
 				} else {
-					ToastUtils.toast(SignUpActivity.this,
+					ToastUtils.showMsg(SignUpActivity.this,
 							R.string.toast_content_signup_fail);
 				}
 			}

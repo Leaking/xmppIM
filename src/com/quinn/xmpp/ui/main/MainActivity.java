@@ -2,6 +2,9 @@ package com.quinn.xmpp.ui.main;
 
 import java.lang.reflect.Method;
 
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smackx.packet.VCard;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,11 +21,10 @@ import android.view.Window;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.quinn.xmpp.R;
 import com.quinn.xmpp.Intents.Builder;
+import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
-import com.quinn.xmpp.ui.main.MainPagerChangeListener.PagerCallback;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
 
@@ -73,6 +75,8 @@ public class MainActivity extends BaseActivity {
 						return Color.WHITE;
 					}
 				});
+		
+		
 	}
 
 	@Override

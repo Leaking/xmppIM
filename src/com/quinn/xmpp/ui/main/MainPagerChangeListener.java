@@ -4,9 +4,6 @@
  */
 package com.quinn.xmpp.ui.main;
 
-import com.quinn.xmpp.ui.ToastUtils;
-
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 /**

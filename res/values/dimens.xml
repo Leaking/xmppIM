@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-   
-   	<dimen name="dialogFragment_width">300dip</dimen>
+    <dimen name="dialogFragment_width">300dip</dimen>
     <dimen name="dialogFragment_heigth">120dip</dimen>
-
-    
-	<dimen name="drawer_header_height">140dip</dimen>
+    <dimen name="drawer_header_height">180dip</dimen>
     <dimen name="drawer_header_icon_size">70dip</dimen>
     <dimen name="drawer_body_icon_size">25dip</dimen>
     <dimen name="drawer_textsize">16sp</dimen>
     <dimen name="drawer_item_padding">13dip</dimen>
-    
     <dimen name="contact_icon_size">40dip</dimen>
     <dimen name="message_icon_size">50dip</dimen>
     <dimen name="contact_message_item_padding">5dip</dimen>
     <dimen name="contact_name_textsize">18sp</dimen>
-   	
-	<dimen name="message_title_textsize">20sp</dimen>
-	<dimen name="message_previewWords_textsize">16sp</dimen>
-	<dimen name="message_timestamp_textsize">14dip</dimen>
-	<dimen name="recyclerView_small_divider">0.5dip</dimen>
-	
+    <dimen name="message_title_textsize">20sp</dimen>
+    <dimen name="message_previewWords_textsize">16sp</dimen>
+    <dimen name="message_timestamp_textsize">14dip</dimen>
+    <dimen name="recyclerView_small_divider">0.5dip</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
 </resources>

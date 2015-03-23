@@ -16,11 +16,11 @@ import com.quinn.xmpp.smack.Smack;
  * @author Quinn
  * @date 2015-3-22
  */
-public class DownloadAvatar extends AsyncTask<String, Integer, Bitmap> {
+public class DownloadAvatarTask extends AsyncTask<String, Integer, Bitmap> {
 
 	private Smack smack;
 	
-	public DownloadAvatar(Smack smack){
+	public DownloadAvatarTask(Smack smack){
 		this.smack = smack;
 	}
 	
@@ -32,6 +32,11 @@ public class DownloadAvatar extends AsyncTask<String, Integer, Bitmap> {
     	                    new VCardProvider());
     	try {
 			vCard.load(smack.getConnection(), params[0]);
+			System.out.println("vcard peter= " + vCard.getEmailHome());
+			System.out.println("vcard peter= " + vCard.getFirstName());
+			System.out.println("vcard peter= " + vCard.getJabberId());
+			
+
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}

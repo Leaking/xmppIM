@@ -27,12 +27,12 @@ import com.quinn.xmpp.core.launch.ConnectTask;
 import com.quinn.xmpp.core.launch.LoginTask;
 import com.quinn.xmpp.persisitence.Preference;
 import com.quinn.xmpp.ui.BaseActivity;
-import com.quinn.xmpp.ui.ToastUtils;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.CleanableEditText;
 import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
 import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
+import com.quinn.xmpp.util.ToastUtils;
 
 /**
  * login activity
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 							R.string.loading_alert_content_log_in));
 					loginAfterConnect();
 				} else {
-					ToastUtils.toast(LoginActivity.this,
+					ToastUtils.showMsg(LoginActivity.this,
 							R.string.toast_content_connect_fail);
 					loadingDialog.dismissAllowingStateLoss();
 				}
@@ -188,7 +188,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 			accountView.setText(bundle.getString(Intents.EXTRA_RESULT_ACCOUNT));
 			passwordView.setText(bundle
 					.getString(Intents.EXTRA_RESULT_PASSWORD));
-			ToastUtils.toast(this, R.string.toast_content_signup_successfully);
+			ToastUtils.showMsg(this, R.string.toast_content_signup_successfully);
 		}
 
 	}

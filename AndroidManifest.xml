@@ -23,11 +23,6 @@
         <activity
             android:name=".ui.launch.LoginActivity"
             android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.launch.NetWorkSettingActivity"
@@ -68,13 +63,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="com.quinn.xmpp.main.Main.View" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.messages.PersonChatActivity"
+            android:label="@string/title_activity_person_chat" >
+        </activity>
+        <activity
+            android:name="com.quinn.xmpp.ui.messages.GroupChatActivity"
+            android:label="@string/title_activity_group_chat" >
         </activity>
     </application>
 

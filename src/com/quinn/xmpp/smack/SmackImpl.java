@@ -49,6 +49,7 @@ public class SmackImpl implements Smack {
 		try {
 			xmppConn.login(account, password);
 			roster = xmppConn.getRoster();
+		
 			Presence presence = new Presence(Presence.Type.available);
 			xmppConn.sendPacket(presence);
 		} catch (XMPPException e) {

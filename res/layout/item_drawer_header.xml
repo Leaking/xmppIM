@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_header_height"
+        android:background="@drawable/md_bk"
         android:padding="10dip" >
 
         <ImageView
@@ -22,7 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </RelativeLayout>

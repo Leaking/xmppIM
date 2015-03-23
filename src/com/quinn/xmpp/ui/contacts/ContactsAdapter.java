@@ -19,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.profile.DownloadAvatarTask;
 import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.util.ImageUtils;
 
 /**
  * @author Quinn
@@ -55,33 +57,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder , int position) {
+    public void onBindViewHolder(final ViewHolder holder , int position) {
     	holder.name.setText(dataItems.get(position).getName());
-    	//holder.icon.setImageResource(R.drawable.ic_chziroy);
-    	holder.icon.setImageBitmap(ff(dataItems.get(position).getName()));
-
-    	
-    	
-    	
+    	//在这里设置一个默认头像
+    	holder.icon.setImageResource(R.drawable.ic_chziroy);
+//    	new DownloadAvatarTask(activity.getSmack()){
+//			@Override
+//			protected void onPostExecute(Bitmap result) {			
+//				if(result != null)
+//					holder.icon.setImageBitmap(ImageUtils.toRoundBitmap(result, true));
+//			}
+//    	}.execute(dataItems.get(position).getName());
     }
 
-    public Bitmap ff(String uid){
-    	System.out.println("ff uid = " + uid);
-    	VCard vCard = new VCard();
-    	SmackConfiguration.setPacketReplyTimeout(300000);
-    	ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
-    	                    new VCardProvider());
-    	try {
-			vCard.load(activity.smack.getConnection(), uid);
-		} catch (XMPPException e) {
-			e.printStackTrace();
-		}
-    	System.out.println(vCard.getEmailHome() + vCard.getJabberId() + "vcard nickname = " + vCard.getNickName());
-    	byte[] bs = vCard.getAvatar();   // Avtar in byte array convert it to Bitmap
-    	System.out.println("bs length =" + bs);
-    	Bitmap bitmap = BitmapFactory.decodeByteArray(bs, 0, bs.length);
-    	return bitmap;
-    }
+
     
 
 	@Override

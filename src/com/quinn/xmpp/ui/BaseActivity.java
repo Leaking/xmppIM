@@ -53,5 +53,10 @@ public class BaseActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
+	
+	public Smack getSmack(){
+		return smack;
+	}
+	
 
 }

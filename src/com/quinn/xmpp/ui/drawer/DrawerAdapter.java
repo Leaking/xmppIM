@@ -2,6 +2,8 @@ package com.quinn.xmpp.ui.drawer;
 
 import java.util.ArrayList;
 
+import org.jivesoftware.smackx.packet.VCard;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
-import com.atermenji.android.iconicdroid.icon.IconicIcon;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.util.ImageUtils;
@@ -78,6 +79,9 @@ public class DrawerAdapter extends BaseAdapter{
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_chziroy);
 		viewholder.functionIconOrUserPortrait.setImageBitmap(ImageUtils.toRoundBitmap(bitmap, true));
 		viewholder.functionNameOrUsername.setText("Quinn");
+		
+
+		
 		
 		return convertView;
 	}
