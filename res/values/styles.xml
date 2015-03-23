@@ -2,14 +2,20 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        <item name="actionOverflowButtonStyle">@style/Overflow</item>
+    </style>
+    
+
+
+    <style name="Overflow" parent="@android:style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_new</item>
+    </style>
+
+    <style name="popupTheme" parent="Base.ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlHighlight">@color/theme_color</item>
     </style>
 
     <!-- Application theme. -->

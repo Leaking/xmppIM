@@ -8,6 +8,7 @@ package com.quinn.xmpp.ui.messages;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.ui.launch.NetWorkSettingActivity;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
 import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
@@ -46,7 +48,6 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 	private int dividerColor;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		contactDataItems = new ArrayList<MessagesDataItem>();
 		/* test data */
@@ -72,7 +73,6 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_messages, container,
 				false);
 		ButterKnife.inject(this, view);
@@ -102,7 +102,8 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 	
 	@Override
 	public void onItemClick(View view, int position) {
-		ToastUtils.showMsg(mActivity, "you click the item " + position);
+		Intent intent = PersonChatActivity.createIntent();
+		mActivity.startActivity(intent);
 	}
 
 	

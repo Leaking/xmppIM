@@ -1,18 +1,11 @@
 package com.quinn.xmpp.core.launch;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.packet.VCard;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.quinn.xmpp.R;
 import com.quinn.xmpp.smack.Smack;
 
 public class LoginTask extends AsyncTask<String, Integer, Boolean> {

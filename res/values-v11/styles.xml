@@ -2,10 +2,18 @@
 
     <!--
         Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- API 11 theme customizations can go here. -->
+        <item name="actionOverflowButtonStyle">@style/Overflow</item>
+    </style>
+
+    <style name="popupTheme" parent="Base.ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlHighlight">@color/theme_color</item>
+    </style>
+
+    <style name="Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_new</item>
     </style>
 
 </resources>

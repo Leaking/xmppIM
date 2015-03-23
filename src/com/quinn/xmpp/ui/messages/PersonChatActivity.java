@@ -1,18 +1,35 @@
 package com.quinn.xmpp.ui.messages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.Intents.Builder;
+import com.quinn.xmpp.ui.BaseActivity;
 
-public class PersonChatActivity extends ActionBarActivity {
+public class PersonChatActivity extends BaseActivity {
 
+//	@InjectView(R.id.toolbar)
+//	Toolbar toolbar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
+		ButterKnife.inject(this);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle("PersonChat");
+		setSupportActionBar(toolbar);
+		//以下三行代码使activity有向上返回的按钮
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
@@ -32,5 +49,10 @@ public class PersonChatActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public static Intent createIntent() {
+		Builder builder = new Builder("main.PersonChat.View");
+		return builder.toIntent();
 	}
 }

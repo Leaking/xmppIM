@@ -23,6 +23,11 @@
         <activity
             android:name=".ui.launch.LoginActivity"
             android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.launch.NetWorkSettingActivity"
@@ -34,20 +39,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="quinn.xmpp.service.ContactsService"
-            android:enabled="true" >
-        </service>
-        <service
-            android:name="quinn.xmpp.service.ReconnectService"
-            android:enabled="true" >
-        </service>
-        <service
-            android:name="quinn.xmpp.service.MessageService"
-            android:enabled="true" >
-        </service>
-
         <activity
             android:name=".ui.launch.SignUpActivity"
             android:label="@string/title_activity_sign_up"
@@ -70,19 +61,34 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.messages.PersonChatActivity"
-            android:label="@string/title_activity_person_chat" >
+            android:label="@string/title_activity_person_chat"
+            android:parentActivityName=".ui.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.main.MainActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.main.PersonChat.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.quinn.xmpp.ui.messages.GroupChatActivity"
-            android:label="@string/title_activity_group_chat" >
+            android:label="@string/title_activity_group_chat"
+            android:parentActivityName=".ui.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.main.MainActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.main.GroupChat.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

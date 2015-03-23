@@ -107,23 +107,27 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 
 	@OnClick(R.id.bt_login)
 	void handleLogin() {
-	   
-		loadingDialog.show(this.getSupportFragmentManager(), "tag");
-		new ConnectTask(smack) {
-			@Override
-			protected void onPostExecute(Boolean result) {
-				if (result) {
-					loadingDialog.updateContent(getResources().getString(
-							R.string.loading_alert_content_log_in));
-					loginAfterConnect();
-				} else {
-					ToastUtils.showMsg(LoginActivity.this,
-							R.string.toast_content_connect_fail);
-					loadingDialog.dismissAllowingStateLoss();
-				}
-			}
-
-		}.execute(app.getServerAddr());
+		//test
+		Intent intent = new Intent(LoginActivity.this,
+				MainActivity.class);
+		LoginActivity.this.startActivity(intent);
+		//test
+//		loadingDialog.show(this.getSupportFragmentManager(), "tag");
+//		new ConnectTask(smack) {
+//			@Override
+//			protected void onPostExecute(Boolean result) {
+//				if (result) {
+//					loadingDialog.updateContent(getResources().getString(
+//							R.string.loading_alert_content_log_in));
+//					loginAfterConnect();
+//				} else {
+//					ToastUtils.showMsg(LoginActivity.this,
+//							R.string.toast_content_connect_fail);
+//					loadingDialog.dismissAllowingStateLoss();
+//				}
+//			}
+//
+//		}.execute(app.getServerAddr());
 
 	}
 
