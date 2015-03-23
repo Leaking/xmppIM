@@ -33,5 +33,6 @@
     <string name="title_activity_person_chat">PersonChatActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_group_chat">GroupChatActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
 
 </resources>

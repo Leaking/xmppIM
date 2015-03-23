@@ -21,12 +21,14 @@ import android.view.Window;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
+import com.quinn.xmpp.util.ImageUtils;
 
 /**
  * login activity
@@ -117,6 +119,7 @@ public class MainActivity extends BaseActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

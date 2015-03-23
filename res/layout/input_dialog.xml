@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        android:background="@drawable/actionbar_background"
+        android:background="@color/theme_color"
         android:gravity="center_vertical" >
 
         <TextView
@@ -20,6 +20,7 @@
     <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
         android:id="@+id/et_dialogContent"
         style="@style/GlobleSingleLineEditText"
+        android:layout_marginTop="5dip"
         android:drawableLeft="@drawable/ic_web_site"
         android:drawableStart="@drawable/ic_web_site"
         android:hint="@string/edit_hint_address" />

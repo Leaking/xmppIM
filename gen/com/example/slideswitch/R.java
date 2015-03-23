@@ -13,7 +13,7 @@ public final class R {
 		public static final int themeColor = 0x7f010000;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f020393;
+		public static final int ic_launcher = 0x7f020391;
 	}
 	public static final class id {
 		public static final int circle = 0x7f0c0009;
