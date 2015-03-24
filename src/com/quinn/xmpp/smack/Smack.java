@@ -6,6 +6,8 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
+import com.quinn.xmpp.ui.drawer.UserVCard;
+
 
 /**
  * 
@@ -19,7 +21,7 @@ public interface Smack{
 	public boolean signUp(String account, String password);
 	public ArrayList<RosterEntry> getAllRosterEntry();
 	public XMPPConnection getConnection();
-	
+	public UserVCard getUserVCard();
 	/**
 	 * get all
 	 */

@@ -2,16 +2,21 @@ package com.quinn.xmpp.smack;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.packet.VCard;
+import org.jivesoftware.smackx.provider.VCardProvider;
+
+import com.quinn.xmpp.ui.drawer.UserVCard;
 
 
 
@@ -25,6 +30,7 @@ public class SmackImpl implements Smack {
 
 	private XMPPConnection xmppConn;
 	private Roster roster;
+	private UserVCard userVcard;
 	private String ip;
 	private int port;
 	private String service;
@@ -41,8 +47,6 @@ public class SmackImpl implements Smack {
 		if(xmppConn != null && xmppConn.isConnected())
 			return true;
 		xmppConn = ConnectionManager.connect(ip, port, service);
-		System.out.println("if connected 1= " + xmppConn.isConnected());
-
 		return xmppConn.isConnected();
 	}
 	
@@ -52,9 +56,12 @@ public class SmackImpl implements Smack {
 			System.out.println("if connected 2= " + xmppConn.isConnected());
 			xmppConn.login(account, password);
 			roster = xmppConn.getRoster();
-		
 			Presence presence = new Presence(Presence.Type.available);
-			//xmppConn.sendPacket(presence);
+			xmppConn.sendPacket(presence);
+			//
+			VCard vcard = new VCard();
+			vcard.load(xmppConn);
+			userVcard = new UserVCard(vcard);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
@@ -100,7 +107,9 @@ public class SmackImpl implements Smack {
 		return xmppConn;
 	}
 
-
+	public UserVCard getUserVCard(){
+		return userVcard;
+	}
 
 
 	

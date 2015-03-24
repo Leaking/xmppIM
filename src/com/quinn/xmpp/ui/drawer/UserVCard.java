@@ -2,7 +2,7 @@ package com.quinn.xmpp.ui.drawer;
 
 import java.io.Serializable;
 
-import android.graphics.Bitmap;
+import org.jivesoftware.smackx.packet.VCard;
 
 /**
  * @author Quinn
@@ -22,6 +22,22 @@ public class UserVCard implements Serializable {
 	private String description;
 	private String jid;
 	private String location;
+	
+	public UserVCard(){
+		
+	}
+	
+	public UserVCard(VCard vcard){
+		System.out.println("vcard.getJabberId() = " + vcard.getJabberId());
+		System.out.println("vcard.getAvatar() = " + vcard.getAvatar());
+		System.out.println("vcard.getEmailHome() = " + vcard.getEmailHome());
+		System.out.println("vcard.getEmailWork() = " + vcard.getEmailWork());
+		System.out.println("vcard.getFirstName() = " + vcard.getFirstName());
+		System.out.println("vcard.getLastName() = " + vcard.getLastName());
+		System.out.println("vcard.getFrom() = " + vcard.getFrom());
+		System.out.println("vcard.getMiddleName() = " + vcard.getMiddleName());
+		System.out.println("vcard.getNickName() = " + vcard.getNickName());
+	}
 	
 	public byte[] getAvatarBytes() {
 		return avatarBytes;
@@ -71,6 +87,8 @@ public class UserVCard implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+
 	
 }
 

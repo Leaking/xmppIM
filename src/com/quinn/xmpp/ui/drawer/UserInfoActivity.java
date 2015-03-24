@@ -2,6 +2,7 @@ package com.quinn.xmpp.ui.drawer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,22 +20,23 @@ public class UserInfoActivity extends BaseActivity {
 	Toolbar toolbar;
 	@InjectView(R.id.userVCard_recycle_view)
 	RecyclerView recyclerView;
-	private UserVCard vcard;
+	private RecyclerView.LayoutManager layoutManager;
+	private UserVCard userVCard;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
 		//init data
-		vcard = getSerializableExtra(Intents.EXTRA_VCARD);
+		userVCard = smack.getUserVCard();
 		toolbar.setTitle("个人信息");
 		setSupportActionBar(toolbar);
 		//以下三行代码使activity有向上返回的按钮
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		
-		
+		layoutManager = new LinearLayoutManager(this);
+		recyclerView.setLayoutManager(layoutManager);
 		
 		
 	}

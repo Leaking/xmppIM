@@ -2,6 +2,7 @@ package com.quinn.xmpp.smack;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.PrivacyProvider;
@@ -71,6 +72,7 @@ public class ConnectionManager {
 	}
 
 	public static void initXmppProviders() {
+		SmackConfiguration.setPacketReplyTimeout(300000);
 
 		ProviderManager pm = ProviderManager.getInstance();
 		// Private Data Storage
