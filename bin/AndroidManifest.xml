@@ -71,7 +71,7 @@
                 android:value=".ui.main.MainActivity" />
 
             <intent-filter>
-                <action android:name="com.quinn.xmpp.main.PersonChat.View" />
+                <action android:name="com.quinn.xmpp.PersonChat.View" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -85,14 +85,24 @@
                 android:value=".ui.main.MainActivity" />
 
             <intent-filter>
-                <action android:name="com.quinn.xmpp.main.GroupChat.View" />
+                <action android:name="com.quinn.xmpp.GroupChat.View" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.quinn.xmpp.ui.drawer.UserInfoActivity"
-            android:label="@string/title_activity_user_info" >
+            android:label="@string/title_activity_user_info"
+            android:parentActivityName=".ui.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.main.MainActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.UserInfo.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

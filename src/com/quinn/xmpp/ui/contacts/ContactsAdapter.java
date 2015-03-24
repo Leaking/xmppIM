@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quinn.xmpp.R;
-import com.quinn.xmpp.core.profile.DownloadAvatarTask;
+import com.quinn.xmpp.core.drawer.DownloadAvatarTask;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.util.ImageUtils;
 

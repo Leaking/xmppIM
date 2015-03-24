@@ -1,5 +1,7 @@
 package com.quinn.xmpp.ui;
 
+import java.io.Serializable;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -57,6 +59,38 @@ public class BaseActivity extends ActionBarActivity {
 	public Smack getSmack(){
 		return smack;
 	}
+	
+	 /**
+     * Get intent extra
+     *
+     * @param name
+     * @return serializable
+     */
+    @SuppressWarnings("unchecked")
+    protected <V extends Serializable> V getSerializableExtra(final String name) {
+        return (V) getIntent().getSerializableExtra(name);
+    }
+
+    /**
+     * Get intent extra
+     *
+     * @param name
+     * @return int
+     */
+    protected int getIntExtra(final String name) {
+        return getIntent().getIntExtra(name, -1);
+    }
+
+    /**
+     * Get intent extra
+     *
+     * @param name
+     * @return string
+     */
+    protected String getStringExtra(final String name) {
+        return getIntent().getStringExtra(name);
+    }
+
 	
 
 }

@@ -41,17 +41,20 @@ public class SmackImpl implements Smack {
 		if(xmppConn != null && xmppConn.isConnected())
 			return true;
 		xmppConn = ConnectionManager.connect(ip, port, service);
+		System.out.println("if connected 1= " + xmppConn.isConnected());
+
 		return xmppConn.isConnected();
 	}
 	
 	@Override
 	public boolean login(String account, String password) {
 		try {
+			System.out.println("if connected 2= " + xmppConn.isConnected());
 			xmppConn.login(account, password);
 			roster = xmppConn.getRoster();
 		
 			Presence presence = new Presence(Presence.Type.available);
-			xmppConn.sendPacket(presence);
+			//xmppConn.sendPacket(presence);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}

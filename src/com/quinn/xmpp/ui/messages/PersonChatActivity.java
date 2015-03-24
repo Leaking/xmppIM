@@ -12,18 +12,18 @@ import butterknife.InjectView;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.drawer.UserVCard;
 
 public class PersonChatActivity extends BaseActivity {
 
-//	@InjectView(R.id.toolbar)
-//	Toolbar toolbar;
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle("PersonChat");
 		setSupportActionBar(toolbar);
 		//以下三行代码使activity有向上返回的按钮
@@ -52,7 +52,7 @@ public class PersonChatActivity extends BaseActivity {
 	}
 	
 	public static Intent createIntent() {
-		Builder builder = new Builder("main.PersonChat.View");
+		Builder builder = new Builder("PersonChat.View");
 		return builder.toIntent();
 	}
 }

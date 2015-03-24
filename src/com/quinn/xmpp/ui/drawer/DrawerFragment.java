@@ -3,25 +3,24 @@ package com.quinn.xmpp.ui.drawer;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.media.MediaCodec.BufferInfo;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
-import com.atermenji.android.iconicdroid.icon.Icon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
-import com.atermenji.android.iconicdroid.util.TypefaceManager.IconicTypeface;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.ui.main.MainActivity;
-import com.quinn.xmpp.ui.messages.MessagesDataItem;
 
 /**
  * 
@@ -29,7 +28,7 @@ import com.quinn.xmpp.ui.messages.MessagesDataItem;
  * @author Quinn
  * @date 2015-1-24
  */
-public class DrawerFragment extends Fragment {
+public class DrawerFragment extends Fragment implements OnItemClickListener {
 
 	@InjectView(R.id.drawListView)
 	ListView listview;
@@ -48,7 +47,13 @@ public class DrawerFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		drawerDataItems = new ArrayList<DrawerDataItem>();
-		// test data
+		initDrawerListData();
+		drawerAdapter = new DrawerAdapter(mActivity, drawerDataItems);
+		
+	}
+
+	
+	public void initDrawerListData(){
 		DrawerDataItem headerItem = new DrawerDataItem();
 		headerItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_HEADER);
 		drawerDataItems.add(headerItem);
@@ -68,22 +73,36 @@ public class DrawerFragment extends Fragment {
 		DrawerDataItem aboutItem = new DrawerDataItem(IconicIcon.COMPASS, "关于");
 		aboutItem.setItemType(BaseDataItem.DRAWERITEM_TYPE_FUNCTION);
 		drawerDataItems.add(aboutItem);
-		
-		
-		
-		
-		
-		
-		drawerAdapter = new DrawerAdapter(mActivity, drawerDataItems);
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_draw, container, false);
 		ButterKnife.inject(this, view);
 		listview.setAdapter(drawerAdapter);
+		listview.setOnItemClickListener(this);
 		return view;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		switch(position){
+		case 0:
+			Intent intent = UserInfoActivity.createIntent(new UserVCard());
+			mActivity.startActivity(intent);
+			break;
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 4:
+			
+			break;
+		}
 	}
 
 }

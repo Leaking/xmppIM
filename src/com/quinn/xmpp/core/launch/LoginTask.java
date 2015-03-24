@@ -20,20 +20,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... params) {
-		boolean rest = smack.login(params[0], params[1]);
-//		VCard vCard = new VCard();
-//		try {
-//			vCard.load(smack.getConnection());
-//		} catch (XMPPException e) {
-//			e.printStackTrace();
-//		}
-//	    System.out.println("vacrd = " + vCard.getAvatarHash());
-//	    System.out.println("vacrd = " + vCard.getEmailHome());
-//	    System.out.println("vacrd = " + vCard.getFrom());
-//	    System.out.println("vacrd = " + vCard.getNickName());
-//	    System.out.println("vacrd = " + vCard.getJabberId());
-	    
-		return rest;
+		return smack.login(params[0], params[1]);
 	}
 
 	public byte[] Bitmap2Bytes(Bitmap bm) {

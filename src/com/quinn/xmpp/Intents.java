@@ -2,6 +2,8 @@ package com.quinn.xmpp;
 
 import java.io.Serializable;
 
+import com.quinn.xmpp.ui.drawer.UserVCard;
+
 import android.content.ComponentName;
 import android.content.Intent;
 
@@ -14,6 +16,8 @@ public class Intents {
 	public static final String EXTRA_RESULT_ACCOUNT = INTENT_PREFIX + "ACCOUNT";
 	public static final String EXTRA_RESULT_PASSWORD = INTENT_PREFIX + "PASSWORD";
 	
+	
+	public static final String EXTRA_VCARD = INTENT_EXTRA_PREFIX + "vcard";
 	
 	public static final int RESULT_CODE_SUCCESS = 100;
 	
@@ -30,6 +34,11 @@ public class Intents {
 		
 		public Builder(String actionSuffix) {
 			intent = new Intent(INTENT_PREFIX + actionSuffix);
+		}
+		
+		public Builder addVcard(UserVCard vcard){
+			intent.putExtra(EXTRA_VCARD, vcard);
+			return this;
 		}
 		
 		public Builder add(String keyNanme, String value){

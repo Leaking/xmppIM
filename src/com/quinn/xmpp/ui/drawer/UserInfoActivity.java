@@ -1,20 +1,42 @@
 package com.quinn.xmpp.ui.drawer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
+import com.quinn.xmpp.Intents;
+import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
-import com.quinn.xmpp.R.id;
-import com.quinn.xmpp.R.layout;
-import com.quinn.xmpp.R.menu;
 import com.quinn.xmpp.ui.BaseActivity;
 public class UserInfoActivity extends BaseActivity {
 
+	@InjectView(R.id.toolbar)
+	Toolbar toolbar;
+	@InjectView(R.id.userVCard_recycle_view)
+	RecyclerView recyclerView;
+	private UserVCard vcard;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_user_info);
+		setContentView(R.layout.activity_person_chat);
+		ButterKnife.inject(this);
+		//init data
+		vcard = getSerializableExtra(Intents.EXTRA_VCARD);
+		toolbar.setTitle("个人信息");
+		setSupportActionBar(toolbar);
+		//以下三行代码使activity有向上返回的按钮
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		
+		
+		
+		
 	}
 
 	@Override
@@ -35,4 +57,12 @@ public class UserInfoActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+	public static Intent createIntent(UserVCard vcard) {
+		Builder builder = new Builder("UserInfo.View").addVcard(vcard);
+		return builder.toIntent();
+	}
+	
+	
 }

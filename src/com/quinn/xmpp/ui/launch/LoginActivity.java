@@ -3,6 +3,7 @@ package com.quinn.xmpp.ui.launch;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static com.quinn.xmpp.RequestCodes.SIGNUP_SUCCESS;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +34,6 @@ import com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView;
 import com.quinn.xmpp.ui.widget.SpinnerDialog;
 import com.quinn.xmpp.ui.widget.TextWatcherCallBack;
 import com.quinn.xmpp.util.ToastUtils;
-
 /**
  * login activity
  * 
@@ -107,27 +107,26 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 
 	@OnClick(R.id.bt_login)
 	void handleLogin() {
-		//test
-		Intent intent = new Intent(LoginActivity.this,
-				MainActivity.class);
-		LoginActivity.this.startActivity(intent);
-		//test
-//		loadingDialog.show(this.getSupportFragmentManager(), "tag");
-//		new ConnectTask(smack) {
-//			@Override
-//			protected void onPostExecute(Boolean result) {
-//				if (result) {
-//					loadingDialog.updateContent(getResources().getString(
-//							R.string.loading_alert_content_log_in));
-//					loginAfterConnect();
-//				} else {
-//					ToastUtils.showMsg(LoginActivity.this,
-//							R.string.toast_content_connect_fail);
-//					loadingDialog.dismissAllowingStateLoss();
-//				}
-//			}
-//
-//		}.execute(app.getServerAddr());
+//		Intent intent = new Intent(LoginActivity.this,
+//				MainActivity.class);
+//		LoginActivity.this.startActivity(intent);
+//		
+		loadingDialog.show(this.getSupportFragmentManager(), "tag");
+		new ConnectTask(smack) {
+			@Override
+			protected void onPostExecute(Boolean result) {
+				if (result) {
+					loadingDialog.updateContent(getResources().getString(
+							R.string.loading_alert_content_log_in));
+					loginAfterConnect();
+				} else {
+					ToastUtils.showMsg(LoginActivity.this,
+							R.string.toast_content_connect_fail);
+					loadingDialog.dismissAllowingStateLoss();
+				}
+			}
+
+		}.execute(app.getServerAddr());
 
 	}
 
@@ -166,7 +165,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 		}
 		case R.id.action_newAccount: {
 			Intent intent = SignUpActivity.createIntent();
-			startActivityForResult(intent, Intents.RESULT_CODE_SUCCESS);
+			startActivityForResult(intent, SIGNUP_SUCCESS);
 			return true;
 		}
 		default:
@@ -187,7 +186,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK
-				&& requestCode == Intents.RESULT_CODE_SUCCESS) {
+				&& requestCode == SIGNUP_SUCCESS) {
 			Bundle bundle = data.getExtras();
 			accountView.setText(bundle.getString(Intents.EXTRA_RESULT_ACCOUNT));
 			passwordView.setText(bundle
