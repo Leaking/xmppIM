@@ -1,5 +1,7 @@
 package com.quinn.xmpp.util;
 
+import java.io.ByteArrayOutputStream;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -23,7 +25,11 @@ import com.atermenji.android.iconicdroid.icon.Icon;
 public class ImageUtils {
 
 	
-	
+	public static byte[] Bitmap2Bytes(Bitmap bm) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		return baos.toByteArray();
+	}
 	
 	
 	public static IconicFontDrawable buildIconFont(Context context,Icon icon, int color){

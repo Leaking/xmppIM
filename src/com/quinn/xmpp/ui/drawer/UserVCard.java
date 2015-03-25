@@ -30,12 +30,10 @@ public class UserVCard implements Serializable {
 	public UserVCard(VCard vcard){
 		System.out.println("vcard.getJabberId() = " + vcard.getJabberId());
 		System.out.println("vcard.getAvatar() = " + vcard.getAvatar());
-		System.out.println("vcard.getEmailHome() = " + vcard.getEmailHome());
+
+		avatarBytes = vcard.getAvatar();
 		System.out.println("vcard.getEmailWork() = " + vcard.getEmailWork());
-		System.out.println("vcard.getFirstName() = " + vcard.getFirstName());
-		System.out.println("vcard.getLastName() = " + vcard.getLastName());
-		System.out.println("vcard.getFrom() = " + vcard.getFrom());
-		System.out.println("vcard.getMiddleName() = " + vcard.getMiddleName());
+		
 		System.out.println("vcard.getNickName() = " + vcard.getNickName());
 	}
 	

@@ -1,12 +1,16 @@
 package com.quinn.xmpp.core.launch;
 
-import java.io.ByteArrayOutputStream;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smackx.packet.VCard;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import com.quinn.xmpp.R;
 import com.quinn.xmpp.smack.Smack;
+import com.quinn.xmpp.util.ImageUtils;
 
 public class LoginTask extends AsyncTask<String, Integer, Boolean> {
 
@@ -21,12 +25,6 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... params) {
 		return smack.login(params[0], params[1]);
-	}
-
-	public byte[] Bitmap2Bytes(Bitmap bm) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-		return baos.toByteArray();
 	}
 
 }

@@ -42,4 +42,8 @@ public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
 
 		}
 	}
+	
+	
+	
+	
 }

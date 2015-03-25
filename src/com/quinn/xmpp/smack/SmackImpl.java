@@ -22,6 +22,7 @@ import com.quinn.xmpp.ui.drawer.UserVCard;
 
 /**
  * 
+ * 
  * @author Quinn
  * @date 2015-1-28
  */
@@ -53,15 +54,19 @@ public class SmackImpl implements Smack {
 	@Override
 	public boolean login(String account, String password) {
 		try {
-			System.out.println("if connected 2= " + xmppConn.isConnected());
 			xmppConn.login(account, password);
 			roster = xmppConn.getRoster();
 			Presence presence = new Presence(Presence.Type.available);
 			xmppConn.sendPacket(presence);
-			//
+
 			VCard vcard = new VCard();
+			
+			SmackConfiguration.setPacketReplyTimeout(300000);
+			ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
+			                    new VCardProvider());
 			vcard.load(xmppConn);
 			userVcard = new UserVCard(vcard);
+
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}

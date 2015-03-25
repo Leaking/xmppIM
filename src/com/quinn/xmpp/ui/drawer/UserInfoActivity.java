@@ -14,6 +14,8 @@ import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
+
 public class UserInfoActivity extends BaseActivity {
 
 	@InjectView(R.id.toolbar)
@@ -21,24 +23,35 @@ public class UserInfoActivity extends BaseActivity {
 	@InjectView(R.id.userVCard_recycle_view)
 	RecyclerView recyclerView;
 	private RecyclerView.LayoutManager layoutManager;
+	private UserInfoAdapter adapter;
 	private UserVCard userVCard;
+	private int dividerHeight;
+	private int dividerColor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
-		//init data
+		// init data
+		dividerHeight = getResources().getDimensionPixelSize(
+				R.dimen.recyclerView_small_divider);
+		dividerColor = getResources().getColor(R.color.color_gray);
 		userVCard = smack.getUserVCard();
 		toolbar.setTitle("个人信息");
 		setSupportActionBar(toolbar);
-		//以下三行代码使activity有向上返回的按钮
+		// 以下三行代码使activity有向上返回的按钮
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		layoutManager = new LinearLayoutManager(this);
+		adapter = new UserInfoAdapter(userVCard);
 		recyclerView.setLayoutManager(layoutManager);
-		
-		
+		recyclerView.setAdapter(adapter);
+		recyclerView.setHasFixedSize(true);
+		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+				getApplicationContext(), dividerColor, dividerHeight));
+
 	}
 
 	@Override
@@ -59,12 +72,10 @@ public class UserInfoActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
+
 	public static Intent createIntent(UserVCard vcard) {
 		Builder builder = new Builder("UserInfo.View").addVcard(vcard);
 		return builder.toIntent();
 	}
-	
-	
+
 }

@@ -2661,8 +2661,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int Emoji_GridView=0x7f0c004e;
-        public static final int action_add_friend=0x7f0c006b;
-        public static final int action_add_group_chat=0x7f0c006a;
+        public static final int action_add_friend=0x7f0c006c;
+        public static final int action_add_group_chat=0x7f0c006b;
         public static final int action_bar=0x7f0c0033;
         public static final int action_bar_activity_content=0x7f0c0003;
         public static final int action_bar_container=0x7f0c0032;
@@ -2676,12 +2676,12 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c0030;
         public static final int action_mode_bar_stub=0x7f0c002f;
         public static final int action_mode_close_button=0x7f0c0022;
-        public static final int action_newAccount=0x7f0c0068;
-        public static final int action_scan=0x7f0c006c;
-        public static final int action_search=0x7f0c0069;
-        public static final int action_settings=0x7f0c0067;
+        public static final int action_newAccount=0x7f0c0069;
+        public static final int action_scan=0x7f0c006d;
+        public static final int action_search=0x7f0c006a;
+        public static final int action_settings=0x7f0c0068;
         public static final int activity_chooser_view_content=0x7f0c0023;
-        public static final int alertString=0x7f0c0066;
+        public static final int alertString=0x7f0c0067;
         public static final int always=0x7f0c0016;
         public static final int beginning=0x7f0c001d;
         public static final int bt_SignUp=0x7f0c004d;
@@ -2724,7 +2724,7 @@ containing a value of this type.
         public static final int inputDialogConfirm=0x7f0c0060;
         public static final int listMode=0x7f0c000c;
         public static final int list_item=0x7f0c0027;
-        public static final int messageIcon=0x7f0c0062;
+        public static final int messageIcon=0x7f0c0063;
         public static final int messages_recycle_view=0x7f0c005b;
         public static final int middle=0x7f0c001f;
         public static final int name=0x7f0c0061;
@@ -2732,8 +2732,8 @@ containing a value of this type.
         public static final int none=0x7f0c0011;
         public static final int normal=0x7f0c000d;
         public static final int popupDialogTitle=0x7f0c005d;
-        public static final int previewWords=0x7f0c0063;
-        public static final int progress=0x7f0c0065;
+        public static final int previewWords=0x7f0c0064;
+        public static final int progress=0x7f0c0066;
         public static final int progress_circular=0x7f0c0007;
         public static final int progress_horizontal=0x7f0c0008;
         public static final int radio=0x7f0c002d;
@@ -2760,13 +2760,14 @@ containing a value of this type.
         public static final int submit_area=0x7f0c003e;
         public static final int switchAutoUpdate=0x7f0c004a;
         public static final int tabMode=0x7f0c000e;
-        public static final int timeStamp=0x7f0c0064;
+        public static final int timeStamp=0x7f0c0065;
         public static final int title=0x7f0c0029;
         public static final int toolbar=0x7f0c0041;
         public static final int up=0x7f0c0001;
         public static final int useLogo=0x7f0c0015;
         public static final int userVCard_recycle_view=0x7f0c004b;
         public static final int vPager=0x7f0c0047;
+        public static final int value=0x7f0c0062;
         public static final int withText=0x7f0c001a;
         public static final int wrap_content=0x7f0c000b;
     }
@@ -2838,9 +2839,11 @@ containing a value of this type.
         public static final int item_contact=0x7f030027;
         public static final int item_drawer_body=0x7f030028;
         public static final int item_drawer_header=0x7f030029;
-        public static final int item_message=0x7f03002a;
-        public static final int loading_dialog=0x7f03002b;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002c;
+        public static final int item_login_user_info_avatar=0x7f03002a;
+        public static final int item_login_user_info_text=0x7f03002b;
+        public static final int item_message=0x7f03002c;
+        public static final int loading_dialog=0x7f03002d;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002e;
     }
     public static final class menu {
         public static final int chat_room=0x7f0e0000;
