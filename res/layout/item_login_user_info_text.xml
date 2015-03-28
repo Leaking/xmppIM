@@ -3,11 +3,9 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/listitem_background"
     android:gravity="center_vertical"
-    android:paddingBottom="15dip"
-    android:paddingLeft="15dip"
-    android:paddingRight="15dip"
-    android:paddingTop="15dip" >
+    android:padding="15dip" >
 
     <TextView
         android:id="@+id/name"

@@ -3,10 +3,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="15dip"
-    android:paddingLeft="15dip"
-    android:paddingRight="15dip"
-    android:paddingTop="15dip" >
+    android:background="@drawable/listitem_background"
+    android:padding="15dip" >
 
     <TextView
         android:id="@+id/name"
@@ -15,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:textColor="@color/color_black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/icon"

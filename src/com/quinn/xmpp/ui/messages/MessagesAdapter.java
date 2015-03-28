@@ -84,7 +84,7 @@ public class MessagesAdapter extends
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder , int position) {
+	public void onBindViewHolder(ViewHolder holder,int position) {
     	holder.icon.setImageResource(R.drawable.ic_chziroy);	
 		holder.title.setText(dataItems.get(position).getTitle());
 		holder.previewWords.setText(dataItems.get(position).getPreviewWords());

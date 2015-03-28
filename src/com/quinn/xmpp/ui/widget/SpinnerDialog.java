@@ -24,6 +24,9 @@ public class SpinnerDialog extends DialogFragment {
 		this.context = context;
 		this.alertStr = alertStr;
 	}
+	
+	
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);

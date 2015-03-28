@@ -28,7 +28,7 @@ import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
-import com.quinn.xmpp.util.ImageUtils;
+import com.quinn.xmpp.util.ImageFormatUtils;
 
 /**
  * login activity

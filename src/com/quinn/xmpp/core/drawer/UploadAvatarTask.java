@@ -22,8 +22,11 @@ public class UploadAvatarTask extends AsyncTask<byte[], Integer, Boolean> {
 	
 	@Override
 	protected Boolean doInBackground(byte[]... params) {
+		System.out.println("uploading avatar");
+		System.out.println("uploading bytes = " + params[0]);
 		VCard vCard = new VCard();
 		vCard.setAvatar(params[0]);
+		vCard.setNickName("chenhuazhao");
 		try {
 			vCard.save(smack.getConnection());
 		} catch (XMPPException e) {

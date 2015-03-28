@@ -6,11 +6,15 @@ import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
+import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 
 /**
  * @author Quinn
@@ -23,6 +27,8 @@ public class UserInfoAdapter extends
 
 	private final static int TYPE_IAMGE = 0;
 	private final static int TYPE_TEXT = 1;
+	public RecycleItemClickListener mItemClickListener;
+	public RecycleItemLongClickListener mItemLongClickListener;
 
 	private UserVCard userVCard;
 
@@ -30,20 +36,42 @@ public class UserInfoAdapter extends
 		this.userVCard = userVCard;
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder implements
+			OnClickListener, OnLongClickListener {
 
 		public TextView info_name;
-
 		public TextView info_value_text;
 		public ImageView info_value_icon;
+		private RecycleItemClickListener mItemClickListener;
+		private RecycleItemLongClickListener mItemLongClickListener;
 
-		public ViewHolder(View view, int viewType) {
+		public ViewHolder(View view, int viewType,
+				RecycleItemClickListener itemClickListener,
+				RecycleItemLongClickListener itemLongClickListener) {
 			super(view);
 			info_name = (TextView) view.findViewById(R.id.name);
 			if (viewType == TYPE_IAMGE)
 				info_value_icon = (ImageView) view.findViewById(R.id.icon);
 			else
 				info_value_text = (TextView) view.findViewById(R.id.value);
+			mItemClickListener = itemClickListener;
+			mItemLongClickListener = itemLongClickListener;
+			view.setOnClickListener(this);
+			view.setOnLongClickListener(this);
+		}
+
+		@Override
+		public boolean onLongClick(View v) {
+			if (mItemLongClickListener != null)
+				mItemLongClickListener.onItemLongClick(v, getPosition());
+			return true;
+		}
+
+		@Override
+		public void onClick(View v) {
+			if (mItemClickListener != null) {
+				mItemClickListener.onItemClick(v, getPosition());
+			}
 		}
 
 	}
@@ -109,7 +137,15 @@ public class UserInfoAdapter extends
 			view = mInflater.inflate(R.layout.item_login_user_info_text,
 					parent, false);
 		}
-		return new ViewHolder(view, viewType);
+		return new ViewHolder(view, viewType, mItemClickListener,
+				mItemLongClickListener);
 	}
 
+	public void setOnItemClickListener(RecycleItemClickListener listener) {
+		this.mItemClickListener = listener;
+	}
+
+	public void setOnItemLongClickListener(RecycleItemLongClickListener listener) {
+		this.mItemLongClickListener = listener;
+	}
 }

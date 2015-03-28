@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.smack.Smack;
-import com.quinn.xmpp.util.ImageUtils;
+import com.quinn.xmpp.util.ImageFormatUtils;
 
 public class LoginTask extends AsyncTask<String, Integer, Boolean> {
 

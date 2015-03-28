@@ -1,22 +1,41 @@
 package com.quinn.xmpp.ui.drawer;
 
+import static com.quinn.xmpp.RequestCodes.CAMERA_REQUEST;
+import static com.quinn.xmpp.RequestCodes.GALLERY_REQUEST;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.drawer.UploadAvatarTask;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
+import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
+import com.quinn.xmpp.ui.widget.SpinnerDialog;
+import com.quinn.xmpp.util.FileUtils;
+import com.quinn.xmpp.util.ImageCompressUtils;
+import com.quinn.xmpp.util.ImageFormatUtils;
+import com.quinn.xmpp.util.ToastUtils;
 
-public class UserInfoActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity implements
+		RecycleItemClickListener, RecycleItemLongClickListener {
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -27,7 +46,18 @@ public class UserInfoActivity extends BaseActivity {
 	private UserVCard userVCard;
 	private int dividerHeight;
 	private int dividerColor;
+	private SpinnerDialog spinnerDialog;
 
+	private String pathOfImageFromCamera;
+	
+	private byte[] newAvatarbytes;
+	
+	//
+	private boolean dialogShown = false;
+	
+	private final static int GET_IMAGE_FROM_CAMERA = 0;
+	private final static int GET_IMAGE_FROM_GALLERY = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,31 +81,137 @@ public class UserInfoActivity extends BaseActivity {
 		recyclerView.setHasFixedSize(true);
 		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(
 				getApplicationContext(), dividerColor, dividerHeight));
+		adapter.setOnItemClickListener(this);
+		adapter.setOnItemLongClickListener(this);
+		spinnerDialog = new SpinnerDialog(this,"uploading");
+		pathOfImageFromCamera = FileUtils.generateImagePath(this);
 
+		
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.user_info, menu);
-		return true;
+	protected void onResumeFragments() {
+		super.onResumeFragments();
+		if(dialogShown == false)
+			return;
+		dialogShown = false;
+		uploadAvatar(newAvatarbytes);
+
 	}
 
+
+
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	public void onItemClick(View view, int position) {
+		switch (position) {
+		case 0:
+			System.out.println("clicke herehre ");
+			popupBitmapFromWhereDialog();
+			break;
+
+		default:
+			break;
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onItemLongClick(View view, int position) {
+
+	}
+
+	public void popupBitmapFromWhereDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this,
+				AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+		builder.setItems(R.array.bitmapFromWhere,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case 0:
+							sendCameraIntent();
+							break;
+						case 1:
+							sendGalleryIntent();
+							break;
+						default:
+							break;
+						}
+					}
+
+				});
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	
+	public void sendCameraIntent() {
+		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+		intent.putExtra(MediaStore.EXTRA_OUTPUT,
+		            Uri.fromFile(new File(pathOfImageFromCamera)));
+		startActivityForResult(intent, CAMERA_REQUEST);
+	}
+
+	
+	public void sendGalleryIntent() {
+		Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		openAlbumIntent.setType("image/*");
+		startActivityForResult(openAlbumIntent, GALLERY_REQUEST);
+	}
+
+	
+	private Uri uri;
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode != RESULT_OK)
+			return;
+		dialogShown = true;
+		switch(requestCode){
+		case GALLERY_REQUEST:
+		    uri = data.getData();  
+			try {
+				Bitmap bitmapFromGallery = MediaStore.Images.Media.getBitmap(getContentResolver(),  
+				        uri);
+				//压缩算法后续再改善。
+				bitmapFromGallery = Bitmap.createScaledBitmap(bitmapFromGallery, 100, 100, true);
+				newAvatarbytes = ImageFormatUtils.Bitmap2Bytes(bitmapFromGallery);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		    break;
+		case CAMERA_REQUEST:
+			Bitmap bitmapFromCamera = ImageCompressUtils.compressImageFromPath(pathOfImageFromCamera);
+			int rotateDegree = ImageFormatUtils.readPictureDegree(pathOfImageFromCamera);
+			bitmapFromCamera = ImageFormatUtils.rotateBitmap(bitmapFromCamera, rotateDegree);			
+			//bitmapFromCamera =  Bitmap.createScaledBitmap(bitmapFromCamera, 100, 100, true);
+			newAvatarbytes = ImageFormatUtils.Bitmap2Bytes(bitmapFromCamera);
+			break;
+		}
+	}
+	
+	public void uploadAvatar(final byte[] bytes){
+		spinnerDialog.show(this.getSupportFragmentManager(), "tag");
+		new UploadAvatarTask(smack){
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+				spinnerDialog.dismissAllowingStateLoss();
+				if(result){
+					userVCard.setAvatarBytes(bytes);
+					adapter.notifyDataSetChanged();
+					ToastUtils.showMsg(UserInfoActivity.this, "success");
+				}
+				else
+					ToastUtils.showMsg(UserInfoActivity.this, "failure");
+			}
+			
+		}.execute(bytes);
+	}
+	
 	public static Intent createIntent(UserVCard vcard) {
 		Builder builder = new Builder("UserInfo.View").addVcard(vcard);
 		return builder.toIntent();
 	}
-
 }

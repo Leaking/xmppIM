@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.atermenji.android.iconicdroid.IconicFontDrawable;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.ui.BaseDataItem;
-import com.quinn.xmpp.util.ImageUtils;
+import com.quinn.xmpp.util.ImageFormatUtils;
 
 /**
  * @author Quinn
@@ -77,7 +77,7 @@ public class DrawerAdapter extends BaseAdapter{
 			viewholder = (ViewHolder) convertView.getTag();
 		}
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_chziroy);
-		viewholder.functionIconOrUserPortrait.setImageBitmap(ImageUtils.toRoundBitmap(bitmap, true));
+		viewholder.functionIconOrUserPortrait.setImageBitmap(ImageFormatUtils.toRoundBitmap(bitmap, true));
 		viewholder.functionNameOrUsername.setText("Quinn");
 		
 
@@ -102,7 +102,7 @@ public class DrawerAdapter extends BaseAdapter{
 		}
 
 		viewholder.functionNameOrUsername.setText(dataItems.get(position).getFunctionName());	
-		IconicFontDrawable iconfont = ImageUtils.buildIconFont(context,  dataItems.get(position).getFunctionIconId(), Color.BLACK);
+		IconicFontDrawable iconfont = ImageFormatUtils.buildIconFont(context,  dataItems.get(position).getFunctionIconId(), Color.BLACK);
 		viewholder.functionIconOrUserPortrait.setBackgroundDrawable(iconfont);
 		return convertView;
 	}
