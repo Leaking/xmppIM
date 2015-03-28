@@ -1,6 +1,6 @@
 package com.quinn.xmpp.ui.contacts;
 
-import org.jivesoftware.smack.RosterEntry;
+import com.quinn.xmpp.ui.BaseDataItem;
 
 /**
  * @author Quinn
@@ -9,7 +9,7 @@ import org.jivesoftware.smack.RosterEntry;
  * @Description A data class wrapped the data to show in contacts list children view.
  * {@link name} is maybe a person name or a chatroom name
  */
-public class ContactsDataItem {
+public class ContactsDataItem extends BaseDataItem{
 	
 	private String nickname;
 	private String jid;

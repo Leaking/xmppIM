@@ -49,7 +49,7 @@ public class UserInfoActivity extends BaseActivity implements
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
-	@InjectView(R.id.userVCard_recycle_view)
+	@InjectView(R.id.userinfo_recycle_view)
 	RecyclerView recyclerView;
 	private RecyclerView.LayoutManager layoutManager;
 	private UserInfoAdapter adapter;
@@ -71,7 +71,7 @@ public class UserInfoActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_person_chat);
+		setContentView(R.layout.activity_user_info);
 		ButterKnife.inject(this);
 		// init data
 		dividerHeight = getResources().getDimensionPixelSize(

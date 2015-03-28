@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.jivesoftware.smack.RosterEntry;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,9 @@ import butterknife.InjectView;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.smack.Smack;
 import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.ui.messages.PersonChatActivity;
+import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
+import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
 
 /**
@@ -33,11 +37,11 @@ import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
  * 
  * @description A Fragment to show the contacts:person or group or tags(groups)
  */
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements RecycleItemClickListener, RecycleItemLongClickListener {
 
 	@InjectView(R.id.contacts_recycle_view)
 	RecyclerView recyclerView;
-	private RecyclerView.Adapter adapter;
+	private ContactsAdapter adapter;
 	private RecyclerView.LayoutManager layoutManager;
 	private MainActivity activity;
 	private ArrayList<ContactsDataItem> contactDataItems;
@@ -66,6 +70,8 @@ public class ContactsFragment extends Fragment {
 				R.dimen.recyclerView_small_divider);
 		dividerColor = activity.getResources().getColor(R.color.color_gray);
 		adapter = new ContactsAdapter(activity, contactDataItems);
+		adapter.setOnItemClickListener(this);
+		adapter.setOnItemLongClickListener(this);
 	}
 
 	@Override
@@ -81,8 +87,21 @@ public class ContactsFragment extends Fragment {
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(activity
 				.getApplicationContext(), dividerColor, dividerHeight));
-
+		
 		return view;
+	}
+
+
+	@Override
+	public void onItemLongClick(View view, int position) {
+		
+	}
+
+
+	@Override
+	public void onItemClick(View view, int position) {
+		Intent intent = PersonChatActivity.createIntent(contactDataItems.get(position));
+		activity.startActivity(intent);
 	}
 
 }

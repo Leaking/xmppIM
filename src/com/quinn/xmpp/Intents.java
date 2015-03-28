@@ -2,6 +2,7 @@ package com.quinn.xmpp;
 
 import java.io.Serializable;
 
+import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 
 import android.content.ComponentName;
@@ -18,7 +19,8 @@ public class Intents {
 	
 	
 	public static final String EXTRA_VCARD = INTENT_EXTRA_PREFIX + "vcard";
-	
+	public static final String EXTRA_JID_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "jid";
+	public static final String EXTRA_NICKNAME_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "nickname";
 	public static final int RESULT_CODE_SUCCESS = 100;
 	
 	
@@ -40,6 +42,7 @@ public class Intents {
 			intent.putExtra(EXTRA_VCARD, vcard);
 			return this;
 		}
+		
 		
 		public Builder add(String keyNanme, String value){
 			intent.putExtra(keyNanme, value);

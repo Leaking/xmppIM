@@ -3,33 +3,47 @@ package com.quinn.xmpp.ui.messages;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 
 public class PersonChatActivity extends BaseActivity {
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
-	
+	@InjectView(R.id.userchat_recycle_view)
+	RecyclerView mRecyclerView;
+	private String jidChattingWithWho;
+	private String nicknameChattingWithWho;
+	private RecyclerView.LayoutManager mLayoutManager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
-		toolbar.setTitle("PersonChat");
+		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
+		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
+		toolbar.setTitle(nicknameChattingWithWho);
 		setSupportActionBar(toolbar);
-		//以下三行代码使activity有向上返回的按钮
+		// 以下三行代码使activity有向上返回的按钮
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
+		mLayoutManager = new LinearLayoutManager(this);
+		mRecyclerView.setLayoutManager(mLayoutManager);
+		// mRecyclerView.setHasFixedSize(true);
 	}
 
 	@Override
@@ -50,9 +64,11 @@ public class PersonChatActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public static Intent createIntent() {
-		Builder builder = new Builder("PersonChat.View");
+
+	public static Intent createIntent(ContactsDataItem dataitem) {
+		Builder builder = new Builder("PersonChat.View")
+		.add(Intents.EXTRA_JID_CHATTING_WITH_WHO,dataitem.getJid())
+		.add(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO,dataitem.getNickname());
 		return builder.toIntent();
 	}
 }

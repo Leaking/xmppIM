@@ -40,7 +40,7 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 	RecyclerView mRecyclerView;
 	private MessagesAdapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
-	private MainActivity mActivity;
+	private MainActivity activity;
 	private ArrayList<MessagesDataItem> contactDataItems;
 	
 	//
@@ -56,20 +56,22 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 		}
 		/* test data */
 		
-		dividerHeight = mActivity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider);
-		dividerColor = mActivity.getResources().getColor(R.color.color_gray);
+		dividerHeight = activity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider);
+		dividerColor = activity.getResources().getColor(R.color.color_gray);
 	
-		mAdapter = new MessagesAdapter(mActivity,contactDataItems);
+		mAdapter = new MessagesAdapter(activity,contactDataItems);
 		mAdapter.setOnItemClickListener(this);
 		mAdapter.setOnItemLongClickListener(this);
 
 	}
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (MainActivity) activity;
+		this.activity = (MainActivity) activity;
 		setRetainInstance(true);
 	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 		mLayoutManager = new LinearLayoutManager(getActivity());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
-				mActivity.getApplicationContext(),dividerColor,dividerHeight
+				activity.getApplicationContext(),dividerColor,dividerHeight
 	        ));
 		
 		return view;
@@ -102,8 +104,8 @@ public class MessagesFragment extends Fragment implements RecycleItemClickListen
 	
 	@Override
 	public void onItemClick(View view, int position) {
-		Intent intent = PersonChatActivity.createIntent();
-		mActivity.startActivity(intent);
+//		Intent intent = PersonChatActivity.createIntent();
+//		activity.startActivity(intent);
 	}
 
 	
