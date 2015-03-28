@@ -11,35 +11,36 @@ import org.jivesoftware.smack.RosterEntry;
  */
 public class ContactsDataItem {
 	
-	private String iconURL;
-	private String name;
+	private String nickname;
+	private String jid;
 	
-	public ContactsDataItem(String iconURL,String name){
-		this.iconURL = iconURL;
-		this.name = name;
-	}
-	
-	public ContactsDataItem(RosterEntry rosterEntry){
-		this.name = rosterEntry.getUser();
-		this.iconURL = null;
+	public ContactsDataItem(){
+		
 	}
 	
-	public String getIconURL() {
-		return iconURL;
-	}
-	public void setIconURL(String iconURL) {
-		this.iconURL = iconURL;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+	public ContactsDataItem(String jid, String nickname){
+		this.jid = jid;
+		this.nickname = nickname;
 	}
 	
 	
-	
-	
+	public String getNickname() {
+		return nickname;
+	}
+
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getJid() {
+		return jid;
+	}
+
+	public void setJid(String jid) {
+		this.jid = jid;
+	}
+
 	
 }
 

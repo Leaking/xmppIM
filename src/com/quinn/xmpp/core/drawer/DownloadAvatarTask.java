@@ -26,21 +26,18 @@ public class DownloadAvatarTask extends AsyncTask<String, Integer, Bitmap> {
 	
 	@Override
 	protected Bitmap doInBackground(String... params) {
+		System.out.println("加载某个用户的头像 = " + params[0]);
 		VCard vCard = new VCard();
     	SmackConfiguration.setPacketReplyTimeout(300000);
     	ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
     	                    new VCardProvider());
     	try {
 			vCard.load(smack.getConnection(), params[0]);
-			System.out.println("vcard peter= " + vCard.getEmailHome());
-			System.out.println("vcard peter= " + vCard.getFirstName());
-			System.out.println("vcard peter= " + vCard.getJabberId());
-			
-
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
     	byte[] bs = vCard.getAvatar();
+    	System.out.println("获得某个用户头像结果 = " + bs);
     	Bitmap bitmap = null;
     	if(bs != null)
     		bitmap = BitmapFactory.decodeByteArray(bs, 0, bs.length);

@@ -16,6 +16,7 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.packet.VCard;
 import org.jivesoftware.smackx.provider.VCardProvider;
 
+import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 
 
@@ -58,9 +59,7 @@ public class SmackImpl implements Smack {
 			roster = xmppConn.getRoster();
 			Presence presence = new Presence(Presence.Type.available);
 			xmppConn.sendPacket(presence);
-
 			VCard vcard = new VCard();
-			
 			SmackConfiguration.setPacketReplyTimeout(300000);
 			ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
 			                    new VCardProvider());
@@ -117,6 +116,34 @@ public class SmackImpl implements Smack {
 	}
 
 
+	@Override
+	public byte[] getAvatarOfSomeone(RosterEntry rosterEntry) {
+		String jid = rosterEntry.getUser();
+		VCard vcard = new VCard();
+		try {
+			vcard.load(xmppConn,jid);
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
+		return vcard.getAvatar();
+	}
+
+
+	@Override
+	public ContactsDataItem getContactData(String jid) {
+		ContactsDataItem item = new ContactsDataItem();
+		VCard vcard = new VCard();
+		try {
+			vcard.load(xmppConn, jid);
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
+		item.setNickname(vcard.getNickName());
+		item.setJid(jid);
+		return item;
+	}
+
+	
 	
 
 

@@ -3,6 +3,8 @@ package com.quinn.xmpp.ui.contacts;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.drawer.DownloadAvatarTask;
 import com.quinn.xmpp.ui.main.MainActivity;
+import com.quinn.xmpp.util.ImageFormatUtils;
 
 /**
  * @author Quinn
@@ -48,16 +52,21 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder , int position) {
-    	holder.name.setText(dataItems.get(position).getName());
+    	holder.name.setText(dataItems.get(position).getNickname());
     	//在这里设置一个默认头像
-    	holder.icon.setImageResource(R.drawable.ic_chziroy);
-//    	new DownloadAvatarTask(activity.getSmack()){
-//			@Override
-//			protected void onPostExecute(Bitmap result) {			
-//				if(result != null)
-//					holder.icon.setImageBitmap(ImageUtils.toRoundBitmap(result, true));
-//			}
-//    	}.execute(dataItems.get(position).getName());
+//    	if(dataItems.get(position).getAvatarbytes() != null){
+//    		byte[] avatarBytes = dataItems.get(position).getAvatarbytes();
+//    		Bitmap avatar = BitmapFactory.decodeByteArray(avatarBytes, 0, avatarBytes.length);
+//    		holder.icon.setImageBitmap(avatar);
+//    	}else
+    		holder.icon.setImageResource(R.drawable.ic_chziroy);
+    	new DownloadAvatarTask(activity.getSmack()){
+			@Override
+			protected void onPostExecute(Bitmap result) {			
+				if(result != null)
+					holder.icon.setImageBitmap(ImageFormatUtils.toRoundBitmap(result, true));
+			}
+    	}.execute(dataItems.get(position).getJid());
     }
 
 

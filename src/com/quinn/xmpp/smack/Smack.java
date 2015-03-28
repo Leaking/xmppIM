@@ -6,6 +6,7 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 
+import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 
 
@@ -26,4 +27,19 @@ public interface Smack{
 	 * get all
 	 */
 	public ArrayList<RosterGroup> getAllRosterGroup();
+	
+	/**
+	 * Get byte[] of somebody's avatar
+	 * @param rosterEntry
+	 * @return
+	 */
+	public byte[] getAvatarOfSomeone(RosterEntry rosterEntry);
+	
+	/**
+	 * Load nickname and email and etc. of some one;
+	 * @param rosterEntry
+	 * @return
+	 */
+	public ContactsDataItem getContactData(String jid);
+	
 }

@@ -20,9 +20,9 @@ public class InputDialog extends DialogFragment{
 
 	private Context context;
 	private String title;
-	private MDialogCallback callback;
+	private InputDialogCallback callback;
 	
-	public interface MDialogCallback{
+	public interface InputDialogCallback{
 		public void cancel();
 		public void confirm(String string);
 	}
@@ -30,8 +30,19 @@ public class InputDialog extends DialogFragment{
 	public InputDialog(Context context, String title){
 		this.context  = context;
 		this.title = title;
-		this.callback = (MDialogCallback)context;
-		
+		this.callback = (InputDialogCallback)context;
+	}
+	
+	public InputDialog(Context context){
+		this.context = context;
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
+	}
+	
+	public void setCallback(InputDialogCallback callback){
+		this.callback = callback;
 	}
 	
 	@Override

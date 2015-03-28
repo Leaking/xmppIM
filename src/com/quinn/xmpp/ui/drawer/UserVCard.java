@@ -32,9 +32,9 @@ public class UserVCard implements Serializable {
 		System.out.println("vcard.getAvatar() = " + vcard.getAvatar());
 
 		avatarBytes = vcard.getAvatar();
-		System.out.println("vcard.getEmailWork() = " + vcard.getEmailWork());
+		nickname = vcard.getNickName();
+		email = vcard.getEmailHome();
 		
-		System.out.println("vcard.getNickName() = " + vcard.getNickName());
 	}
 	
 	public byte[] getAvatarBytes() {

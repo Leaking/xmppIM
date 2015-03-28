@@ -16,7 +16,7 @@ import com.quinn.xmpp.R;
 import com.quinn.xmpp.persisitence.Preference;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.widget.InputDialog;
-import com.quinn.xmpp.ui.widget.InputDialog.MDialogCallback;
+import com.quinn.xmpp.ui.widget.InputDialog.InputDialogCallback;
 
 /**
  * 
@@ -24,7 +24,7 @@ import com.quinn.xmpp.ui.widget.InputDialog.MDialogCallback;
  * @date 2015-1-30
  */
 public class NetWorkSettingActivity extends BaseActivity implements
-		MDialogCallback {
+		InputDialogCallback {
 
 	private InputDialog inputDialog;
 	@InjectView(R.id.serverIP)

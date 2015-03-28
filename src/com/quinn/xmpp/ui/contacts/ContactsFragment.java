@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.smack.Smack;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
 
@@ -43,36 +44,29 @@ public class ContactsFragment extends Fragment {
 	//
 	private int dividerHeight;
 	private int dividerColor;
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = (MainActivity) activity;
 		setRetainInstance(true);
 	}
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		contactDataItems = new ArrayList<ContactsDataItem>();
 
-		/* test data */
-//		for(RosterEntry rosterEntry: mActivity.smack.getAllRosterEntry()){
-//
-//			contactDataItems.add(new ContactsDataItem(rosterEntry));
-//		}
-		for(int i = 0; i < 10; i++){
-
-			contactDataItems.add(new ContactsDataItem("hehe","chenhuazhao"));
+		for (RosterEntry rosterEntry : activity.smack.getAllRosterEntry()) {
+			String jid = rosterEntry.getUser();
+			contactDataItems.add(activity.smack.getContactData(jid));
 		}
-		/* test data */
-		
-		dividerHeight = activity.getResources().getDimensionPixelSize(R.dimen.recyclerView_small_divider);
-		dividerColor = activity.getResources().getColor(R.color.color_gray);
-		adapter = new ContactsAdapter(activity,contactDataItems);
-	}
 
+		dividerHeight = activity.getResources().getDimensionPixelSize(
+				R.dimen.recyclerView_small_divider);
+		dividerColor = activity.getResources().getColor(R.color.color_gray);
+		adapter = new ContactsAdapter(activity, contactDataItems);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,11 +79,8 @@ public class ContactsFragment extends Fragment {
 		recyclerView.setHasFixedSize(true);
 		layoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(layoutManager);
-		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(
-				activity.getApplicationContext(),dividerColor,dividerHeight
-	        ));
-
-		//System.out.println("all roster = " + mActivity.smack.getAllRosterEntry());
+		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(activity
+				.getApplicationContext(), dividerColor, dividerHeight));
 
 		return view;
 	}
