@@ -27,11 +27,9 @@ public class BaseActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(bundle);
 		if (app == null) {
-			System.out.println("xmppConn app == null");
 			app = (App) getApplication();
 		}
 		if (smack == null) {
-			System.out.println("xmppConn smack == null");
 			smack = app.getSmack();
 		}
 	}

@@ -1,6 +1,5 @@
 package com.quinn.xmpp.smack;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,8 +18,6 @@ import org.jivesoftware.smackx.provider.VCardProvider;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 
-
-
 /**
  * 
  * 
@@ -29,15 +26,21 @@ import com.quinn.xmpp.ui.drawer.UserVCard;
  */
 public class SmackImpl implements Smack {
 
-
 	private XMPPConnection xmppConn;
 	private Roster roster;
 	private UserVCard userVcard;
 	private String ip;
 	private int port;
 	private String service;
-	
-	
+
+	public static SmackImpl instance;
+
+	public static SmackImpl getInstance(){
+		if(instance == null)
+			instance = new SmackImpl();
+		return instance;
+	}
+
 	/**
 	 * Connect to server
 	 */
@@ -46,12 +49,12 @@ public class SmackImpl implements Smack {
 		this.ip = ip;
 		this.port = port;
 		this.service = service;
-		if(xmppConn != null && xmppConn.isConnected())
+		if (xmppConn != null && xmppConn.isConnected())
 			return true;
 		xmppConn = ConnectionManager.connect(ip, port, service);
 		return xmppConn.isConnected();
 	}
-	
+
 	@Override
 	public boolean login(String account, String password) {
 		try {
@@ -62,14 +65,14 @@ public class SmackImpl implements Smack {
 			VCard vcard = new VCard();
 			SmackConfiguration.setPacketReplyTimeout(300000);
 			ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",
-			                    new VCardProvider());
+					new VCardProvider());
 			vcard.load(xmppConn);
 			userVcard = new UserVCard(vcard);
 
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
-		return xmppConn.isAuthenticated();	
+		return xmppConn.isAuthenticated();
 	}
 
 	@Override
@@ -78,7 +81,7 @@ public class SmackImpl implements Smack {
 		try {
 			HashMap<String, String> attrs = new HashMap<String, String>();
 			attrs.put("name", account);
-			acManager.createAccount(account, password,attrs);
+			acManager.createAccount(account, password, attrs);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 			return false;
@@ -105,29 +108,26 @@ public class SmackImpl implements Smack {
 		arrayList = new ArrayList<RosterGroup>(roster.getGroups());
 		return arrayList;
 	}
-	
-	
-	public XMPPConnection getConnection(){
+
+	public XMPPConnection getConnection() {
 		return xmppConn;
 	}
 
-	public UserVCard getUserVCard(){
+	public UserVCard getUserVCard() {
 		return userVcard;
 	}
-
 
 	@Override
 	public byte[] getAvatarOfSomeone(RosterEntry rosterEntry) {
 		String jid = rosterEntry.getUser();
 		VCard vcard = new VCard();
 		try {
-			vcard.load(xmppConn,jid);
+			vcard.load(xmppConn, jid);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
 		return vcard.getAvatar();
 	}
-
 
 	@Override
 	public ContactsDataItem getContactData(String jid) {
@@ -143,9 +143,4 @@ public class SmackImpl implements Smack {
 		return item;
 	}
 
-	
-	
-
-
-	
 }

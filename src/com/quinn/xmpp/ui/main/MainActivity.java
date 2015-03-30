@@ -24,6 +24,7 @@ import butterknife.InjectView;
 import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.chatroom.MessageListenerService;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity {
 	private String titles[] = new String[] { "Messages", "contacts" };
 
 	private MyAdapter mAdapter;
+	Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +80,16 @@ public class MainActivity extends BaseActivity {
 					}
 				});
 		
-		
+		startAllService();
+	
 	}
 
+	public void startAllService(){
+		intent = new Intent(this, MessageListenerService.class);
+		startService(intent);
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -162,4 +171,11 @@ public class MainActivity extends BaseActivity {
 		return builder.toIntent();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		stopService(intent);
+	}
+
+	
 }

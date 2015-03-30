@@ -10,11 +10,10 @@ import org.jivesoftware.smack.RosterEntry;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
-import com.quinn.xmpp.smack.Smack;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.messages.PersonChatActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;

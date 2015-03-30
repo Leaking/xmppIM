@@ -104,6 +104,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Service -->
+        <service
+            android:name=".core.chatroom.MessageListenerService"
+            android:enabled="true" />
     </application>
 
 </manifest>
