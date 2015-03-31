@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.ui.chatroom.PersonChatActivity;
 import com.quinn.xmpp.ui.main.MainActivity;
-import com.quinn.xmpp.ui.messages.PersonChatActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
 import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;

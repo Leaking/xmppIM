@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.messages.PersonChatActivity"
+            android:name="com.quinn.xmpp.ui.chatroom.PersonChatActivity"
             android:label="@string/title_activity_person_chat"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data
@@ -77,7 +77,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.messages.GroupChatActivity"
+            android:name="com.quinn.xmpp.ui.chatroom.GroupChatActivity"
             android:label="@string/title_activity_group_chat"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data

@@ -12,6 +12,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -41,8 +42,13 @@ public class ImageFormatUtils {
 		return iconFont;
 	}
 	
-
-
+	
+	/**
+	 * Make a bitmap to a round bitmap, and you can make it gray if is offline
+	 * @param bitmap
+	 * @param ifonline
+	 * @return
+	 */
 	public static Bitmap toRoundBitmap(Bitmap bitmap, boolean ifonline) {
 
 		int width = bitmap.getWidth();
@@ -111,7 +117,11 @@ public class ImageFormatUtils {
 	
 	
 
-	
+	/**
+	 * read the degree of image taken from camera
+	 * @param path
+	 * @return
+	 */
 	public static int readPictureDegree(String path) {  
 	    int degree = 0;  
 	    try {  
@@ -136,11 +146,41 @@ public class ImageFormatUtils {
 	    return degree;  
 	}  
 	  
+	/**
+	 * rotote a bitmap by a certain rotateDegree
+	 * @param bitmap
+	 * @param rotateDegree
+	 * @return
+	 */
 	public static Bitmap rotateBitmap(Bitmap bitmap, float rotateDegree){  
 	    Matrix matrix = new Matrix();  
 	    matrix.postRotate((float)rotateDegree);  
 	    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);  
 	    return bitmap;  
+	}
+	
+	
+	/**
+	 * draw a pure-color circle
+	 * 
+	 * @param context
+	 * @param size
+	 * @param rsid
+	 * @return
+	 */
+	public static Bitmap generateCircleBitmap(Context context, int size,
+			int rsid) {
+		Bitmap bitmap;
+		int radius = size / 2;
+		bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		Canvas c = new Canvas(bitmap);
+		Paint paint = new Paint();
+		paint.setStyle(Style.FILL);
+		int color = context.getResources().getColor(rsid);
+		paint.setColor(color);
+		paint.setAntiAlias(true);
+		c.drawCircle(radius, radius, radius, paint);
+		return bitmap;
 	}
 	
 	

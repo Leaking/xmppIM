@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quinn.xmpp.ui.messages.PersonChatActivity" >
+    tools:context="com.quinn.xmpp.ui.chatroom.PersonChatActivity" >
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,13 +17,40 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/userchat_recycle_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/personchat_swipe_layout"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dip"
-        android:background="#ffffff"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical" />
+        android:layout_weight="1" >
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/userchat_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        >
+        <EditText 
+            android:id="@+id/chatMsgInput"
+            android:layout_height="match_parent"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            
+            />
+        <Button 
+            android:id="@+id/chatMsgTextSend"
+            android:layout_height="match_parent"
+            android:layout_width="50dip"
+            />
+    </LinearLayout>
+    
+    
 </LinearLayout>
