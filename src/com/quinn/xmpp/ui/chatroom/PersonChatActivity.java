@@ -1,5 +1,11 @@
 package com.quinn.xmpp.ui.chatroom;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,8 +24,10 @@ import butterknife.OnClick;
 import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.chatroom.TextMessageListener;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
+import com.quinn.xmpp.util.LogcatUtils;
 
 public class PersonChatActivity extends BaseActivity implements OnRefreshListener {
 
@@ -37,6 +45,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	private String jidChattingWithWho;
 	private String nicknameChattingWithWho;
 	private RecyclerView.LayoutManager mLayoutManager;
+	private TextMessageListener textMessageListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,9 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		ButterKnife.inject(this);
 		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
 		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
+		LogcatUtils.v("come in to a person-chatroom ,with = " + jidChattingWithWho);
+		
+		
 		toolbar.setTitle(nicknameChattingWithWho);
 		setSupportActionBar(toolbar);
 		// 以下三行代码使activity有向上返回的按钮
@@ -54,6 +66,27 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		mLayoutManager = new LinearLayoutManager(this);
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		swipeRefreshLayout.setOnRefreshListener(this);
+		
+		init();
+	}
+	
+	public void init(){
+		ChatManager chatManager = smack.getConnection().getChatManager();
+		textMessageListener = new TextMessageListener();
+		//这里需要full id  用addPacketListener可以获得
+		Chat chat = chatManager.createChat("peter@im.comit.com.cn/Spark 2.6.3", new MessageListener() {
+
+			@Override
+			public void processMessage(Chat chat, Message message) {
+				LogcatUtils.v("receive msg = " + message.getBody());
+				
+			}});
+		
+		try {
+			chat.sendMessage("lai yi  fa");
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
 	}
 
 

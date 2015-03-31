@@ -7,7 +7,7 @@ package com.quinn.xmpp.ui.chatroom;
  * @date 2015-3-31
  */
 public class PersonChatTextDataItem {
-	private String avatarUrl;
+	private String avatarUrl; 
 	private String nickname;
 }
 

@@ -13,6 +13,7 @@ import android.os.IBinder;
 
 import com.quinn.xmpp.App;
 import com.quinn.xmpp.smack.Smack;
+import com.quinn.xmpp.util.LogcatUtils;
 
 /**
  * @author Quinn
@@ -51,7 +52,7 @@ public class MessageListenerService extends Service {
 
 					@Override
 					public void processMessage(Chat chat, Message message) {
-						System.out.println("MessageListenerService Received message: " + message);
+						LogcatUtils.v("MessageListenerService Received message: " + message);
 					}
 					
 				});
@@ -63,7 +64,7 @@ public class MessageListenerService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		System.out.println("MessageListenerService onStartCommand  ");
-		new MessageListenThread().start();
+		//new MessageListenThread().start();
 		return START_STICKY;
 	}
 

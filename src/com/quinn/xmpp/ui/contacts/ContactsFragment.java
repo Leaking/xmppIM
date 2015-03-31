@@ -28,6 +28,7 @@ import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
 import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 import com.quinn.xmpp.ui.widget.SimpleDividerItemDecoration;
+import com.quinn.xmpp.util.LogcatUtils;
 
 /**
  * @author Quinn
@@ -58,9 +59,14 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		contactDataItems = new ArrayList<ContactsDataItem>();
+		LogcatUtils.v("begin load rosters");
 
 		for (RosterEntry rosterEntry : activity.smack.getAllRosterEntry()) {
 			String jid = rosterEntry.getUser();
+			LogcatUtils.v("jid = " + jid);
+			LogcatUtils.v("rosterEntry = " + rosterEntry);
+			LogcatUtils.v("getType = " + rosterEntry.getType());
+			
 			contactDataItems.add(activity.smack.getContactData(jid));
 		}
 
