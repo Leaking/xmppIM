@@ -56,7 +56,7 @@ public class ConnectionManager {
 				port, service);
 
 		connConfig.setReconnectionAllowed(true);
-		connConfig.setDebuggerEnabled(true);
+		connConfig.setDebuggerEnabled(false);
 		connConfig.setSecurityMode(SecurityMode.required);
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);

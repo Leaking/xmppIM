@@ -27,9 +27,7 @@ public class MessageListenerService extends Service {
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
-		System.out.println("MessageListenerService onCreate");
-		
+		super.onCreate();		
 		smack = ((App) getApplication()).getSmack();
 		connection = smack.getConnection();
 		chatManager = connection.getChatManager();
@@ -63,8 +61,8 @@ public class MessageListenerService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		System.out.println("MessageListenerService onStartCommand  ");
-		//new MessageListenThread().start();
+		LogcatUtils.i("启动MessageListenerService");
+		new MessageListenThread().start();
 		return START_STICKY;
 	}
 

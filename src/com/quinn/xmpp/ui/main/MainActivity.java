@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.packet.VCard;
+import org.jivesoftware.smackx.pubsub.SubscribeExtension;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,6 +26,8 @@ import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.core.chatroom.MessageListenerService;
+import com.quinn.xmpp.core.contacts.PresenceListenerService;
+import com.quinn.xmpp.core.contacts.SubscriptionListenerService;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
@@ -47,10 +50,11 @@ public class MainActivity extends BaseActivity {
 	@InjectView(R.id.sliding_tabs)
 	SlidingTabLayout slidingTabLayout;
 
-	private String titles[] = new String[] { "Messages", "contacts" };
-
+	private String titles[] = new String[] { "Messages", "Contacts" };
 	private MyAdapter mAdapter;
-	Intent intent;
+	private Intent messageIntent;
+	private Intent presenceIntent;
+	private Intent subscriptionIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +89,14 @@ public class MainActivity extends BaseActivity {
 	}
 
 	public void startAllService(){
-		intent = new Intent(this, MessageListenerService.class);
-		startService(intent);
+		messageIntent = new Intent(this, MessageListenerService.class);
+		startService(messageIntent);
+		presenceIntent = new Intent(this, PresenceListenerService.class);
+		startService(presenceIntent);
+		subscriptionIntent = new Intent(this, SubscriptionListenerService.class);
+		startService(subscriptionIntent);
 	}
-	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -174,8 +181,14 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		stopService(intent);
+		stopAllService();
 	}
 
+	public void stopAllService(){
+		stopService(messageIntent);
+		stopService(presenceIntent);
+		stopService(subscriptionIntent);
+	}
+	
 	
 }

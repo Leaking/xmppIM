@@ -109,6 +109,12 @@
         <service
             android:name=".core.chatroom.MessageListenerService"
             android:enabled="true" />
+        <service
+            android:name=".core.contacts.PresenceListenerService"
+            android:enabled="true" />
+        <service
+            android:name=".core.contacts.SubscriptionListenerService"
+            android:enabled="true" />
     </application>
 
 </manifest>
