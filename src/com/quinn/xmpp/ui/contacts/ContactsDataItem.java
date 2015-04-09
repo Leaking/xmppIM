@@ -11,19 +11,30 @@ import com.quinn.xmpp.ui.BaseDataItem;
  */
 public class ContactsDataItem extends BaseDataItem{
 	
+	private String service;
 	private String nickname;
 	private String jid;
+	
 	
 	public ContactsDataItem(){
 		
 	}
 	
-	public ContactsDataItem(String jid, String nickname){
+	public ContactsDataItem(String jid, String nickname,String service){
 		this.jid = jid;
 		this.nickname = nickname;
+		this.service = service;
 	}
 	
 	
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}

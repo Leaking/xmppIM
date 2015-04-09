@@ -44,6 +44,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	
 	private String jidChattingWithWho;
 	private String nicknameChattingWithWho;
+	private String serviceChattingWithWho;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private TextMessageListener textMessageListener;
 
@@ -54,8 +55,11 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		ButterKnife.inject(this);
 		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
 		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
-		LogcatUtils.v("come in to a person-chatroom ,with = " + jidChattingWithWho);
-		
+		serviceChattingWithWho = getStringExtra(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO);
+		LogcatUtils.v("Come in to a person-chatroom");
+		LogcatUtils.v("jidChattingWithWho = " + jidChattingWithWho);
+		LogcatUtils.v("serviceChattingWithWho = " + serviceChattingWithWho);
+
 		
 		toolbar.setTitle(nicknameChattingWithWho);
 		setSupportActionBar(toolbar);
@@ -74,7 +78,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		ChatManager chatManager = smack.getConnection().getChatManager();
 		textMessageListener = new TextMessageListener();
 		//这里需要full id  用addPacketListener可以获得
-		Chat chat = chatManager.createChat("peter@im.comit.com.cn/Spark 2.6.3", new MessageListener() {
+		Chat chat = chatManager.createChat(jidChattingWithWho+"/"+serviceChattingWithWho, new MessageListener() {
 
 			@Override
 			public void processMessage(Chat chat, Message message) {
@@ -128,7 +132,8 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	public static Intent createIntent(ContactsDataItem dataitem) {
 		Builder builder = new Builder("PersonChat.View")
 		.add(Intents.EXTRA_JID_CHATTING_WITH_WHO,dataitem.getJid())
-		.add(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO,dataitem.getNickname());
+		.add(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO,dataitem.getNickname())
+		.add(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO,dataitem.getService());
 		return builder.toIntent();
 	}
 	

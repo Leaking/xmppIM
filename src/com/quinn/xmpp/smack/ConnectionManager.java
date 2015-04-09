@@ -56,7 +56,7 @@ public class ConnectionManager {
 				port, service);
 
 		connConfig.setReconnectionAllowed(true);
-		connConfig.setDebuggerEnabled(false);
+		// connConfig.setDebuggerEnabled(false);
 		connConfig.setSecurityMode(SecurityMode.required);
 		connConfig.setSASLAuthenticationEnabled(true); // true/false
 		connConfig.setCompressionEnabled(false);
@@ -187,9 +187,21 @@ public class ConnectionManager {
 		// FileTransfer
 		pm.addIQProvider("si", "http://jabber.org/protocol/si",
 				new StreamInitiationProvider());
+		pm.addIQProvider("query", "http://jabber.org/protocol/bytestreams",
+				new BytestreamsProvider());
+		pm.addIQProvider("open", "http://jabber.org/protocol/ibb",
+				new OpenIQProvider());
+		pm.addIQProvider("close", "http://jabber.org/protocol/ibb",
+				new CloseIQProvider());
+		pm.addExtensionProvider("data", "http://jabber.org/protocol/ibb",
+				new DataPacketProvider());
 
 		pm.addIQProvider("query", "http://jabber.org/protocol/bytestreams",
 				new BytestreamsProvider());
+		pm.addIQProvider("query", "http://jabber.org/protocol/disco#items",
+				new DiscoverItemsProvider());
+		pm.addIQProvider("query", "http://jabber.org/protocol/disco#info",
+				new DiscoverInfoProvider());
 
 		// Privacy
 		pm.addIQProvider("query", "jabber:iq:privacy", new PrivacyProvider());

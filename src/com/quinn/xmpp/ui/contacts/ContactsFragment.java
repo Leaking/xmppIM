@@ -7,13 +7,12 @@ package com.quinn.xmpp.ui.contacts;
 import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.packet.Presence;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.contacts.ContactsLoadingTask;
 import com.quinn.xmpp.ui.chatroom.PersonChatActivity;
 import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
@@ -59,25 +59,29 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		contactDataItems = new ArrayList<ContactsDataItem>();
-		LogcatUtils.v("begin load rosters");
-
-		for (RosterEntry rosterEntry : activity.smack.getAllRosterEntry()) {
-			String jid = rosterEntry.getUser();
-			LogcatUtils.v("jid = " + jid);
-			LogcatUtils.v("rosterEntry = " + rosterEntry);
-			LogcatUtils.v("getType = " + rosterEntry.getType());
-			
-			contactDataItems.add(activity.smack.getContactData(jid));
-		}
-
 		dividerHeight = activity.getResources().getDimensionPixelSize(
 				R.dimen.recyclerView_small_divider);
 		dividerColor = activity.getResources().getColor(R.color.color_gray);
 		adapter = new ContactsAdapter(activity, contactDataItems);
 		adapter.setOnItemClickListener(this);
 		adapter.setOnItemLongClickListener(this);
+		loadContacts();
 	}
 
+	public void loadContacts(){
+		new ContactsLoadingTask(activity.smack){
+
+			@Override
+			protected void onPostExecute(ArrayList<ContactsDataItem> result) {
+				for(ContactsDataItem item: result){
+					contactDataItems.add(item);
+				}
+				adapter.notifyDataSetChanged();
+			}
+			
+		}.execute();
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

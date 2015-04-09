@@ -89,10 +89,12 @@ public class MainActivity extends BaseActivity {
 	}
 
 	public void startAllService(){
-		messageIntent = new Intent(this, MessageListenerService.class);
-		startService(messageIntent);
 		presenceIntent = new Intent(this, PresenceListenerService.class);
 		startService(presenceIntent);
+		
+		messageIntent = new Intent(this, MessageListenerService.class);
+		startService(messageIntent);
+
 		subscriptionIntent = new Intent(this, SubscriptionListenerService.class);
 		startService(subscriptionIntent);
 	}
@@ -185,8 +187,8 @@ public class MainActivity extends BaseActivity {
 	}
 
 	public void stopAllService(){
-		stopService(messageIntent);
 		stopService(presenceIntent);
+		stopService(messageIntent);
 		stopService(subscriptionIntent);
 	}
 	

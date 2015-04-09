@@ -46,11 +46,14 @@ public class MessageListenerService extends Service {
 
 			@Override
 			public void chatCreated(Chat chat, boolean createLocally) {
+				LogcatUtils.i("createLocally = " + createLocally);
+				if(createLocally)
+					return;
 				chat.addMessageListener(new MessageListener() {
 
 					@Override
 					public void processMessage(Chat chat, Message message) {
-						LogcatUtils.v("MessageListenerService Received message: " + message);
+						LogcatUtils.v("MessageListenerService Received message: " + message.getBody());
 					}
 					
 				});

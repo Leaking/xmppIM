@@ -24,6 +24,9 @@ import butterknife.OnClick;
 
 import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.core.chatroom.MessageListenerService;
+import com.quinn.xmpp.core.contacts.PresenceListenerService;
+import com.quinn.xmpp.core.contacts.SubscriptionListenerService;
 import com.quinn.xmpp.core.launch.ConnectTask;
 import com.quinn.xmpp.core.launch.LoginTask;
 import com.quinn.xmpp.persisitence.Preference;
@@ -173,6 +176,8 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 		}
 	}
 
+	
+	
 	@Override
 	public void handleMoreTextChanged() {
 		updateEnablement();

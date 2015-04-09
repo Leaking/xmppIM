@@ -21,6 +21,7 @@ public class Intents {
 	public static final String EXTRA_VCARD = INTENT_EXTRA_PREFIX + "vcard";
 	public static final String EXTRA_JID_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "jid";
 	public static final String EXTRA_NICKNAME_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "nickname";
+	public static final String EXTRA_SERVICE_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "service";
 	public static final int RESULT_CODE_SUCCESS = 100;
 	
 	

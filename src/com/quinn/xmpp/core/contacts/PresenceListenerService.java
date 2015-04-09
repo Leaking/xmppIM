@@ -111,8 +111,9 @@ public class PresenceListenerService extends Service {
 
 			@Override
 			public void presenceChanged(Presence presence) {
-				LogcatUtils.i("presence change:from = " + presence.getFrom());
-				// 保存各个用户的域
+				String fromWho_fullIdentity = presence.getFrom();
+				LogcatUtils.i("presence change:from = " + fromWho_fullIdentity);
+				smack.putJID_Service(fromWho_fullIdentity);
 
 				// 发送广播更新在线状态（更新UI）
 

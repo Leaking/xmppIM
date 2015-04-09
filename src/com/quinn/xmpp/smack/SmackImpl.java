@@ -17,6 +17,7 @@ import org.jivesoftware.smackx.provider.VCardProvider;
 
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
+import com.quinn.xmpp.util.LogcatUtils;
 
 /**
  * 
@@ -26,15 +27,22 @@ import com.quinn.xmpp.ui.drawer.UserVCard;
  */
 public class SmackImpl implements Smack {
 
+	private static final String TAG = "SmackImpl";
 	private XMPPConnection xmppConn;
 	private Roster roster;
 	private UserVCard userVcard;
 	private String ip;
 	private int port;
 	private String service;
+	
+	private HashMap<String,String> jid_service_map;
 
 	public static SmackImpl instance;
 
+	public SmackImpl(){
+		jid_service_map = new HashMap<String, String>();
+	}
+	
 	public static SmackImpl getInstance(){
 		if(instance == null)
 			instance = new SmackImpl();
@@ -141,6 +149,29 @@ public class SmackImpl implements Smack {
 		item.setNickname(vcard.getNickName());
 		item.setJid(jid);
 		return item;
+	}
+
+
+	@Override
+	public void putJID_Service(String fullIdentity) {
+		int indexOfSplit = fullIdentity.lastIndexOf("/");
+		String jid = fullIdentity.substring(0,indexOfSplit);
+		String service = fullIdentity.substring(indexOfSplit + 1);
+		LogcatUtils.i("保存JID与Service的映射 jid = " + jid);
+		LogcatUtils.i("保存JID与Service的映射  Service = " + service);
+		jid_service_map.put(jid, service);
+	}
+
+
+	@Override
+	public String getServiceByJID(String jid) {
+		return jid_service_map.get(jid);
+	}
+
+
+	@Override
+	public String getFullIdentity(String jid) {
+		return jid+"/"+getServiceByJID(jid);
 	}
 
 }

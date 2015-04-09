@@ -18,6 +18,7 @@ public class ConnectTask extends AsyncTask<String, Integer, Boolean>{
 	private Smack smack;
 	public ConnectTask(Smack smack){
 		this.smack = smack;
+		
 	}
 	
 	@Override

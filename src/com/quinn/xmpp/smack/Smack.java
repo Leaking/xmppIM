@@ -42,4 +42,20 @@ public interface Smack{
 	 */
 	public ContactsDataItem getContactData(String jid);
 	
+	/**
+	 * 保存JID 和 Service的映射
+	 */
+	public void putJID_Service(String fullIdentity);
+	
+	
+	/**
+	 * 根据JID 获取其Service
+	 * @param jid
+	 * @return
+	 */
+	public String getServiceByJID(String jid);
+	
+	
+	public String getFullIdentity(String jid);
+	
 }
