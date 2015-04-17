@@ -145,7 +145,6 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 				LoginActivity.this.startActivity(intent);
 			}
 		}.execute(account, password);
-
 	}
 
 	@Override

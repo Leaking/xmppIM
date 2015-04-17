@@ -26,7 +26,6 @@ public class DownloadAvatarTask extends AsyncTask<String, Integer, Bitmap> {
 	
 	@Override
 	protected Bitmap doInBackground(String... params) {
-		System.out.println("加载某个用户的头像 = " + params[0]);
 		VCard vCard = new VCard();
     	SmackConfiguration.setPacketReplyTimeout(300000);
     	ProviderManager.getInstance().addIQProvider("vCard", "vcard-temp",

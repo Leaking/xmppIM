@@ -65,7 +65,6 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 		adapter = new ContactsAdapter(activity, contactDataItems);
 		adapter.setOnItemClickListener(this);
 		adapter.setOnItemLongClickListener(this);
-		loadContacts();
 	}
 
 	public void loadContacts(){
@@ -95,7 +94,7 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.addItemDecoration(new SimpleDividerItemDecoration(activity
 				.getApplicationContext(), dividerColor, dividerHeight));
-		
+		loadContacts();
 		return view;
 	}
 

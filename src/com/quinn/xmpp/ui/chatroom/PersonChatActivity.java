@@ -1,5 +1,7 @@
 package com.quinn.xmpp.ui.chatroom;
 
+import java.util.ArrayList;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
@@ -26,8 +28,10 @@ import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.core.chatroom.TextMessageListener;
 import com.quinn.xmpp.ui.BaseActivity;
+import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.util.LogcatUtils;
+import com.quinn.xmpp.util.TimeUtils;
 
 public class PersonChatActivity extends BaseActivity implements OnRefreshListener {
 
@@ -47,7 +51,9 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	private String serviceChattingWithWho;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private TextMessageListener textMessageListener;
-
+	private ArrayList<PersonChatDataItem> dataItems;
+	private PersonChatAdapter adapter;
+	private Chat chat;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,8 +74,11 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		mLayoutManager = new LinearLayoutManager(this);
+		dataItems = new ArrayList<PersonChatDataItem>();
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		swipeRefreshLayout.setOnRefreshListener(this);
+		adapter = new PersonChatAdapter(this,dataItems);
+		mRecyclerView.setAdapter(adapter);
 		
 		init();
 	}
@@ -78,12 +87,20 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		ChatManager chatManager = smack.getConnection().getChatManager();
 		textMessageListener = new TextMessageListener();
 		//这里需要full id  用addPacketListener可以获得
-		Chat chat = chatManager.createChat(jidChattingWithWho+"/"+serviceChattingWithWho, new MessageListener() {
+		chat = chatManager.createChat(jidChattingWithWho+"/"+serviceChattingWithWho, new MessageListener() {
 
 			@Override
 			public void processMessage(Chat chat, Message message) {
 				LogcatUtils.v("receive msg = " + message.getBody());
-				
+				//message.get
+				PersonChatDataItem dataItem = new PersonChatDataItem();
+				dataItem.setTextContent(message.getBody());
+				dataItem.setJid(jidChattingWithWho);
+				dataItem.setNickname(smack.getContactData(jidChattingWithWho).getNickname());
+				dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
+				dataItem.setItemType(BaseDataItem.LEFT_BUBBLE_TEXT);
+				dataItems.add(dataItem);
+				adapter.notifyDataSetChanged();
 			}});
 		
 		try {
@@ -109,8 +126,19 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	}
 	
 	@OnClick(R.id.chatMsgTextSend)
-	public void send(){
-		
+	public void onSend(){
+		try {
+			chat.sendMessage(input.getText().toString());
+			PersonChatDataItem dataItem = new PersonChatDataItem();
+			dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
+			dataItem.setTextContent(input.getText().toString());
+			dataItem.setJid(smack.getUserVCard().getJid());
+			dataItem.setItemType(BaseDataItem.RIGHT_BUBBLE_TEXT);
+			dataItems.add(dataItem);
+			adapter.notifyDataSetChanged();
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -128,6 +156,9 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+
 	
 	public static Intent createIntent(ContactsDataItem dataitem) {
 		Builder builder = new Builder("PersonChat.View")

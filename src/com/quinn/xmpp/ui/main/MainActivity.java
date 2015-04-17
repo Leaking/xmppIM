@@ -2,10 +2,6 @@ package com.quinn.xmpp.ui.main;
 
 import java.lang.reflect.Method;
 
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.packet.VCard;
-import org.jivesoftware.smackx.pubsub.SubscribeExtension;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,7 +18,6 @@ import android.view.Window;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.atermenji.android.iconicdroid.icon.EntypoIcon;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
 import com.quinn.xmpp.core.chatroom.MessageListenerService;
@@ -32,7 +27,6 @@ import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
-import com.quinn.xmpp.util.ImageFormatUtils;
 
 /**
  * login activity
