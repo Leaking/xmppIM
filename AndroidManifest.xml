@@ -63,9 +63,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.chatroom.PersonChatActivity"
+            android:name=".ui.chatroom.PersonChatActivity"
             android:label="@string/title_activity_person_chat"
-            android:parentActivityName=".ui.main.MainActivity" >
+            android:parentActivityName=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTION"
                 android:value=".ui.main.MainActivity" />
@@ -77,7 +78,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.chatroom.GroupChatActivity"
+            android:name=".ui.chatroom.GroupChatActivity"
             android:label="@string/title_activity_group_chat"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data
@@ -91,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.drawer.UserInfoActivity"
+            android:name=".ui.drawer.UserInfoActivity"
             android:label="@string/title_activity_user_info"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data
@@ -100,6 +101,20 @@
 
             <intent-filter>
                 <action android:name="com.quinn.xmpp.UserInfo.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.quinn.xmpp.ui.main.SearchRosterActivity"
+            android:label="@string/title_activity_search_roster"
+            android:parentActivityName=".ui.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.main.MainActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.main.SearchRoster.View" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

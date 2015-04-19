@@ -55,7 +55,17 @@ public interface Smack{
 	 */
 	public String getServiceByJID(String jid);
 	
-	
+	/**
+	 * 
+	 * @param jid
+	 * @return
+	 */
 	public String getFullIdentity(String jid);
+	
+	/**
+	 * 搜索用户
+	 * @param user
+	 */
+	public void searchUser(String user);
 	
 }

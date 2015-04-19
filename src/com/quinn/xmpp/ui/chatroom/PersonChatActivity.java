@@ -30,6 +30,7 @@ import com.quinn.xmpp.core.chatroom.TextMessageListener;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
+import com.quinn.xmpp.util.DisplayUtils;
 import com.quinn.xmpp.util.LogcatUtils;
 import com.quinn.xmpp.util.TimeUtils;
 
@@ -102,12 +103,6 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 				dataItems.add(dataItem);
 				adapter.notifyDataSetChanged();
 			}});
-		
-		try {
-			chat.sendMessage("lai yi  fa");
-		} catch (XMPPException e) {
-			e.printStackTrace();
-		}
 	}
 
 
@@ -136,6 +131,8 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 			dataItem.setItemType(BaseDataItem.RIGHT_BUBBLE_TEXT);
 			dataItems.add(dataItem);
 			adapter.notifyDataSetChanged();
+			input.setText("");
+			DisplayUtils.closeInputMethod(this);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
@@ -143,7 +140,6 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.person_chat, menu);
 		return true;
 	}

@@ -2,6 +2,7 @@ package com.quinn.xmpp.smack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.jivesoftware.smack.AccountManager;
 import org.jivesoftware.smack.Roster;
@@ -12,8 +13,14 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.Form;
+import org.jivesoftware.smackx.ReportedData;
+import org.jivesoftware.smackx.ReportedData.Row;
 import org.jivesoftware.smackx.packet.VCard;
 import org.jivesoftware.smackx.provider.VCardProvider;
+import org.jivesoftware.smackx.search.UserSearchManager;
+
+import android.widget.Toast;
 
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
@@ -173,5 +180,31 @@ public class SmackImpl implements Smack {
 	public String getFullIdentity(String jid) {
 		return jid+"/"+getServiceByJID(jid);
 	}
+
+	@Override
+	public void searchUser(String user) {
+		try{  
+            UserSearchManager search = new UserSearchManager(xmppConn);  
+            Form searchForm = search.getSearchForm("search." + xmppConn.getServiceName());  
+            Form answerForm = searchForm.createAnswerForm();  
+            answerForm.setAnswer("Username", true);  
+            answerForm.setAnswer("search", user);  
+            ReportedData data = search.getSearchResults(answerForm,"search." + xmppConn.getServiceName());  
+            Iterator<Row> it = data.getRows();  
+            Row row=null;  
+            String ansS="";  
+            while(it.hasNext()){  
+                row=it.next();  
+                ansS+=row.getValues("Username").next().toString()+"\n";  
+                LogcatUtils.i("搜索结果用户： " + row.getValues("Username").next().toString());  
+            }  
+              
+        }catch(Exception e){  
+            LogcatUtils.e("搜索用户失败");
+        }  
+	}
+	
+	
+	
 
 }

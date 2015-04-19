@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     android:gravity="end"
     android:orientation="horizontal"
-    android:paddingLeft="10dip"
-    android:paddingRight="10dip" >
+    android:padding="20dip" >
 
     <TextView
         android:id="@+id/textMsg"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dip"
+         />
 
     <ImageView
         android:id="@+id/portrait"
         android:layout_width="40dip"
-        android:layout_height="40dip"
-        android:layout_marginRight="10dip" />
+        android:layout_height="40dip" />
 
 </LinearLayout>

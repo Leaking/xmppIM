@@ -130,10 +130,16 @@ public class MainActivity extends BaseActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			
-			return true;
+		switch (id) {
+		case R.id.action_add_friend:
+			Intent intent = SearchRosterActivity.createIntent();
+			this.startActivity(intent);
+			break;
+		
+		default:
+			break;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
