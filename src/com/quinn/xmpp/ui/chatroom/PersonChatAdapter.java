@@ -13,6 +13,7 @@ import com.quinn.xmpp.ui.main.MainActivity;
 import com.quinn.xmpp.ui.widget.RecycleItemClickListener;
 import com.quinn.xmpp.ui.widget.RecycleItemLongClickListener;
 import com.quinn.xmpp.util.ImageFormatUtils;
+import com.quinn.xmpp.util.LogcatUtils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +39,7 @@ public class PersonChatAdapter extends
 	public RecycleItemLongClickListener mItemLongClickListener;
 	public byte[] leftPortrait;
 	public byte[] rightPortrait;
+	public byte[] defaultPortrait;
 
 	public PersonChatAdapter(BaseActivity activity,
 			ArrayList<PersonChatDataItem> dataItems) {
@@ -45,6 +47,9 @@ public class PersonChatAdapter extends
 		this.dataItems = dataItems;
 		this.leftPortrait = null;
 		this.rightPortrait = null;
+		this.defaultPortrait = ImageFormatUtils
+				.Bitmap2Bytes(BitmapFactory.decodeResource(
+						activity.getResources(), R.drawable.ic_chziroy));
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements
@@ -110,22 +115,41 @@ public class PersonChatAdapter extends
 		default:
 			break;
 		}
+
+		if (flag)
+			return;
+
 		new DownloadAvatarTask(activity.getSmack()) {
 			@Override
 			protected void onPostExecute(Bitmap result) {
-				if (result != null)
-					switch (getItemViewType(position)) {
-					case BaseDataItem.LEFT_BUBBLE_TEXT:
+				LogcatUtils.i("聊天窗口获取头像； = " + result);
+				switch (getItemViewType(position)) {
+				case BaseDataItem.LEFT_BUBBLE_TEXT: {
+					if (result != null)
 						leftPortrait = ImageFormatUtils.Bitmap2Bytes(result);
-						break;
-					case BaseDataItem.RIGHT_BUBBLE_TEXT:
-						rightPortrait = ImageFormatUtils.Bitmap2Bytes(result);
-						break;
-					default:
-						break;
-					}
+					else
+						leftPortrait = defaultPortrait;
+					Bitmap bitmap = BitmapFactory.decodeByteArray(leftPortrait,
+							0, leftPortrait.length);
 					holder.portrait.setImageBitmap(ImageFormatUtils
-							.toRoundBitmap(result, true));
+							.toRoundBitmap(bitmap, true));
+					break;
+				}
+				case BaseDataItem.RIGHT_BUBBLE_TEXT: {
+					if (result != null)
+						rightPortrait = ImageFormatUtils.Bitmap2Bytes(result);
+					else
+						rightPortrait = defaultPortrait;
+					Bitmap bitmap = BitmapFactory.decodeByteArray(
+							rightPortrait, 0, rightPortrait.length);
+					holder.portrait.setImageBitmap(ImageFormatUtils
+							.toRoundBitmap(bitmap, true));
+					break;
+				}
+				default:
+					break;
+				}
+
 			}
 		}.execute(dataItems.get(position).getJid());
 

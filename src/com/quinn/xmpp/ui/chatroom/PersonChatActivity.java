@@ -10,6 +10,7 @@ import org.jivesoftware.smack.packet.Message;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -87,6 +88,18 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	public void init(){
 		ChatManager chatManager = smack.getConnection().getChatManager();
 		textMessageListener = new TextMessageListener();
+		
+		//收到消息后，要发送到handler里更新，否则需要打开输入法或者关闭输入法，才会刷新
+		final Handler handler = new Handler(){
+			@Override
+			public void handleMessage(android.os.Message msg) {
+				super.handleMessage(msg);
+				adapter.notifyDataSetChanged();
+			}
+		};
+		
+		
+		
 		//这里需要full id  用addPacketListener可以获得
 		chat = chatManager.createChat(jidChattingWithWho+"/"+serviceChattingWithWho, new MessageListener() {
 
@@ -101,7 +114,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 				dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
 				dataItem.setItemType(BaseDataItem.LEFT_BUBBLE_TEXT);
 				dataItems.add(dataItem);
-				adapter.notifyDataSetChanged();
+				handler.sendEmptyMessage(1);
 			}});
 	}
 

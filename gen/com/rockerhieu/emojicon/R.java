@@ -8,7 +8,7 @@ package com.rockerhieu.emojicon;
 
 public final class R {
 	public static final class attr {
-		public static final int emojiconSize = 0x7f0100ac;
+		public static final int emojiconSize = 0x7f0100b7;
 	}
 	public static final class drawable {
 		public static final int emoji_0023 = 0x7f020035;
@@ -914,10 +914,10 @@ public final class R {
 		public static final int emojicons = 0x7f030021;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f060000;
+		public static final int app_name = 0x7f090000;
 	}
 	public static final class styleable {
-		public static final int[] Emojicon = { 0x7f0100ac };
+		public static final int[] Emojicon = { 0x7f0100b7 };
 		public static final int Emojicon_emojiconSize = 0;
 	}
 }
