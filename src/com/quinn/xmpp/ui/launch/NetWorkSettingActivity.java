@@ -45,7 +45,8 @@ public class NetWorkSettingActivity extends BaseActivity implements
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		tv_ip.setText(Preference.getString(this, Preference.Key.SERVER_IP));
-		inputDialog = new InputDialog(this, "ip address");
+		inputDialog = new InputDialog(this, "Server Address");
+		inputDialog.setContent(tv_ip.getText().toString());
 		ipView.setOnClickListener(new OnClickListener() {
 
 			@Override

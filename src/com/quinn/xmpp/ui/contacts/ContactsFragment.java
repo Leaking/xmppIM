@@ -36,7 +36,8 @@ import com.quinn.xmpp.util.LogcatUtils;
  * 
  * @description A Fragment to show the contacts:person or group or tags(groups)
  */
-public class ContactsFragment extends Fragment implements RecycleItemClickListener, RecycleItemLongClickListener {
+public class ContactsFragment extends Fragment implements
+		RecycleItemClickListener, RecycleItemLongClickListener {
 
 	@InjectView(R.id.contacts_recycle_view)
 	RecyclerView recyclerView;
@@ -44,7 +45,6 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 	private RecyclerView.LayoutManager layoutManager;
 	private MainActivity activity;
 	private ArrayList<ContactsDataItem> contactDataItems;
-	//
 	private int dividerHeight;
 	private int dividerColor;
 
@@ -67,20 +67,6 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 		adapter.setOnItemLongClickListener(this);
 	}
 
-	public void loadContacts(){
-		new ContactsLoadingTask(activity.smack){
-
-			@Override
-			protected void onPostExecute(ArrayList<ContactsDataItem> result) {
-				for(ContactsDataItem item: result){
-					contactDataItems.add(item);
-				}
-				adapter.notifyDataSetChanged();
-			}
-			
-		}.execute();
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -98,16 +84,29 @@ public class ContactsFragment extends Fragment implements RecycleItemClickListen
 		return view;
 	}
 
+	public void loadContacts() {
+		new ContactsLoadingTask(activity.smack) {
+
+			@Override
+			protected void onPostExecute(ArrayList<ContactsDataItem> result) {
+				for (ContactsDataItem item : result) {
+					contactDataItems.add(item);
+				}
+				adapter.notifyDataSetChanged();
+			}
+
+		}.execute();
+	}
 
 	@Override
 	public void onItemLongClick(View view, int position) {
-		
-	}
 
+	}
 
 	@Override
 	public void onItemClick(View view, int position) {
-		Intent intent = PersonChatActivity.createIntent(contactDataItems.get(position));
+		Intent intent = PersonChatActivity.createIntent(contactDataItems
+				.get(position));
 		activity.startActivity(intent);
 	}
 

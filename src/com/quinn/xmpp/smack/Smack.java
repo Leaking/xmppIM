@@ -66,6 +66,11 @@ public interface Smack{
 	 * 搜索用户
 	 * @param user
 	 */
-	public void searchUser(String user);
+	public ArrayList<String> searchUser(String user);
+	
+	/**
+	 * 申请添加好友
+	 */
+	public void subscribe(String jid);
 	
 }

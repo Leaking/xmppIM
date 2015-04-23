@@ -7,13 +7,15 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
-import com.quinn.xmpp.App;
-import com.quinn.xmpp.smack.Smack;
-import com.quinn.xmpp.util.LogcatUtils;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import com.quinn.xmpp.App;
+import com.quinn.xmpp.Intents.Builder;
+import com.quinn.xmpp.Intents.NotificationAction;
+import com.quinn.xmpp.smack.Smack;
+import com.quinn.xmpp.util.LogcatUtils;
 
 /**
  * 用户添加好友请求的后台监听
@@ -21,15 +23,15 @@ import android.os.IBinder;
  * @author Quinn
  * @date 2015-3-31
  */
-public class SubscriptionListenerService extends Service{
+public class SubscriptionListenerService extends Service {
 
 	private Smack smack;
 	private XMPPConnection connection;
 	private Roster roster;
-	
+
 	@Override
 	public void onCreate() {
-		super.onCreate();		
+		super.onCreate();
 		smack = ((App) getApplication()).getSmack();
 		connection = smack.getConnection();
 		roster = connection.getRoster();
@@ -41,27 +43,31 @@ public class SubscriptionListenerService extends Service{
 		connection.getRoster().setSubscriptionMode(
 				Roster.SubscriptionMode.manual);
 		connection.addPacketListener(new PacketListener() {
-			
+
 			@Override
 			public void processPacket(Packet packet) {
-				if(packet instanceof Presence){
+				if (packet instanceof Presence) {
 					Presence presence = (Presence) packet;
 					String fromJID = presence.getFrom();
 					Presence.Type presenceType = presence.getType();
-					if(presenceType.equals(Presence.Type.subscribe)){
-						//发送广播，提醒有好友添加请求
-						
-					}else if(presenceType.equals(Presence.Type.unsubscribe)){
-						
-					}else if(presenceType.equals(Presence.Type.subscribed)){
-						
-					}else if(presenceType.equals(Presence.Type.unsubscribed)){
-						
+					if (presenceType.equals(Presence.Type.subscribe)) {
+						// 发送广播，提醒有好友添加请求
+						Builder builder = new Builder(
+								NotificationAction.SUBSCRIBE_ACTION)
+								.addJID(fromJID);
+						Intent intent = builder.toIntent();
+						sendBroadcast(intent);
+					} else if (presenceType.equals(Presence.Type.unsubscribe)) {
+
+					} else if (presenceType.equals(Presence.Type.subscribed)) {
+
+					} else if (presenceType.equals(Presence.Type.unsubscribed)) {
+
 					}
 				}
 			}
 		}, new PacketFilter() {
-			
+
 			@Override
 			public boolean accept(Packet packet) {
 				if (packet instanceof Presence) {
@@ -79,8 +85,7 @@ public class SubscriptionListenerService extends Service{
 				return false;
 			}
 		});
-		
-		
+
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -90,5 +95,3 @@ public class SubscriptionListenerService extends Service{
 	}
 
 }
-
-

@@ -20,8 +20,6 @@ import org.jivesoftware.smackx.packet.VCard;
 import org.jivesoftware.smackx.provider.VCardProvider;
 import org.jivesoftware.smackx.search.UserSearchManager;
 
-import android.widget.Toast;
-
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
 import com.quinn.xmpp.util.LogcatUtils;
@@ -179,7 +177,8 @@ public class SmackImpl implements Smack {
 	}
 
 	@Override
-	public void searchUser(String user) {
+	public ArrayList<String> searchUser(String user) {
+		ArrayList<String> jidList = new ArrayList<String>();
 		try {
 			UserSearchManager search = new UserSearchManager(xmppConn);
 			Form searchForm = search.getSearchForm("search."
@@ -191,20 +190,31 @@ public class SmackImpl implements Smack {
 					+ xmppConn.getServiceName());
 			Iterator<Row> it = data.getRows();
 			Row row = null;
-			String ansS = "";
+			String jid = "";
 			while (it.hasNext()) {
 				row = it.next();
-				ansS += row.getValues("jid").next().toString() + "\n";
-				LogcatUtils.i("搜索结果用户： jid "
-						+ row.getValues("Username").next().toString());
-				ansS += row.getValues("Jid").next().toString() + "\n";
-				LogcatUtils.i("搜索结果用户： "
-						+ row.getValues("Jid").next().toString());
+				jid = row.getValues("Jid").next().toString();
+				LogcatUtils.i("搜索结果用户： " + jid);
+				jidList.add(jid);
 			}
 
 		} catch (Exception e) {
 			LogcatUtils.e("搜索用户失败");
 		}
+		
+		return jidList;
 	}
 
+	
+	@Override
+	public void subscribe(String jid) {
+		LogcatUtils.i("申请添加好友：" + jid);
+		Presence presence = new Presence(Presence.Type.subscribe);
+		presence.setMode(Presence.Mode.available);
+		presence.setPriority(24);
+		presence.setTo(jid);
+		xmppConn.sendPacket(presence);
+	}
+
+	
 }

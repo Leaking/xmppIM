@@ -106,7 +106,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.main.SearchRosterActivity"
+            android:name="com.quinn.xmpp.ui.contacts.SearchUserActivity"
             android:label="@string/title_activity_search_roster"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data

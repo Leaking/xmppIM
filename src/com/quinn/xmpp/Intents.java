@@ -22,7 +22,13 @@ public class Intents {
 	public static final String EXTRA_JID_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "jid";
 	public static final String EXTRA_NICKNAME_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "nickname";
 	public static final String EXTRA_SERVICE_CHATTING_WITH_WHO = INTENT_EXTRA_PREFIX + "service";
-	public static final int RESULT_CODE_SUCCESS = 100;
+	public static final String EXTRA_JID = INTENT_EXTRA_PREFIX + "jid";
+	
+	
+	public static class NotificationAction{
+		public static final String SUBSCRIBE_ACTION = "SUBSCRIBE_ACTION";
+		
+	}
 	
 	
 	public static class Builder {
@@ -44,6 +50,10 @@ public class Intents {
 			return this;
 		}
 		
+		public Builder addJID(String jid){
+			intent.putExtra(EXTRA_JID, jid);
+			return this;
+		}
 		
 		public Builder add(String keyNanme, String value){
 			intent.putExtra(keyNanme, value);

@@ -25,6 +25,7 @@ import com.quinn.xmpp.core.contacts.PresenceListenerService;
 import com.quinn.xmpp.core.contacts.SubscriptionListenerService;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.contacts.ContactsFragment;
+import com.quinn.xmpp.ui.contacts.SearchUserActivity;
 import com.quinn.xmpp.ui.messages.MessagesFragment;
 import com.quinn.xmpp.ui.widget.SlidingTabLayout;
 
@@ -132,7 +133,7 @@ public class MainActivity extends BaseActivity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.action_add_friend:
-			Intent intent = SearchRosterActivity.createIntent();
+			Intent intent = SearchUserActivity.createIntent();
 			this.startActivity(intent);
 			break;
 		

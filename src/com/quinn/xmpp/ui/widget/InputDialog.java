@@ -20,6 +20,7 @@ public class InputDialog extends DialogFragment{
 
 	private Context context;
 	private String title;
+	private String content;
 	private InputDialogCallback callback;
 	
 	public interface InputDialogCallback{
@@ -35,6 +36,10 @@ public class InputDialog extends DialogFragment{
 	
 	public InputDialog(Context context){
 		this.context = context;
+	}
+	
+	public void setContent(String content){
+		this.content = content;
 	}
 	
 	public void setTitle(String title){
@@ -53,6 +58,7 @@ public class InputDialog extends DialogFragment{
 		TextView titleView = (TextView) view.findViewById(R.id.popupDialogTitle);
 		titleView.setText(title);
 		final ClearableAutoCompleteTextView contentTv = (ClearableAutoCompleteTextView) view.findViewById(R.id.et_dialogContent);
+		contentTv.setText(content);
 		Button confirmBtn = (Button) view.findViewById(R.id.inputDialogConfirm);
 		Button cancelBtn = (Button) view.findViewById(R.id.inputDialogCancel);
 		confirmBtn.setOnClickListener(new OnClickListener() {

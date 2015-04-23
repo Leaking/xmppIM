@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quinn.xmpp.ui.main.SearchRosterActivity" >
+    tools:context="com.quinn.xmpp.ui.contacts.SearchUserActivity" >
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,31 +17,32 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-   
+    <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
+        android:id="@+id/et_user"
+        style="@style/GlobleSingleLineEditText"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawableStart="@drawable/ic_person"
+        android:hint="@string/login_hint_account"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_password" />
 
-        <com.quinn.xmpp.ui.widget.ClearableAutoCompleteTextView
-            android:id="@+id/et_user"
-            style="@style/GlobleSingleLineEditText"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:drawableLeft="@drawable/ic_person"
-            android:drawableStart="@drawable/ic_person"
-            android:hint="@string/login_hint_account"
-            android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/et_password" />
-        
-        <Button 
-            android:id="@+id/bt_search"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:text="search"
-			style="@style/LargeButton"
-            />
-        
-        
-        
+    <Button
+        android:id="@+id/bt_search"
+        style="@style/LargeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="search" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchUserResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
 
 </LinearLayout>
