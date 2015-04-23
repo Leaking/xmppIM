@@ -41,17 +41,17 @@ public class SmackImpl implements Smack {
 	private String ip;
 	private int port;
 	private String service;
-	
-	private HashMap<String,String> jid_service_map;
+
+	private HashMap<String, String> jid_service_map;
 
 	public static SmackImpl instance;
 
-	public SmackImpl(){
+	public SmackImpl() {
 		jid_service_map = new HashMap<String, String>();
 	}
-	
-	public static SmackImpl getInstance(){
-		if(instance == null)
+
+	public static SmackImpl getInstance() {
+		if (instance == null)
 			instance = new SmackImpl();
 		return instance;
 	}
@@ -158,53 +158,53 @@ public class SmackImpl implements Smack {
 		return item;
 	}
 
-
 	@Override
 	public void putJID_Service(String fullIdentity) {
 		int indexOfSplit = fullIdentity.lastIndexOf("/");
-		String jid = fullIdentity.substring(0,indexOfSplit);
+		String jid = fullIdentity.substring(0, indexOfSplit);
 		String service = fullIdentity.substring(indexOfSplit + 1);
 		LogcatUtils.i("保存JID与Service的映射 jid = " + jid);
 		LogcatUtils.i("保存JID与Service的映射  Service = " + service);
 		jid_service_map.put(jid, service);
 	}
 
-
 	@Override
 	public String getServiceByJID(String jid) {
 		return jid_service_map.get(jid);
 	}
 
-
 	@Override
 	public String getFullIdentity(String jid) {
-		return jid+"/"+getServiceByJID(jid);
+		return jid + "/" + getServiceByJID(jid);
 	}
 
 	@Override
 	public void searchUser(String user) {
-		try{  
-            UserSearchManager search = new UserSearchManager(xmppConn);  
-            Form searchForm = search.getSearchForm("search." + xmppConn.getServiceName());  
-            Form answerForm = searchForm.createAnswerForm();  
-            answerForm.setAnswer("Username", true);  
-            answerForm.setAnswer("search", user);  
-            ReportedData data = search.getSearchResults(answerForm,"search." + xmppConn.getServiceName());  
-            Iterator<Row> it = data.getRows();  
-            Row row=null;  
-            String ansS="";  
-            while(it.hasNext()){  
-                row=it.next();  
-                ansS+=row.getValues("Username").next().toString()+"\n";  
-                LogcatUtils.i("搜索结果用户： " + row.getValues("Username").next().toString());  
-            }  
-              
-        }catch(Exception e){  
-            LogcatUtils.e("搜索用户失败");
-        }  
+		try {
+			UserSearchManager search = new UserSearchManager(xmppConn);
+			Form searchForm = search.getSearchForm("search."
+					+ xmppConn.getServiceName());
+			Form answerForm = searchForm.createAnswerForm();
+			answerForm.setAnswer("Username", true);
+			answerForm.setAnswer("search", user);
+			ReportedData data = search.getSearchResults(answerForm, "search."
+					+ xmppConn.getServiceName());
+			Iterator<Row> it = data.getRows();
+			Row row = null;
+			String ansS = "";
+			while (it.hasNext()) {
+				row = it.next();
+				ansS += row.getValues("jid").next().toString() + "\n";
+				LogcatUtils.i("搜索结果用户： jid "
+						+ row.getValues("Username").next().toString());
+				ansS += row.getValues("Jid").next().toString() + "\n";
+				LogcatUtils.i("搜索结果用户： "
+						+ row.getValues("Jid").next().toString());
+			}
+
+		} catch (Exception e) {
+			LogcatUtils.e("搜索用户失败");
+		}
 	}
-	
-	
-	
 
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginRight="30dip"
+    android:foreground="?selectableItemBackground"
     card_view:cardBackgroundColor="@color/color_white"
     card_view:cardCornerRadius="10dp"
     card_view:cardPreventCornerOverlap="true"

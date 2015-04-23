@@ -3,8 +3,8 @@
 
     <color name="theme_color">#37474f</color>
     <color name="theme_color_pressed">#263228</color>
+    <color name="theme_color_bubble">#cfd8dc</color>
     <color name="listitem_color_pressed">#b0bec5</color>
-    
     <color name="actionbar_background_top">#6E6E6E</color>
     <color name="actionbar_background_bottom">#181818</color>
     <color name="actionbar_background_end">#282828</color>
