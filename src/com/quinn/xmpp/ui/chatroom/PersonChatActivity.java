@@ -15,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +36,8 @@ import com.quinn.xmpp.util.DisplayUtils;
 import com.quinn.xmpp.util.LogcatUtils;
 import com.quinn.xmpp.util.TimeUtils;
 
-public class PersonChatActivity extends BaseActivity implements OnRefreshListener {
+public class PersonChatActivity extends BaseActivity implements
+		OnRefreshListener {
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -47,7 +49,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	EditText input;
 	@InjectView(R.id.chatMsgTextSend)
 	Button send;
-	
+
 	private String jidChattingWithWho;
 	private String nicknameChattingWithWho;
 	private String serviceChattingWithWho;
@@ -56,6 +58,7 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 	private ArrayList<PersonChatDataItem> dataItems;
 	private PersonChatAdapter adapter;
 	private Chat chat;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +71,6 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		LogcatUtils.v("jidChattingWithWho = " + jidChattingWithWho);
 		LogcatUtils.v("serviceChattingWithWho = " + serviceChattingWithWho);
 
-		
 		toolbar.setTitle(nicknameChattingWithWho);
 		setSupportActionBar(toolbar);
 		// 以下三行代码使activity有向上返回的按钮
@@ -79,78 +81,78 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		dataItems = new ArrayList<PersonChatDataItem>();
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		swipeRefreshLayout.setOnRefreshListener(this);
-		adapter = new PersonChatAdapter(this,dataItems);
+		adapter = new PersonChatAdapter(this, dataItems);
 		mRecyclerView.setAdapter(adapter);
-		
 		init();
 	}
-	
-	public void init(){
+
+	public void init() {
 		ChatManager chatManager = smack.getConnection().getChatManager();
 		textMessageListener = new TextMessageListener();
-		
-		//收到消息后，要发送到handler里更新，否则需要打开输入法或者关闭输入法，才会刷新
-		final Handler handler = new Handler(){
+
+		// 收到消息后，要发送到handler里更新，否则需要打开输入法或者关闭输入法，才会刷新
+		final Handler handler = new Handler() {
 			@Override
 			public void handleMessage(android.os.Message msg) {
 				super.handleMessage(msg);
 				adapter.notifyDataSetChanged();
 			}
 		};
-		
-		
-		
-		//这里需要full id  用addPacketListener可以获得
-		chat = chatManager.createChat(jidChattingWithWho+"/"+serviceChattingWithWho, new MessageListener() {
+
+		// 这里需要full id 用addPacketListener可以获得
+		chat = chatManager.createChat(jidChattingWithWho + "/"
+				+ serviceChattingWithWho, new MessageListener() {
 
 			@Override
 			public void processMessage(Chat chat, Message message) {
 				LogcatUtils.v("receive msg = " + message.getBody());
-				//message.get
+				// message.get
 				PersonChatDataItem dataItem = new PersonChatDataItem();
 				dataItem.setTextContent(message.getBody());
 				dataItem.setJid(jidChattingWithWho);
-				dataItem.setNickname(smack.getContactData(jidChattingWithWho).getNickname());
+				dataItem.setNickname(smack.getContactData(jidChattingWithWho)
+						.getNickname());
 				dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
 				dataItem.setItemType(BaseDataItem.LEFT_BUBBLE_TEXT);
 				dataItems.add(dataItem);
 				handler.sendEmptyMessage(1);
-			}});
+			}
+		});
 	}
-
 
 	@Override
 	public void onRefresh() {
-		
+
 		swipeRefreshLayout.setRefreshing(false);
 	}
-	
+
 	/**
 	 * Load message before s certain time :date
+	 * 
 	 * @param date
 	 */
-	public void loadOlderChattingMessage(String date){
-		
+	public void loadOlderChattingMessage(String date) {
+
 	}
-	
+
 	@OnClick(R.id.chatMsgTextSend)
-	public void onSend(){
+	public void onSend() {
 		try {
 			chat.sendMessage(input.getText().toString());
-			PersonChatDataItem dataItem = new PersonChatDataItem();
-			dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
-			dataItem.setTextContent(input.getText().toString());
-			dataItem.setJid(smack.getUserVCard().getJid());
-			dataItem.setItemType(BaseDataItem.RIGHT_BUBBLE_TEXT);
-			dataItems.add(dataItem);
-			adapter.notifyDataSetChanged();
-			input.setText("");
-			DisplayUtils.closeInputMethod(this);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
+		PersonChatDataItem dataItem = new PersonChatDataItem();
+		dataItem.setHappenTime(TimeUtils.getCurrentTime2String());
+		dataItem.setTextContent(input.getText().toString());
+		dataItem.setJid(smack.getUserVCard().getJid());
+		dataItem.setItemType(BaseDataItem.RIGHT_BUBBLE_TEXT);
+		dataItems.add(dataItem);
+		adapter.notifyDataSetChanged();
+		input.setText("");
+		DisplayUtils.closeInputMethod(this);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.person_chat, menu);
@@ -165,16 +167,15 @@ public class PersonChatActivity extends BaseActivity implements OnRefreshListene
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
 
-	
 	public static Intent createIntent(ContactsDataItem dataitem) {
 		Builder builder = new Builder("PersonChat.View")
-		.add(Intents.EXTRA_JID_CHATTING_WITH_WHO,dataitem.getJid())
-		.add(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO,dataitem.getNickname())
-		.add(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO,dataitem.getService());
+				.add(Intents.EXTRA_JID_CHATTING_WITH_WHO, dataitem.getJid())
+				.add(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO,
+						dataitem.getNickname())
+				.add(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO,
+						dataitem.getService());
 		return builder.toIntent();
 	}
-	
+
 }

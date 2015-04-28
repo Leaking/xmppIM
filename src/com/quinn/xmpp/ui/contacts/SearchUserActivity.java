@@ -82,7 +82,7 @@ public class SearchUserActivity extends BaseActivity implements RecycleItemClick
 				for (String jid : result) {
 					ContactsDataItem dataItem = new ContactsDataItem();
 					dataItem.setJid(jid);
-					dataItems.add(dataItem);
+					dataItems.add(0,dataItem);
 				}
 				adapter.notifyDataSetChanged();
 				et_username.setText("");
