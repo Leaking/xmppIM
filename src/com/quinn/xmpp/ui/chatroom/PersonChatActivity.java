@@ -2,6 +2,9 @@ package com.quinn.xmpp.ui.chatroom;
 
 import java.util.ArrayList;
 
+import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
+import net.i2p.android.ext.floatingactionbutton.FloatingActionsMenu;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
@@ -9,13 +12,13 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
+import com.atermenji.android.iconicdroid.icon.IconicIcon;
 import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
@@ -33,6 +38,7 @@ import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.util.DisplayUtils;
+import com.quinn.xmpp.util.ImageFormatUtils;
 import com.quinn.xmpp.util.LogcatUtils;
 import com.quinn.xmpp.util.TimeUtils;
 
@@ -49,7 +55,16 @@ public class PersonChatActivity extends BaseActivity implements
 	EditText input;
 	@InjectView(R.id.chatMsgTextSend)
 	Button send;
-
+	
+	@InjectView(R.id.menu_float)
+	FloatingActionsMenu menu_float;
+	@InjectView(R.id.btn_file)
+	FloatingActionButton btn_file;
+	@InjectView(R.id.btn_photo)
+	FloatingActionButton btn_photo;
+	@InjectView(R.id.btn_location)
+	FloatingActionButton btn_location;
+	
 	private String jidChattingWithWho;
 	private String nicknameChattingWithWho;
 	private String serviceChattingWithWho;
@@ -83,10 +98,35 @@ public class PersonChatActivity extends BaseActivity implements
 		swipeRefreshLayout.setOnRefreshListener(this);
 		adapter = new PersonChatAdapter(this, dataItems);
 		mRecyclerView.setAdapter(adapter);
-		init();
+		initChatManager();
+		/**
+		 * init float btn
+		 */
+		initFloatBtnUI();
 	}
 
-	public void init() {
+	
+	
+	public void initFloatBtnUI(){
+		
+		btn_file.setColorNormalResId(R.color.theme_color);
+		btn_file.setColorPressedResId(R.color.theme_color_pressed);
+		btn_photo.setColorNormalResId(R.color.theme_color);
+		btn_photo.setColorPressedResId(R.color.theme_color_pressed);
+		btn_location.setColorNormalResId(R.color.theme_color);
+		btn_location.setColorPressedResId(R.color.theme_color_pressed);
+		btn_file.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.FILE, Color.WHITE));
+		btn_photo.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.PICTURE, Color.WHITE));
+		btn_location.setIconDrawable(ImageFormatUtils.buildIconFont(this,IconicIcon.LOCATION, Color.WHITE));
+
+		
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void initChatManager() {
 		ChatManager chatManager = smack.getConnection().getChatManager();
 		textMessageListener = new TextMessageListener();
 
