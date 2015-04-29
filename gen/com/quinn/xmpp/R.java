@@ -1761,10 +1761,12 @@ containing a value of this type.
         public static final int color_gray=0x7f060045;
         public static final int color_white=0x7f060044;
         /**  android.R.color.holo_blue_light #ff33b5e5
+ android.R.color.holo_blue_light #ff33b5e5
          */
         public static final int default_disabled=0x7f060002;
         public static final int default_normal=0x7f060000;
         /**  android.R.color.holo_blue_dark #ff0099cc
+ android.R.color.holo_blue_dark #ff0099cc
          */
         public static final int default_pressed=0x7f060001;
         public static final int dim_foreground_disabled_material_dark=0x7f060023;
@@ -2993,8 +2995,8 @@ containing a value of this type.
         public static final int bt_login=0x7f08004a;
         public static final int bt_search=0x7f08005a;
         public static final int btn_file=0x7f080055;
-        public static final int btn_location=0x7f080056;
-        public static final int btn_photo=0x7f080054;
+        public static final int btn_location=0x7f080054;
+        public static final int btn_photo=0x7f080056;
         public static final int chatMsgInput=0x7f080057;
         public static final int chatMsgTextSend=0x7f080058;
         public static final int checkbox=0x7f080031;
@@ -3144,51 +3146,55 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030014;
         public static final int abc_search_view=0x7f030015;
         public static final int abc_simple_dropdown_hint=0x7f030016;
-        public static final int activity_group_chat=0x7f030017;
-        public static final int activity_login=0x7f030018;
-        public static final int activity_main=0x7f030019;
-        public static final int activity_net_work_setting=0x7f03001a;
-        public static final int activity_person_chat=0x7f03001b;
-        public static final int activity_search_roster=0x7f03001c;
-        public static final int activity_sign_up=0x7f03001d;
-        public static final int activity_user_info=0x7f03001e;
-        public static final int emojicon_grid=0x7f03001f;
-        public static final int emojicon_item=0x7f030020;
-        public static final int emojicons=0x7f030021;
-        public static final int face_layout=0x7f030022;
-        public static final int fragment_contacts=0x7f030023;
-        public static final int fragment_draw=0x7f030024;
-        public static final int fragment_messages=0x7f030025;
-        public static final int horizon_line=0x7f030026;
-        public static final int input_dialog=0x7f030027;
-        public static final int item_contact=0x7f030028;
-        public static final int item_drawer_body=0x7f030029;
-        public static final int item_drawer_header=0x7f03002a;
-        public static final int item_groupchat_left=0x7f03002b;
-        public static final int item_groupchat_right=0x7f03002c;
-        public static final int item_login_user_info_avatar=0x7f03002d;
-        public static final int item_login_user_info_text=0x7f03002e;
-        public static final int item_message=0x7f03002f;
-        public static final int item_personchat_left=0x7f030030;
-        public static final int item_personchat_right=0x7f030031;
-        public static final int loading_dialog=0x7f030032;
-        public static final int menu_popup=0x7f030033;
-        public static final int support_simple_spinner_dropdown_item=0x7f030034;
+        public static final int activity_file=0x7f030017;
+        public static final int activity_group_chat=0x7f030018;
+        public static final int activity_login=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int activity_net_work_setting=0x7f03001b;
+        public static final int activity_person_chat=0x7f03001c;
+        public static final int activity_photo=0x7f03001d;
+        public static final int activity_search_roster=0x7f03001e;
+        public static final int activity_sign_up=0x7f03001f;
+        public static final int activity_user_info=0x7f030020;
+        public static final int emojicon_grid=0x7f030021;
+        public static final int emojicon_item=0x7f030022;
+        public static final int emojicons=0x7f030023;
+        public static final int face_layout=0x7f030024;
+        public static final int fragment_contacts=0x7f030025;
+        public static final int fragment_draw=0x7f030026;
+        public static final int fragment_messages=0x7f030027;
+        public static final int horizon_line=0x7f030028;
+        public static final int input_dialog=0x7f030029;
+        public static final int item_contact=0x7f03002a;
+        public static final int item_drawer_body=0x7f03002b;
+        public static final int item_drawer_header=0x7f03002c;
+        public static final int item_groupchat_left=0x7f03002d;
+        public static final int item_groupchat_right=0x7f03002e;
+        public static final int item_login_user_info_avatar=0x7f03002f;
+        public static final int item_login_user_info_text=0x7f030030;
+        public static final int item_message=0x7f030031;
+        public static final int item_personchat_left=0x7f030032;
+        public static final int item_personchat_right=0x7f030033;
+        public static final int loading_dialog=0x7f030034;
+        public static final int menu_popup=0x7f030035;
+        public static final int support_simple_spinner_dropdown_item=0x7f030036;
     }
     public static final class menu {
         public static final int chat_room=0x7f0e0000;
-        public static final int firends_list=0x7f0e0001;
-        public static final int group_chat=0x7f0e0002;
-        public static final int login=0x7f0e0003;
-        public static final int main=0x7f0e0004;
-        public static final int net_work_setting=0x7f0e0005;
-        public static final int person_chat=0x7f0e0006;
-        public static final int screen_slide_pager=0x7f0e0007;
-        public static final int search_roster=0x7f0e0008;
-        public static final int server_setting=0x7f0e0009;
-        public static final int sign_in=0x7f0e000a;
-        public static final int sign_up=0x7f0e000b;
-        public static final int user_info=0x7f0e000c;
+        public static final int file=0x7f0e0001;
+        public static final int firends_list=0x7f0e0002;
+        public static final int group_chat=0x7f0e0003;
+        public static final int login=0x7f0e0004;
+        public static final int main=0x7f0e0005;
+        public static final int net_work_setting=0x7f0e0006;
+        public static final int person_chat=0x7f0e0007;
+        public static final int photo=0x7f0e0008;
+        public static final int screen_slide_pager=0x7f0e0009;
+        public static final int search_roster=0x7f0e000a;
+        public static final int server_setting=0x7f0e000b;
+        public static final int sign_in=0x7f0e000c;
+        public static final int sign_up=0x7f0e000d;
+        public static final int user_info=0x7f0e000e;
     }
     public static final class raw {
         public static final int entypo=0x7f050000;
@@ -3275,11 +3281,13 @@ containing a value of this type.
         public static final int signUp_Psw=0x7f0a0024;
         public static final int signUp_account=0x7f0a0023;
         public static final int signUp_repeatPsw=0x7f0a0025;
+        public static final int title_activity_file=0x7f0a0033;
         public static final int title_activity_group_chat=0x7f0a002f;
         public static final int title_activity_login=0x7f0a0012;
         public static final int title_activity_main=0x7f0a0015;
         public static final int title_activity_net_work_setting=0x7f0a0013;
         public static final int title_activity_person_chat=0x7f0a002d;
+        public static final int title_activity_photo=0x7f0a0032;
         public static final int title_activity_search_roster=0x7f0a0031;
         public static final int title_activity_sign_up=0x7f0a0014;
         public static final int title_activity_user_info=0x7f0a0030;

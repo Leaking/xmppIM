@@ -35,5 +35,7 @@
     <string name="title_activity_group_chat">GroupChatActivity</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
     <string name="title_activity_search_roster">SearchRosterActivity</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+    <string name="title_activity_file">FileActivity</string>
 
 </resources>

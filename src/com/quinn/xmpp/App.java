@@ -1,9 +1,9 @@
 package com.quinn.xmpp;
 
+import android.app.Application;
+
 import com.quinn.xmpp.smack.Smack;
 import com.quinn.xmpp.smack.SmackImpl;
-
-import android.app.Application;
 
 /**
  * 

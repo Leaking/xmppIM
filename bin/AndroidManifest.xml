@@ -23,11 +23,6 @@
         <activity
             android:name=".ui.launch.LoginActivity"
             android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.launch.NetWorkSettingActivity"
@@ -76,6 +71,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.chatroom.GroupChatActivity"
@@ -106,7 +106,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.quinn.xmpp.ui.contacts.SearchUserActivity"
+            android:name=".ui.contacts.SearchUserActivity"
             android:label="@string/title_activity_search_roster"
             android:parentActivityName=".ui.main.MainActivity" >
             <meta-data
@@ -115,6 +115,34 @@
 
             <intent-filter>
                 <action android:name="com.quinn.xmpp.main.SearchRoster.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.chatroom.PhotoActivity"
+            android:label="@string/title_activity_photo"
+            android:parentActivityName=".ui.chatroom.PersonChatActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.chatroom.PersonChatActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.chatroom.Photo.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FileActivity"
+            android:label="@string/title_activity_file"
+            android:parentActivityName=".ui.chatroom.PersonChatActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTION"
+                android:value=".ui.chatroom.PersonChatActivity" />
+
+            <intent-filter>
+                <action android:name="com.quinn.xmpp.chatroom.File.View" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

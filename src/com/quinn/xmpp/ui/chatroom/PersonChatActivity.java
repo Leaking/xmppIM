@@ -30,6 +30,7 @@ import butterknife.OnClick;
 
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
+import com.quinn.xmpp.FileActivity;
 import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
@@ -79,9 +80,9 @@ public class PersonChatActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
-		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
-		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
-		serviceChattingWithWho = getStringExtra(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO);
+//		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
+//		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
+//		serviceChattingWithWho = getStringExtra(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO);
 		LogcatUtils.v("Come in to a person-chatroom");
 		LogcatUtils.v("jidChattingWithWho = " + jidChattingWithWho);
 		LogcatUtils.v("serviceChattingWithWho = " + serviceChattingWithWho);
@@ -98,30 +99,17 @@ public class PersonChatActivity extends BaseActivity implements
 		swipeRefreshLayout.setOnRefreshListener(this);
 		adapter = new PersonChatAdapter(this, dataItems);
 		mRecyclerView.setAdapter(adapter);
-		initChatManager();
+		//initChatManager();
 		/**
 		 * init float btn
 		 */
-		initFloatBtnUI();
-	}
-
-	
-	
-	public void initFloatBtnUI(){
-		
-		btn_file.setColorNormalResId(R.color.theme_color);
-		btn_file.setColorPressedResId(R.color.theme_color_pressed);
-		btn_photo.setColorNormalResId(R.color.theme_color);
-		btn_photo.setColorPressedResId(R.color.theme_color_pressed);
-		btn_location.setColorNormalResId(R.color.theme_color);
-		btn_location.setColorPressedResId(R.color.theme_color_pressed);
 		btn_file.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.FILE, Color.WHITE));
 		btn_photo.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.PICTURE, Color.WHITE));
 		btn_location.setIconDrawable(ImageFormatUtils.buildIconFont(this,IconicIcon.LOCATION, Color.WHITE));
-
-		
-		
+	
 	}
+
+
 	
 	/**
 	 * 
@@ -176,7 +164,7 @@ public class PersonChatActivity extends BaseActivity implements
 	}
 
 	@OnClick(R.id.chatMsgTextSend)
-	public void onSend() {
+	public void onSendText() {
 		try {
 			chat.sendMessage(input.getText().toString());
 		} catch (XMPPException e) {
@@ -192,6 +180,24 @@ public class PersonChatActivity extends BaseActivity implements
 		input.setText("");
 		DisplayUtils.closeInputMethod(this);
 	}
+	
+	@OnClick(R.id.btn_photo)
+	public void onSendPhoto(){
+		Intent intent = PhotoActivity.createIntent();
+		startActivity(intent);
+	}
+	
+	@OnClick(R.id.btn_file)
+	public void onSendFile(){
+		Intent intent = FileActivity.createIntent();
+		startActivity(intent);
+	}
+	
+	@OnClick(R.id.btn_location)
+	public void onSendLocation(){
+		
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

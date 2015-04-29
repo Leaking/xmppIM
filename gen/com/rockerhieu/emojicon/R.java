@@ -909,9 +909,9 @@ public final class R {
 		public static final int emojis_tab_4_punctuation = 0x7f080067;
 	}
 	public static final class layout {
-		public static final int emojicon_grid = 0x7f03001f;
-		public static final int emojicon_item = 0x7f030020;
-		public static final int emojicons = 0x7f030021;
+		public static final int emojicon_grid = 0x7f030021;
+		public static final int emojicon_item = 0x7f030022;
+		public static final int emojicons = 0x7f030023;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f0a0000;
