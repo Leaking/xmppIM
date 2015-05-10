@@ -1,5 +1,6 @@
 package com.quinn.xmpp.smack;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.jivesoftware.smack.RosterEntry;
@@ -72,5 +73,10 @@ public interface Smack{
 	 * 申请添加好友
 	 */
 	public void subscribe(String jid);
+
+	/**
+	 * 发送一个文件
+	 */
+	public void sendFile(File file, String fullJID);
 	
 }

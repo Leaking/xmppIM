@@ -1,5 +1,6 @@
 package com.quinn.xmpp.smack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,8 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.ReportedData;
 import org.jivesoftware.smackx.ReportedData.Row;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 import org.jivesoftware.smackx.packet.VCard;
 import org.jivesoftware.smackx.provider.VCardProvider;
 import org.jivesoftware.smackx.search.UserSearchManager;
@@ -214,6 +217,17 @@ public class SmackImpl implements Smack {
 		presence.setPriority(24);
 		presence.setTo(jid);
 		xmppConn.sendPacket(presence);
+	}
+
+	@Override
+	public void sendFile(File file, String fullJID) {
+		FileTransferManager manager = new FileTransferManager(xmppConn);
+		OutgoingFileTransfer transfer = manager.createOutgoingFileTransfer(fullJID);
+		try {
+			transfer.sendFile(file, "You won't believe this!");
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
 	}
 
 	

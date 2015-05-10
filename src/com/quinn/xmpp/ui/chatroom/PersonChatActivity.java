@@ -1,5 +1,6 @@
 package com.quinn.xmpp.ui.chatroom;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
@@ -10,9 +11,12 @@ import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,18 +34,20 @@ import butterknife.OnClick;
 
 import com.atermenji.android.iconicdroid.icon.FontAwesomeIcon;
 import com.atermenji.android.iconicdroid.icon.IconicIcon;
-import com.quinn.xmpp.FileActivity;
 import com.quinn.xmpp.Intents;
 import com.quinn.xmpp.Intents.Builder;
 import com.quinn.xmpp.R;
+import com.quinn.xmpp.RequestCodes;
 import com.quinn.xmpp.core.chatroom.TextMessageListener;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.BaseDataItem;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.util.DisplayUtils;
+import com.quinn.xmpp.util.FileUtils;
 import com.quinn.xmpp.util.ImageFormatUtils;
 import com.quinn.xmpp.util.LogcatUtils;
 import com.quinn.xmpp.util.TimeUtils;
+import com.quinn.xmpp.util.ToastUtils;
 
 public class PersonChatActivity extends BaseActivity implements
 		OnRefreshListener {
@@ -56,7 +62,7 @@ public class PersonChatActivity extends BaseActivity implements
 	EditText input;
 	@InjectView(R.id.chatMsgTextSend)
 	Button send;
-	
+
 	@InjectView(R.id.menu_float)
 	FloatingActionsMenu menu_float;
 	@InjectView(R.id.btn_file)
@@ -65,7 +71,7 @@ public class PersonChatActivity extends BaseActivity implements
 	FloatingActionButton btn_photo;
 	@InjectView(R.id.btn_location)
 	FloatingActionButton btn_location;
-	
+
 	private String jidChattingWithWho;
 	private String nicknameChattingWithWho;
 	private String serviceChattingWithWho;
@@ -80,9 +86,9 @@ public class PersonChatActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_person_chat);
 		ButterKnife.inject(this);
-//		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
-//		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
-//		serviceChattingWithWho = getStringExtra(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO);
+		jidChattingWithWho = getStringExtra(Intents.EXTRA_JID_CHATTING_WITH_WHO);
+		nicknameChattingWithWho = getStringExtra(Intents.EXTRA_NICKNAME_CHATTING_WITH_WHO);
+		serviceChattingWithWho = getStringExtra(Intents.EXTRA_SERVICE_CHATTING_WITH_WHO);
 		LogcatUtils.v("Come in to a person-chatroom");
 		LogcatUtils.v("jidChattingWithWho = " + jidChattingWithWho);
 		LogcatUtils.v("serviceChattingWithWho = " + serviceChattingWithWho);
@@ -93,24 +99,26 @@ public class PersonChatActivity extends BaseActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		mLayoutManager = new LinearLayoutManager(this);
 		dataItems = new ArrayList<PersonChatDataItem>();
+		mLayoutManager = new LinearLayoutManager(this);
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		swipeRefreshLayout.setOnRefreshListener(this);
 		adapter = new PersonChatAdapter(this, dataItems);
 		mRecyclerView.setAdapter(adapter);
-		//initChatManager();
+
+		initChatManager();
 		/**
 		 * init float btn
 		 */
-		btn_file.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.FILE, Color.WHITE));
-		btn_photo.setIconDrawable(ImageFormatUtils.buildIconFont(this,FontAwesomeIcon.PICTURE, Color.WHITE));
-		btn_location.setIconDrawable(ImageFormatUtils.buildIconFont(this,IconicIcon.LOCATION, Color.WHITE));
-	
+		btn_file.setIconDrawable(ImageFormatUtils.buildIconFont(this,
+				FontAwesomeIcon.FILE, Color.WHITE));
+		btn_photo.setIconDrawable(ImageFormatUtils.buildIconFont(this,
+				FontAwesomeIcon.PICTURE, Color.WHITE));
+		btn_location.setIconDrawable(ImageFormatUtils.buildIconFont(this,
+				IconicIcon.LOCATION, Color.WHITE));
+
 	}
 
-
-	
 	/**
 	 * 
 	 */
@@ -180,24 +188,37 @@ public class PersonChatActivity extends BaseActivity implements
 		input.setText("");
 		DisplayUtils.closeInputMethod(this);
 	}
-	
+
 	@OnClick(R.id.btn_photo)
-	public void onSendPhoto(){
-		Intent intent = PhotoActivity.createIntent();
-		startActivity(intent);
+	public void onSendPhoto() {
+		Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);  
+		openAlbumIntent.setType("image/*");  
+		startActivityForResult(openAlbumIntent, RequestCodes.CHOOSE_PHOTO_REQUEST);  
 	}
-	
+
 	@OnClick(R.id.btn_file)
-	public void onSendFile(){
-		Intent intent = FileActivity.createIntent();
-		startActivity(intent);
+	public void onSendFile() {
+		// Intent intent = FileActivity.createIntent();
+		// startActivity(intent);
+
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("*/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+		try {
+			startActivityForResult(
+					Intent.createChooser(intent, "Select a File to Upload"),
+					RequestCodes.CHOOSE_FILE_REQUEST);
+		} catch (android.content.ActivityNotFoundException ex) {
+			ToastUtils.showMsg(this, "Please install a File Manager.");
+		}
+
 	}
-	
+
 	@OnClick(R.id.btn_location)
-	public void onSendLocation(){
-		
+	public void onSendLocation() {
+
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,6 +233,25 @@ public class PersonChatActivity extends BaseActivity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode != RESULT_OK) {
+			return;
+		}
+		switch (requestCode) {
+		case RequestCodes.CHOOSE_FILE_REQUEST:
+			
+				Uri uri = data.getData();
+				String path = FileUtils.getPathFromUri(this, uri);
+				LogcatUtils.i("you choose file = " + path);
+				smack.sendFile(new File(path), jidChattingWithWho + "/"
+						+ serviceChattingWithWho);
+			break;
+		case RequestCodes.CHOOSE_PHOTO_REQUEST:
+			
+			break;
+		}
 	}
 
 	public static Intent createIntent(ContactsDataItem dataitem) {

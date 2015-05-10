@@ -2,39 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-     >
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/portrait"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignParentRight="true" />
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/portrait"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:foreground="?selectableItemBackground"
         card_view:cardBackgroundColor="@color/theme_color_bubble"
         card_view:cardCornerRadius="10dp"
         card_view:cardPreventCornerOverlap="true"
         card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="20dp"
-        android:layout_marginLeft="30dip"
-         >
+        card_view:contentPadding="20dp" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dip" />
-
-            <ImageView
-                android:id="@+id/portrait"
-                android:layout_width="40dip"
-                android:layout_height="40dip" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

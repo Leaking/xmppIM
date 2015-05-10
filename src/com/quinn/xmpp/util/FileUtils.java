@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 
 /**
@@ -14,34 +16,35 @@ import android.os.Environment;
 public class FileUtils {
 
 	private final static String AVATAR_PATH = "avatarCache";
-	
 
 	/**
 	 * Generate a image file path according to the current tiemstamp
+	 * 
 	 * @param context
 	 * @return
 	 */
-	public static String generateImagePath(Context context){
+	public static String generateImagePath(Context context) {
 		File file = getAvatarCacheDir(context);
-		
+
 		String avatarImagePath = file.getPath() + File.separator
 				+ generateImageNameByTimeStamp();
 		return avatarImagePath;
 	}
-	
+
 	/**
 	 * Generate a image file according to the current tiemstamp
+	 * 
 	 * @param context
 	 * @return
 	 */
-	public static File generateImageFile(Context context){
-		String avatarImagePath =  generateImagePath(context);
+	public static File generateImageFile(Context context) {
+		String avatarImagePath = generateImagePath(context);
 		return new File(avatarImagePath);
 	}
-	
-	
+
 	/**
-	 * Get Disk Cache Directory   SDCard/Android/data/<app-name>/caches/
+	 * Get Disk Cache Directory SDCard/Android/data/<app-name>/caches/
+	 * 
 	 * @param context
 	 * @return
 	 */
@@ -60,14 +63,10 @@ public class FileUtils {
 		}
 		return file;
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * generate a picture file name according to the current timeStamp
+	 * 
 	 * @return
 	 */
 	private static String generateImageNameByTimeStamp() {
@@ -76,7 +75,36 @@ public class FileUtils {
 				"'IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".png";
 	}
-	
+
+	/**
+	 * Get file path from its uri
+	 * @param context
+	 * @param uri
+	 * @return
+	 */
+	public static String getPathFromUri(Context context, Uri uri) {
+
+		if ("content".equalsIgnoreCase(uri.getScheme())) {
+			String[] projection = { "_data" };
+			Cursor cursor = null;
+
+			try {
+				cursor = context.getContentResolver().query(uri, projection,
+						null, null, null);
+				int column_index = cursor.getColumnIndexOrThrow("_data");
+				if (cursor.moveToFirst()) {
+					return cursor.getString(column_index);
+				}
+			} catch (Exception e) {
+				// Eat it
+			}
+		}
+
+		else if ("file".equalsIgnoreCase(uri.getScheme())) {
+			return uri.getPath();
+		}
+
+		return null;
+	}
+
 }
-
-

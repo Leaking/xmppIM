@@ -22,6 +22,17 @@ public interface RequestCodes {
 	 * Request to open Gallery
 	 */
 	int GALLERY_REQUEST = 3;
+	
+	/**
+	 * Request to select a file
+	 */
+	int CHOOSE_FILE_REQUEST = 4;
+	
+	/**
+	 * Request to select a photo
+	 */
+	int CHOOSE_PHOTO_REQUEST = 5;
+	
 }
 
 

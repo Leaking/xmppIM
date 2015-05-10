@@ -65,12 +65,7 @@
         <activity
             android:name=".ui.chatroom.PersonChatActivity"
             android:label="@string/title_activity_person_chat"
-            android:parentActivityName=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTION"
-                android:value=".ui.main.MainActivity" />
-
             <intent-filter>
                 <action android:name="com.quinn.xmpp.PersonChat.View" />
 
@@ -134,7 +129,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FileActivity"
+            android:name="com.quinn.xmpp.ui.chatroom.FileActivity"
             android:label="@string/title_activity_file"
             android:parentActivityName=".ui.chatroom.PersonChatActivity" >
             <meta-data
