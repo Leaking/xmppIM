@@ -10,10 +10,8 @@ import com.quinn.xmpp.ui.BaseDataItem;
  */
 public class PersonChatDataItem extends BaseDataItem{
 	
-	private String jid; 
 	private String nickname;
 	private String textContent;
-	private String happenTime;
 	private boolean isMyMessage;
 	
 	
@@ -23,12 +21,7 @@ public class PersonChatDataItem extends BaseDataItem{
 	public void setMyMessage(boolean isMyMessage) {
 		this.isMyMessage = isMyMessage;
 	}
-	public String getJid() {
-		return jid;
-	}
-	public void setJid(String jid) {
-		this.jid = jid;
-	}
+
 	public String getNickname() {
 		return nickname;
 	}

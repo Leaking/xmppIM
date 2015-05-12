@@ -23,8 +23,10 @@ public class BaseDataItem implements Serializable{
 	public final static int RIGHT_BUBBLE_FILE = 106;
 	
 	//
+	protected String happenTime;
 	
 	protected  int itemType;
+	protected String jid;
 
 	public int getItemType() {
 		return itemType;
@@ -32,6 +34,22 @@ public class BaseDataItem implements Serializable{
 
 	public void setItemType(int itemType) {
 		this.itemType = itemType;
+	}
+
+	public String getHappenTime() {
+		return happenTime;
+	}
+
+	public void setHappenTime(String happenTime) {
+		this.happenTime = happenTime;
+	}
+
+	public String getJid() {
+		return jid;
+	}
+
+	public void setJid(String jid) {
+		this.jid = jid;
 	}
 	
 	

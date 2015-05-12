@@ -34,7 +34,7 @@ public class PersonChatAdapter extends
 		RecyclerView.Adapter<PersonChatAdapter.ViewHolder> {
 
 	private BaseActivity activity;
-	private ArrayList<PersonChatDataItem> dataItems;
+	private ArrayList<BaseDataItem> dataItems;
 	public RecycleItemClickListener mItemClickListener;
 	public RecycleItemLongClickListener mItemLongClickListener;
 	public byte[] leftPortrait;
@@ -42,7 +42,7 @@ public class PersonChatAdapter extends
 	public byte[] defaultPortrait;
 
 	public PersonChatAdapter(BaseActivity activity,
-			ArrayList<PersonChatDataItem> dataItems) {
+			ArrayList<BaseDataItem> dataItems) {
 		this.activity = activity;
 		this.dataItems = dataItems;
 		this.leftPortrait = null;
@@ -55,8 +55,15 @@ public class PersonChatAdapter extends
 	public static class ViewHolder extends RecyclerView.ViewHolder implements
 			OnClickListener, OnLongClickListener {
 
+		//文字
 		public ImageView portrait;
 		public TextView content;
+		//文件
+		public ImageView fileIcon;
+		public TextView filename;
+		public TextView filesize;
+	
+		
 		private RecycleItemClickListener mItemClickListener;
 		private RecycleItemLongClickListener mItemLongClickListener;
 
@@ -88,37 +95,59 @@ public class PersonChatAdapter extends
 		return dataItems.size();
 	}
 
+	public void setPortrait(byte[] portrait, ImageView image){
+		Bitmap bitmap = BitmapFactory.decodeByteArray(portrait, 0,
+				portrait.length);
+		image.setImageBitmap(ImageFormatUtils.toRoundBitmap(
+				bitmap, true));
+	}
+	
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, final int position) {
-		holder.content.setText(dataItems.get(position).getTextContent());
 		// holder.portrait.setImageResource(R.drawable.ic_chziroy);
 		boolean flag = false;
 		switch (getItemViewType(position)) {
-		case BaseDataItem.LEFT_BUBBLE_TEXT:
+		case BaseDataItem.LEFT_BUBBLE_TEXT:{
+			PersonChatDataItem dataitem = (PersonChatDataItem)dataItems.get(position);
+			holder.content.setText(dataitem.getTextContent());
 			if (leftPortrait != null) {
-				Bitmap bitmap = BitmapFactory.decodeByteArray(leftPortrait, 0,
-						leftPortrait.length);
-				holder.portrait.setImageBitmap(ImageFormatUtils.toRoundBitmap(
-						bitmap, true));
+				setPortrait(leftPortrait,holder.portrait);
 				flag = true;
 			}
 			break;
-		case BaseDataItem.RIGHT_BUBBLE_TEXT:
+		}
+		case BaseDataItem.RIGHT_BUBBLE_TEXT:{
+			PersonChatDataItem dataItem = (PersonChatDataItem)dataItems.get(position);
+			holder.content.setText(dataItem.getTextContent());
 			if (rightPortrait != null) {
-				Bitmap bitmap = BitmapFactory.decodeByteArray(rightPortrait, 0,
-						rightPortrait.length);
-				holder.portrait.setImageBitmap(ImageFormatUtils.toRoundBitmap(
-						bitmap, true));
+				setPortrait(rightPortrait,holder.portrait);
 				flag = true;
 			}
 			break;
+		}
+		case BaseDataItem.RIGHT_BUBBLE_FILE:{
+			FileDataItem dataItem = (FileDataItem)dataItems.get(position);
+			if (rightPortrait != null) {
+				setPortrait(rightPortrait,holder.portrait);
+				flag = true;
+			}
+			break;
+		}
+		case BaseDataItem.LEFT_BUBBLE_FILE:{
+			FileDataItem dataItem = (FileDataItem)dataItems.get(position);
+			if (leftPortrait != null) {
+				setPortrait(leftPortrait,holder.portrait);
+				flag = true;
+			}
+			break;
+		}
 		default:
 			break;
 		}
 
 		if (flag)
 			return;
-
+		
 		new DownloadAvatarTask(activity.getSmack()) {
 			@Override
 			protected void onPostExecute(Bitmap result) {
@@ -166,6 +195,12 @@ public class PersonChatAdapter extends
 			break;
 		case BaseDataItem.RIGHT_BUBBLE_TEXT:
 			rsid = R.layout.item_personchat_right;
+			break;
+		case BaseDataItem.LEFT_BUBBLE_FILE:
+			rsid = R.layout.item_personchat_left_file;
+			break;
+		case BaseDataItem.RIGHT_BUBBLE_FILE:
+			rsid = R.layout.item_personchat_right_file;
 			break;
 		default:
 			break;

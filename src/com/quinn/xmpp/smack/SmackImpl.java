@@ -25,6 +25,7 @@ import org.jivesoftware.smackx.search.UserSearchManager;
 
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.ui.drawer.UserVCard;
+import com.quinn.xmpp.util.FileUtils;
 import com.quinn.xmpp.util.LogcatUtils;
 
 /**
@@ -221,6 +222,8 @@ public class SmackImpl implements Smack {
 
 	@Override
 	public void sendFile(File file, String fullJID) {
+		if(FileUtils.isSendableFile(file) == false)
+			return;
 		FileTransferManager manager = new FileTransferManager(xmppConn);
 		OutgoingFileTransfer transfer = manager.createOutgoingFileTransfer(fullJID);
 		try {

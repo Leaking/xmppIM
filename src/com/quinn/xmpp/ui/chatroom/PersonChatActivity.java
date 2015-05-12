@@ -41,6 +41,7 @@ import com.quinn.xmpp.RequestCodes;
 import com.quinn.xmpp.core.chatroom.TextMessageListener;
 import com.quinn.xmpp.ui.BaseActivity;
 import com.quinn.xmpp.ui.BaseDataItem;
+import com.quinn.xmpp.ui.chatroom.FileDataItem.FileState;
 import com.quinn.xmpp.ui.contacts.ContactsDataItem;
 import com.quinn.xmpp.util.DisplayUtils;
 import com.quinn.xmpp.util.FileUtils;
@@ -198,9 +199,6 @@ public class PersonChatActivity extends BaseActivity implements
 
 	@OnClick(R.id.btn_file)
 	public void onSendFile() {
-		// Intent intent = FileActivity.createIntent();
-		// startActivity(intent);
-
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("*/*");
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -241,11 +239,14 @@ public class PersonChatActivity extends BaseActivity implements
 		}
 		switch (requestCode) {
 		case RequestCodes.CHOOSE_FILE_REQUEST:
-			
 				Uri uri = data.getData();
 				String path = FileUtils.getPathFromUri(this, uri);
+				File file = new File(path);
 				LogcatUtils.i("you choose file = " + path);
-				smack.sendFile(new File(path), jidChattingWithWho + "/"
+				String filename = file.getName();
+				String filesize = FileUtils.getFileSizeString(file);
+				FileDataItem fileDataItem = new FileDataItem(filename, filesize, FileState.REQUEST_STATE);
+				smack.sendFile(file, jidChattingWithWho + "/"
 						+ serviceChattingWithWho);
 			break;
 		case RequestCodes.CHOOSE_PHOTO_REQUEST:

@@ -1,11 +1,18 @@
 package com.quinn.xmpp.core.chatroom;
 
+import java.io.File;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.filetransfer.FileTransferListener;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 
 import android.app.Service;
 import android.content.Intent;
@@ -39,6 +46,24 @@ public class MessageListenerService extends Service {
 		public void run() {
 			listenChatMessage();
 		}
+	}
+	
+	public void listenFileMessage(){
+		final FileTransferManager manager = new FileTransferManager(connection);
+		manager.addFileTransferListener(new FileTransferListener() {
+			public void fileTransferRequest(FileTransferRequest request) {
+//			if(true) {
+				IncomingFileTransfer transfer = request.accept();
+				try {
+					transfer.recieveFile(new File("shakespeare_complete_works.txt"));
+				} catch (XMPPException e) {
+					e.printStackTrace();
+				}
+//			} else {
+//				request.reject();
+//			}
+		}
+		});
 	}
 
 	public void listenChatMessage() {

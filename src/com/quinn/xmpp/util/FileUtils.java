@@ -16,6 +16,8 @@ import android.os.Environment;
 public class FileUtils {
 
 	private final static String AVATAR_PATH = "avatarCache";
+	private final static long _30_MB =  30 * 1024 * 1024;
+
 
 	/**
 	 * Generate a image file path according to the current tiemstamp
@@ -106,5 +108,35 @@ public class FileUtils {
 
 		return null;
 	}
+	
+	/**
+	 * 获取文件大小
+	 * @param file
+	 * @return
+	 */
+	public static String getFileSizeString(File file) {
+
+		long fileLength = file.length();
+		if (fileLength < 1024)
+			return fileLength + "B";
+		else {
+			long fileSize = fileLength / 1024;
+			if (fileSize < 1024)
+				return fileSize + "KB";
+			else
+				return fileSize / 1024 + "MB";
+		}
+	}
+	
+	/**
+	 * 检查文件是否超过指定大小，只能发送30M之内的文件
+	 * @param file
+	 * @return
+	 */
+	public static boolean isSendableFile(File file){
+		long fileLength = file.length();
+		return fileLength <= _30_MB;
+	}
+	
 
 }
