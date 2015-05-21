@@ -11,8 +11,6 @@ import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smackx.filetransfer.FileTransferManager;
-import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +24,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import butterknife.ButterKnife;
@@ -78,7 +78,7 @@ public class PersonChatActivity extends BaseActivity implements
 	private String serviceChattingWithWho;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private TextMessageListener textMessageListener;
-	private ArrayList<PersonChatDataItem> dataItems;
+	private ArrayList<BaseDataItem> dataItems;
 	private PersonChatAdapter adapter;
 	private Chat chat;
 
@@ -100,12 +100,19 @@ public class PersonChatActivity extends BaseActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		dataItems = new ArrayList<PersonChatDataItem>();
+		dataItems = new ArrayList<BaseDataItem>();
 		mLayoutManager = new LinearLayoutManager(this);
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		swipeRefreshLayout.setOnRefreshListener(this);
 		adapter = new PersonChatAdapter(this, dataItems);
 		mRecyclerView.setAdapter(adapter);
+		input.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+					menu_float.collapse();
+			}
+		});
 
 		initChatManager();
 		/**
@@ -135,8 +142,9 @@ public class PersonChatActivity extends BaseActivity implements
 				adapter.notifyDataSetChanged();
 			}
 		};
-
+		//chat.removeMessageListener(arg0)
 		// 这里需要full id 用addPacketListener可以获得
+		
 		chat = chatManager.createChat(jidChattingWithWho + "/"
 				+ serviceChattingWithWho, new MessageListener() {
 
@@ -159,7 +167,6 @@ public class PersonChatActivity extends BaseActivity implements
 
 	@Override
 	public void onRefresh() {
-
 		swipeRefreshLayout.setRefreshing(false);
 	}
 
@@ -246,6 +253,9 @@ public class PersonChatActivity extends BaseActivity implements
 				String filename = file.getName();
 				String filesize = FileUtils.getFileSizeString(file);
 				FileDataItem fileDataItem = new FileDataItem(filename, filesize, FileState.REQUEST_STATE);
+				fileDataItem.setItemType(BaseDataItem.RIGHT_BUBBLE_FILE);
+				dataItems.add(fileDataItem);
+				adapter.notifyDataSetChanged();
 				smack.sendFile(file, jidChattingWithWho + "/"
 						+ serviceChattingWithWho);
 			break;

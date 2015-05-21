@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -65,7 +67,7 @@ public class LoginActivity extends BaseActivity implements TextWatcherCallBack,
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle("Login");
 		setSupportActionBar(toolbar);
-
+		
 		loadingDialog = new SpinnerDialog(this, getResources().getString(
 				R.string.loading_alert_content_connect_to_server));
 		accountView.setCallBack(this);

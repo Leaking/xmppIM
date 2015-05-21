@@ -21,25 +21,42 @@
         card_view:cardCornerRadius="10dp"
         card_view:cardPreventCornerOverlap="true"
         card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="20dp" >
+        card_view:contentPadding="10dp" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            
-            <ImageView 
-                
-                
-                />
-            
-            <TextView 
-                
-                />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/textMsg"
+            <ImageView
+                android:id="@+id/fileIcon"
+                android:layout_width="30dip"
+                android:layout_height="30dip" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/fileIcon"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/filename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/filesize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ProgressBar 
+                android:indeterminate="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            
+            
+            
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

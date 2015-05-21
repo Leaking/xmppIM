@@ -117,6 +117,11 @@ public class FileUtils {
 	public static String getFileSizeString(File file) {
 
 		long fileLength = file.length();
+		return getFileSizeString(fileLength);
+	}
+	
+	
+	public static String getFileSizeString(long fileLength){
 		if (fileLength < 1024)
 			return fileLength + "B";
 		else {

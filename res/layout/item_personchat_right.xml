@@ -21,7 +21,7 @@
         card_view:cardCornerRadius="10dp"
         card_view:cardPreventCornerOverlap="true"
         card_view:cardUseCompatPadding="true"
-        card_view:contentPadding="20dp" >
+        card_view:contentPadding="10dp" >
 
         <TextView
             android:id="@+id/textMsg"

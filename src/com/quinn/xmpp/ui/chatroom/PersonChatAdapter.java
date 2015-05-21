@@ -67,12 +67,25 @@ public class PersonChatAdapter extends
 		private RecycleItemClickListener mItemClickListener;
 		private RecycleItemLongClickListener mItemLongClickListener;
 
-		public ViewHolder(View view,
+		public ViewHolder(View view,int viewType,
 				RecycleItemClickListener itemClickListener,
 				RecycleItemLongClickListener itemLongClickListener) {
 			super(view);
 			portrait = (ImageView) view.findViewById(R.id.portrait);
-			content = (TextView) view.findViewById(R.id.textMsg);
+			switch (viewType) {
+			case BaseDataItem.LEFT_BUBBLE_TEXT:
+			case BaseDataItem.RIGHT_BUBBLE_TEXT:
+				content = (TextView) view.findViewById(R.id.textMsg);
+				break;
+			case BaseDataItem.RIGHT_BUBBLE_FILE:
+			case BaseDataItem.LEFT_BUBBLE_FILE:
+				fileIcon = (ImageView) view.findViewById(R.id.fileIcon);
+				filename = (TextView) view.findViewById(R.id.filename);
+				filesize = (TextView) view.findViewById(R.id.filesize);
+				break;
+			default:
+				break;
+			}
 			this.mItemClickListener = itemClickListener;
 			this.mItemLongClickListener = itemLongClickListener;
 			view.setOnClickListener(this);
@@ -131,6 +144,9 @@ public class PersonChatAdapter extends
 				setPortrait(rightPortrait,holder.portrait);
 				flag = true;
 			}
+			holder.fileIcon.setImageResource(R.drawable.ic_chziroy);
+			holder.filename.setText(dataItem.getFilename());
+			holder.filesize.setText(dataItem.getFilesize());
 			break;
 		}
 		case BaseDataItem.LEFT_BUBBLE_FILE:{
@@ -197,7 +213,7 @@ public class PersonChatAdapter extends
 			rsid = R.layout.item_personchat_right;
 			break;
 		case BaseDataItem.LEFT_BUBBLE_FILE:
-			rsid = R.layout.item_personchat_left_file;
+			rsid = R.layout.item_personchat_right_file;
 			break;
 		case BaseDataItem.RIGHT_BUBBLE_FILE:
 			rsid = R.layout.item_personchat_right_file;
@@ -206,7 +222,7 @@ public class PersonChatAdapter extends
 			break;
 		}
 		final View sView = mInflater.inflate(rsid, parent, false);
-		return new ViewHolder(sView, this.mItemClickListener,
+		return new ViewHolder(sView, viewType, this.mItemClickListener,
 				this.mItemLongClickListener);
 	}
 
